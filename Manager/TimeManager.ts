@@ -101,7 +101,7 @@ class TimeManager {
 
     public getDate() : string {
         const formatMinute = this.minute.toString().padEnd(2, 0);
-        const formatHour = this.hour.padEnd(2, 0);
+        const formatHour = this.hour.toString().padEnd(2, 0);
 
         return formatMinute + ':' + formatHour + ' day ' + this.day + ', week ' + this.week + ' ' + MONTHS[this.month-1] + ' ' + this.year;
     }
