@@ -1,0 +1,23 @@
+{
+  "name": "cinema-tycoon",
+  "version": "1.0.0",
+  "description": "",
+  "main": "main.js",
+  "dependencies": {
+    "commonjs": "^0.0.1"
+  },
+  "devDependencies": {},
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/grubolsch/cinema-tycoon.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/grubolsch/cinema-tycoon/issues"
+  },
+  "homepage": "https://github.com/grubolsch/cinema-tycoon#readme"
+}
