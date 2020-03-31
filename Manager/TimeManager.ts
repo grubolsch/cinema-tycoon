@@ -13,18 +13,22 @@ class TimeManager {
     private readonly  MONTHS_IN_YEAR = 12;
 
     private readonly startYear : number = 1980;
-
-    private minute : number = 1;
-    private hour : number = 1;
-    private day : number = 1;
-    private week : number = 1;
-    private month : number = 1;
-    private year : number = 1980;
-
-//    private readonly monthList = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'];
     //END CONFIG
 
+    private _minute : number = 0;
+    private _hour : number = 0;
+    private _day : number = 0;
+    private _week : number = 0;
+    private _month : number = 0;
+    private _year : number = 0;
+
     private ticks : number = 0;
+
+    private observer: Observer;
+
+    constructor(observer : Observer) {
+        this.observer = observer;
+    }
 
     private fixNumber(value : number) {
         return Math.floor(Math.max(0, value));
@@ -40,6 +44,8 @@ class TimeManager {
         if(newYear) {
             tmpTicks -= newYear * calc;
         }
+
+//23040 = month
 
         calc = this.MINS_IN_HOURS * this.HOURS_IN_DAYS * this.DAYS_IN_MONTH * this.WEEKS_IN_MONTH;
         let newMonth = this.fixNumber(tmpTicks / calc);
@@ -67,62 +73,67 @@ class TimeManager {
 
         let newMinute = this.fixNumber(tmpTicks);
 
-        newYear += this.startYear;
-        newMonth++;
-        newWeek++;
-        newDay++;
-        newHour++;
-        newMinute++;
-
-        //lets see if some datecategory had a check, let the observers know
-        if(newHour != this.hour) {
-            $( document ).trigger( "hour", [newHour]);
+        //lets see if some datecategory had a changed, let the observers know
+        if(newHour != this._hour) {
+            this.observer.trigger('hour', [TimeManager]);
         }
-        if(newDay != this.day) {
-            $( document ).trigger( "day", [newDay]);
+        if(newDay != this._day) {
+            this.observer.trigger('day', [TimeManager]);
         }
-        if(newWeek != this.week) {
-            $( document ).trigger( "week", [newWeek]);
+        if(newWeek != this._week) {
+            this.observer.trigger('week', [TimeManager]);
         }
-        if(newMonth != this.month) {
-            $( document ).trigger( "month", [newMonth]);
+        if(newMonth != this._month) {
+            this.observer.trigger('month', [TimeManager]);
         }
-        if(newYear != this.year) {
-            $( document ).trigger( "year", [newYear]);
+        if(newYear != this._year) {
+            this.observer.trigger('year', [TimeManager]);
         }
 
-        this.minute = newMinute;
-        this.hour = newHour;
-        this.day = newDay;
-        this.week = newWeek;
-        this.month = newMonth;
-        this.year = newYear;
+        this._minute = newMinute;
+        this._hour = newHour;
+        this._day = newDay;
+        this._week = newWeek;
+        this._month = newMonth;
+        this._year = newYear;
     }
 
     public getDate() : string {
-        const formatMinute = this.minute.toString().padEnd(2, 0);
-        const formatHour = this.hour.toString().padEnd(2, 0);
+        const formatMinute = this._minute.toString().padStart(2, 0);
+        const formatHour = this._hour.toString().padStart(2, 0);
 
-        return formatMinute + ':' + formatHour + ' day ' + this.day + ', week ' + this.week + ' ' + MONTHS[this.month-1] + ' ' + this.year;
+        return formatHour + ':' + formatMinute + ' day ' + this.day + ', week ' + this.week + ' ' + MONTHS[this._month] + ' ' + this.year;
     }
 
-    get getMonth() : number {
-        return this.month;
+    get year() : number {
+        return this.startYear + this._year;
     }
 
-    get getMonthAsWord() : string {
-        return MONTHS[this.month-1];
+    get month() : number {
+        return this._month + 1;
     }
 
-    get getYear()  : number {
-        return this.year;
+    get monthAsWord() : string {
+        return MONTHS[this._month];
     }
 
-    get getHour() : number  {
-        return this.hour;
-    }
-
-    get getDaysInMonth()  : number {
+    get daysInMonth()  : number {
         return this.DAYS_IN_MONTH * this.WEEKS_IN_MONTH;
+    }
+
+    get week() : number  {
+        return this._week + 1;
+    }
+
+    get day() : number  {
+        return this._day + 1;
+    }
+
+    get hour() : number  {
+        return this._hour;
+    }
+
+    get minute() : number  {
+        return this._minute;
     }
 }

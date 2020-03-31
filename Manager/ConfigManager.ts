@@ -1,5 +1,5 @@
 enum ConfigManager {
-    credit = 5,
-    ticketprice,
-    fans
+    credit = 10000,
+    ticketprice = 10 ,
+    fans = 0
 }

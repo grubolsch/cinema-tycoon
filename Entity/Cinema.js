@@ -16,7 +16,7 @@ var Customer = /** @class */ (function () {
 }());
 //end temp code
 var Cinema = /** @class */ (function () {
-    function Cinema(name, StartConfig, TimeManager) {
+    function Cinema(name, TimeManager, StartConfig) {
         this._rooms = [];
         this._movies = [];
         this._customers = [];
@@ -82,8 +82,10 @@ var Cinema = /** @class */ (function () {
         enumerable: true,
         configurable: true
     });
-    Cinema.prototype.addMovie = function (movie) {
-        this._movies.append(movie);
+    Cinema.prototype.update = function () {
+        //temporary code to show the ticket price going up once per tick
+        this.financeManager.earn(1, 'ticket sale');
+        this.timeManager.updateTime();
     };
     return Cinema;
 }());

@@ -16,7 +16,7 @@ class Cinema {
     private _timeManager : TimeManager;
     private _financeManager: FinanceManager;
 
-    public constructor(name: string, StartConfig : ConfigManager, TimeManager : TimeManager) {
+    public constructor(name: string, TimeManager : TimeManager, StartConfig : ConfigManager) {
         this._name = name;
         this._fans = StartConfig.fans;
         this._ticketprice = StartConfig.ticketprice;
@@ -56,7 +56,10 @@ class Cinema {
         return this._financeManager;
     }
 
-    public addMovie(movie : Movie) {
-        this._movies.append(movie);
+    public update() {
+        //temporary code to show the ticket price going up once per tick
+        this.financeManager.earn(1, 'ticket sale');
+
+        this.timeManager.updateTime();
     }
 }

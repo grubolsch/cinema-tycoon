@@ -14,7 +14,7 @@ var MONTHS;
     MONTHS[MONTHS["December"] = 11] = "December";
 })(MONTHS || (MONTHS = {}));
 var TimeManager = /** @class */ (function () {
-    function TimeManager() {
+    function TimeManager(observer) {
         //CONFIG
         this.TICKS_IN_MIN = 30; // the base speed
         this.MINS_IN_HOURS = 60;
@@ -23,15 +23,15 @@ var TimeManager = /** @class */ (function () {
         this.WEEKS_IN_MONTH = 4;
         this.MONTHS_IN_YEAR = 12;
         this.startYear = 1980;
-        this.minute = 1;
-        this.hour = 1;
-        this.day = 1;
-        this.week = 1;
-        this.month = 1;
-        this.year = 1980;
-        //    private readonly monthList = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'];
         //END CONFIG
+        this._minute = 0;
+        this._hour = 0;
+        this._day = 0;
+        this._week = 0;
+        this._month = 0;
+        this._year = 0;
         this.ticks = 0;
+        this.observer = observer;
     }
     TimeManager.prototype.fixNumber = function (value) {
         return Math.floor(Math.max(0, value));
@@ -44,6 +44,7 @@ var TimeManager = /** @class */ (function () {
         if (newYear) {
             tmpTicks -= newYear * calc;
         }
+        //23040 = month
         calc = this.MINS_IN_HOURS * this.HOURS_IN_DAYS * this.DAYS_IN_MONTH * this.WEEKS_IN_MONTH;
         var newMonth = this.fixNumber(tmpTicks / calc);
         if (newMonth) {
@@ -65,71 +66,86 @@ var TimeManager = /** @class */ (function () {
             tmpTicks -= newHour * calc;
         }
         var newMinute = this.fixNumber(tmpTicks);
-        newYear += this.startYear;
-        newMonth++;
-        newWeek++;
-        newDay++;
-        newHour++;
-        newMinute++;
-        //lets see if some datecategory had a check, let the observers know
-        if (newHour != this.hour) {
-            $(document).trigger("hour", [newHour]);
+        //lets see if some datecategory had a changed, let the observers know
+        if (newHour != this._hour) {
+            this.observer.trigger('hour', [TimeManager]);
         }
-        if (newDay != this.day) {
-            $(document).trigger("day", [newDay]);
+        if (newDay != this._day) {
+            this.observer.trigger('day', [TimeManager]);
         }
-        if (newWeek != this.week) {
-            $(document).trigger("week", [newWeek]);
+        if (newWeek != this._week) {
+            this.observer.trigger('week', [TimeManager]);
         }
-        if (newMonth != this.month) {
-            $(document).trigger("month", [newMonth]);
+        if (newMonth != this._month) {
+            this.observer.trigger('month', [TimeManager]);
         }
-        if (newYear != this.year) {
-            $(document).trigger("year", [newYear]);
+        if (newYear != this._year) {
+            this.observer.trigger('year', [TimeManager]);
         }
-        this.minute = newMinute;
-        this.hour = newHour;
-        this.day = newDay;
-        this.week = newWeek;
-        this.month = newMonth;
-        this.year = newYear;
+        this._minute = newMinute;
+        this._hour = newHour;
+        this._day = newDay;
+        this._week = newWeek;
+        this._month = newMonth;
+        this._year = newYear;
     };
     TimeManager.prototype.getDate = function () {
-        var formatMinute = this.minute.toString().padEnd(2, 0);
-        var formatHour = this.hour.toString().padEnd(2, 0);
-        return formatMinute + ':' + formatHour + ' day ' + this.day + ', week ' + this.week + ' ' + MONTHS[this.month - 1] + ' ' + this.year;
+        var formatMinute = this._minute.toString().padStart(2, 0);
+        var formatHour = this._hour.toString().padStart(2, 0);
+        return formatHour + ':' + formatMinute + ' day ' + this.day + ', week ' + this.week + ' ' + MONTHS[this._month] + ' ' + this.year;
     };
-    Object.defineProperty(TimeManager.prototype, "getMonth", {
+    Object.defineProperty(TimeManager.prototype, "year", {
         get: function () {
-            return this.month;
+            return this.startYear + this._year;
         },
         enumerable: true,
         configurable: true
     });
-    Object.defineProperty(TimeManager.prototype, "getMonthAsWord", {
+    Object.defineProperty(TimeManager.prototype, "month", {
         get: function () {
-            return MONTHS[this.month - 1];
+            return this._month + 1;
         },
         enumerable: true,
         configurable: true
     });
-    Object.defineProperty(TimeManager.prototype, "getYear", {
+    Object.defineProperty(TimeManager.prototype, "monthAsWord", {
         get: function () {
-            return this.year;
+            return MONTHS[this._month];
         },
         enumerable: true,
         configurable: true
     });
-    Object.defineProperty(TimeManager.prototype, "getHour", {
-        get: function () {
-            return this.hour;
-        },
-        enumerable: true,
-        configurable: true
-    });
-    Object.defineProperty(TimeManager.prototype, "getDaysInMonth", {
+    Object.defineProperty(TimeManager.prototype, "daysInMonth", {
         get: function () {
             return this.DAYS_IN_MONTH * this.WEEKS_IN_MONTH;
+        },
+        enumerable: true,
+        configurable: true
+    });
+    Object.defineProperty(TimeManager.prototype, "week", {
+        get: function () {
+            return this._week + 1;
+        },
+        enumerable: true,
+        configurable: true
+    });
+    Object.defineProperty(TimeManager.prototype, "day", {
+        get: function () {
+            return this._day + 1;
+        },
+        enumerable: true,
+        configurable: true
+    });
+    Object.defineProperty(TimeManager.prototype, "hour", {
+        get: function () {
+            return this._hour;
+        },
+        enumerable: true,
+        configurable: true
+    });
+    Object.defineProperty(TimeManager.prototype, "minute", {
+        get: function () {
+            return this._minute;
         },
         enumerable: true,
         configurable: true

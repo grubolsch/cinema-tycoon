@@ -1,6 +1,8 @@
 var FinanceManager = /** @class */ (function () {
     function FinanceManager(startConfig) {
+        console.log(startConfig);
         this._credit = startConfig.credit;
+        console.log(this._credit);
     }
     FinanceManager.prototype.canAfford = function (value) {
         return (this._credit >= value);
