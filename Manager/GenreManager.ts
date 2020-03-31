@@ -1,23 +1,20 @@
 class GenreManager {
-    private hypes : Array<Genre> = [];
-    private antiHypes : Array<Genre> = [];
+    private _hypes : Array<Genre> = [];
+    private _antiHypes : Array<Genre> = [];
 
-    public getHypes() {
-        return this.hypes;
+    get hypes(): Array<Genre> {
+        return this._hypes;
     }
-    this.getAntiHypes() {
-        return this.antiHypes;
+
+    set hypes(value: Array<Genre>) {
+        this._hypes = value;
     }
-    this.addHype(genre, duration) {
-        this.hypes[genre] = duration;
+
+    get antiHypes(): Array<Genre> {
+        return this._antiHypes;
     }
-    this.addAntiHype(genre, duration) {
-        this.antiHypes[genre] = duration;
-    }
-    this.isHype(genre) {
-        return this.hypes[genre];
-    }
-    this.isAntiHype(genre) {
-        return this.antiHypes[genre];
+
+    set antiHypes(value: Array<Genre>) {
+        this._antiHypes = value;
     }
 }
