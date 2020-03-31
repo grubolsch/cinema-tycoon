@@ -1,40 +1,62 @@
+// some temporary classes just for type hinting
+class Room {}
+class Movie {}
+class Customer {}
+//end temp code
+
 class Cinema {
-    private name : string ;
-    private credit : number;
-    private fans : number;
-    private ticketprice : number;
+    private _name : string ;
+    private _fans : number;
+    private _ticketprice: number;
 
-    private rooms : Array<Room> = [];
-    private movies : Array<Movie> = [];
-    private customers : Array<Customer> = [];
+    private _rooms : Array<Room> = [];
+    private _movies : Array<Movie> = [];
+    private _customers : Array<Customer> = [];
 
-    private timeManager : TimeManager;
+    private _timeManager : TimeManager;
+    private _financeManager: FinanceManager;
 
     public constructor(name: string, StartConfig : ConfigManager, TimeManager : TimeManager) {
-        this.name = name;
-        this.credit = StartConfig.credit;
-        this.fans = StartConfig.fans;
-        this.ticketprice = StartConfig.ticketprice;
-        this.timeManager = TimeManager;
+        this._name = name;
+        this._fans = StartConfig.fans;
+        this._ticketprice = StartConfig.ticketprice;
+        this._timeManager = TimeManager;
+        this._financeManager = new FinanceManager(StartConfig);
     }
-}
 
-class Finance(Cinema : Cinema) {
-    public canAfford(value) { //boolean
-        return (Cinema.credit >= value)
+    get name(): string {
+        return this._name;
     }
-    public pay(value, description) { //boolean
-        if(this.canAfford(value)) {
-            Cinema.credit -= value;
 
-            Cinema.log.add('-', description, value);
-
-            return true;
-        }
-        return false;
+    get fans(): number {
+        return this._fans;
     }
-    public earn(value, description) { //boolean
-        Cinema.credit += value;
-        Cinema.log.add('+', description, value);
+
+    get ticketprice(): number {
+        return this._ticketprice;
+    }
+
+    get rooms(): Array<Room> {
+        return this._rooms;
+    }
+
+    get movies(): Array<Movie> {
+        return this._movies;
+    }
+
+    get customers(): Array<Customer> {
+        return this._customers;
+    }
+
+    get timeManager(): TimeManager {
+        return this._timeManager;
+    }
+
+    get financeManager(): FinanceManager {
+        return this._financeManager;
+    }
+
+    public addMovie(movie : Movie) {
+        this._movies.append(movie);
     }
 }
