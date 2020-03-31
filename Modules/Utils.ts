@@ -85,3 +85,5 @@ function number_format (number, decimals, decPoint, thousandsSep) { // eslint-di
 function currency(number : number) : string {
     return '&euro; ' + number_format(number, 2, ',', '.');
 }
+
+export { number_format, currency };

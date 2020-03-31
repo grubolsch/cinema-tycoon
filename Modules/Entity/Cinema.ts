@@ -1,4 +1,8 @@
 // some temporary classes just for type hinting
+import {FinanceManager} from "../Manager/FinanceManager";
+import {TimeManager} from "../Manager/TimeManager";
+import {ConfigManager} from "../Manager/ConfigManager";
+
 class Room {}
 class Movie {}
 class Customer {}
@@ -16,12 +20,12 @@ class Cinema {
     private _timeManager : TimeManager;
     private _financeManager: FinanceManager;
 
-    public constructor(name: string, TimeManager : TimeManager, StartConfig : ConfigManager) {
+    public constructor(name: string, TimeManager : TimeManager, StartConfig : ConfigManager, financeManager : FinanceManager) {
         this._name = name;
         this._fans = StartConfig.fans;
         this._ticketprice = StartConfig.ticketprice;
         this._timeManager = TimeManager;
-        this._financeManager = new FinanceManager(StartConfig);
+        this._financeManager = financeManager;
     }
 
     get name(): string {
@@ -63,3 +67,5 @@ class Cinema {
         this.timeManager.updateTime();
     }
 }
+
+export { Cinema };

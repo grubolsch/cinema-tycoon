@@ -1,10 +1,10 @@
+import {ConfigManager} from "./ConfigManager";
+
 class FinanceManager {
     private _credit : number;
 
     public constructor(startConfig : ConfigManager) {
-        console.log(startConfig);
         this._credit = startConfig.credit;
-        console.log(this._credit);
     }
 
     public canAfford(value : number) : boolean {
@@ -30,3 +30,5 @@ class FinanceManager {
         return this._credit;
     }
 }
+
+export { FinanceManager };

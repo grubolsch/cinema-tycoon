@@ -5,21 +5,12 @@
     <meta name="viewport"
           content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>Cinema tycoon</title>
+    <title>Cinema tycoon test</title>
 
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
-    <link href="css/layout.css" type="text/css" rel="stylesheet" />
+    <!--<link href="css/layout.sass" rel="stylesheet" type="text/css" />-->
 
-    <script src="Utils.js"></script>
-    <script src="Manager/Observer.js"></script>
-
-    <script src="Manager/ConfigManager.js"></script>
-    <script src="Manager/FinanceManager.js"></script>
-    <script src="Manager/TimeManager.js"></script>
-
-    <script src="Entity/Cinema.js"></script>
-
-    <script src="Render/Render.js"></script>
+    <script src="main.ts"></script>
 </head>
 <body>
 
@@ -46,42 +37,6 @@
         </td>
     </tr>
 </table>
-
-<script>
-    var observer = new Observer;
-
-    document.addEventListener('DOMContentLoaded', function() {
-        // temporary code, this should come from a save or a "create new game" menu
-        let cinema = new Cinema("Our own Cinema", new TimeManager(observer), ConfigManager);
-
-        //Object responsible for rendering changes in state
-        let render = new Render;
-
-        //the main loop that makes the game has a flow of time
-        setInterval(function () {
-            for (var i = 0; render.speed > i; i++) {
-                cinema.update();
-            }
-            render.render(cinema);
-        }, 1000);
-
-        // tmp example code to show the day changed
-        observer.subscribe('day', function(params) {
-            alert('Day is changed')
-        });
-        // end example code
-
-        //control the speed buttons
-        document.querySelectorAll('img.speed').forEach(function(element) {
-            element.addEventListener('click', function () {
-                console.log('changed speed');
-
-                console.log(this)
-                render.speed = this.dataset.ticks;
-            });
-        });
-    });
-</script>
 
 </body>
 </html>

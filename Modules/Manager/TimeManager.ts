@@ -1,3 +1,5 @@
+import {Observer} from "./Observer";
+
 enum MONTHS {
     'January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'
 }
@@ -30,7 +32,7 @@ class TimeManager {
         this.observer = observer;
     }
 
-    private fixNumber(value : number) {
+    private fixNumber(value : number) : number {
         return Math.floor(Math.max(0, value));
     }
 
@@ -99,8 +101,8 @@ class TimeManager {
     }
 
     public getDate() : string {
-        const formatMinute = this._minute.toString().padStart(2, 0);
-        const formatHour = this._hour.toString().padStart(2, 0);
+        const formatMinute = this._minute.toString().padStart(2, '0');
+        const formatHour = this._hour.toString().padStart(2, '0');
 
         return formatHour + ':' + formatMinute + ' day ' + this.day + ', week ' + this.week + ' ' + MONTHS[this._month] + ' ' + this.year;
     }
@@ -137,3 +139,5 @@ class TimeManager {
         return this._minute;
     }
 }
+
+export { TimeManager };
