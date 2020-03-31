@@ -13,14 +13,10 @@ class Render {
     }
 
     public render(cinema : Cinema) {
-        // @ts-ignore
-        document.querySelector('#ui-name').innerHTML = cinema.name;
-        // @ts-ignore
-        document.querySelector('#ui-date').innerHTML = cinema.timeManager.getDate();
-        // @ts-ignore
-        document.querySelector('#ui-currentcredit').innerHTML = currency(cinema.financeManager.credit);
-        // @ts-ignore
-        document.querySelector('#ui-fans').innerHTML = cinema.fans + " fans";
+        document.querySelector('#ui-name')!.innerHTML = cinema.name;
+        document.querySelector('#ui-date')!.innerHTML = cinema.timeManager.getDate();
+        document.querySelector('#ui-currentcredit')!.innerHTML = currency(cinema.financeManager.credit);
+        document.querySelector('#ui-fans')!.innerHTML = cinema.fans + " fans";
     }
 }
 
