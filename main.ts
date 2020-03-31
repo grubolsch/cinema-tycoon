@@ -7,21 +7,32 @@ import {InternetCampaignType} from "./Modules/MarketingCampaignTypes/InternetCam
 
 function init() {
 
-    (function makeMarketingButtons() {
+    function makeMarketingButtons() {
         let types: Array<string> = ['Flyers', 'Newspaper', 'Radio', 'TV', 'Internet'];
         types.forEach(type => {
             let btn = document.createElement('button');
             btn.innerText = type;
             btn.addEventListener('click', () => {
-                newMarketingCampaign(type);
+                if (window.confirm('are you sure you want to start a ' + type + ' campaign ?')){
+                    newMarketingCampaign(type);
+                }
             });
             document.body.appendChild(btn);
         });
+    }
+
+    (function makeStartCampaignButton() {
+        let btn = document.createElement('button');
+        btn.innerText = 'Start a marketing campaign';
+        btn.addEventListener('click', () => {
+            makeMarketingButtons();
+        });
+        document.body.appendChild(btn);
     }());
 }
 
 function newMarketingCampaign(type: string) {
-    let campaign : MarketingCampaign;
+    let campaign: MarketingCampaign;
     switch (type) {
         case 'Flyers':
             campaign = new MarketingCampaign(new FlyersCampaignType());
@@ -39,6 +50,7 @@ function newMarketingCampaign(type: string) {
             campaign = new MarketingCampaign(new InternetCampaignType());
             break;
     }
+    // TODO set campaign as active on the cinema object
     console.log(campaign!.type);
 }
 
