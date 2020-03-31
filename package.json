@@ -1,0 +1,27 @@
+{
+  "name": "cinema-tycoon",
+  "version": "1.0.0",
+  "description": "You can listen to changes in time, like a shift in hours, with following code:",
+  "main": "main.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "dev": "parcel index.html",
+    "watch": "parcel watch index.html",
+    "build": "parcel build index.html"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/grubolsch/cinema-tycoon.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/grubolsch/cinema-tycoon/issues"
+  },
+  "homepage": "https://github.com/grubolsch/cinema-tycoon#readme",
+  "devDependencies": {
+    "parcel-bundler": "^1.12.4",
+    "typescript": "^3.8.3"
+  }
+}
