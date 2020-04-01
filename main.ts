@@ -1,5 +1,5 @@
 import {MarketingCampaign} from "./Modules/MarketingCampaign";
-import {MovieGenerator} from "./MovieGenerator";
+import {MovieGenerator} from "./Modules/Generator/MovieGenerator";
 
 function init() {
     let btn = document.createElement('button');

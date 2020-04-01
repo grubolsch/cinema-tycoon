@@ -1,4 +1,4 @@
-import {Movie} from "./Movie";
+import {Movie} from "../Entity/Movie";
 
 class MovieGenerator {
 
