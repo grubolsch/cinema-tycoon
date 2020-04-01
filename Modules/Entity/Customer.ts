@@ -1,4 +1,5 @@
 import * as faker from 'faker';
+import {TimeManager} from "../Manager/TimeManager";
 
 const GENDER = ['Female','male'];
 const MIN_AGE = 18;
@@ -61,7 +62,15 @@ class Customer {
         return this._queueingTolerance;
     }
 
-    //TODO method to lower queueingTolerance
+    set queueingTolerance(value: number) {
+        this._queueingTolerance = value;
+    }
+
+    public lowerQueueingTolerance(): void {
+        this.queueingTolerance--;
+        //temp to check
+        console.log(this.name + "'s queueingTolerance : " + this.queueingTolerance)
+    }
 
     get pricingToleranceShop(): number {
         return this._pricingToleranceShop;

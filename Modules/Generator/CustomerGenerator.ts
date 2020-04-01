@@ -2,9 +2,10 @@ import {Customer} from "../Entity/Customer";
 
 class CustomerGenerator{
 
-    public createCustomer(){
+    public createCustomer(): Customer{
         let customer = new Customer();
         customer.printCustomerInformation();
+        return customer;
     }
 }
 

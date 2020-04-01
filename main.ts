@@ -15,6 +15,7 @@ import {InternetCampaignType} from "./Modules/MarketingCampaignTypes/InternetCam
 
 function init() {
 
+
     (function bindButtons() {
 
         (function bindMarketingButtons() {
@@ -38,13 +39,6 @@ function init() {
         }());
 
     }());
-
-    let btnCustomer = document.createElement('button');
-    btnCustomer.innerText = 'Generating Customer Test';
-    btnCustomer.addEventListener('click', () =>{
-        new CustomerGenerator().createCustomer();
-    });
-    document.body.appendChild(btnCustomer);
 }
 
 function newMarketingCampaign(type: string) {
@@ -104,4 +98,13 @@ document.addEventListener('DOMContentLoaded', () => {
             render.speed = e.target!.dataset.ticks;
         });
     });
+
+    //adding customers
+    let btnCustomer = document.createElement('button');
+    btnCustomer.innerText = 'Generating Customer Test';
+    btnCustomer.addEventListener('click', () =>{
+        let customer = new CustomerGenerator().createCustomer();
+        cinema.customers.push(customer)
+    });
+    document.body.appendChild(btnCustomer);
 });
