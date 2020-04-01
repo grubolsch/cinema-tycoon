@@ -5,6 +5,7 @@ import {ConfigManager} from "../Manager/ConfigManager";
 import {Loan} from "./Loan";
 import {LoanException} from "../Exception/LoanException";
 import {LoanTaken} from "./LoanTaken";
+import {BootManager} from "../Manager/BootManager";
 
 class Room {}
 class Movie {}
@@ -22,6 +23,7 @@ class Cinema {
 
     private _timeManager : TimeManager;
     private _financeManager: FinanceManager;
+    private _bootManager: BootManager;
 
     private _loans: Map<number, LoanTaken> = new Map<number, LoanTaken>();
 
@@ -31,6 +33,8 @@ class Cinema {
         this._ticketPrice = StartConfig.ticketprice;
         this._timeManager = TimeManager;
         this._financeManager = financeManager;
+
+        this._bootManager = new BootManager(this);
     }
 
     get name(): string {
@@ -65,9 +69,12 @@ class Cinema {
         return this._financeManager;
     }
 
+    get bootManager(): BootManager {
+        return this._bootManager;
+    }
+
     public update() {
-        //temporary code to show the ticket price going up once per tick
-        this.financeManager.earn(1, 'ticket sale');
+        this.bootManager.update();
 
         this.timeManager.updateTime();
     }

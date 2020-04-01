@@ -12,6 +12,8 @@ import {TvCampaignType} from "./Modules/MarketingCampaignTypes/TvCampaignType";
 import {InternetCampaignType} from "./Modules/MarketingCampaignTypes/InternetCampaignType";
 import {LoanManager} from "./Modules/Manager/LoanManager";
 import {RenderLoans} from "./Modules/Render/RenderLoans";
+import {RenderBoots} from "./Modules/Render/RenderBoots";
+import {Customer} from "./Modules/Entity/Customer";
 
 function init() {
 
@@ -67,6 +69,7 @@ const observer = new Observer;
 const configManager = new ConfigManager;
 const loanManager = new LoanManager;
 
+
 document.addEventListener('DOMContentLoaded', () => {
     // temporary code, this should come from a save or a "create new game" menu
     init();
@@ -76,6 +79,7 @@ document.addEventListener('DOMContentLoaded', () => {
     //Object responsible for rendering changes in state
     let render = new Render(cinema);
     render.addRender(new RenderLoans(cinema, loanManager));
+    render.addRender(new RenderBoots(cinema));
     render.render();
 
     //the main loop that makes the game has a flow of time
@@ -87,11 +91,28 @@ document.addEventListener('DOMContentLoaded', () => {
     }, 1000);
 
     //observers
-
     observer.subscribe('month', function() {
         loanManager.update(cinema);
     });
+
+    observer.subscribe('hour', function() {
+        cinema.bootManager.payHourCost();
+    });
     //end observers code
+
+    //tmp code to simulate some vistors joining the cinema
+
+    setInterval(function() {
+        let customer = new Customer;
+        cinema.bootManager.addCustomer(customer);
+        console.info('customer created');
+    }, 1000);
+
+    //end test data
+
+
+
+
 
     //control the speed buttons
     document.querySelectorAll('img.speed').forEach((element) => {
