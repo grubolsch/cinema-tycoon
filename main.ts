@@ -59,9 +59,15 @@ function newMarketingCampaign(type: string, cinema : Cinema) {
             campaignType = new InternetCampaignType();
             break;
     }
+
     let campaign: MarketingCampaign = new MarketingCampaign(campaignType!);
 
-    cinema.activeMarketingCampaign = campaign;
+    if (cinema.financeManager.canAfford(campaign.type.cost)){
+        cinema.financeManager.pay(campaign.type.cost, 'Marketing Cost');
+        cinema.activeMarketingCampaign = campaign;
+    } else {
+        // TODO tell the player he/she is broke
+    }
 }
 
 const observer = new Observer;
