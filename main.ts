@@ -10,27 +10,28 @@ import {NewspaperCampaignType} from "./Modules/MarketingCampaignTypes/NewspaperC
 import {RadioCampaignType} from "./Modules/MarketingCampaignTypes/RadioCampaignType";
 import {TvCampaignType} from "./Modules/MarketingCampaignTypes/TvCampaignType";
 import {InternetCampaignType} from "./Modules/MarketingCampaignTypes/InternetCampaignType";
+import {MarketingCampaignType} from "./Modules/MarketingCampaignTypes/MarketingCampaignType";
 
-function init() {
+function init(cinema : Cinema) {
 
     (function bindButtons() {
 
         (function bindMarketingButtons() {
 
             document.getElementById('FlyersCampaign')!.addEventListener('click', () => {
-                newMarketingCampaign('Flyers');
+                newMarketingCampaign('Flyers', cinema);
             });
             document.getElementById('NewspaperCampaign')!.addEventListener('click', () => {
-                newMarketingCampaign('Newspaper');
+                newMarketingCampaign('Newspaper', cinema);
             });
             document.getElementById('RadioCampaign')!.addEventListener('click', () => {
-                newMarketingCampaign('Radio');
+                newMarketingCampaign('Radio', cinema);
             });
             document.getElementById('TVCampaign')!.addEventListener('click', () => {
-                newMarketingCampaign('TV');
+                newMarketingCampaign('TV', cinema);
             });
             document.getElementById('InternetCampaign')!.addEventListener('click', () => {
-                newMarketingCampaign('Internet');
+                newMarketingCampaign('Internet', cinema);
             });
 
         }());
@@ -39,27 +40,28 @@ function init() {
 
 }
 
-function newMarketingCampaign(type: string) {
-    let campaign: MarketingCampaign;
+function newMarketingCampaign(type: string, cinema : Cinema) {
+    let campaignType : MarketingCampaignType;
     switch (type) {
         case 'Flyers':
-            campaign = new MarketingCampaign(new FlyersCampaignType());
+            campaignType = new FlyersCampaignType();
             break;
         case 'Newspaper':
-            campaign = new MarketingCampaign(new NewspaperCampaignType());
+            campaignType = new NewspaperCampaignType();
             break;
         case 'Radio':
-            campaign = new MarketingCampaign(new RadioCampaignType());
+            campaignType = new RadioCampaignType();
             break;
         case 'TV':
-            campaign = new MarketingCampaign(new TvCampaignType());
+            campaignType = new TvCampaignType();
             break;
         case 'Internet':
-            campaign = new MarketingCampaign(new InternetCampaignType());
+            campaignType = new InternetCampaignType();
             break;
     }
-    // TODO set campaign as active on the cinema object
-    console.log(campaign!.type);
+    let campaign: MarketingCampaign = new MarketingCampaign(campaignType!);
+
+    cinema.activeMarketingCampaign = campaign;
 }
 
 const observer = new Observer;
@@ -68,9 +70,9 @@ const configManager = new ConfigManager;
 document.addEventListener('DOMContentLoaded', () => {
     // temporary code, this should come from a save or a "create new game" menu
 
-    init();
-
     let cinema = new Cinema("Our own Cinema", new TimeManager(observer), configManager, new FinanceManager(configManager));
+
+    init(cinema);
 
     //Object responsible for rendering changes in state
     let render = new Render;

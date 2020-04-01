@@ -2,25 +2,34 @@
 import {FinanceManager} from "../Manager/FinanceManager";
 import {TimeManager} from "../Manager/TimeManager";
 import {ConfigManager} from "../Manager/ConfigManager";
+import {MarketingCampaign} from "../MarketingCampaign";
 
-class Room {}
-class Movie {}
-class Customer {}
+class Room {
+}
+
+class Movie {
+}
+
+class Customer {
+}
+
 //end temp code
 
 class Cinema {
-    private _name : string ;
-    private _fans : number;
+    private _name: string;
+    private _fans: number;
     private _ticketprice: number;
 
-    private _rooms : Array<Room> = [];
-    private _movies : Array<Movie> = [];
-    private _customers : Array<Customer> = [];
+    private _rooms: Array<Room> = [];
+    private _movies: Array<Movie> = [];
+    private _customers: Array<Customer> = [];
 
-    private _timeManager : TimeManager;
+    private _timeManager: TimeManager;
     private _financeManager: FinanceManager;
 
-    public constructor(name: string, TimeManager : TimeManager, StartConfig : ConfigManager, financeManager : FinanceManager) {
+    private _activeMarketingCampaign: MarketingCampaign | null = null;
+
+    public constructor(name: string, TimeManager: TimeManager, StartConfig: ConfigManager, financeManager: FinanceManager) {
         this._name = name;
         this._fans = StartConfig.fans;
         this._ticketprice = StartConfig.ticketprice;
@@ -60,12 +69,22 @@ class Cinema {
         return this._financeManager;
     }
 
+    get activeMarketingCampaign(): MarketingCampaign | null {
+        return this._activeMarketingCampaign;
+    }
+
+    set activeMarketingCampaign(value: MarketingCampaign | null) {
+        this._activeMarketingCampaign = value;
+    }
+
     public update() {
         //temporary code to show the ticket price going up once per tick
         this.financeManager.earn(1, 'ticket sale');
+
+        console.log(this.activeMarketingCampaign ?? 'No active marketing campaign!');
 
         this.timeManager.updateTime();
     }
 }
 
-export { Cinema };
+export {Cinema};
