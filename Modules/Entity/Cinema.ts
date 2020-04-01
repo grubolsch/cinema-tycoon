@@ -18,7 +18,7 @@ class Customer {
 class Cinema {
     private _name: string;
     private _fans: number;
-    private _ticketprice: number;
+    private _ticketPrice: number;
 
     private _rooms: Array<Room> = [];
     private _movies: Array<Movie> = [];
@@ -28,11 +28,12 @@ class Cinema {
     private _financeManager: FinanceManager;
 
     private _activeMarketingCampaign: MarketingCampaign | null = null;
+    private _activeMarketingRemainingDuration : number | null = null;
 
     public constructor(name: string, TimeManager: TimeManager, StartConfig: ConfigManager, financeManager: FinanceManager) {
         this._name = name;
         this._fans = StartConfig.fans;
-        this._ticketprice = StartConfig.ticketprice;
+        this._ticketPrice = StartConfig.ticketprice;
         this._timeManager = TimeManager;
         this._financeManager = financeManager;
     }
@@ -45,8 +46,8 @@ class Cinema {
         return this._fans;
     }
 
-    get ticketprice(): number {
-        return this._ticketprice;
+    get ticketPrice(): number {
+        return this._ticketPrice;
     }
 
     get rooms(): Array<Room> {
@@ -75,15 +76,34 @@ class Cinema {
 
     set activeMarketingCampaign(value: MarketingCampaign | null) {
         this._activeMarketingCampaign = value;
+        this.activeMarketingRemainingDuration = value!.type.duration;
+    }
+
+    get activeMarketingRemainingDuration(): number | null {
+        return this._activeMarketingRemainingDuration;
+    }
+
+    set activeMarketingRemainingDuration(value : number | null) {
+        this._activeMarketingRemainingDuration = value;
     }
 
     public update() {
         //temporary code to show the ticket price going up once per tick
         this.financeManager.earn(1, 'ticket sale');
 
-        console.log(this.activeMarketingCampaign ?? 'No active marketing campaign!');
-
         this.timeManager.updateTime();
+
+        if (this.activeMarketingRemainingDuration !== null && this.activeMarketingRemainingDuration > 0){
+            this.activeMarketingRemainingDuration--;
+            if (this.activeMarketingRemainingDuration === 0){
+                this.activeMarketingRemainingDuration = null;
+            }
+        }
+
+        if (this.activeMarketingCampaign && this.activeMarketingRemainingDuration && this.activeMarketingRemainingDuration > 0){
+            console.log(this.activeMarketingCampaign);
+            console.log(this.activeMarketingRemainingDuration);
+        }
     }
 }
 
