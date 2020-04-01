@@ -1,4 +1,4 @@
-import {MarketingCampaignType} from "./MarketingCampaignTypes/MarketingCampaignType";
+import {MarketingCampaignType} from "../MarketingCampaignTypes/MarketingCampaignType";
 
 class MarketingCampaign {
 

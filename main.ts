@@ -1,4 +1,4 @@
-import {MarketingCampaign} from "./Modules/MarketingCampaign";
+import {MarketingCampaign} from "./Modules/Entity/MarketingCampaign";
 import {Observer} from "./Modules/Manager/Observer";
 import {ConfigManager} from "./Modules/Manager/ConfigManager";
 import {TimeManager} from "./Modules/Manager/TimeManager";
@@ -11,6 +11,7 @@ import {RadioCampaignType} from "./Modules/MarketingCampaignTypes/RadioCampaignT
 import {TvCampaignType} from "./Modules/MarketingCampaignTypes/TvCampaignType";
 import {InternetCampaignType} from "./Modules/MarketingCampaignTypes/InternetCampaignType";
 import {MarketingCampaignType} from "./Modules/MarketingCampaignTypes/MarketingCampaignType";
+import {MarketingManager} from "./Modules/Manager/MarketingManager";
 
 function init(cinema : Cinema) {
 
@@ -77,7 +78,7 @@ const configManager = new ConfigManager;
 document.addEventListener('DOMContentLoaded', () => {
     // temporary code, this should come from a save or a "create new game" menu
 
-    let cinema = new Cinema("Our own Cinema", new TimeManager(observer), configManager, new FinanceManager(configManager));
+    let cinema = new Cinema("Our own Cinema", new TimeManager(observer), configManager, new FinanceManager(configManager), new MarketingManager());
 
     init(cinema);
 

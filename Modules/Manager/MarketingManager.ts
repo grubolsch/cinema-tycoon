@@ -1,0 +1,5 @@
+class MarketingManager {
+
+}
+
+export {MarketingManager}

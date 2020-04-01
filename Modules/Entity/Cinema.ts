@@ -2,7 +2,8 @@
 import {FinanceManager} from "../Manager/FinanceManager";
 import {TimeManager} from "../Manager/TimeManager";
 import {ConfigManager} from "../Manager/ConfigManager";
-import {MarketingCampaign} from "../MarketingCampaign";
+import {MarketingCampaign} from "./MarketingCampaign";
+import {MarketingManager} from "../Manager/MarketingManager";
 
 class Room {
 }
@@ -26,16 +27,18 @@ class Cinema {
 
     private _timeManager: TimeManager;
     private _financeManager: FinanceManager;
+    private _marketingManager: MarketingManager;
 
     private _activeMarketingCampaign: MarketingCampaign | null = null;
-    private _activeMarketingRemainingDuration : number | null = null;
+    private _activeMarketingRemainingDuration: number | null = null;
 
-    public constructor(name: string, TimeManager: TimeManager, StartConfig: ConfigManager, financeManager: FinanceManager) {
+    public constructor(name: string, TimeManager: TimeManager, StartConfig: ConfigManager, financeManager: FinanceManager, marketingmanager: MarketingManager) {
         this._name = name;
         this._fans = StartConfig.fans;
         this._ticketPrice = StartConfig.ticketprice;
         this._timeManager = TimeManager;
         this._financeManager = financeManager;
+        this._marketingManager = marketingmanager;
     }
 
     get name(): string {
@@ -85,16 +88,16 @@ class Cinema {
         return this._activeMarketingRemainingDuration;
     }
 
-    set activeMarketingRemainingDuration(value : number | null) {
+    set activeMarketingRemainingDuration(value: number | null) {
         this._activeMarketingRemainingDuration = value;
     }
 
-    public updateMarketingDuration(){
+    public updateMarketingDuration() {
 
-        if (this.activeMarketingCampaign !== null){
-            if (this.activeMarketingRemainingDuration !== null && this.activeMarketingRemainingDuration > 0){
+        if (this.activeMarketingCampaign !== null) {
+            if (this.activeMarketingRemainingDuration !== null && this.activeMarketingRemainingDuration > 0) {
                 this.activeMarketingRemainingDuration--;
-                if (this.activeMarketingRemainingDuration === 0){
+                if (this.activeMarketingRemainingDuration === 0) {
                     this.activeMarketingRemainingDuration = null;
                     this.activeMarketingCampaign = null;
                     console.error('Your marketing campaign has expired');
@@ -102,7 +105,7 @@ class Cinema {
             }
         }
 
-        if (this.activeMarketingCampaign && this.activeMarketingRemainingDuration && this.activeMarketingRemainingDuration > 0){
+        if (this.activeMarketingCampaign && this.activeMarketingRemainingDuration && this.activeMarketingRemainingDuration > 0) {
             console.log(this.activeMarketingCampaign);
             console.log(this.activeMarketingRemainingDuration);
         }
