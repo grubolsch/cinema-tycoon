@@ -87,16 +87,14 @@ class Cinema {
         this._activeMarketingRemainingDuration = value;
     }
 
-    public update() {
-        //temporary code to show the ticket price going up once per tick
-        this.financeManager.earn(1, 'ticket sale');
+    public updateMarketingDuration(){
 
-        this.timeManager.updateTime();
-
-        if (this.activeMarketingRemainingDuration !== null && this.activeMarketingRemainingDuration > 0){
-            this.activeMarketingRemainingDuration--;
-            if (this.activeMarketingRemainingDuration === 0){
-                this.activeMarketingRemainingDuration = null;
+        if (this.activeMarketingCampaign !== null){
+            if (this.activeMarketingRemainingDuration !== null && this.activeMarketingRemainingDuration > 0){
+                this.activeMarketingRemainingDuration--;
+                if (this.activeMarketingRemainingDuration === 0){
+                    this.activeMarketingRemainingDuration = null;
+                }
             }
         }
 
@@ -104,6 +102,13 @@ class Cinema {
             console.log(this.activeMarketingCampaign);
             console.log(this.activeMarketingRemainingDuration);
         }
+    }
+
+    public update() {
+        //temporary code to show the ticket price going up once per tick
+        this.financeManager.earn(1, 'ticket sale');
+
+        this.timeManager.updateTime();
     }
 }
 

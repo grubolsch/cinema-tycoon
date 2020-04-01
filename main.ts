@@ -66,6 +66,7 @@ function newMarketingCampaign(type: string, cinema : Cinema) {
         cinema.financeManager.pay(campaign.type.cost, 'Marketing Cost');
         cinema.activeMarketingCampaign = campaign;
     } else {
+        console.error('Not enough money!');
         // TODO tell the player he/she is broke
     }
 }
@@ -91,8 +92,12 @@ document.addEventListener('DOMContentLoaded', () => {
         render.render(cinema);
     }, 1000);
 
+    observer.subscribe('week', () => {
+       cinema.updateMarketingDuration();
+    });
+
     //example code
-    observer.subscribe('hour', function () {
+    observer.subscribe('hour', () => {
         console.log('the hour changed!');
     });
     //end example code
