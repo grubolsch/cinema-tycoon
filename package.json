@@ -21,6 +21,7 @@
   "homepage": "https://github.com/grubolsch/cinema-tycoon#readme",
   "devDependencies": {
     "parcel-bundler": "^1.12.4",
+    "sass": "^1.26.3",
     "typescript": "^3.8.3"
   }
 }

@@ -1,4 +1,4 @@
-# cinema-tycoon
+# Cinema tycoon
 
 ## installation
 After cloning, run: 
@@ -11,10 +11,12 @@ ___
 ## Observers
 You can listen to changes in time, like a shift in hours, with following code:
 
+```
 function doThis(hour) {
     console.log(hour);
 }
 
-$( document ).on("hour|day|week|month|year", function( event, newHour) {
-    doThis(newHour);
+observer.subscribe("hour|day|week|month|year", function( TimeManager ) {
+    doThis(TimeManager.hour);
 });
+```
