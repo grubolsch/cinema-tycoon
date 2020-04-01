@@ -1,0 +1,3 @@
+interface RenderInterface {
+    render() : void;
+}

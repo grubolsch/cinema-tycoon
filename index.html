@@ -20,34 +20,15 @@
             crossorigin="anonymous"></script>
     <!--<link href="css/layout.sass" rel="stylesheet" type="text/css" />-->
 
+    <script>
+        function showDebug() {
+            document.getElementById('debugBar').style.display = 'block';
+        }
+    </script>
+
     <script src="main.ts"></script>
 </head>
 <body>
-
-<div id="modalID" class="modal fade" tabindex="-1" role="dialog" aria-hidden="true">
-    <div class="modal-dialog">
-        <div class="modal-content">
-            <!-- the .setContent() method will update this element's HTML -->
-        </div>
-    </div>
-</div>
-
-
-<div id="loans">
-    <h3>Loans</h3>
-    <p>Need some cash? Take a loan but make sure you can afford the interest!</p>
-
-    <template id="loan-template">
-        <h3 class="loan-title"></h3>
-        <p>Required fans: <span class="loan-required-fans"></span></p>
-        <p>Value of loan: <span class="loan-value"></span></p>
-        <p>Duration: <span class="loan-duration"></span></p>
-        <p>Interest rate: <span class="loan-interest"></span></p>
-
-        <button rel="take-loan" class="btn btn-primary top-menu">Apply</button>
-    </template>
-</div>
-
 
 <table width="100%">
     <tr>
@@ -68,7 +49,7 @@
             <button rel="advertising" class="btn btn-primary top-menu" data-toggle="modal" data-target="#advertisingModal">Advertising</button>
         </td>
         <td>
-            <button rel="loans" class="btn btn-primary top-menu">Loans</button>
+            <button rel="loans" class="btn btn-primary top-menu"  data-toggle="modal" data-target="#loansModal">Loans</button>
         </td>
         <td>
             <button rel="tickets" class="btn btn-primary top-menu">Tickets</button>
@@ -88,6 +69,8 @@
         </td>
     </tr>
 </table>
+
+
 
 <!-- Advertising Modal -->
 <div class="modal fade" id="advertisingModal" tabindex="-1" role="dialog" aria-labelledby="ModalCenterTitle"
@@ -114,6 +97,54 @@
     </div>
 </div>
 <!-- /Advertising Modal -->
+
+
+<!-- Advertising Modal -->
+<div class="modal fade" id="loansModal" tabindex="-1" role="dialog" aria-labelledby="ModalCenterTitle"
+     aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Loans</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <p>Need some cash? Take a loan but make sure you can afford the interest!</p>
+
+                <div class="container">
+                    <div class="row" id="loans"></div>
+                </div>
+
+                <template id="loan-template">
+                    <div class="col-sm">
+                        <h3 class="loan-title"></h3>
+                        <p>Required fans: <span class="loan-required-fans"></span></p>
+                        <p>Value of loan: <span class="loan-value"></span></p>
+                        <p>Duration: <span class="loan-duration"></span></p>
+                        <p>Interest rate: <span class="loan-interest"></span></p>
+
+                        <button class="take-loan btn btn-primary">Apply</button>
+                    </div>
+                </template>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- /Advertising Modal -->
+
+<div id="debugBar" style="display: none;">
+    <h1>Debug bar</h1>
+    <button class="trigger-event btn btn-secondary" rel="hour">Trigger hour change</button>
+    <button class="trigger-event btn btn-secondary" rel="day">Trigger day change</button>
+    <button class="trigger-event btn btn-secondary" rel="week">Trigger week change</button>
+    <button class="trigger-event btn btn-secondary" rel="month">Trigger month change</button>
+    <button class="trigger-event btn btn-secondary" rel="year">Trigger year change</button>
+</div>
 
 </body>
 </html>

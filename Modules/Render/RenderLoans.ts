@@ -1,24 +1,80 @@
-class RenderLoans {
-    public render() {
-        // reference the library as dependency
-      //  var bsn = require("bootstrap.native");
+import {LoanManager} from "../Manager/LoanManager";
+import {Loan} from "../Entity/Loan";
+import {Cinema} from "../Entity/Cinema";
+import {LoanException} from "../Exception/LoanException";
+import {currency} from "../Utils";
 
-// Create a Button instance:
-//        var btn = new bsn.Button(element,option);
+class RenderLoans implements RenderInterface {
+    private _cinema : Cinema;
+    private _loanManager : LoanManager;
 
+    constructor(cinema: Cinema, loanManager: LoanManager) {
+        this._cinema = cinema;
+        this._loanManager = loanManager;
 
+        this.renderOneTime();
+    }
 
-        // get the modal by ID
-        var myModal = document.getElementById('modalID');
+    public renderOneTime() {
+        var self = this;
+        this._loanManager.loans.forEach(function(loan : Loan) {
+            // @ts-ignore
+            var clone = document.querySelector('#loan-template').content.cloneNode(true);
+            clone.querySelector('.loan-required-fans').innerHTML = loan.requiredFans;
+            clone.querySelector('.loan-value').innerHTML = currency(loan.amount);
+            clone.querySelector('.loan-duration').innerHTML = loan.durationInMonths + ' months';
+            clone.querySelector('.loan-interest').innerHTML = loan.interest + ' %';
+            clone.querySelector('button.take-loan').dataset.id = loan.id;
 
-// initialize on a <div class="modal"> with all options
-// Note: options object is optional
-        var myModalInstance = new Modal(myModal,
-            { // options object
-                content: '<div class="modal-body">Some content to be set on init</div>', // sets modal content
-                backdrop: 'static', // we don't want to dismiss Modal when Modal or backdrop is the click event target
-                keyboard: false // we don't want to dismiss Modal on pressing Esc key
+            document.querySelector('#loans')!.appendChild(clone);
+        });
+
+        document.querySelectorAll('#loans button.take-loan').forEach(function(element) {
+            element.addEventListener('click', function() {
+                // @ts-ignore
+                let id = parseInt(this.dataset.id);
+                let loan : Loan|undefined = self._loanManager.loans.get(id);
+
+                try {
+                    if (loan === undefined) {
+                        throw LoanException.invalidLoan();
+                    }
+
+                    self._loanManager.takeLoan(self._cinema, loan);
+                    alert('You took '+ loan.amount + ' EUR out with a loan! Use the money wisely!');
+                }
+                catch(error) {
+                    if(error instanceof LoanException) {
+                        alert(error.message);
+                    } else {
+                        //this should never happen
+                        alert('Unknown error: '+ error.message);
+                    }
+                }
             });
+        });
+    }
 
+    public render() {
+        var self = this;
+
+        //enable or disable the loan buttons
+        document.querySelectorAll('#loans button.take-loan').forEach(function(button) {
+            // @ts-ignore
+            let id = parseInt(button.dataset.id);
+            let loan : Loan|undefined = self._loanManager.loans.get(id);
+
+            if (loan === undefined) {
+                return;
+            }
+
+            if(self._loanManager.canTakeLoan(self._cinema, loan)) {
+                button.removeAttribute('disabled');
+            } else {
+                button.setAttribute('disabled', 'disabled');
+            }
+        });
     }
 }
+
+export {RenderLoans}

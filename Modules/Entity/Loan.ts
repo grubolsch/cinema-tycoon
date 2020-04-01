@@ -17,8 +17,8 @@ class Loan {
         this._interest = interest;
     }
 
-    public canApply(cinama : Cinema) : boolean {
-        if(this._requiredFans <= cinama.fans) {
+    public canApply(cinema : Cinema) : boolean {
+        if(this._requiredFans <= cinema.fans) {
             return true;
         }
         return false;
@@ -26,6 +26,10 @@ class Loan {
 
     public recieve(cinema : Cinema) {
         cinema.financeManager.earn(this._amount, 'Recieved loan');
+    }
+
+    get id(): number {
+        return this._id;
     }
 
     get name(): string {
@@ -54,37 +58,14 @@ class Loan {
     }
 }
 
-class LoanTaken {
-    private loan : Loan;
-    private durationLeft : number;
-
-    constructor(loan: Loan) {
-        this.loan = loan;
-        this.durationLeft = loan.durationInMonths;
-    }
-
-    public pay(cinema : Cinema) {
-        if(this.durationLeft === 0) {
-            throw new LoanException('Loan is paid off');
-        }
-
-        cinema.financeManager.pay(this.loan.calcMonthlyPayment(), 'Paying loan');
-
-        this.durationLeft--;
-    }
-}
-
 class MafiaLoan extends Loan {
     constructor(id: number, amount: number, duration: number, interest: number) {
         super(id, 'Mafia loan', 0, amount, duration, interest);
     }
 
     public canApply(cinema : Cinema) : boolean {
-        if(0 >= cinema.financeManager.credit) {
-            return true;
-        }
-        return false;
+        return 0 >= cinema.financeManager.credit;
     }
 }
 
-export {Loan, MafiaLoan, LoanTaken }
+export {Loan, MafiaLoan }

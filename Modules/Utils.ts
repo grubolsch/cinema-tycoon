@@ -87,3 +87,4 @@ function currency(number : number) : string {
 }
 
 export { number_format, currency };
+
