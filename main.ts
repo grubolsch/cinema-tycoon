@@ -4,6 +4,7 @@ import {ConfigManager} from "./Modules/Manager/ConfigManager";
 import {TimeManager} from "./Modules/Manager/TimeManager";
 import {Cinema} from "./Modules/Entity/Cinema";
 import {Customer} from "./Modules/Entity/Customer";
+import {CustomerGenerator} from "./Modules/Generator/CustomerGenerator";
 import {Render} from "./Modules/Render/Render";
 import {FinanceManager} from "./Modules/Manager/FinanceManager";
 import {FlyersCampaignType} from "./Modules/MarketingCampaignTypes/FlyersCampaignType";
@@ -39,9 +40,9 @@ function init() {
     }());
 
     let btnCustomer = document.createElement('button');
-    btnCustomer.innerText = 'Customer Test';
+    btnCustomer.innerText = 'Generating Customer Test';
     btnCustomer.addEventListener('click', () =>{
-        testCustomer();
+        new CustomerGenerator().createCustomer();
     });
     document.body.appendChild(btnCustomer);
 }
@@ -69,10 +70,6 @@ function newMarketingCampaign(type: string) {
     console.log(campaign!.type);
 }
 
-function testCustomer(){
-    let customer = new Customer();
-    customer.printCustomerInformation();
-}
 
 const observer = new Observer;
 const configManager = new ConfigManager;
