@@ -2,10 +2,10 @@
 import {FinanceManager} from "../Manager/FinanceManager";
 import {TimeManager} from "../Manager/TimeManager";
 import {ConfigManager} from "../Manager/ConfigManager";
+import {Customer} from "./Customer";
 
 class Room {}
 class Movie {}
-class Customer {}
 //end temp code
 
 class Cinema {

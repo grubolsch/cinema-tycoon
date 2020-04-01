@@ -3,6 +3,7 @@ import {Observer} from "./Modules/Manager/Observer";
 import {ConfigManager} from "./Modules/Manager/ConfigManager";
 import {TimeManager} from "./Modules/Manager/TimeManager";
 import {Cinema} from "./Modules/Entity/Cinema";
+import {Customer} from "./Modules/Entity/Customer";
 import {Render} from "./Modules/Render/Render";
 import {FinanceManager} from "./Modules/Manager/FinanceManager";
 
@@ -13,12 +14,24 @@ function init() {
         newMarketingCampaign();
     });
     document.body.appendChild(btn);
+
+    let btnCustomer = document.createElement('button');
+    btnCustomer.innerText = 'Customer Test'
+    btnCustomer.addEventListener('click', () =>{
+        testCustomer();
+    })
+    document.body.appendChild(btnCustomer);
 }
 
 function newMarketingCampaign() {
     let newCampaign = new MarketingCampaign();
     newCampaign.type = 'test';
     console.log(newCampaign.type);
+}
+
+function testCustomer(){
+    let customer = new Customer();
+    customer.printCustomerInformation();
 }
 
 var observer = new Observer;
