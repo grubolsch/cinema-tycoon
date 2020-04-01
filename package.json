@@ -1,10 +1,9 @@
 {
   "name": "cinema-tycoon",
   "version": "1.0.0",
-  "description": "You can listen to changes in time, like a shift in hours, with following code:",
+  "description": "",
   "main": "main.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
     "dev": "parcel index.html",
     "watch": "parcel watch index.html",
     "build": "parcel build index.html"
