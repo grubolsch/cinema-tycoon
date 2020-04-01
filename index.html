@@ -14,6 +14,31 @@
 </head>
 <body>
 
+<div id="modalID" class="modal fade" tabindex="-1" role="dialog" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <!-- the .setContent() method will update this element's HTML -->
+        </div>
+    </div>
+</div>
+
+
+<div id="loans">
+    <h3>Loans</h3>
+    <p>Need some cash? Take a loan but make sure you can afford the interest!</p>
+
+    <template id="loan-template">
+        <h3 class="loan-title"></h3>
+        <p>Required fans: <span class="loan-required-fans"></span></p>
+        <p>Value of loan: <span class="loan-value"></span></p>
+        <p>Duration: <span class="loan-duration"></span></p>
+        <p>Interest rate: <span class="loan-interest"></span></p>
+
+        <button rel="take-loan" class="btn btn-primary top-menu">Apply</button>
+    </template>
+</div>
+
+
 <table width="100%">
     <tr>
         <td id="ui-name"></td>

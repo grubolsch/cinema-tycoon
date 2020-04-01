@@ -5,6 +5,7 @@ import {TimeManager} from "./Modules/Manager/TimeManager";
 import {Cinema} from "./Modules/Entity/Cinema";
 import {Render} from "./Modules/Render/Render";
 import {FinanceManager} from "./Modules/Manager/FinanceManager";
+import {Loan} from "./Modules/Entity/Loan";
 
 function init() {
     let btn = document.createElement('button');
@@ -41,11 +42,17 @@ document.addEventListener('DOMContentLoaded', function() {
         render.render(cinema);
     }, 1000);
 
-    //example code
-    observer.subscribe('hour', function() {
-        console.log('the hour changed!');
+    //observers
+    observer.subscribe('month', function() {
+        cinema.loans.forEach(function(loan: Loan) {
+            loan.pay(cinema);
+
+            //if(loan)
+        });
+
+
     });
-    //end example code
+    //end observers code
 
     //control the speed buttons
     document.querySelectorAll('img.speed').forEach(function(element) {

@@ -8,14 +8,10 @@ class FinanceManager {
     }
 
     public canAfford(value : number) : boolean {
-        return (this._credit >= value)
+        return (this._credit >= value);
     }
 
     public pay(value : number, description : string) : boolean {
-        if(!this.canAfford(value)) {
-            return false;
-        }
-
         console.log('Paid money', value, description);//just for debugging
         this._credit -= value;
         return true;
