@@ -40,7 +40,7 @@
             <button rel="schedule" class="btn btn-primary top-menu">Schedule</button>
         </td>
         <td>
-            <button rel="advertising" class="btn btn-primary top-menu">Advertising</button>
+            <button rel="advertising" class="btn btn-primary top-menu" data-toggle="modal" data-target="#advertisingModal">Advertising</button>
         </td>
         <td>
             <button rel="loans" class="btn btn-primary top-menu">Loans</button>
@@ -64,13 +64,8 @@
     </tr>
 </table>
 
-<!-- Button trigger modal -->
-<button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModalCenter">
-    Launch demo modal
-</button>
-
-<!-- Modal -->
-<div class="modal fade" id="exampleModalCenter" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle"
+<!-- Advertising Modal -->
+<div class="modal fade" id="advertisingModal" tabindex="-1" role="dialog" aria-labelledby="ModalCenterTitle"
      aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered" role="document">
         <div class="modal-content">
@@ -81,15 +76,19 @@
                 </button>
             </div>
             <div class="modal-body">
-                ...
+                <button class="btn btn-primary" id="FlyersCampaign">Flyers</button>
+                <button class="btn btn-primary" id="NewspaperCampaign">Newspapers</button>
+                <button class="btn btn-primary" id="RadioCampaign">Radio</button>
+                <button class="btn btn-primary" id="TVCampaign">TV</button>
+                <button class="btn btn-primary" id="InternetCampaign">Internet</button>
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                <button type="button" class="btn btn-primary">Save changes</button>
             </div>
         </div>
     </div>
 </div>
+<!-- /Advertising Modal -->
 
 </body>
 </html>

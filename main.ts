@@ -13,28 +13,30 @@ import {InternetCampaignType} from "./Modules/MarketingCampaignTypes/InternetCam
 
 function init() {
 
-    // function makeMarketingButtons() {
-    //     let types: Array<string> = ['Flyers', 'Newspaper', 'Radio', 'TV', 'Internet'];
-    //     types.forEach(type => {
-    //         let btn = document.createElement('button');
-    //         btn.innerText = type;
-    //         btn.addEventListener('click', () => {
-    //             if (window.confirm('are you sure you want to start a ' + type + ' campaign ?')){
-    //                 newMarketingCampaign(type);
-    //             }
-    //         });
-    //         document.body.appendChild(btn);
-    //     });
-    // }
-    //
-    // (function makeStartCampaignButton() {
-    //     let btn = document.createElement('button');
-    //     btn.innerText = 'Start a marketing campaign';
-    //     btn.addEventListener('click', () => {
-    //         makeMarketingButtons();
-    //     });
-    //     document.body.appendChild(btn);
-    // }());
+    (function bindButtons() {
+
+        (function bindMarketingButtons() {
+
+            document.getElementById('FlyersCampaign')!.addEventListener('click', () => {
+                newMarketingCampaign('Flyers');
+            });
+            document.getElementById('NewspaperCampaign')!.addEventListener('click', () => {
+                newMarketingCampaign('Newspaper');
+            });
+            document.getElementById('RadioCampaign')!.addEventListener('click', () => {
+                newMarketingCampaign('Radio');
+            });
+            document.getElementById('TVCampaign')!.addEventListener('click', () => {
+                newMarketingCampaign('TV');
+            });
+            document.getElementById('InternetCampaign')!.addEventListener('click', () => {
+                newMarketingCampaign('Internet');
+            });
+
+        }());
+
+    }());
+
 }
 
 function newMarketingCampaign(type: string) {
@@ -60,11 +62,12 @@ function newMarketingCampaign(type: string) {
     console.log(campaign!.type);
 }
 
-var observer = new Observer;
-var configManager = new ConfigManager;
+const observer = new Observer;
+const configManager = new ConfigManager;
 
-document.addEventListener('DOMContentLoaded', function() {
+document.addEventListener('DOMContentLoaded', () => {
     // temporary code, this should come from a save or a "create new game" menu
+
     init();
 
     let cinema = new Cinema("Our own Cinema", new TimeManager(observer), configManager, new FinanceManager(configManager));
@@ -73,23 +76,23 @@ document.addEventListener('DOMContentLoaded', function() {
     let render = new Render;
 
     //the main loop that makes the game has a flow of time
-    setInterval(function () {
-        for (var i = 0; render.speed > i; i++) {
+    setInterval(() => {
+        for (let i = 0; render.speed > i; i++) {
             cinema.update();
         }
         render.render(cinema);
     }, 1000);
 
     //example code
-    observer.subscribe('hour', function() {
+    observer.subscribe('hour', function () {
         console.log('the hour changed!');
     });
     //end example code
 
     //control the speed buttons
-    document.querySelectorAll('img.speed').forEach(function(element) {
-        element.addEventListener('click',  () => {
-            render.speed = this.dataset.ticks;
+    document.querySelectorAll('img.speed').forEach((element) => {
+        element.addEventListener('click', (e) => {
+            render.speed = e.target!.dataset.ticks;
         });
     });
 });
