@@ -23,7 +23,6 @@ class FinanceManager {
 
     public earn(value : number, description : string) : void {
         this._credit += value;
-        console.log('Earned money', value, description);//just for debugging
     }
 
     get credit(): number {

@@ -92,15 +92,18 @@ document.addEventListener('DOMContentLoaded', () => {
         render.render(cinema);
     }, 1000);
 
-    observer.subscribe('week', () => {
-       cinema.updateMarketingDuration();
+    observer.subscribe('hour', () => {
+        console.log('An hour has passed');
     });
 
-    //example code
-    observer.subscribe('hour', () => {
-        console.log('the hour changed!');
+    observer.subscribe('day', () => {
+        console.log('A day has passed')
     });
-    //end example code
+
+    observer.subscribe('week', () => {
+        console.log('A week has passed')
+        cinema.updateMarketingDuration();
+    });
 
     //control the speed buttons
     document.querySelectorAll('img.speed').forEach((element) => {

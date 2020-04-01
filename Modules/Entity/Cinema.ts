@@ -76,7 +76,9 @@ class Cinema {
 
     set activeMarketingCampaign(value: MarketingCampaign | null) {
         this._activeMarketingCampaign = value;
-        this.activeMarketingRemainingDuration = value!.type.duration;
+        if (value !== null) {
+            this.activeMarketingRemainingDuration = value.type.duration;
+        }
     }
 
     get activeMarketingRemainingDuration(): number | null {
@@ -94,6 +96,8 @@ class Cinema {
                 this.activeMarketingRemainingDuration--;
                 if (this.activeMarketingRemainingDuration === 0){
                     this.activeMarketingRemainingDuration = null;
+                    this.activeMarketingCampaign = null;
+                    console.error('Your marketing campaign has expired');
                 }
             }
         }
