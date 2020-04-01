@@ -1,18 +1,40 @@
+import {MovieTypeException} from "../Exception/MovieTypeException";
+
 class MovieType {
-    private static _isArthouse: boolean = false;
-    private static _isBlockbuster: boolean = false;
-    private static _isGeneric: boolean = true;
+    private _isArthouse: boolean = false;
+    private _isBlockbuster: boolean = false;
 
-    static isArthouse(value: boolean) {
-        this._isArthouse = value;
+    private constructor(isBlockbuster : boolean, isArthouse : boolean) {
+        if(isBlockbuster && isArthouse) {
+            throw MovieTypeException.invalidType();
+        }
+
+        this._isBlockbuster = isBlockbuster;
+        this._isArthouse = isArthouse;
     }
 
-    static isBlockbuster(value: boolean) {
-        this._isBlockbuster = value;
+    static isArthouse() : MovieType {
+        return new this(false, true);
     }
 
-    static isGeneric(value: boolean) {
-        this._isGeneric = value;
+    static isBlockbuster() : MovieType {
+        return new this(true, false);
+    }
+
+    static isGeneric() : MovieType {
+        return new this(false, false);
+    }
+
+    get isArthouse(): boolean {
+        return this._isArthouse;
+    }
+
+    get isBlockbuster(): boolean {
+        return this._isBlockbuster;
+    }
+
+    get isNormal(): boolean {
+        return !this._isBlockbuster && !this._isArthouse;
     }
 }
 
