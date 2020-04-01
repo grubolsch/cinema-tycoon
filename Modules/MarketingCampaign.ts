@@ -1,15 +1,20 @@
+import {MarketingCampaignType} from "./MarketingCampaignTypes/MarketingCampaignType";
+
 class MarketingCampaign {
-    readonly campaignTypes: Array<string> = ['Flyers', 'Newspaper', 'Radio', 'TV', 'Internet'];
 
-    private _type: string = "";
+    private _type: MarketingCampaignType;
 
-    get type(): string {
+    constructor(type: MarketingCampaignType) {
+        this._type = type;
+    }
+
+    get type(): MarketingCampaignType {
         return this._type;
     }
 
-    set type(value: string) {
+    set type(value: MarketingCampaignType) {
         this._type = value;
     }
 }
 
-export { MarketingCampaign };
+export {MarketingCampaign};

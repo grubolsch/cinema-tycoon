@@ -71,14 +71,12 @@ class LoanTaken {
         cinema.financeManager.pay(this.loan.calcMonthlyPayment(), 'Paying loan');
 
         this.durationLeft--;
-
-
     }
 }
 
 class MafiaLoan extends Loan {
-    constructor(amount: number, duration: number, interest: number) {
-        super('Mafia loan', 0, amount, duration, interest);
+    constructor(id: number, amount: number, duration: number, interest: number) {
+        super(id, 'Mafia loan', 0, amount, duration, interest);
     }
 
     public canApply(cinema : Cinema) : boolean {

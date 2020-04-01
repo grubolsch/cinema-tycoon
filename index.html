@@ -7,7 +7,17 @@
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>Cinema tycoon test</title>
 
-    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css"
+          integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
+    <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"
+            integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN"
+            crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"
+            integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q"
+            crossorigin="anonymous"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"
+            integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl"
+            crossorigin="anonymous"></script>
     <!--<link href="css/layout.sass" rel="stylesheet" type="text/css" />-->
 
     <script src="main.ts"></script>
@@ -45,14 +55,30 @@
         <td id="ui-date"></td>
         <td id="ui-currentcredit"></td>
         <td id="ui-fans"></td>
-        <td><button rel="openSettings" type="button" class="btn btn-primary top-menu">Settings</button></td>
-        <td><button rel="research" class="btn btn-primary top-menu">Research</button></td>
-        <td><button rel="schedule" class="btn btn-primary top-menu">Schedule</button></td>
-        <td><button rel="advertising" class="btn btn-primary top-menu">Advertising</button></td>
-        <td><button rel="loans" class="btn btn-primary top-menu">Loans</button></td>
-        <td><button rel="tickets" class="btn btn-primary top-menu">Tickets</button></td>
-        <td><button rel="statistics" class="btn btn-primary top-menu">Statistics</button></td>
-        <td><button rel="customers" class="btn btn-primary top-menu">Customers</button></td>
+        <td>
+            <button rel="openSettings" type="button" class="btn btn-primary top-menu">Settings</button>
+        </td>
+        <td>
+            <button rel="research" class="btn btn-primary top-menu">Research</button>
+        </td>
+        <td>
+            <button rel="schedule" class="btn btn-primary top-menu">Schedule</button>
+        </td>
+        <td>
+            <button rel="advertising" class="btn btn-primary top-menu" data-toggle="modal" data-target="#advertisingModal">Advertising</button>
+        </td>
+        <td>
+            <button rel="loans" class="btn btn-primary top-menu">Loans</button>
+        </td>
+        <td>
+            <button rel="tickets" class="btn btn-primary top-menu">Tickets</button>
+        </td>
+        <td>
+            <button rel="statistics" class="btn btn-primary top-menu">Statistics</button>
+        </td>
+        <td>
+            <button rel="customers" class="btn btn-primary top-menu">Customers</button>
+        </td>
 
         <td>
             <img src="assets/icons/pause-128.png" class="speed clickable" data-ticks="0" height="16"/>
@@ -62,6 +88,32 @@
         </td>
     </tr>
 </table>
+
+<!-- Advertising Modal -->
+<div class="modal fade" id="advertisingModal" tabindex="-1" role="dialog" aria-labelledby="ModalCenterTitle"
+     aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLongTitle">Modal title</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <button class="btn btn-primary" id="FlyersCampaign">Flyers</button>
+                <button class="btn btn-primary" id="NewspaperCampaign">Newspapers</button>
+                <button class="btn btn-primary" id="RadioCampaign">Radio</button>
+                <button class="btn btn-primary" id="TVCampaign">TV</button>
+                <button class="btn btn-primary" id="InternetCampaign">Internet</button>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- /Advertising Modal -->
 
 </body>
 </html>
