@@ -20,3 +20,7 @@ observer.subscribe("hour|day|week|month|year", function( TimeManager ) {
     doThis(TimeManager.hour);
 });
 ```
+
+## Debug bar
+You can show the debug bar with typing the command `showDebug()` in the console.
+This panel has buttons to trigger time chances: for example,, to test a year or a month chance event.
