@@ -1,11 +1,12 @@
-class Movie {
+import {MovieType} from "../MovieTypes/MovieType";
 
+class Movie {
     private readonly _movieTitle: string;
     private readonly _movieRating: number;
     private readonly _movieGenre: string;
-    private readonly _movieType: Map<string, boolean>;
+    private readonly _movieType: MovieType;
 
-    constructor(title: string, rating: number, genre: string, type: Map<string, boolean>) {
+    constructor(title: string, rating: number, genre: string, type: MovieType) {
         this._movieTitle = title;
         this._movieRating = rating;
         this._movieGenre = genre;
@@ -24,7 +25,7 @@ class Movie {
         return this._movieGenre;
     }
 
-    get movieType(): Map<string, boolean> {
+    get movieType(): MovieType {
         return this._movieType;
     }
 }

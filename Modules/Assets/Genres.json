@@ -1,0 +1,34 @@
+{
+  "genres": [
+    {
+      "genre": "Action"
+    },
+    {
+      "genre": "Adventure"
+    },
+    {
+      "genre": "Comedy"
+    },
+    {
+      "genre": "Drama"
+    },
+    {
+      "genre": "Romance"
+    },
+    {
+      "genre": "Tragedy"
+    },
+    {
+      "genre": "Western"
+    },
+    {
+      "genre": "Fantasy"
+    },
+    {
+      "genre": "Horror"
+    },
+    {
+      "genre": "Crime"
+    }
+  ]
+}

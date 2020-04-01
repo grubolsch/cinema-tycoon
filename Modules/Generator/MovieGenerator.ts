@@ -1,28 +1,22 @@
 import {Movie} from "../Entity/Movie";
+import {MovieType} from "../MovieTypes/MovieType";
+import  Genres  from  "../Assets/Genres.json";
 
 class MovieGenerator {
 
     public static newMovie(): Movie {
-        let parameters: [string] = ["genre"];
-        return new Movie(this.titleGenerator(), this.ratingGenerator(), parameters[0], this.typeGenerator());
+        return new Movie(this.titleGenerator(), this.ratingGenerator(), this.genreGenerator(), this.typeGenerator());
     }
 
-    protected static typeGenerator(): Map<string, boolean> {
-        let typeBenchmark : number = 0.8;
-        let movieType : Map<string, boolean> = new Map<string, boolean>();
+    protected static typeGenerator() {
+        let typeBenchmark: number = 0.8;
         if (Math.random() >= typeBenchmark) {
-            if (Math.random()>= 0.5) {
-                movieType.set("Arthouse", true);
-                movieType.set("Blockbuster", false);
-            } else {
-                movieType.set("Arthouse", false);
-                movieType.set("Blockbuster", true);
-            }
-        } else {
-            movieType.set("Arthouse", false);
-            movieType.set("Blockbuster", false);
+            let specificType = Math.random();
+            MovieType.isArthouse(specificType > 0.5);
+            MovieType.isBlockbuster(specificType <= 0.5);
+            MovieType.isGeneric(false);
         }
-        return movieType;
+        return MovieType;
     }
 
     protected static ratingGenerator(): number {
@@ -39,10 +33,10 @@ class MovieGenerator {
             partTwo[Math.floor(Math.random() * partOne.length)];
     }
 
-    public genreGenerator(){
-
+    protected static genreGenerator(): string{
+        let randomIndex: number = Math.floor(Math.random() * 10);
+        return  Genres["genres"][randomIndex]["genre"];
     }
 }
 
 export {MovieGenerator}
-//Generate a random genre for it (make a json with some random genres, we can extend it later)

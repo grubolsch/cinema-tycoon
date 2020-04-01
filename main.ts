@@ -1,5 +1,6 @@
 import {MarketingCampaign} from "./Modules/MarketingCampaign";
 import {MovieGenerator} from "./Modules/Generator/MovieGenerator";
+import {Movie} from "./Modules/Entity/Movie";
 
 function init() {
     let btn = document.createElement('button');
@@ -18,8 +19,11 @@ function newMarketingCampaign() {
 }
 
 function generateMovie() {
-    let movieGenerator = new MovieGenerator();
-    console.log(movieGenerator.genreGenerator());
+    let manyMovies: Array<Movie> = [];
+    for (let i = 0; i < 10; i++){
+        manyMovies[i] = MovieGenerator.newMovie();
+    }
+    console.log(manyMovies);
 }
 
 init();
