@@ -11,7 +11,7 @@ class Customer {}
 class Cinema {
     private _name : string ;
     private _fans : number;
-    private _ticketprice: number;
+    private _ticketPrice: number;
 
     private _rooms : Array<Room> = [];
     private _movies : Array<Movie> = [];
@@ -23,7 +23,7 @@ class Cinema {
     public constructor(name: string, TimeManager : TimeManager, StartConfig : ConfigManager, financeManager : FinanceManager) {
         this._name = name;
         this._fans = StartConfig.fans;
-        this._ticketprice = StartConfig.ticketprice;
+        this._ticketPrice = StartConfig.ticketprice;
         this._timeManager = TimeManager;
         this._financeManager = financeManager;
     }
@@ -36,8 +36,8 @@ class Cinema {
         return this._fans;
     }
 
-    get ticketprice(): number {
-        return this._ticketprice;
+    get ticketPrice(): number {
+        return this._ticketPrice;
     }
 
     get rooms(): Array<Room> {
