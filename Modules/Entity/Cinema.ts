@@ -2,6 +2,9 @@
 import {FinanceManager} from "../Manager/FinanceManager";
 import {TimeManager} from "../Manager/TimeManager";
 import {ConfigManager} from "../Manager/ConfigManager";
+import {Loan} from "./Loan";
+import {LoanException} from "../Exception/LoanException";
+import {LoanTaken} from "./LoanTaken";
 
 class Room {}
 class Movie {}
@@ -19,6 +22,8 @@ class Cinema {
 
     private _timeManager : TimeManager;
     private _financeManager: FinanceManager;
+
+    private _loans: Map<number, LoanTaken> = new Map<number, LoanTaken>();
 
     public constructor(name: string, TimeManager : TimeManager, StartConfig : ConfigManager, financeManager : FinanceManager) {
         this._name = name;
@@ -65,6 +70,10 @@ class Cinema {
         this.financeManager.earn(1, 'ticket sale');
 
         this.timeManager.updateTime();
+    }
+
+    get loans(): Map<number, LoanTaken> {
+        return this._loans;
     }
 }
 

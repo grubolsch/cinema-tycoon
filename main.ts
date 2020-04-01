@@ -10,6 +10,8 @@ import {NewspaperCampaignType} from "./Modules/MarketingCampaignTypes/NewspaperC
 import {RadioCampaignType} from "./Modules/MarketingCampaignTypes/RadioCampaignType";
 import {TvCampaignType} from "./Modules/MarketingCampaignTypes/TvCampaignType";
 import {InternetCampaignType} from "./Modules/MarketingCampaignTypes/InternetCampaignType";
+import {LoanManager} from "./Modules/Manager/LoanManager";
+import {RenderLoans} from "./Modules/Render/RenderLoans";
 
 function init() {
 
@@ -36,7 +38,6 @@ function init() {
         }());
 
     }());
-
 }
 
 function newMarketingCampaign(type: string) {
@@ -64,35 +65,50 @@ function newMarketingCampaign(type: string) {
 
 const observer = new Observer;
 const configManager = new ConfigManager;
+const loanManager = new LoanManager;
 
 document.addEventListener('DOMContentLoaded', () => {
     // temporary code, this should come from a save or a "create new game" menu
-
     init();
 
     let cinema = new Cinema("Our own Cinema", new TimeManager(observer), configManager, new FinanceManager(configManager));
 
     //Object responsible for rendering changes in state
-    let render = new Render;
+    let render = new Render(cinema);
+    render.addRender(new RenderLoans(cinema, loanManager));
+    render.render();
 
     //the main loop that makes the game has a flow of time
     setInterval(() => {
         for (let i = 0; render.speed > i; i++) {
             cinema.update();
         }
-        render.render(cinema);
+        render.render();
     }, 1000);
 
-    //example code
-    observer.subscribe('hour', function () {
-        console.log('the hour changed!');
+    //observers
+
+    observer.subscribe('month', function() {
+        loanManager.update(cinema);
     });
-    //end example code
+    //end observers code
 
     //control the speed buttons
     document.querySelectorAll('img.speed').forEach((element) => {
         element.addEventListener('click', (e) => {
-            render.speed = e.target!.dataset.ticks;
+            // @ts-ignore
+            render.speed = e.target.dataset.ticks;
         });
     });
+
+    //create the debug bar
+    document.querySelectorAll('div#debugBar button.trigger-event').forEach((element) => {
+        element.addEventListener('click', (e) => {
+            // @ts-ignore
+            observer.trigger(e.target.getAttribute('rel'), [cinema.timeManager]);
+        });
+    });
+
+    // trigger-event btn btn-secondary" rel="hour
+
 });
