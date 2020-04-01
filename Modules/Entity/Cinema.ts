@@ -4,21 +4,20 @@ import {TimeManager} from "../Manager/TimeManager";
 import {ConfigManager} from "../Manager/ConfigManager";
 import {MarketingCampaign} from "./MarketingCampaign";
 import {MarketingManager} from "../Manager/MarketingManager";
+import {Loan} from "./Loan";
+import {LoanException} from "../Exception/LoanException";
+import {LoanTaken} from "./LoanTaken";
+import {BootManager} from "../Manager/BootManager";
 
-class Room {
-}
-
-class Movie {
-}
-
-class Customer {
-}
+class Room {}
+class Movie {}
+class Customer {}
 
 //end temp code
 
 class Cinema {
-    private _name: string;
-    private _fans: number;
+    private _name : string ;
+    private _fans : number;
     private _ticketPrice: number;
 
     private _rooms: Array<Room> = [];
@@ -27,6 +26,9 @@ class Cinema {
 
     private _timeManager: TimeManager;
     private _financeManager: FinanceManager;
+    private _bootManager: BootManager;
+
+    private _loans: Map<number, LoanTaken> = new Map<number, LoanTaken>();
     private _marketingManager: MarketingManager;
 
     private _activeMarketingCampaign: MarketingCampaign | null = null;
@@ -39,6 +41,8 @@ class Cinema {
         this._timeManager = TimeManager;
         this._financeManager = financeManager;
         this._marketingManager = marketingmanager;
+
+        this._bootManager = new BootManager(this);
     }
 
     get name(): string {
@@ -71,6 +75,10 @@ class Cinema {
 
     get financeManager(): FinanceManager {
         return this._financeManager;
+    }
+
+    get bootManager(): BootManager {
+        return this._bootManager;
     }
 
     get activeMarketingCampaign(): MarketingCampaign | null {
@@ -112,10 +120,13 @@ class Cinema {
     }
 
     public update() {
-        //temporary code to show the ticket price going up once per tick
-        this.financeManager.earn(1, 'ticket sale');
+        this.bootManager.update();
 
         this.timeManager.updateTime();
+    }
+
+    get loans(): Map<number, LoanTaken> {
+        return this._loans;
     }
 }
 
