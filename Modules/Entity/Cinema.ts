@@ -6,10 +6,10 @@ import {Loan} from "./Loan";
 import {LoanException} from "../Exception/LoanException";
 import {LoanTaken} from "./LoanTaken";
 import {BootManager} from "../Manager/BootManager";
+import {Customer} from "./Customer";
 
 class Room {}
 class Movie {}
-class Customer {}
 //end temp code
 
 class Cinema {
@@ -77,6 +77,7 @@ class Cinema {
         this.bootManager.update();
 
         this.timeManager.updateTime();
+
     }
 
     get loans(): Map<number, LoanTaken> {

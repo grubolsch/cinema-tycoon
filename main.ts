@@ -3,6 +3,7 @@ import {Observer} from "./Modules/Manager/Observer";
 import {ConfigManager} from "./Modules/Manager/ConfigManager";
 import {TimeManager} from "./Modules/Manager/TimeManager";
 import {Cinema} from "./Modules/Entity/Cinema";
+import {CustomerGenerator} from "./Modules/Generator/CustomerGenerator";
 import {Render} from "./Modules/Render/Render";
 import {FinanceManager} from "./Modules/Manager/FinanceManager";
 import {FlyersCampaignType} from "./Modules/MarketingCampaignTypes/FlyersCampaignType";
@@ -65,6 +66,7 @@ function newMarketingCampaign(type: string) {
     console.log(campaign!.type);
 }
 
+
 const observer = new Observer;
 const configManager = new ConfigManager;
 const loanManager = new LoanManager;
@@ -121,6 +123,17 @@ document.addEventListener('DOMContentLoaded', () => {
             render.speed = e.target.dataset.ticks;
         });
     });
+
+    let customerGenerater = new CustomerGenerator(configManager);
+
+    //adding customers
+    let btnCustomer = document.createElement('button');
+    btnCustomer.innerText = 'Generating Customer Test';
+    btnCustomer.addEventListener('click', () =>{
+        let customer = customerGenerater.createCustomer();
+        cinema.customers.push(customer)
+    });
+    document.body.appendChild(btnCustomer);
 
     //create the debug bar
     document.querySelectorAll('div#debugBar button.trigger-event').forEach((element) => {
