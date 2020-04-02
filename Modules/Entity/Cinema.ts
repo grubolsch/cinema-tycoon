@@ -1,4 +1,3 @@
-// some temporary classes just for type hinting
 import {FinanceManager} from "../Manager/FinanceManager";
 import {TimeManager} from "../Manager/TimeManager";
 import {ConfigManager} from "../Manager/ConfigManager";
@@ -9,6 +8,7 @@ import {LoanException} from "../Exception/LoanException";
 import {LoanTaken} from "./LoanTaken";
 import {BootManager} from "../Manager/BootManager";
 
+// some temporary classes just for type hinting
 class Room {}
 class Movie {}
 class Customer {}
@@ -27,12 +27,9 @@ class Cinema {
     private _timeManager: TimeManager;
     private _financeManager: FinanceManager;
     private _bootManager: BootManager;
-
-    private _loans: Map<number, LoanTaken> = new Map<number, LoanTaken>();
     private _marketingManager: MarketingManager;
 
-    private _activeMarketingCampaign: MarketingCampaign | null = null;
-    private _activeMarketingRemainingDuration: number | null = null;
+    private _loans: Map<number, LoanTaken> = new Map<number, LoanTaken>();
 
     public constructor(name: string, TimeManager: TimeManager, StartConfig: ConfigManager, financeManager: FinanceManager, marketingmanager: MarketingManager) {
         this._name = name;
@@ -81,44 +78,6 @@ class Cinema {
         return this._bootManager;
     }
 
-    get activeMarketingCampaign(): MarketingCampaign | null {
-        return this._activeMarketingCampaign;
-    }
-
-    set activeMarketingCampaign(value: MarketingCampaign | null) {
-        this._activeMarketingCampaign = value;
-        if (value !== null) {
-            this.activeMarketingRemainingDuration = value.type.duration;
-        }
-    }
-
-    get activeMarketingRemainingDuration(): number | null {
-        return this._activeMarketingRemainingDuration;
-    }
-
-    set activeMarketingRemainingDuration(value: number | null) {
-        this._activeMarketingRemainingDuration = value;
-    }
-
-    public updateMarketingDuration() {
-
-        if (this.activeMarketingCampaign !== null) {
-            if (this.activeMarketingRemainingDuration !== null && this.activeMarketingRemainingDuration > 0) {
-                this.activeMarketingRemainingDuration--;
-                if (this.activeMarketingRemainingDuration === 0) {
-                    this.activeMarketingRemainingDuration = null;
-                    this.activeMarketingCampaign = null;
-                    console.error('Your marketing campaign has expired');
-                }
-            }
-        }
-
-        if (this.activeMarketingCampaign && this.activeMarketingRemainingDuration && this.activeMarketingRemainingDuration > 0) {
-            console.log(this.activeMarketingCampaign);
-            console.log(this.activeMarketingRemainingDuration);
-        }
-    }
-
     public update() {
         this.bootManager.update();
 
@@ -127,6 +86,10 @@ class Cinema {
 
     get loans(): Map<number, LoanTaken> {
         return this._loans;
+    }
+
+    get marketingManager(): MarketingManager {
+        return this._marketingManager;
     }
 }
 
