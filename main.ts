@@ -99,11 +99,13 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     });
 
+    let customerGenerater = new CustomerGenerator(configManager);
+
     //adding customers
     let btnCustomer = document.createElement('button');
     btnCustomer.innerText = 'Generating Customer Test';
     btnCustomer.addEventListener('click', () =>{
-        let customer = new CustomerGenerator().createCustomer();
+        let customer = customerGenerater.createCustomer();
         cinema.customers.push(customer)
     });
     document.body.appendChild(btnCustomer);

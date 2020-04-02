@@ -66,17 +66,8 @@ class Cinema {
 
         this.timeManager.updateTime();
 
-        console.log(this.customers.length);
-
-        //temporary code to show the queueing tolerance going down once per tick
-        if(this.customers.length != 0){
-            (this._customers).forEach(function(customer){
-                customer.lowerQueueingTolerance()
-            });
-        }
-
-
     }
+
 }
 
 export { Cinema };

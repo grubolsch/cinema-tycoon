@@ -1,10 +1,3 @@
-import * as faker from 'faker';
-import {TimeManager} from "../Manager/TimeManager";
-
-const GENDER = ['Female','male'];
-const MIN_AGE = 18;
-const MAX_AGE = 80;
-
 class Customer {
     private _name: string;
     private _age: number;
@@ -17,17 +10,18 @@ class Customer {
     private _pricingToleranceShop: number;
     private _pricingToleranceTicket: number;
 
-    constructor() {
-        this._gender = faker.random.arrayElement(GENDER);
-        this._name = faker.name.firstName(GENDER.indexOf(this._gender)) + " " + faker.name.lastName(GENDER.indexOf(this._gender));
-        this._age = faker.random.number({min:MIN_AGE, max:MAX_AGE});
-        this._likeCommercial = faker.random.boolean();
-        this._commercialTolerance = 0.2;
-        this._likeBreak = faker.random.boolean();
-        this._breakTolerance = 0.2;
-        this._queueingTolerance = faker.random.number({min:100, max:1000});
-        this._pricingToleranceShop = faker.random.number({min:12, max:25})/10;
-        this._pricingToleranceTicket = faker.random.number({min:12, max:25})/10;
+
+    constructor(name: string, age: number, gender: string, likeCommercial: boolean, commercialTolerance: number, likeBreak: boolean, breakTolerance: number, queueingTolerance: number, pricingToleranceShop: number, pricingToleranceTicket: number) {
+        this._name = name;
+        this._age = age;
+        this._gender = gender;
+        this._likeCommercial = likeCommercial;
+        this._commercialTolerance = commercialTolerance;
+        this._likeBreak = likeBreak;
+        this._breakTolerance = breakTolerance;
+        this._queueingTolerance = queueingTolerance;
+        this._pricingToleranceShop = pricingToleranceShop;
+        this._pricingToleranceTicket = pricingToleranceTicket;
     }
 
     get name(): String {
@@ -67,7 +61,9 @@ class Customer {
     }
 
     public lowerQueueingTolerance(): void {
-        this.queueingTolerance--;
+        while(this._queueingTolerance >= 0){
+            this.queueingTolerance--;
+         }
         //temp to check
         console.log(this.name + "'s queueingTolerance : " + this.queueingTolerance)
     }
