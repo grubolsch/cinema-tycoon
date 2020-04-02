@@ -15,8 +15,12 @@ import {LoanManager} from "./Modules/Manager/LoanManager";
 import {RenderLoans} from "./Modules/Render/RenderLoans";
 import {RenderBoots} from "./Modules/Render/RenderBoots";
 import {Customer} from "./Modules/Entity/Customer";
+import {MovieGenerator} from "./Modules/Generator/MovieGenerator";
+import {Movie} from "./Modules/Entity/Movie";
 
 function init() {
+    generateMovie();
+
 
     (function bindButtons() {
 
@@ -66,6 +70,15 @@ function newMarketingCampaign(type: string) {
     console.log(campaign!.type);
 }
 
+function generateMovie() {
+    let manyMovies: Array<Movie> = [];
+    for (let i = 0; i < 10; i++){
+        manyMovies[i] = MovieGenerator.newMovie();
+    }
+    console.log(manyMovies);
+}
+
+init();
 
 const observer = new Observer;
 const configManager = new ConfigManager;
