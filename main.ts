@@ -121,17 +121,6 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     });
 
-
-
-    //adding customers
-    let btnCustomer = document.createElement('button');
-    btnCustomer.innerText = 'Generating Customer Test';
-    btnCustomer.addEventListener('click', () =>{
-        let customer = customerGenerater.createCustomer();
-        cinema.customers.push(customer)
-    });
-    document.body.appendChild(btnCustomer);
-
     //create the debug bar
     document.querySelectorAll('div#debugBar button.trigger-event').forEach((element) => {
         element.addEventListener('click', (e) => {
