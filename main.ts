@@ -104,17 +104,14 @@ document.addEventListener('DOMContentLoaded', () => {
 
     //tmp code to simulate some vistors joining the cinema
 
+    let customerGenerater = new CustomerGenerator(configManager);
     setInterval(function() {
-        let customer = new Customer;
+        let customer = customerGenerater.createCustomer();
         cinema.bootManager.addCustomer(customer);
-        console.info('customer created');
+        console.info('customer created '+ customer.name);
     }, 1000);
 
     //end test data
-
-
-
-
 
     //control the speed buttons
     document.querySelectorAll('img.speed').forEach((element) => {
@@ -123,17 +120,6 @@ document.addEventListener('DOMContentLoaded', () => {
             render.speed = e.target.dataset.ticks;
         });
     });
-
-    let customerGenerater = new CustomerGenerator(configManager);
-
-    //adding customers
-    let btnCustomer = document.createElement('button');
-    btnCustomer.innerText = 'Generating Customer Test';
-    btnCustomer.addEventListener('click', () =>{
-        let customer = customerGenerater.createCustomer();
-        cinema.customers.push(customer)
-    });
-    document.body.appendChild(btnCustomer);
 
     //create the debug bar
     document.querySelectorAll('div#debugBar button.trigger-event').forEach((element) => {

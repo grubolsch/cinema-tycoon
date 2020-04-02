@@ -29,13 +29,8 @@ class CustomerGenerator {
         return customer;
     }
 
-
     constructor(configManager: ConfigManager) {
         this.configManager = configManager;
-
-
-
-
     }
 }
 
