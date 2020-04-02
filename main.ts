@@ -3,7 +3,6 @@ import {Observer} from "./Modules/Manager/Observer";
 import {ConfigManager} from "./Modules/Manager/ConfigManager";
 import {TimeManager} from "./Modules/Manager/TimeManager";
 import {Cinema} from "./Modules/Entity/Cinema";
-import {Customer} from "./Modules/Entity/Customer";
 import {CustomerGenerator} from "./Modules/Generator/CustomerGenerator";
 import {Render} from "./Modules/Render/Render";
 import {FinanceManager} from "./Modules/Manager/FinanceManager";
@@ -12,9 +11,12 @@ import {NewspaperCampaignType} from "./Modules/MarketingCampaignTypes/NewspaperC
 import {RadioCampaignType} from "./Modules/MarketingCampaignTypes/RadioCampaignType";
 import {TvCampaignType} from "./Modules/MarketingCampaignTypes/TvCampaignType";
 import {InternetCampaignType} from "./Modules/MarketingCampaignTypes/InternetCampaignType";
+import {LoanManager} from "./Modules/Manager/LoanManager";
+import {RenderLoans} from "./Modules/Render/RenderLoans";
+import {RenderBoots} from "./Modules/Render/RenderBoots";
+import {Customer} from "./Modules/Entity/Customer";
 
 function init() {
-
 
     (function bindButtons() {
 
@@ -67,35 +69,58 @@ function newMarketingCampaign(type: string) {
 
 const observer = new Observer;
 const configManager = new ConfigManager;
+const loanManager = new LoanManager;
+
 
 document.addEventListener('DOMContentLoaded', () => {
     // temporary code, this should come from a save or a "create new game" menu
-
     init();
 
     let cinema = new Cinema("Our own Cinema", new TimeManager(observer), configManager, new FinanceManager(configManager));
 
     //Object responsible for rendering changes in state
-    let render = new Render;
+    let render = new Render(cinema);
+    render.addRender(new RenderLoans(cinema, loanManager));
+    render.addRender(new RenderBoots(cinema));
+    render.render();
 
     //the main loop that makes the game has a flow of time
     setInterval(() => {
         for (let i = 0; render.speed > i; i++) {
             cinema.update();
         }
-        render.render(cinema);
+        render.render();
     }, 1000);
 
-    //example code
-    observer.subscribe('hour', function () {
-        console.log('the hour changed!');
+    //observers
+    observer.subscribe('month', function() {
+        loanManager.update(cinema);
     });
-    //end example code
+
+    observer.subscribe('hour', function() {
+        cinema.bootManager.payHourCost();
+    });
+    //end observers code
+
+    //tmp code to simulate some vistors joining the cinema
+
+    setInterval(function() {
+        let customer = new Customer;
+        cinema.bootManager.addCustomer(customer);
+        console.info('customer created');
+    }, 1000);
+
+    //end test data
+
+
+
+
 
     //control the speed buttons
     document.querySelectorAll('img.speed').forEach((element) => {
         element.addEventListener('click', (e) => {
-            render.speed = e.target!.dataset.ticks;
+            // @ts-ignore
+            render.speed = e.target.dataset.ticks;
         });
     });
 
@@ -109,4 +134,15 @@ document.addEventListener('DOMContentLoaded', () => {
         cinema.customers.push(customer)
     });
     document.body.appendChild(btnCustomer);
+
+    //create the debug bar
+    document.querySelectorAll('div#debugBar button.trigger-event').forEach((element) => {
+        element.addEventListener('click', (e) => {
+            // @ts-ignore
+            observer.trigger(e.target.getAttribute('rel'), [cinema.timeManager]);
+        });
+    });
+
+    // trigger-event btn btn-secondary" rel="hour
+
 });

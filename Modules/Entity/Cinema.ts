@@ -2,6 +2,10 @@
 import {FinanceManager} from "../Manager/FinanceManager";
 import {TimeManager} from "../Manager/TimeManager";
 import {ConfigManager} from "../Manager/ConfigManager";
+import {Loan} from "./Loan";
+import {LoanException} from "../Exception/LoanException";
+import {LoanTaken} from "./LoanTaken";
+import {BootManager} from "../Manager/BootManager";
 import {Customer} from "./Customer";
 
 class Room {}
@@ -11,7 +15,7 @@ class Movie {}
 class Cinema {
     private _name : string ;
     private _fans : number;
-    private _ticketprice: number;
+    private _ticketPrice: number;
 
     private _rooms : Array<Room> = [];
     private _movies : Array<Movie> = [];
@@ -19,13 +23,18 @@ class Cinema {
 
     private _timeManager : TimeManager;
     private _financeManager: FinanceManager;
+    private _bootManager: BootManager;
+
+    private _loans: Map<number, LoanTaken> = new Map<number, LoanTaken>();
 
     public constructor(name: string, TimeManager : TimeManager, StartConfig : ConfigManager, financeManager : FinanceManager) {
         this._name = name;
         this._fans = StartConfig.fans;
-        this._ticketprice = StartConfig.ticketprice;
+        this._ticketPrice = StartConfig.ticketprice;
         this._timeManager = TimeManager;
         this._financeManager = financeManager;
+
+        this._bootManager = new BootManager(this);
     }
 
     get name(): string {
@@ -36,8 +45,8 @@ class Cinema {
         return this._fans;
     }
 
-    get ticketprice(): number {
-        return this._ticketprice;
+    get ticketPrice(): number {
+        return this._ticketPrice;
     }
 
     get rooms(): Array<Room> {
@@ -60,14 +69,20 @@ class Cinema {
         return this._financeManager;
     }
 
+    get bootManager(): BootManager {
+        return this._bootManager;
+    }
+
     public update() {
-        //temporary code to show the ticket price going up once per tick
-        this.financeManager.earn(1, 'ticket sale');
+        this.bootManager.update();
 
         this.timeManager.updateTime();
 
     }
 
+    get loans(): Map<number, LoanTaken> {
+        return this._loans;
+    }
 }
 
 export { Cinema };

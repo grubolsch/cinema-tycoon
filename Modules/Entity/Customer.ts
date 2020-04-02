@@ -1,3 +1,6 @@
+import {CustomerThought} from "./CustomerThought";
+import {randomNumber} from "../Utils";
+
 class Customer {
     private _name: string;
     private _age: number;
@@ -9,6 +12,9 @@ class Customer {
     private _queueingTolerance: number;
     private _pricingToleranceShop: number;
     private _pricingToleranceTicket: number;
+
+    private _thoughts: Array<CustomerThought> = [];
+    private _moneySpent : number = 0;
 
 
     constructor(name: string, age: number, gender: string, likeCommercial: boolean, commercialTolerance: number, likeBreak: boolean, breakTolerance: number, queueingTolerance: number, pricingToleranceShop: number, pricingToleranceTicket: number) {
@@ -75,6 +81,24 @@ class Customer {
     get pricingToleranceTicket(): number {
         return this._pricingToleranceTicket;
     }
+
+    addThought(thought: CustomerThought) {
+        this._thoughts.push(thought);
+    }
+
+    get thoughts(): Array<CustomerThought> {
+        return this._thoughts;
+    }
+
+    //while the customer has unlimited money, we do track how much money he has spent in the cinema
+    pay(ticketPrice: number) {
+        this._moneySpent += ticketPrice;
+    }
+
+    get moneySpent(): number {
+        return this._moneySpent;
+    }
+
 
     //Testing purpose (temp)
     printCustomerInformation() {

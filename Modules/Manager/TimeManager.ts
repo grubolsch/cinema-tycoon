@@ -92,6 +92,8 @@ class TimeManager {
             this.observer.trigger('year', [TimeManager]);
         }
 
+        // document.addEventListener
+
         this._minute = newMinute;
         this._hour = newHour;
         this._day = newDay;

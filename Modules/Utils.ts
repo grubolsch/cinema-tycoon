@@ -86,4 +86,12 @@ function currency(number : number) : string {
     return '&euro; ' + number_format(number, 2, ',', '.');
 }
 
-export { number_format, currency };
+
+function randomNumber(min : number, max  : number) : number {
+    min = Math.ceil(min);
+    max = Math.floor(max);
+    return Math.floor(Math.random() * (max - min + 1)) + min;
+}
+
+export { number_format, currency, randomNumber };
+
