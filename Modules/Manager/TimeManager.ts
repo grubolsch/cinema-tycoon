@@ -8,7 +8,7 @@ class TimeManager {
     //CONFIG
     private readonly TICKS_IN_MIN : number = 30;// the base speed
 
-    private readonly  MINS_IN_HOURS = 60;
+    public static readonly MINS_IN_HOURS = 60;
     private readonly  HOURS_IN_DAYS = 24;
     private readonly  DAYS_IN_MONTH = 4;
     private readonly  WEEKS_IN_MONTH = 4;
@@ -41,33 +41,31 @@ class TimeManager {
 
         let tmpTicks = this.ticks;
 
-        let calc = this.MINS_IN_HOURS * this.HOURS_IN_DAYS * this.DAYS_IN_MONTH * this.WEEKS_IN_MONTH * this.MONTHS_IN_YEAR;
+        let calc = TimeManager.MINS_IN_HOURS * this.HOURS_IN_DAYS * this.DAYS_IN_MONTH * this.WEEKS_IN_MONTH * this.MONTHS_IN_YEAR;
         let newYear = this.fixNumber(tmpTicks / calc);
         if(newYear) {
             tmpTicks -= newYear * calc;
         }
 
-//23040 = month
-
-        calc = this.MINS_IN_HOURS * this.HOURS_IN_DAYS * this.DAYS_IN_MONTH * this.WEEKS_IN_MONTH;
+        calc = TimeManager.MINS_IN_HOURS * this.HOURS_IN_DAYS * this.DAYS_IN_MONTH * this.WEEKS_IN_MONTH;
         let newMonth = this.fixNumber(tmpTicks / calc);
         if(newMonth) {
             tmpTicks -= newMonth * calc;
         }
 
-        calc = this.MINS_IN_HOURS * this.HOURS_IN_DAYS * this.DAYS_IN_MONTH;
+        calc = TimeManager.MINS_IN_HOURS * this.HOURS_IN_DAYS * this.DAYS_IN_MONTH;
         let newWeek = this.fixNumber(tmpTicks / calc);
         if(newWeek) {
             tmpTicks -= newWeek * calc;
         }
 
-        calc = this.MINS_IN_HOURS * this.HOURS_IN_DAYS ;
+        calc = TimeManager.MINS_IN_HOURS * this.HOURS_IN_DAYS ;
         let newDay = this.fixNumber(tmpTicks / calc);
         if(newDay) {
             tmpTicks -= newDay * calc;
         }
 
-        calc = this.MINS_IN_HOURS;
+        calc = TimeManager.MINS_IN_HOURS;
         let newHour = this.fixNumber(tmpTicks / calc);
         if(newHour) {
             tmpTicks -= newHour * calc;

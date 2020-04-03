@@ -102,7 +102,7 @@ class Customer {
 
     //Testing purpose (temp)
     printCustomerInformation() {
-        console.log(this._name + ", " +
+        console.info(this._name + ", " +
             this._gender + ", " +
             this._age + " / " +
             this._likeBreak + ", " +

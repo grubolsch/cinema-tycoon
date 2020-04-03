@@ -43,7 +43,7 @@
             <button rel="research" class="btn btn-primary top-menu">Research</button>
         </td>
         <td>
-            <button rel="schedule" class="btn btn-primary top-menu">Schedule</button>
+            <button rel="schedule" class="btn btn-primary top-menu" data-toggle="modal" data-target="#scheduleModal">Schedule</button>
         </td>
         <td>
             <button rel="advertising" class="btn btn-primary top-menu" data-toggle="modal" data-target="#advertisingModal">Advertising</button>
@@ -69,8 +69,6 @@
         </td>
     </tr>
 </table>
-
-
 
 <!-- Advertising Modal -->
 <div class="modal fade" id="advertisingModal" tabindex="-1" role="dialog" aria-labelledby="ModalCenterTitle"
@@ -99,7 +97,7 @@
 <!-- /Advertising Modal -->
 
 
-<!-- Advertising Modal -->
+<!-- loan Modal -->
 <div class="modal fade" id="loansModal" tabindex="-1" role="dialog" aria-labelledby="ModalCenterTitle"
      aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered" role="document">
@@ -135,7 +133,72 @@
         </div>
     </div>
 </div>
-<!-- /Advertising Modal -->
+<!-- /loan Modal -->
+
+<!-- Schedule Modal -->
+<div class="modal fade" id="scheduleModal" tabindex="-1" role="dialog" aria-labelledby="ModalCenterTitle"
+     aria-hidden="true">
+    <div class="modal-dialog modal-lg" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Scheduler</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <p>Change the planning of your movies.</p>
+
+                <form id="schedule-planner">
+                    <select name="movie" id="schedule-planner-movies"></select>
+
+                    <label>
+                        <input type="checkbox" id="schedule-planner-commercial" />
+                        Show 15 minute of commercials before the movie starts
+                    </label>
+                    <label>
+                        <input type="checkbox" id="schedule-planner-break" />
+                        Have a 15 minute break
+                    </label>
+
+                    <p>Drag the movie in the scheduler</p>
+                </form>
+
+                <span id="schedule-movie-dragger" draggable="true"></span>
+
+                <table id="schedule-table"></table>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- /Schedule Modal -->
+
+<style>
+    #schedule-table {
+        overflow: scroll;
+        table-layout: fixed;
+        width: 600px;
+    }
+
+    #schedule-table td, #schedule-table th {
+        width: 30px;
+        border-left: 1px gray dotted;
+    }
+
+    #schedule-movie-dragger {
+        background-color: black;
+        color: white;
+        height: 30px;
+        display: inline-block;
+        cursor: grabbing;
+        overflow: hidden;
+        text-align: center;
+    }
+</style>
+
 
 <div id="debugBar" style="display: none;">
     <h1>Debug bar</h1>

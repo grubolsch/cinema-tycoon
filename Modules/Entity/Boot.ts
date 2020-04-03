@@ -66,7 +66,9 @@ class Boot {
         if(++this._ticketSaleProgress === this._speed) {
             let customerInQueue = this.customers.shift();
 
-            this.buyTicket(customerInQueue.customer);
+            if(customerInQueue !== undefined) {
+                this.buyTicket(customerInQueue.customer);
+            }
 
             this._ticketSaleProgress = 0;
         }

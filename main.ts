@@ -17,6 +17,13 @@ import {RenderBoots} from "./Modules/Render/RenderBoots";
 import {Customer} from "./Modules/Entity/Customer";
 import {MovieGenerator} from "./Modules/Generator/MovieGenerator";
 import {Movie} from "./Modules/Entity/Movie";
+import {Room} from "./Modules/Entity/Room";
+import {Scheduler} from "./Modules/Entity/Scheduler";
+import {Show} from "./Modules/Entity/Show";
+import {MovieType} from "./Modules/MovieTypes/MovieType";
+import {TimePoint} from "./Modules/Entity/TimePoint";
+import {RenderScheduler} from "./Modules/Render/RenderScheduler";
+import {RenderSchedulerForm} from "./Modules/Render/RenderSchedulerForm";
 
 function init() {
     generateMovie();
@@ -78,8 +85,6 @@ function generateMovie() {
     console.log(manyMovies);
 }
 
-init();
-
 const observer = new Observer;
 const configManager = new ConfigManager;
 const loanManager = new LoanManager;
@@ -87,14 +92,61 @@ const loanManager = new LoanManager;
 
 document.addEventListener('DOMContentLoaded', () => {
     // temporary code, this should come from a save or a "create new game" menu
-    init();
+    //          init();
 
     let cinema = new Cinema("Our own Cinema", new TimeManager(observer), configManager, new FinanceManager(configManager));
+
+
+
+
+    let movie : Movie = new Movie('test movie', 7, 'fantasy', MovieType.isGeneric(), 60);
+    cinema.addMovie(movie);
+
+    let room = new Room("koen room");
+    cinema.addRoom(room);
+
+    let show1 = new Show(room, movie, new TimePoint(9, 0), false, false);
+    let show2 = new Show(room, movie, new TimePoint(11, 0), false, false);
+    let show3 = new Show(room, movie, new TimePoint(13, 0), false, false);
+
+    console.log(show1.duration, show1.start, show1.end);
+
+    let schedule = new Scheduler(cinema);
+
+    console.log(schedule.plan(show1));
+    console.log(schedule.plan(show2));
+    console.log(schedule.plan(show3));
+
+    console.log(schedule.getShowsByRoom(room));
+
+
+
+
+
+
+/*
+    table.querySelectorAll('td.drop-enabled').forEach(function(element) {
+        element.addEventListener('dragover', function(event) {
+            console.log(event);
+            const isLink = event.dataTransfer.types.includes("text/plain");
+
+
+            event.preventDefault();
+        });
+
+        element.addEventListener('drop', function(event) {
+            alert('release');
+            event.preventDefault();
+        });
+    });
+*/
 
     //Object responsible for rendering changes in state
     let render = new Render(cinema);
     render.addRender(new RenderLoans(cinema, loanManager));
     render.addRender(new RenderBoots(cinema));
+    render.addRender(new RenderScheduler(cinema));
+    render.addRender(new RenderSchedulerForm(cinema));
     render.render();
 
     //the main loop that makes the game has a flow of time
@@ -121,7 +173,7 @@ document.addEventListener('DOMContentLoaded', () => {
     setInterval(function() {
         let customer = customerGenerater.createCustomer();
         cinema.bootManager.addCustomer(customer);
-        console.info('customer created '+ customer.name);
+//        console.info('customer created '+ customer.name);
     }, 1000);
 
     //end test data

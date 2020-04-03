@@ -2,14 +2,13 @@
 import {FinanceManager} from "../Manager/FinanceManager";
 import {TimeManager} from "../Manager/TimeManager";
 import {ConfigManager} from "../Manager/ConfigManager";
-import {Loan} from "./Loan";
-import {LoanException} from "../Exception/LoanException";
 import {LoanTaken} from "./LoanTaken";
 import {BootManager} from "../Manager/BootManager";
 import {Customer} from "./Customer";
+import {Room} from "./Room";
+import {Movie} from "./Movie";
+import {Scheduler} from "./Scheduler";
 
-class Room {}
-class Movie {}
 //end temp code
 
 class Cinema {
@@ -17,13 +16,14 @@ class Cinema {
     private _fans : number;
     private _ticketPrice: number;
 
-    private _rooms : Array<Room> = [];
-    private _movies : Array<Movie> = [];
+    private _rooms : Map<number, Room> = new Map<number, Room>();
+    private _movies : Map<number, Movie> = new Map<number, Movie>();
     private _customers : Array<Customer> = [];
 
     private _timeManager : TimeManager;
     private _financeManager: FinanceManager;
     private _bootManager: BootManager;
+    private _scheduler: Scheduler;
 
     private _loans: Map<number, LoanTaken> = new Map<number, LoanTaken>();
 
@@ -35,6 +35,7 @@ class Cinema {
         this._financeManager = financeManager;
 
         this._bootManager = new BootManager(this);
+        this._scheduler = new Scheduler(this);
     }
 
     get name(): string {
@@ -48,15 +49,6 @@ class Cinema {
     get ticketPrice(): number {
         return this._ticketPrice;
     }
-
-    get rooms(): Array<Room> {
-        return this._rooms;
-    }
-
-    get movies(): Array<Movie> {
-        return this._movies;
-    }
-
     get customers(): Array<Customer> {
         return this._customers;
     }
@@ -73,15 +65,42 @@ class Cinema {
         return this._bootManager;
     }
 
+    get scheduler(): Scheduler {
+        return this._scheduler;
+    }
+
     public update() {
         this.bootManager.update();
 
         this.timeManager.updateTime();
-
     }
 
     get loans(): Map<number, LoanTaken> {
         return this._loans;
+    }
+
+    get rooms(): Map<number, Room> {
+        return this._rooms;
+    }
+
+    addRoom(room: Room) {
+        this._rooms.set(room.id, room);
+    }
+
+    findRoom(id: number) : Room|undefined {
+        return this._rooms.get(id);
+    }
+
+    get movies(): Map<number, Movie> {
+        return this._movies;
+    }
+
+    addMovie(movie: Movie) {
+        this._movies.set(movie.id, movie);
+    }
+
+    findMovie(id: number) : Movie|undefined {
+        return this._movies.get(id);
     }
 }
 
