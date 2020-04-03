@@ -1,10 +1,9 @@
 import {MarketingCampaign} from "./Modules/MarketingCampaign";
-import {MovieGenerator} from "./Modules/Generator/MovieGenerator";
-import {Movie} from "./Modules/Entity/Movie";
 import {Observer} from "./Modules/Manager/Observer";
 import {ConfigManager} from "./Modules/Manager/ConfigManager";
 import {TimeManager} from "./Modules/Manager/TimeManager";
 import {Cinema} from "./Modules/Entity/Cinema";
+import {CustomerGenerator} from "./Modules/Generator/CustomerGenerator";
 import {Render} from "./Modules/Render/Render";
 import {FinanceManager} from "./Modules/Manager/FinanceManager";
 import {FlyersCampaignType} from "./Modules/MarketingCampaignTypes/FlyersCampaignType";
@@ -14,8 +13,14 @@ import {TvCampaignType} from "./Modules/MarketingCampaignTypes/TvCampaignType";
 import {InternetCampaignType} from "./Modules/MarketingCampaignTypes/InternetCampaignType";
 import {LoanManager} from "./Modules/Manager/LoanManager";
 import {RenderLoans} from "./Modules/Render/RenderLoans";
+import {RenderBoots} from "./Modules/Render/RenderBoots";
+import {Customer} from "./Modules/Entity/Customer";
+import {MovieGenerator} from "./Modules/Generator/MovieGenerator";
+import {Movie} from "./Modules/Entity/Movie";
 
 function init() {
+    generateMovie();
+
 
     (function bindButtons() {
 
@@ -73,9 +78,12 @@ function generateMovie() {
     console.log(manyMovies);
 }
 
+init();
+
 const observer = new Observer;
 const configManager = new ConfigManager;
 const loanManager = new LoanManager;
+
 
 document.addEventListener('DOMContentLoaded', () => {
     // temporary code, this should come from a save or a "create new game" menu
@@ -86,6 +94,7 @@ document.addEventListener('DOMContentLoaded', () => {
     //Object responsible for rendering changes in state
     let render = new Render(cinema);
     render.addRender(new RenderLoans(cinema, loanManager));
+    render.addRender(new RenderBoots(cinema));
     render.render();
 
     //the main loop that makes the game has a flow of time
@@ -97,11 +106,25 @@ document.addEventListener('DOMContentLoaded', () => {
     }, 1000);
 
     //observers
-
     observer.subscribe('month', function() {
         loanManager.update(cinema);
     });
+
+    observer.subscribe('hour', function() {
+        cinema.bootManager.payHourCost();
+    });
     //end observers code
+
+    //tmp code to simulate some vistors joining the cinema
+
+    let customerGenerater = new CustomerGenerator(configManager);
+    setInterval(function() {
+        let customer = customerGenerater.createCustomer();
+        cinema.bootManager.addCustomer(customer);
+        console.info('customer created '+ customer.name);
+    }, 1000);
+
+    //end test data
 
     //control the speed buttons
     document.querySelectorAll('img.speed').forEach((element) => {
