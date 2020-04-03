@@ -34,7 +34,9 @@ class MovieGenerator {
     }
 
     protected static genreGenerator(): string{
-        let randomIndex: number = Math.floor(Math.random() * 10);
+        let allGenres = Genres;
+        let count = Object.keys(allGenres).length;
+        let randomIndex: number = Math.floor(Math.random() * count);
         return  Genres["genres"][randomIndex]["genre"];
     }
 }
