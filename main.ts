@@ -2,6 +2,7 @@ import {Observer} from "./Modules/Manager/Observer";
 import {ConfigManager} from "./Modules/Manager/ConfigManager";
 import {TimeManager} from "./Modules/Manager/TimeManager";
 import {Cinema} from "./Modules/Entity/Cinema";
+import {CustomerGenerator} from "./Modules/Generator/CustomerGenerator";
 import {Render} from "./Modules/Render/Render";
 import {FinanceManager} from "./Modules/Manager/FinanceManager";
 import {MarketingManager} from "./Modules/Manager/MarketingManager";
@@ -10,6 +11,22 @@ import {RenderLoans} from "./Modules/Render/RenderLoans";
 import {RenderBoots} from "./Modules/Render/RenderBoots";
 import {RenderMarketing} from "./Modules/Render/RenderMarketing";
 import {Customer} from "./Modules/Entity/Customer";
+import {MovieGenerator} from "./Modules/Generator/MovieGenerator";
+import {Movie} from "./Modules/Entity/Movie";
+
+function init() {
+    generateMovie();
+}
+
+function generateMovie() {
+    let manyMovies: Array<Movie> = [];
+    for (let i = 0; i < 10; i++){
+        manyMovies[i] = MovieGenerator.newMovie();
+    }
+    console.log(manyMovies);
+}
+
+init();
 
 const observer = new Observer;
 const configManager = new ConfigManager;
@@ -17,6 +34,7 @@ const loanManager = new LoanManager;
 
 document.addEventListener('DOMContentLoaded', () => {
     // temporary code, this should come from a save or a "create new game" menu
+    init();
 
     let cinema = new Cinema("Our own Cinema", new TimeManager(observer), configManager, new FinanceManager(configManager), new MarketingManager());
 
@@ -61,10 +79,11 @@ document.addEventListener('DOMContentLoaded', () => {
 
     //tmp code to simulate some vistors joining the cinema
 
+    let customerGenerater = new CustomerGenerator(configManager);
     setInterval(function() {
-        let customer = new Customer;
+        let customer = customerGenerater.createCustomer();
         cinema.bootManager.addCustomer(customer);
-        console.info('customer created');
+        console.info('customer created '+ customer.name);
     }, 1000);
 
     //end test data

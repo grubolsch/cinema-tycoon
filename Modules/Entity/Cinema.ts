@@ -7,12 +7,10 @@ import {Loan} from "./Loan";
 import {LoanException} from "../Exception/LoanException";
 import {LoanTaken} from "./LoanTaken";
 import {BootManager} from "../Manager/BootManager";
+import {Customer} from "./Customer";
 
-// some temporary classes just for type hinting
 class Room {}
 class Movie {}
-class Customer {}
-
 //end temp code
 
 class Cinema {

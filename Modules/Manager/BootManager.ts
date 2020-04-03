@@ -14,14 +14,18 @@ class BootManager {
     }
 
     addCustomer(customer: Customer) {
-        var i = 0;
-
         //sort until I have the shortest queue
-        this._boots.sort(function (a, b): number {
-            return a.customers.length > b.customers.length ? 1 : 0;
+
+        let boots : Array<Boot> = [];
+        boots = Object.assign(boots, this._boots);
+
+        boots.sort(function (a, b): number {
+            console.log(a.customers.length, b.customers.length);
+
+            return a.customers.length >= b.customers.length ? 1 : -1;
         });
 
-        this._boots[0].addCustomer(customer);
+        boots[0].addCustomer(customer);
     }
 
     update() {
