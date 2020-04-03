@@ -2,18 +2,20 @@ import {MarketingCampaignType} from "../MarketingCampaignTypes/MarketingCampaign
 
 class MarketingCampaign {
 
-    private _type: MarketingCampaignType;
+    readonly _type: MarketingCampaignType;
+    readonly _duration : number;
 
-    constructor(type: MarketingCampaignType) {
+    constructor(type: MarketingCampaignType, duration : number) {
         this._type = type;
+        this._duration = duration;
     }
 
     get type(): MarketingCampaignType {
         return this._type;
     }
 
-    set type(value: MarketingCampaignType) {
-        this._type = value;
+    get duration(): number {
+        return this._duration;
     }
 }
 

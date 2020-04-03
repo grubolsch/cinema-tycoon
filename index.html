@@ -46,10 +46,13 @@
             <button rel="schedule" class="btn btn-primary top-menu">Schedule</button>
         </td>
         <td>
-            <button rel="advertising" class="btn btn-primary top-menu" data-toggle="modal" data-target="#advertisingModal">Advertising</button>
+            <button rel="advertising" class="btn btn-primary top-menu" data-toggle="modal"
+                    data-target="#advertisingModal">Advertising
+            </button>
         </td>
         <td>
-            <button rel="loans" class="btn btn-primary top-menu"  data-toggle="modal" data-target="#loansModal">Loans</button>
+            <button rel="loans" class="btn btn-primary top-menu" data-toggle="modal" data-target="#loansModal">Loans
+            </button>
         </td>
         <td>
             <button rel="tickets" class="btn btn-primary top-menu">Tickets</button>
@@ -71,7 +74,6 @@
 </table>
 
 
-
 <!-- Advertising Modal -->
 <div class="modal fade" id="advertisingModal" tabindex="-1" role="dialog" aria-labelledby="ModalCenterTitle"
      aria-hidden="true">
@@ -84,12 +86,30 @@
                 </button>
             </div>
             <div class="modal-body">
-                <button class="btn btn-primary" data-dismiss="modal" id="FlyersCampaign">Flyers</button>
-                <button class="btn btn-primary" data-dismiss="modal" id="NewspaperCampaign">Newspapers</button>
-                <button class="btn btn-primary" data-dismiss="modal" id="RadioCampaign">Radio</button>
-                <button class="btn btn-primary" data-dismiss="modal" id="TVCampaign">TV</button>
-                <button class="btn btn-primary" data-dismiss="modal" id="InternetCampaign">Internet</button>
+                <div class="form-group">
+                    <div class="radio">
+                        <label><input type="radio" name="optMarketing" value="Flyers" checked>Flyers</label>
+                    </div>
+                    <div class="radio">
+                        <label><input type="radio" name="optMarketing" value="Newspaper">Newspapers</label>
+                    </div>
+                    <div class="radio">
+                        <label><input type="radio" name="optMarketing" value="Radio">Radio</label>
+                    </div>
+                    <div class="radio">
+                        <label><input type="radio" name="optMarketing" value="TV">TV</label>
+                    </div>
+                    <div class="radio">
+                        <label><input type="radio" name="optMarketing" value="Internet">Internet</label>
+                    </div>
+                    <hr>
+                    <label for="marketingDurationRange">Choose duration: <span id="MarketingDurationPreview"></span></label>
+                    <input type="range" class="form-control-range" value="1" min="1" max="12" id="marketingDurationRange">
+                    <hr>
+                    <button type="submit" data-dismiss="modal" class="btn btn-success" id="marketingSubmit">Confirm</button>
+                </div>
             </div>
+
             <div class="modal-footer">
                 <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
             </div>
