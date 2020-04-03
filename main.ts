@@ -14,9 +14,9 @@ import {InternetCampaignType} from "./Modules/MarketingCampaignTypes/InternetCam
 import {LoanManager} from "./Modules/Manager/LoanManager";
 import {RenderLoans} from "./Modules/Render/RenderLoans";
 import {RenderBoots} from "./Modules/Render/RenderBoots";
-import {Customer} from "./Modules/Entity/Customer";
 import {MovieGenerator} from "./Modules/Generator/MovieGenerator";
 import {Movie} from "./Modules/Entity/Movie";
+import {RenderResearch} from "./Modules/Render/RenderResearch";
 
 function init() {
     generateMovie();
@@ -78,8 +78,6 @@ function generateMovie() {
     console.log(manyMovies);
 }
 
-init();
-
 const observer = new Observer;
 const configManager = new ConfigManager;
 const loanManager = new LoanManager;
@@ -95,6 +93,7 @@ document.addEventListener('DOMContentLoaded', () => {
     let render = new Render(cinema);
     render.addRender(new RenderLoans(cinema, loanManager));
     render.addRender(new RenderBoots(cinema));
+    render.addRender(new RenderResearch(cinema));
     render.render();
 
     //the main loop that makes the game has a flow of time
@@ -112,6 +111,10 @@ document.addEventListener('DOMContentLoaded', () => {
 
     observer.subscribe('hour', function() {
         cinema.bootManager.payHourCost();
+    });
+
+    observer.subscribe('month', function() {
+        cinema.researchManager.update();
     });
     //end observers code
 
