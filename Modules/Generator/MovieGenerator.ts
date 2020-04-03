@@ -1,6 +1,7 @@
 import {Movie} from "../Entity/Movie";
 import {MovieType} from "../MovieTypes/MovieType";
 import Genres  from  "../Assets/Genres.json";
+import {randomNumber} from "../Utils";
 
 class MovieGenerator {
     public static newMovie(): Movie {
@@ -36,9 +37,7 @@ class MovieGenerator {
 
     protected static genreGenerator(): string{
         let allGenres = Genres;
-        let count = Object.keys(allGenres).length;
-        let randomIndex: number = Math.floor(Math.random() * count);
-        return  Genres["genres"][randomIndex]["genre"];
+        return  Genres["genres"][randomNumber(0, Object.keys(allGenres).length-1)]["genre"];
     }
 }
 
