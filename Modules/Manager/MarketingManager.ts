@@ -5,15 +5,19 @@ import {NewspaperCampaignType} from "../MarketingCampaignTypes/NewspaperCampaign
 import {RadioCampaignType} from "../MarketingCampaignTypes/RadioCampaignType";
 import {TvCampaignType} from "../MarketingCampaignTypes/TvCampaignType";
 import {InternetCampaignType} from "../MarketingCampaignTypes/InternetCampaignType";
+import {CampaignTypeException} from "../Exception/CampaignTypeException";
 import {Cinema} from "../Entity/Cinema";
+
+const MAX_WEEKS = 12;
+const MIN_WEEKS = 1;
 
 class MarketingManager {
 
     private _activeMarketingCampaign: MarketingCampaign | null = null;
     private _activeMarketingRemainingDuration: number = 0;
 
-    public startCampaign(campaign : MarketingCampaign, cinema : Cinema): boolean {
-        if (cinema.financeManager.canAfford(campaign.type.cost * campaign.duration)){
+    public startCampaign(campaign: MarketingCampaign, cinema: Cinema): boolean {
+        if (cinema.financeManager.canAfford(campaign.type.cost * campaign.duration)) {
             cinema.financeManager.pay(campaign.type.cost * campaign.duration, 'Marketing Cost');
         } else {
             console.error('Not enough money!');
@@ -27,13 +31,11 @@ class MarketingManager {
     }
 
     public weeklyCampaignUpdate(): void {
-        if (this._activeMarketingCampaign !== null) {
-            if (this._activeMarketingRemainingDuration > 0) {
-                this._activeMarketingRemainingDuration--;
-                if (this._activeMarketingRemainingDuration === 0) {
-                    this._activeMarketingCampaign = null;
-                    console.info('Your marketing campaign has expired!');
-                }
+        if (this._activeMarketingCampaign !== null && this._activeMarketingRemainingDuration > 0) {
+            this._activeMarketingRemainingDuration--;
+            if (this._activeMarketingRemainingDuration === 0) {
+                this._activeMarketingCampaign = null;
+                console.info('Your marketing campaign has expired!');
             }
         }
     }
@@ -56,17 +58,19 @@ class MarketingManager {
             case 'Internet':
                 campaignType = new InternetCampaignType();
                 break;
+            default:
+                throw CampaignTypeException.noSuchType();
         }
 
-        return new MarketingCampaign(campaignType!, duration);
+        return new MarketingCampaign(campaignType, duration);
     }
 
-    public checkWeekRangeMinMaxValue(value : number){
-        if (value > 12){
-            return 12
+    public checkWeekRangeMinMaxValue(value: number): number {
+        if (value > MAX_WEEKS) {
+            return MAX_WEEKS
         }
-        if (value < 1){
-            return 1;
+        if (value < MIN_WEEKS) {
+            return MIN_WEEKS;
         }
         return value;
     }

@@ -20,10 +20,12 @@ class RenderMarketing implements RenderInterface {
 
     render(): void {
         if (this._cinema.marketingManager.activeMarketingCampaign !== null) {
-            document.getElementById('active_campaign')!.innerText = this._cinema.marketingManager.activeMarketingCampaign.type.name;
-            document.getElementById('duration_campaign')!.innerText = '| time left: ' + this._cinema.marketingManager.activeMarketingRemainingDuration + ' weeks';
+            (<HTMLElement>document.getElementById('active_campaign')).innerText = this._cinema.marketingManager.activeMarketingCampaign.type.name;
+            (<HTMLElement>document.getElementById('duration_campaign')).innerText = '| time left: ' + this._cinema.marketingManager.activeMarketingRemainingDuration + ' weeks';
         } else {
-            document.getElementById('active_campaign')!.innerText = 'No active campaign :)'
+            (<HTMLElement>document.getElementById('active_campaign')).innerText = 'No active campaign';
+            (<HTMLElement>document.getElementById('duration_campaign')).innerText = '';
+
         }
     }
 
@@ -37,47 +39,37 @@ class RenderMarketing implements RenderInterface {
         let optMarketing = document.getElementsByName('optMarketing');
         optMarketing.forEach(option => {
             option.addEventListener('input', () => {
-                // @ts-ignore
-                document.getElementById('MarketingDurationPreview')!.innerText = 1;
-                // @ts-ignore
-                document.getElementById('marketingDurationRange').value = 1
+                (<HTMLElement>document.getElementById('MarketingDurationPreview')).innerText = '1';
+                (<HTMLInputElement>document.getElementById('marketingDurationRange')).value = '1';
             })
         })
 
     }
 
     private submitMarketingChoice() {
-        // @ts-ignore
-        let rangeValue = document.getElementById('marketingDurationRange').value;
+        let rangeValue: number = parseInt((<HTMLInputElement>document.getElementById('marketingDurationRange')).value);
         rangeValue = this._cinema.marketingManager.checkWeekRangeMinMaxValue(rangeValue);
 
-        let optMarketing = document.getElementsByName('optMarketing');
-        let selectedOption: string = "";
-        optMarketing.forEach(option => {
-            // @ts-ignore
-            if (option.checked) {
-                // @ts-ignore
-                selectedOption = option.value;
-            }
+        let selectedOption : HTMLInputElement | undefined = (<HTMLInputElement[]>Array.from(document.getElementsByName('optMarketing'))).find((option) => {
+            return option.checked;
         });
+
         // @ts-ignore
-        if (TYPES[selectedOption] !== null) {
-            let campaign = this._cinema.marketingManager.createCampaign(selectedOption, rangeValue);
+        if (selectedOption !== undefined && TYPES[selectedOption.value] !== null) {
+            let campaign = this._cinema.marketingManager.createCampaign(selectedOption.value, rangeValue);
             this._cinema.marketingManager.startCampaign(campaign, this._cinema);
         }
     }
 
     private updateMarketingSlider(e: Event) {
-        let optMarketing = document.getElementsByName('optMarketing');
+        let optMarketing = (<HTMLInputElement[]>Array.from(document.getElementsByName('optMarketing')));
         let calculatedCost: number;
-        optMarketing.forEach(option => {
+        optMarketing.forEach((option:HTMLInputElement) => {
             let costPerWeek: number;
-            // @ts-ignore
             if (option.checked && option.dataset.cost) {
+                costPerWeek = parseInt(option.dataset.cost);
                 // @ts-ignore
-                costPerWeek = option.dataset.cost;
-                // @ts-ignore
-                calculatedCost = +e.target.value * costPerWeek;
+                calculatedCost = e.target.value * costPerWeek;
             }
             // @ts-ignore
             document.getElementById('MarketingDurationPreview')!.innerText = e.target.value + " -> cost: " + calculatedCost;

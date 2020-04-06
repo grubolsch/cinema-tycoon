@@ -26,8 +26,6 @@ function generateMovie() {
     console.log(manyMovies);
 }
 
-init();
-
 const observer = new Observer;
 const configManager = new ConfigManager;
 const loanManager = new LoanManager;
