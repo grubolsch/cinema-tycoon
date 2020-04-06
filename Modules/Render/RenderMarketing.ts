@@ -21,6 +21,7 @@ class RenderMarketing implements RenderInterface {
     render(): void {
         if (this._cinema.marketingManager.activeMarketingCampaign !== null) {
             document.getElementById('active_campaign')!.innerText = this._cinema.marketingManager.activeMarketingCampaign.type.name;
+            document.getElementById('duration_campaign')!.innerText = '| time left: ' + this._cinema.marketingManager.activeMarketingRemainingDuration + ' weeks';
         } else {
             document.getElementById('active_campaign')!.innerText = 'No active campaign :)'
         }
