@@ -14,65 +14,65 @@ class RenderMarketing implements RenderInterface {
 
     constructor(cinema: Cinema) {
         this._cinema = cinema;
-
         this.renderOneTime();
     }
 
+    readonly activeCampaignSpan = <HTMLElement>document.getElementById('active_campaign');
+    readonly durationCampaignSpan = <HTMLElement>document.getElementById('duration_campaign');
+    readonly durationPreview = <HTMLElement>document.getElementById('MarketingDurationPreview');
+    readonly durationRange = <HTMLElement>document.getElementById('marketingDurationRange');
+    readonly submitMarketingButton = <HTMLElement>document.getElementById('marketingSubmit');
+    readonly marketingTypeOptions = <HTMLInputElement[]>Array.from(document.getElementsByName('optMarketing'));
+
     render(): void {
         if (this._cinema.marketingManager.activeMarketingCampaign !== null) {
-            (<HTMLElement>document.getElementById('active_campaign')).innerText = this._cinema.marketingManager.activeMarketingCampaign.type.name;
-            (<HTMLElement>document.getElementById('duration_campaign')).innerText = '| time left: ' + this._cinema.marketingManager.activeMarketingRemainingDuration + ' weeks';
+            this.activeCampaignSpan.innerText = this._cinema.marketingManager.activeMarketingCampaign.type.name;
+            this.durationCampaignSpan.innerText = '| time left: ' + this._cinema.marketingManager.activeMarketingRemainingDuration + ' weeks';
         } else {
-            (<HTMLElement>document.getElementById('active_campaign')).innerText = 'No active campaign';
-            (<HTMLElement>document.getElementById('duration_campaign')).innerText = '';
-
+            this.activeCampaignSpan.innerText = 'No active campaign';
+            this.durationCampaignSpan.innerText = '';
         }
     }
 
     public renderOneTime() {
-        document.getElementById('marketingDurationRange')!.addEventListener('input', (e) => {
+        this.durationRange.addEventListener('input', (e: Event) => {
             this.updateMarketingSlider(e);
         });
-        document.getElementById('marketingSubmit')!.addEventListener('click', () => {
+        this.submitMarketingButton.addEventListener('click', () => {
             this.submitMarketingChoice();
         });
         let optMarketing = document.getElementsByName('optMarketing');
         optMarketing.forEach(option => {
             option.addEventListener('input', () => {
-                (<HTMLElement>document.getElementById('MarketingDurationPreview')).innerText = '1';
-                (<HTMLInputElement>document.getElementById('marketingDurationRange')).value = '1';
+                this.durationPreview.innerText = '1';
+                (<HTMLInputElement>this.durationRange).value = '1';
             })
         })
-
     }
 
     private submitMarketingChoice() {
-        let rangeValue: number = parseInt((<HTMLInputElement>document.getElementById('marketingDurationRange')).value);
+        let rangeValue: number = parseInt((<HTMLInputElement>this.durationRange).value);
         rangeValue = this._cinema.marketingManager.checkWeekRangeMinMaxValue(rangeValue);
 
-        let selectedOption : HTMLInputElement | undefined = (<HTMLInputElement[]>Array.from(document.getElementsByName('optMarketing'))).find((option) => {
-            return option.checked;
+        let selectedOption: HTMLInputElement | undefined = this.marketingTypeOptions.find((element: HTMLInputElement) => {
+            return element.checked;
         });
 
-        // @ts-ignore
-        if (selectedOption !== undefined && TYPES[selectedOption.value] !== null) {
+        if (selectedOption !== undefined && selectedOption.value !== typeof TYPES) {
             let campaign = this._cinema.marketingManager.createCampaign(selectedOption.value, rangeValue);
             this._cinema.marketingManager.startCampaign(campaign, this._cinema);
         }
     }
 
     private updateMarketingSlider(e: Event) {
-        let optMarketing = (<HTMLInputElement[]>Array.from(document.getElementsByName('optMarketing')));
         let calculatedCost: number;
-        optMarketing.forEach((option:HTMLInputElement) => {
+        this.marketingTypeOptions.forEach((option: HTMLInputElement) => {
             let costPerWeek: number;
             if (option.checked && option.dataset.cost) {
                 costPerWeek = parseInt(option.dataset.cost);
-                // @ts-ignore
-                calculatedCost = e.target.value * costPerWeek;
+                calculatedCost = parseInt((<HTMLInputElement>e.target).value) * costPerWeek;
             }
-            // @ts-ignore
-            document.getElementById('MarketingDurationPreview')!.innerText = e.target.value + " -> cost: " + calculatedCost;
+            this.durationPreview.innerText = (<HTMLInputElement>e.target).value + " -> cost: " + calculatedCost;
         });
     }
 }
