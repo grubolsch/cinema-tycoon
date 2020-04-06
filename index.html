@@ -18,7 +18,7 @@
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"
             integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl"
             crossorigin="anonymous"></script>
-    <!--<link href="css/layout.sass" rel="stylesheet" type="text/css" />-->
+    <link href="css/layout.scss" rel="stylesheet" type="text/css" />
 
     <script>
         function showDebug() {
@@ -46,10 +46,13 @@
             <button rel="schedule" class="btn btn-primary top-menu">Schedule</button>
         </td>
         <td>
-            <button rel="advertising" class="btn btn-primary top-menu" data-toggle="modal" data-target="#advertisingModal">Advertising</button>
+            <button rel="advertising" class="btn btn-primary top-menu" data-toggle="modal"
+                    data-target="#advertisingModal">Advertising
+            </button>
         </td>
         <td>
-            <button rel="loans" class="btn btn-primary top-menu"  data-toggle="modal" data-target="#loansModal">Loans</button>
+            <button rel="loans" class="btn btn-primary top-menu" data-toggle="modal" data-target="#loansModal">Loans
+            </button>
         </td>
         <td>
             <button rel="tickets" class="btn btn-primary top-menu">Tickets</button>
@@ -71,25 +74,48 @@
 </table>
 
 
-
 <!-- Advertising Modal -->
 <div class="modal fade" id="advertisingModal" tabindex="-1" role="dialog" aria-labelledby="ModalCenterTitle"
      aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered" role="document">
         <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title" id="exampleModalLongTitle">Modal title</h5>
+                <h5 class="modal-title" id="advertisingModalTitle">Choose an advertising channel</h5>
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                     <span aria-hidden="true">&times;</span>
                 </button>
             </div>
             <div class="modal-body">
-                <button class="btn btn-primary" id="FlyersCampaign">Flyers</button>
-                <button class="btn btn-primary" id="NewspaperCampaign">Newspapers</button>
-                <button class="btn btn-primary" id="RadioCampaign">Radio</button>
-                <button class="btn btn-primary" id="TVCampaign">TV</button>
-                <button class="btn btn-primary" id="InternetCampaign">Internet</button>
+                <div class="form-group">
+                    <div class="radio">
+                        <label><input type="radio" name="optMarketing" data-cost="50" value="Flyers"
+                                      checked>Flyers</label>
+                    </div>
+                    <div class="radio">
+                        <label><input type="radio" name="optMarketing" data-cost="250"
+                                      value="Newspaper">Newspapers</label>
+                    </div>
+                    <div class="radio">
+                        <label><input type="radio" name="optMarketing" data-cost="500" value="Radio">Radio</label>
+                    </div>
+                    <div class="radio">
+                        <label><input type="radio" name="optMarketing" data-cost="1000" value="TV">TV</label>
+                    </div>
+                    <div class="radio">
+                        <label><input type="radio" name="optMarketing" data-cost="2000"
+                                      value="Internet">Internet</label>
+                    </div>
+                    <hr>
+                    <label for="marketingDurationRange">Choose duration: <span
+                            id="MarketingDurationPreview">1</span></label>
+                    <input type="range" class="form-control-range" value="1" min="1" max="12"
+                           id="marketingDurationRange">
+                    <hr>
+                    <button type="submit" data-dismiss="modal" class="btn btn-success" id="marketingSubmit">Confirm
+                    </button>
+                </div>
             </div>
+
             <div class="modal-footer">
                 <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
             </div>
@@ -156,6 +182,10 @@
     </template>
 
     <button class="btn btn-secondary" id="build-boot">Build boot</button>
+
+    <div>
+        <span id="active_campaign"></span> <span id="duration_campaign"></span><br/>
+    </div>
 </div>
 
 </body>
