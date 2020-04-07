@@ -8,10 +8,9 @@ import {LoanException} from "../Exception/LoanException";
 import {LoanTaken} from "./LoanTaken";
 import {BootManager} from "../Manager/BootManager";
 import {Customer} from "./Customer";
+import {Room} from "./Room";
+import {Movie} from "./Movie";
 
-class Room {}
-class Movie {}
-//end temp code
 
 class Cinema {
     private _name : string ;
