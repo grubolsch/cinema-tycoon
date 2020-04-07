@@ -1,12 +1,37 @@
 class ConfigManager {
-    private readonly _credit : number = 10000;
-    private readonly _ticketprice : number  = 10;
-    private readonly _fans : number  = 0;
+    private readonly _credit: number = 10000;
+    private readonly _ticketprice: number = 10;
+    private readonly _fans: number = 0;
 
     //Config customer
     private readonly _breakTolerance = 0.2;
     private readonly _commercialTolerance = 0.2;
 
+    //Room
+    private readonly _smallRoomMaintanaceCost = 100;
+    private readonly _mediumRoomMaintanaceCost = 150;
+    private readonly _largeRoomMaintanaceCost = 200;
+
+    private readonly _smallRoomRows = 5;
+    private readonly _mediumRoomRows = 7;
+    private readonly _largeRoomRoomRows = 9;
+
+    private readonly _seatsPerRow = 12;
+
+    private readonly _roomPrice = 20000;
+    private readonly _roomUpgradeCost = 10000;
+
+    private readonly _basicScreenQuality = 20;
+    private readonly _basicScreenDailyCost = 20;
+
+    private readonly _basicProjectorQuality = 20;
+    private readonly _basicProjectorDailyCost = 20;
+
+    private readonly _basicSoundQuality = 20;
+    private readonly _basicSoundDailyCost = 20;
+
+    private readonly _basicHeatingorQuality = 20;
+    private readonly _basicHeatingDailyCost = 20;
 
     get credit(): number {
         return this._credit;
@@ -27,6 +52,74 @@ class ConfigManager {
     get commercialTolerance(): number {
         return this._commercialTolerance;
     }
+
+    get smallRoomMaintanaceCost(): number {
+        return this._smallRoomMaintanaceCost;
+    }
+
+    get mediumRoomMaintanaceCost(): number {
+        return this._mediumRoomMaintanaceCost;
+    }
+
+    get largeRoomMaintanaceCost(): number {
+        return this._largeRoomMaintanaceCost;
+    }
+
+    get smallRoomRows(): number {
+        return this._smallRoomRows;
+    }
+
+    get mediumRoomRows(): number {
+        return this._mediumRoomRows;
+    }
+
+    get largeRoomRoomRows(): number {
+        return this._largeRoomRoomRows;
+    }
+
+    get seatsPerRow(): number {
+        return this._seatsPerRow;
+    }
+
+    get roomPrice(): number {
+        return this._roomPrice;
+    }
+
+    get roomUpgradeCost(): number {
+        return this._roomUpgradeCost;
+    }
+
+    get basicScreenQuality(): number {
+        return this._basicScreenQuality;
+    }
+
+    get basicScreenDailyCost(): number {
+        return this._basicScreenDailyCost;
+    }
+
+    get basicProjectorQuality(): number {
+        return this._basicProjectorQuality;
+    }
+
+    get basicProjectorDailyCost(): number {
+        return this._basicProjectorDailyCost;
+    }
+
+    get basicSoundQuality(): number {
+        return this._basicSoundQuality;
+    }
+
+    get basicSoundDailyCost(): number {
+        return this._basicSoundDailyCost;
+    }
+
+    get basicHeatingorQuality(): number {
+        return this._basicHeatingorQuality;
+    }
+
+    get basicHeatingDailyCost(): number {
+        return this._basicHeatingDailyCost;
+    }
 }
 
-export { ConfigManager };
+export {ConfigManager};
