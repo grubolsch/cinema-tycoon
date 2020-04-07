@@ -18,7 +18,7 @@
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"
             integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl"
             crossorigin="anonymous"></script>
-    <link href="css/layout.scss" rel="stylesheet" type="text/css" />
+    <link href="css/layout.scss" rel="stylesheet" type="text/css"/>
 
     <script>
         function showDebug() {
@@ -124,8 +124,29 @@
 </div>
 <!-- /Advertising Modal -->
 
+<!-- MoviePicker Modal -->
+<div class="modal fade" id="moviePickerModal" tabindex="-1" role="dialog" aria-labelledby="ModalCenterTitle"
+     aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
 
-<!-- Advertising Modal -->
+            </div>
+            <div class="modal-body">
+                <div class="form-group" id="moviePickerBody">
+
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- /MoviePicker Modal -->
+
+
+<!-- loans Modal -->
 <div class="modal fade" id="loansModal" tabindex="-1" role="dialog" aria-labelledby="ModalCenterTitle"
      aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered" role="document">
@@ -161,7 +182,7 @@
         </div>
     </div>
 </div>
-<!-- /Advertising Modal -->
+<!-- /loans Modal -->
 
 <div id="debugBar" style="display: none;">
     <h1>Debug bar</h1>

@@ -1,41 +1,44 @@
 import {FinanceManager} from "../Manager/FinanceManager";
 import {TimeManager} from "../Manager/TimeManager";
 import {ConfigManager} from "../Manager/ConfigManager";
-import {MarketingCampaign} from "./MarketingCampaign";
 import {MarketingManager} from "../Manager/MarketingManager";
-import {Loan} from "./Loan";
-import {LoanException} from "../Exception/LoanException";
 import {LoanTaken} from "./LoanTaken";
 import {BootManager} from "../Manager/BootManager";
 import {Customer} from "./Customer";
+import {MovieManager} from "../Manager/MovieManager";
 
 class Room {}
 class Movie {}
 //end temp code
 
 class Cinema {
-    private _name : string ;
-    private _fans : number;
-    private _ticketPrice: number;
 
+    // properties
+    readonly _name : string ;
+    readonly _fans : number;
+    readonly _ticketPrice: number;
+
+    // collections
     private _rooms: Array<Room> = [];
     private _movies: Array<Movie> = [];
     private _customers: Array<Customer> = [];
-
-    private _timeManager: TimeManager;
-    private _financeManager: FinanceManager;
-    private _bootManager: BootManager;
-    private _marketingManager: MarketingManager;
-
     private _loans: Map<number, LoanTaken> = new Map<number, LoanTaken>();
 
-    public constructor(name: string, TimeManager: TimeManager, StartConfig: ConfigManager, financeManager: FinanceManager, marketingmanager: MarketingManager) {
+    // managers
+    readonly _timeManager: TimeManager;
+    readonly _financeManager: FinanceManager;
+    readonly _bootManager: BootManager;
+    readonly _marketingManager: MarketingManager;
+    private readonly _movieManager: MovieManager;
+
+    public constructor(name: string, TimeManager: TimeManager, StartConfig: ConfigManager, financeManager: FinanceManager, marketingmanager: MarketingManager, movieManager: MovieManager) {
         this._name = name;
         this._fans = StartConfig.fans;
         this._ticketPrice = StartConfig.ticketprice;
         this._timeManager = TimeManager;
         this._financeManager = financeManager;
         this._marketingManager = marketingmanager;
+        this._movieManager = movieManager;
 
         this._bootManager = new BootManager(this);
     }
@@ -76,18 +79,22 @@ class Cinema {
         return this._bootManager;
     }
 
-    public update() {
-        this.bootManager.update();
-
-        this.timeManager.updateTime();
-    }
-
     get loans(): Map<number, LoanTaken> {
         return this._loans;
     }
 
     get marketingManager(): MarketingManager {
         return this._marketingManager;
+    }
+
+    get movieManager(): MovieManager {
+        return this._movieManager;
+    }
+
+    public update() {
+        this.bootManager.update();
+
+        this.timeManager.updateTime();
     }
 }
 

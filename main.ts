@@ -6,25 +6,12 @@ import {CustomerGenerator} from "./Modules/Generator/CustomerGenerator";
 import {Render} from "./Modules/Render/Render";
 import {FinanceManager} from "./Modules/Manager/FinanceManager";
 import {MarketingManager} from "./Modules/Manager/MarketingManager";
+import {MovieManager} from "./Modules/Manager/MovieManager";
 import {LoanManager} from "./Modules/Manager/LoanManager";
 import {RenderLoans} from "./Modules/Render/RenderLoans";
 import {RenderBoots} from "./Modules/Render/RenderBoots";
 import {RenderMarketing} from "./Modules/Render/RenderMarketing";
-import {Customer} from "./Modules/Entity/Customer";
-import {MovieGenerator} from "./Modules/Generator/MovieGenerator";
-import {Movie} from "./Modules/Entity/Movie";
-
-function init() {
-    generateMovie();
-}
-
-function generateMovie() {
-    let manyMovies: Array<Movie> = [];
-    for (let i = 0; i < 10; i++){
-        manyMovies[i] = MovieGenerator.newMovie();
-    }
-    console.log(manyMovies);
-}
+import {RenderMoviePicker} from "./Modules/Render/RenderMoviePicker";
 
 const observer = new Observer;
 const configManager = new ConfigManager;
@@ -32,9 +19,11 @@ const loanManager = new LoanManager;
 
 document.addEventListener('DOMContentLoaded', () => {
     // temporary code, this should come from a save or a "create new game" menu
-    init();
 
-    let cinema = new Cinema("Our own Cinema", new TimeManager(observer), configManager, new FinanceManager(configManager), new MarketingManager());
+    //@ts-ignore
+    showDebug();
+
+    let cinema = new Cinema("Our own Cinema", new TimeManager(observer), configManager, new FinanceManager(configManager), new MarketingManager(), new MovieManager());
 
     //Object responsible for rendering changes in state
     let render = new Render(cinema);
@@ -42,6 +31,8 @@ document.addEventListener('DOMContentLoaded', () => {
     render.addRender(new RenderBoots(cinema));
     render.addRender(new RenderMarketing(cinema));
     render.render();
+
+    let renderMoviePicker = new RenderMoviePicker(cinema);
 
     //the main loop that makes the game has a flow of time
     setInterval(() => {
@@ -64,6 +55,7 @@ document.addEventListener('DOMContentLoaded', () => {
     observer.subscribe('week', () => {
         console.log('A week has passed');
         cinema.marketingManager.weeklyCampaignUpdate();
+        renderMoviePicker.render();
     });
 
     observer.subscribe('month', () => {
@@ -76,7 +68,6 @@ document.addEventListener('DOMContentLoaded', () => {
     //end observers code
 
     //tmp code to simulate some vistors joining the cinema
-
     let customerGenerater = new CustomerGenerator(configManager);
     setInterval(function() {
         let customer = customerGenerater.createCustomer();
@@ -101,7 +92,4 @@ document.addEventListener('DOMContentLoaded', () => {
             observer.trigger(e.target.getAttribute('rel'), [cinema.timeManager]);
         });
     });
-
-    // trigger-event btn btn-secondary" rel="hour
-
 });
