@@ -12,6 +12,7 @@ import {RenderLoans} from "./Modules/Render/RenderLoans";
 import {RenderBoots} from "./Modules/Render/RenderBoots";
 import {RenderMarketing} from "./Modules/Render/RenderMarketing";
 import {RenderMoviePicker} from "./Modules/Render/RenderMoviePicker";
+import {RenderResearch} from "./Modules/Render/RenderResearch";
 
 const observer = new Observer;
 const configManager = new ConfigManager;
@@ -30,6 +31,7 @@ document.addEventListener('DOMContentLoaded', () => {
     render.addRender(new RenderLoans(cinema, loanManager));
     render.addRender(new RenderBoots(cinema));
     render.addRender(new RenderMarketing(cinema));
+    render.addRender(new RenderResearch(cinema));
     render.render();
 
     let renderMoviePicker = new RenderMoviePicker(cinema);
@@ -60,6 +62,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
     observer.subscribe('month', () => {
         loanManager.update(cinema);
+        cinema.researchManager.update();
     });
 
     observer.subscribe('year', () => {

@@ -5,11 +5,11 @@ import {MarketingManager} from "../Manager/MarketingManager";
 import {LoanTaken} from "./LoanTaken";
 import {BootManager} from "../Manager/BootManager";
 import {Customer} from "./Customer";
+import {ResearchManager} from "../Manager/ResearchManager";
+import {Movie} from "./Movie";
 import {MovieManager} from "../Manager/MovieManager";
 
-class Room {}
-class Movie {}
-//end temp code
+class Room {} // temp code
 
 class Cinema {
 
@@ -30,17 +30,22 @@ class Cinema {
     readonly _bootManager: BootManager;
     readonly _marketingManager: MarketingManager;
     private readonly _movieManager: MovieManager;
+    private _researchManager: ResearchManager;
 
-    public constructor(name: string, TimeManager: TimeManager, StartConfig: ConfigManager, financeManager: FinanceManager, marketingmanager: MarketingManager, movieManager: MovieManager) {
+    public constructor(name: string, TimeManager: TimeManager, config: ConfigManager, financeManager: FinanceManager, marketingmanager: MarketingManager, movieManager: MovieManager) {
         this._name = name;
-        this._fans = StartConfig.fans;
-        this._ticketPrice = StartConfig.ticketprice;
+        this._fans = config.fans;
+        this._ticketPrice = config.ticketprice;
         this._timeManager = TimeManager;
         this._financeManager = financeManager;
         this._marketingManager = marketingmanager;
         this._movieManager = movieManager;
 
         this._bootManager = new BootManager(this);
+        this._researchManager = new ResearchManager(this, config);
+
+        //@todo: remove tmp code when we have an actual room implementation
+        this.rooms.push(new Room());
     }
 
     get name(): string {
@@ -79,6 +84,10 @@ class Cinema {
         return this._bootManager;
     }
 
+    get researchManager(): ResearchManager {
+        return this._researchManager;
+    }
+
     get loans(): Map<number, LoanTaken> {
         return this._loans;
     }
@@ -95,6 +104,11 @@ class Cinema {
         this.bootManager.update();
 
         this.timeManager.updateTime();
+
+    }
+
+    get loans(): Map<number, LoanTaken> {
+        return this._loans;
     }
 }
 
