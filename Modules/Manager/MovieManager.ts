@@ -1,5 +1,6 @@
 import {Movie} from "../Entity/Movie";
 import {MovieGenerator} from "../Generator/MovieGenerator";
+import {Cinema} from "../Entity/Cinema";
 
 class MovieManager {
 
@@ -11,8 +12,14 @@ class MovieManager {
         return movies;
     }
 
-    generateThreeMovies(){
+    generateThreeMovies() : Movie[]{
         return MovieManager.generateMovies(3);
+    }
+
+    addMoviesToCinema(cinema : Cinema ,movies : Movie[]){
+        movies.forEach((movie) => {
+            cinema
+        })
     }
 }
 

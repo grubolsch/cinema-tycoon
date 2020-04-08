@@ -82,7 +82,6 @@ class RenderResearch implements RenderInterface {
 
     render(): void {
         this.progressBar.setAttribute('value', this._cinema.researchManager.getProgressPercentage().toString());
-        this.renderResearchGrid();
     }
 
     renderMonthly() : void {

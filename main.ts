@@ -56,8 +56,9 @@ document.addEventListener('DOMContentLoaded', () => {
 
     observer.subscribe('week', () => {
         console.log('A week has passed');
+
         cinema.marketingManager.weeklyCampaignUpdate();
-        renderMoviePicker.render();
+        renderMoviePicker.weeklyMoviePicker(render);
     });
 
     observer.subscribe('month', () => {

@@ -6,11 +6,14 @@ class Movie {
     private readonly _movieGenre: string;
     private readonly _movieType: MovieType;
 
+    private readonly _uniqueID: number;
+
     constructor(title: string, rating: number, genre: string, type: MovieType) {
         this._movieTitle = title;
         this._movieRating = rating;
         this._movieGenre = genre;
-        this._movieType = type
+        this._movieType = type;
+        this._uniqueID = Math.floor(Math.random() * 1000000000000000) // random, hopefully unique id
     }
 
     get movieTitle(): string {
@@ -27,6 +30,10 @@ class Movie {
 
     get movieType(): MovieType {
         return this._movieType;
+    }
+
+    get uniqueID(): number {
+        return this._uniqueID;
     }
 }
 export {Movie};
