@@ -13,6 +13,8 @@ import {RenderMarketing} from "./Modules/Render/RenderMarketing";
 import {Customer} from "./Modules/Entity/Customer";
 import {MovieGenerator} from "./Modules/Generator/MovieGenerator";
 import {Movie} from "./Modules/Entity/Movie";
+import {RenderResearch} from "./Modules/Render/RenderResearch";
+import {ResearchItem} from "./Modules/Entity/Research/ResearchItem";
 import {Room} from "./Modules/Entity/Room";
 import {Scheduler} from "./Modules/Entity/Scheduler";
 import {Show} from "./Modules/Entity/Show";
@@ -60,6 +62,7 @@ document.addEventListener('DOMContentLoaded', () => {
     render.addRender(new RenderBoots(cinema));
     render.addRender(new RenderScheduler(cinema));
     render.addRender(new RenderSchedulerForm(cinema));
+    render.addRender(new RenderResearch(cinema));
     render.addRender(new RenderMarketing(cinema));
     render.render();
 
@@ -72,44 +75,43 @@ document.addEventListener('DOMContentLoaded', () => {
     }, 1000);
 
     //observers
+    observer.subscribe(observer.MONTH, () => {
+        loanManager.update(cinema);
+        cinema.researchManager.update(observer);
+
+        render.renderByMonth();
+    });
+
+    observer.subscribe(observer.DAY, () => {
+        console.log('A day has passed');
+
+        render.renderByDay();
+    });
+
+    observer.subscribe(observer.HOUR, () => {
+
 
     observer.subscribe('halfHour', () => {
        render.renderByHalfHour();
     });
 
     observer.subscribe('hour', () => {
-        cinema.bootManager.payHourCost();
         console.log('An hour has passed');
+
+        cinema.bootManager.payHourCost();
+
+        render.renderByHour();
     });
 
-    observer.subscribe('day', () => {
-        console.log('A day has passed')
-    });
-
-    observer.subscribe('week', () => {
-        console.log('A week has passed');
-        cinema.marketingManager.weeklyCampaignUpdate();
-    });
-
-    observer.subscribe('month', () => {
-        loanManager.update(cinema);
-    });
-
-    observer.subscribe('year', () => {
+    observer.subscribe(observer.YEAR, () => {
         console.log('A year has passed');
     });
+
+    observer.subscribe(observer.RESEARCH_FINISHED, function(params: { research: ResearchItem; }) {
+        alert('You finished research on '+ params.research.name + '. Make sure you select a new technology to work on. \nStanding still is going backwards.');
+
+
     //end observers code
-
-    //tmp code to simulate some vistors joining the cinema
-
-    let customerGenerater = new CustomerGenerator(configManager);
-    setInterval(function() {
-        let customer = customerGenerater.createCustomer();
-        cinema.bootManager.addCustomer(customer);
-//        console.info('customer created '+ customer.name);
-    }, 1000);
-
-    //end test data
 
     //control the speed buttons
     document.querySelectorAll('img.speed').forEach((element) => {
@@ -126,6 +128,4 @@ document.addEventListener('DOMContentLoaded', () => {
             observer.trigger(e.target.getAttribute('rel'), [cinema.timeManager]);
         });
     });
-
-    // trigger-event btn btn-secondary" rel="hour
 });

@@ -1,3 +1,5 @@
+// @ts-nocheck
+
 function number_format (number, decimals, decPoint, thousandsSep) { // eslint-disable-line camelcase
                                                                                      //  discuss at: https://locutus.io/php/number_format/
                                                                                      // original by: Jonas Raoni Soares Silva (https://www.jsfromhell.com)
@@ -54,7 +56,7 @@ function number_format (number, decimals, decPoint, thousandsSep) { // eslint-di
     var prec = !isFinite(+decimals) ? 0 : Math.abs(decimals)
     var sep = (typeof thousandsSep === 'undefined') ? ',' : thousandsSep
     var dec = (typeof decPoint === 'undefined') ? '.' : decPoint
-    var s = ''
+    var s = '';
 
     var toFixedFix = function (n, prec) {
         if (('' + n).indexOf('e') === -1) {

@@ -75,26 +75,24 @@ class TimeManager {
 
         //lets see if some datecategory had a changed, let the observers know
         if(newMinute === (TimeManager.MINS_IN_HOURS/2)) {
-            this.observer.trigger('halfHour', [TimeManager]);
+            this.observer.trigger(this.observer.HALFHOUR, {'timeManager': TimeManager});
         }
         if(newHour != this._hour) {
-            this.observer.trigger('hour', [TimeManager]);
-            this.observer.trigger('halfHour', [TimeManager]);
+            this.observer.trigger(this.observer.HALFHOUR, {'timeManager': TimeManager});
+            this.observer.trigger(this.observer.HOUR, {'timeManager': TimeManager});
         }
         if(newDay != this._day) {
-            this.observer.trigger('day', [TimeManager]);
+            this.observer.trigger(this.observer.DAY, {'timeManager': TimeManager});
         }
         if(newWeek != this._week) {
-            this.observer.trigger('week', [TimeManager]);
+            this.observer.trigger(this.observer.WEEK, {'timeManager': TimeManager});
         }
         if(newMonth != this._month) {
-            this.observer.trigger('month', [TimeManager]);
+            this.observer.trigger(this.observer.MONTH, {'timeManager': TimeManager});
         }
         if(newYear != this._year) {
-            this.observer.trigger('year', [TimeManager]);
+            this.observer.trigger(this.observer.YEAR, {'timeManager': TimeManager});
         }
-
-        // document.addEventListener
 
         this._minute = newMinute;
         this._hour = newHour;
@@ -141,6 +139,11 @@ class TimeManager {
 
     get minute() : number  {
         return this._minute;
+    }
+
+    hasDatePassed(year: number, month: number) : boolean {
+        return ((this.year === year && this.month >= month)
+            || (this.year > year));
     }
 }
 

@@ -1,0 +1,233 @@
+{
+  "research": [
+    {
+      "id": 1,
+      "name": "flyers",
+      "category": "marketing",
+      "points": 500,
+      "availableFrom": [1,1980]
+    },
+    {
+      "id": 2,
+      "name": "newspaper",
+      "category": "marketing",
+      "points": 1000,
+      "availableFrom": [1,1981]
+    },
+    {
+      "id": 3,
+      "name": "Radio",
+      "category": "marketing",
+      "points": 1000,
+      "availableFrom": [1,1985]
+    },
+    {
+      "id": 4,
+      "name": "Tv",
+      "category": "marketing",
+      "points": 1000,
+      "availableFrom": [1,1990]
+    },
+    {
+      "id": 5,
+      "name": "Internet",
+      "category": "marketing",
+      "points": 1000,
+      "availableFrom": [1,1995]
+    },
+
+    {
+      "id": 6,
+      "name": "Train cashiers",
+      "category": "boots",
+      "points": 200,
+      "availableFrom": [1,1980]
+    },
+    {
+      "id": 7,
+      "name": "Cashiers with PC",
+      "category": "boots",
+      "points": 400,
+      "availableFrom": [1,1990]
+    },
+    {
+      "id": 8,
+      "name": "Self service boots",
+      "category": "boots",
+      "points": 1000,
+      "availableFrom": [1,1995]
+    },
+
+    {
+      "id": 9,
+      "name": "Better screen I",
+      "category": "screens",
+      "points": 1000,
+      "availableFrom": [1,1980],
+      "popularity": 80,
+      "buildCost": 200,
+      "maintenanceCost": 20
+    },
+    {
+      "id": 10,
+      "name": "Better screen II",
+      "category": "screens",
+      "points": 1000,
+      "availableFrom": [1,1980],
+      "popularity": 90,
+      "buildCost": 400,
+      "maintenanceCost": 40
+    },
+    {
+      "id": 11,
+      "name": "Better screen III",
+      "category": "screens",
+      "points": 1000,
+      "availableFrom": [1,1980],
+      "popularity": 100,
+      "buildCost": 600,
+      "maintenanceCost": 60
+    },
+    {
+      "id": 12,
+      "name": "Better projector I",
+      "category": "projectors",
+      "points": 1000,
+      "availableFrom": [1,1980],
+      "popularity": 80,
+      "buildCost": 200,
+      "maintenanceCost": 20
+    },
+    {
+      "id": 13,
+      "name": "Better projector II",
+      "category": "projectors",
+      "points": 1000,
+      "availableFrom": [1,1980],
+      "popularity": 90,
+      "buildCost": 400,
+      "maintenanceCost": 40
+    },
+    {
+      "id": 14,
+      "name": "Better projector III",
+      "category": "projectors",
+      "points": 1000,
+      "availableFrom": [1,1980],
+      "popularity": 100,
+      "buildCost": 600,
+      "maintenanceCost": 60
+    },
+    {
+      "id": 15,
+      "name": "Better seat I",
+      "category": "seats",
+      "points": 1000,
+      "availableFrom": [1,1980],
+      "popularity": 80,
+      "buildCost": 200,
+      "maintenanceCost": 20
+    },
+    {
+      "id": 16,
+      "name": "Better seat II",
+      "category": "seats",
+      "points": 1000,
+      "availableFrom": [1,1980],
+      "popularity": 90,
+      "buildCost": 400,
+      "maintenanceCost": 40
+    },
+    {
+      "id": 17,
+      "name": "Better seat III",
+      "category": "seats",
+      "points": 1000,
+      "availableFrom": [1,1980],
+      "popularity": 100,
+      "buildCost": 600,
+      "maintenanceCost": 60
+    },
+    {
+      "id": 18,
+      "name": "Better sound I",
+      "category": "sound",
+      "points": 1000,
+      "availableFrom": [1,1980],
+      "popularity": 80,
+      "buildCost": 200,
+      "maintenanceCost": 20
+    },
+    {
+      "id": 19,
+      "name": "Better sound II",
+      "category": "sound",
+      "points": 1000,
+      "availableFrom": [1,1980],
+      "popularity": 90,
+      "buildCost": 400,
+      "maintenanceCost": 40
+    },
+    {
+      "id": 20,
+      "name": "Better sound III",
+      "category": "sound",
+      "points": 1000,
+      "availableFrom": [1,1980],
+      "popularity": 100,
+      "buildCost": 600,
+      "maintenanceCost": 60
+    },
+    {
+      "id": 21,
+      "name": "Better heating I",
+      "category": "heating",
+      "points": 1000,
+      "availableFrom": [1,1980],
+      "popularity": 80,
+      "buildCost": 200,
+      "maintenanceCost": 20
+    },
+    {
+      "id": 22,
+      "name": "Better heating II",
+      "category": "heating",
+      "points": 1000,
+      "availableFrom": [1,1980],
+      "popularity": 90,
+      "buildCost": 400,
+      "maintenanceCost": 40
+    },
+    {
+      "id": 23,
+      "name": "Better heating III",
+      "category": "heating",
+      "points": 1000,
+      "availableFrom": [1,1980],
+      "popularity": 100,
+      "buildCost": 600,
+      "maintenanceCost": 60
+    },
+    {
+      "id": 24,
+      "name": "2 extra rooms",
+      "category": "extra rooms",
+      "points": 5000,
+      "availableFrom": [1,1980]
+    },
+    {
+      "id": 25,
+      "name": "Medium room",
+      "category": "room size",
+      "points": 3000,
+      "availableFrom": [1,1980]
+    },
+    {
+      "id": 26,
+      "name": "Big room",
+      "category": "room size",
+      "points": 6000,
+      "availableFrom": [1,1980]
+    }
+  ]
+}
