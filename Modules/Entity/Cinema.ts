@@ -1,7 +1,10 @@
-// some temporary classes just for type hinting
 import {FinanceManager} from "../Manager/FinanceManager";
 import {TimeManager} from "../Manager/TimeManager";
 import {ConfigManager} from "../Manager/ConfigManager";
+import {MarketingCampaign} from "./MarketingCampaign";
+import {MarketingManager} from "../Manager/MarketingManager";
+import {Loan} from "./Loan";
+import {LoanException} from "../Exception/LoanException";
 import {LoanTaken} from "./LoanTaken";
 import {BootManager} from "../Manager/BootManager";
 import {Customer} from "./Customer";
@@ -20,19 +23,21 @@ class Cinema {
     private _movies : Map<number, Movie> = new Map<number, Movie>();
     private _customers : Array<Customer> = [];
 
-    private _timeManager : TimeManager;
+    private _timeManager: TimeManager;
     private _financeManager: FinanceManager;
     private _bootManager: BootManager;
+    private _marketingManager: MarketingManager;
     private _scheduler: Scheduler;
 
     private _loans: Map<number, LoanTaken> = new Map<number, LoanTaken>();
 
-    public constructor(name: string, TimeManager : TimeManager, StartConfig : ConfigManager, financeManager : FinanceManager) {
+    public constructor(name: string, TimeManager: TimeManager, StartConfig: ConfigManager, financeManager: FinanceManager, marketingmanager: MarketingManager) {
         this._name = name;
         this._fans = StartConfig.fans;
         this._ticketPrice = StartConfig.ticketprice;
         this._timeManager = TimeManager;
         this._financeManager = financeManager;
+        this._marketingManager = marketingmanager;
 
         this._bootManager = new BootManager(this);
         this._scheduler = new Scheduler(this);
@@ -79,6 +84,10 @@ class Cinema {
         return this._loans;
     }
 
+    get marketingManager(): MarketingManager {
+        return this._marketingManager;
+    }
+
     get rooms(): Map<number, Room> {
         return this._rooms;
     }
@@ -104,4 +113,4 @@ class Cinema {
     }
 }
 
-export { Cinema };
+export {Cinema};
