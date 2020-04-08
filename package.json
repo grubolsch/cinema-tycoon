@@ -26,6 +26,7 @@
     "typescript": "^3.8.3"
   },
   "dependencies": {
-    "@types/faker": "^4.1.11"
+    "@types/faker": "^4.1.11",
+    "css": "^2.2.4"
   }
 }
