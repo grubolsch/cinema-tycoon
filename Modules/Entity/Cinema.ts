@@ -14,23 +14,23 @@ class Room {} // temp code
 class Cinema {
 
     // properties
-    readonly _name : string ;
-    readonly _fans : number;
-    readonly _ticketPrice: number;
+    private readonly _name : string ;
+    private readonly _fans : number;
+    private readonly _ticketPrice: number;
 
     // collections
-    private _rooms: Array<Room> = [];
-    private _movies: Array<Movie> = [];
-    private _customers: Array<Customer> = [];
-    private _loans: Map<number, LoanTaken> = new Map<number, LoanTaken>();
+    private readonly _rooms: Array<Room> = [];
+    private readonly _movies: Array<Movie> = [];
+    private readonly _customers: Array<Customer> = [];
+    private readonly _loans: Map<number, LoanTaken> = new Map<number, LoanTaken>();
 
     // managers
-    readonly _timeManager: TimeManager;
-    readonly _financeManager: FinanceManager;
-    readonly _bootManager: BootManager;
-    readonly _marketingManager: MarketingManager;
+    private readonly _timeManager: TimeManager;
+    private readonly _financeManager: FinanceManager;
+    private readonly _bootManager: BootManager;
+    private readonly _marketingManager: MarketingManager;
     private readonly _movieManager: MovieManager;
-    private _researchManager: ResearchManager;
+    private readonly _researchManager: ResearchManager;
 
     public constructor(name: string, TimeManager: TimeManager, config: ConfigManager, financeManager: FinanceManager, marketingmanager: MarketingManager, movieManager: MovieManager) {
         this._name = name;
@@ -105,10 +105,6 @@ class Cinema {
 
         this.timeManager.updateTime();
 
-    }
-
-    get loans(): Map<number, LoanTaken> {
-        return this._loans;
     }
 }
 

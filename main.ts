@@ -2,7 +2,6 @@ import {Observer} from "./Modules/Manager/Observer";
 import {ConfigManager} from "./Modules/Manager/ConfigManager";
 import {TimeManager} from "./Modules/Manager/TimeManager";
 import {Cinema} from "./Modules/Entity/Cinema";
-import {CustomerGenerator} from "./Modules/Generator/CustomerGenerator";
 import {Render} from "./Modules/Render/Render";
 import {FinanceManager} from "./Modules/Manager/FinanceManager";
 import {MarketingManager} from "./Modules/Manager/MarketingManager";
@@ -10,14 +9,15 @@ import {LoanManager} from "./Modules/Manager/LoanManager";
 import {RenderLoans} from "./Modules/Render/RenderLoans";
 import {RenderBoots} from "./Modules/Render/RenderBoots";
 import {RenderMarketing} from "./Modules/Render/RenderMarketing";
-import {Customer} from "./Modules/Entity/Customer";
 import {MovieGenerator} from "./Modules/Generator/MovieGenerator";
 import {Movie} from "./Modules/Entity/Movie";
 import {RenderResearch} from "./Modules/Render/RenderResearch";
 import {ResearchItem} from "./Modules/Entity/Research/ResearchItem";
+import {MovieManager} from "./Modules/Manager/MovieManager";
 
 function init() {
     generateMovie();
+
 }
 
 function generateMovie() {
@@ -36,7 +36,7 @@ document.addEventListener('DOMContentLoaded', () => {
     // temporary code, this should come from a save or a "create new game" menu
     init();
 
-    let cinema = new Cinema("Our own Cinema", new TimeManager(observer), configManager, new FinanceManager(configManager), new MarketingManager());
+    let cinema = new Cinema("Our own Cinema", new TimeManager(observer), configManager, new FinanceManager(configManager), new MarketingManager(), new MovieManager());
 
     //Object responsible for rendering changes in state
     let render = new Render(cinema);
@@ -81,8 +81,8 @@ document.addEventListener('DOMContentLoaded', () => {
     });
 
     observer.subscribe(observer.RESEARCH_FINISHED, function(params: { research: ResearchItem; }) {
-        alert('You finished research on '+ params.research.name + '. Make sure you select a new technology to work on. \nStanding still is going backwards.');
-
+        alert('You finished research on ' + params.research.name + '. Make sure you select a new technology to work on. \nStanding still is going backwards.');
+    });
 
     //end observers code
 
