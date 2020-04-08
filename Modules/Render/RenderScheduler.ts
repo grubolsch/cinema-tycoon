@@ -14,7 +14,7 @@ import {TimeManager} from "../Manager/TimeManager";
  *  - Make the current hour column light up
  *  - Provide a delete button
  * */
-class RenderScheduler implements RenderInterface {
+class RenderScheduler implements RenderInterface, RenderByHourInterface {
     private readonly _cinema : Cinema;
     private _timePoints : Array<TimePoint> = [];
 
@@ -46,21 +46,14 @@ class RenderScheduler implements RenderInterface {
         } while(timeslot.hour <= this.END_HOUR);
     }
 
-    renderByHalfHour() : void {
-        let halfHour : number = TimeManager.MINS_IN_HOURS/2;
-        let timeTotal : number = this._cinema.timeManager.hour * TimeManager.MINS_IN_HOURS;
-        if(this._cinema.timeManager.minute > halfHour) {
-            //timeTotal += halfHour;
-        }
+    renderByHour() : void {
+        let timeTotal : number = (this._cinema.timeManager.hour+1) * TimeManager.MINS_IN_HOURS;
 
         this._table.querySelectorAll('td.active').forEach(function(element) {
             element.classList.remove('active');
         });
 
-        console.log(timeTotal, this._table.querySelectorAll('[data-timeslot="'+ timeTotal +'"]'));
         this._table.querySelectorAll('[data-timeslot="'+ timeTotal +'"]').forEach(function(element) {
-            console.log(element);
-
             element.classList.add('active');
         });
     }
@@ -76,6 +69,7 @@ class RenderScheduler implements RenderInterface {
         if(!this.shouldRender()) {
             return;
         }
+
         this.renderedWithMovies = this._cinema.movies.size;
         this.renderedWithRooms = this._cinema.rooms.size;
 
@@ -97,8 +91,8 @@ class RenderScheduler implements RenderInterface {
 
         //make the "movie dragger element" on top work
         this._movieDraggerElement.addEventListener('dragstart', function(event: DragEvent) {
-            event.dataTransfer!.setData('text/plain', 'movie');
-            event.dataTransfer!.dropEffect = "link";
+            //event.dataTransfer!.setData('text/plain', 'movie');
+            event.dataTransfer!.dropEffect = "move";
         });
 
         //make all individual td-fields work
@@ -125,14 +119,19 @@ class RenderScheduler implements RenderInterface {
 
                 self.removeDraggerShadow();
 
-                let shadowElement = (<HTMLElement>self._movieDraggerElement.cloneNode(true));
-                shadowElement.style.opacity = '50%';
+                let shadowElement = (<HTMLElement>document.createElement('div'));
+                shadowElement.classList.add('planned-movie');
+                shadowElement.style.width = config.duration + "px";
+                shadowElement.innerText = config.movie.title;
                 shadowElement.id = 'draggerShadow';
                 event.target.appendChild(shadowElement);
             });
 
             element.addEventListener('dragleave', function(event) {
-                self.removeDraggerShadow();
+                let convertedEvent = (<DragEvent>event);
+                if(convertedEvent.relatedTarget === null || (convertedEvent.relatedTarget.id != 'draggerShadow' && convertedEvent.relatedTarget.parentElement.id != 'draggerShadow')) {
+                    self.removeDraggerShadow();
+                }
             });
 
             element.addEventListener('drop', function(event) {
@@ -158,8 +157,7 @@ class RenderScheduler implements RenderInterface {
                 let showId = self._cinema.scheduler.plan(show);
 
                 let movieElement = (<HTMLElement>document.createElement('div'));
-                movieElement.style.backgroundColor = 'lightgreen';
-
+                movieElement.classList.add('planned-movie');
                 movieElement.style.width = config.duration + "px";
                 movieElement.innerText = config.movie.title;
                 movieElement.innerHTML += self.DELETE_ICON;

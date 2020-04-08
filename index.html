@@ -5,7 +5,7 @@
     <meta name="viewport"
           content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>Cinema tycoon test</title>
+    <title>Cinema tycoon</title>
 
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css"
           integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
@@ -46,13 +46,10 @@
             <button rel="schedule" class="btn btn-primary top-menu" data-toggle="modal" data-target="#scheduleModal">Schedule</button>
         </td>
         <td>
-            <button rel="advertising" class="btn btn-primary top-menu" data-toggle="modal"
-                    data-target="#advertisingModal">Advertising
-            </button>
+            <button rel="advertising" class="btn btn-primary top-menu" data-toggle="modal" data-target="#advertisingModal">Advertising</button>
         </td>
         <td>
-            <button rel="loans" class="btn btn-primary top-menu" data-toggle="modal" data-target="#loansModal">Loans
-            </button>
+            <button rel="loans" class="btn btn-primary top-menu" data-toggle="modal" data-target="#loansModal">Loans</button>
         </td>
         <td>
             <button rel="tickets" class="btn btn-primary top-menu">Tickets</button>
@@ -267,31 +264,7 @@
     </div>
 </div>
 
-<progress max="100" value="0" style="width: 100%;" id="research-progress-bar"></progress>
-
-
-<style>
-    #research-progress-bar {
-        width: 100%;
-        position: fixed;
-        bottom: 0px;
-    }
-
-    div.research-block  {
-        cursor: pointer;
-        border: 1px black solid;
-        padding: 6px;
-        margin: 6px;
-    }
-
-    div.research-block.active {
-        background-color: lightgreen;
-    }
-
-    .center {
-        text-align: center;
-    }
-</style>
+<progress max="100" value="0" id="research-progress-bar"></progress>
 
 <script>
     $(function () {

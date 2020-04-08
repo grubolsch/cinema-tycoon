@@ -2,7 +2,6 @@ import {Observer} from "./Modules/Manager/Observer";
 import {ConfigManager} from "./Modules/Manager/ConfigManager";
 import {TimeManager} from "./Modules/Manager/TimeManager";
 import {Cinema} from "./Modules/Entity/Cinema";
-import {CustomerGenerator} from "./Modules/Generator/CustomerGenerator";
 import {Render} from "./Modules/Render/Render";
 import {FinanceManager} from "./Modules/Manager/FinanceManager";
 import {MarketingManager} from "./Modules/Manager/MarketingManager";
@@ -10,16 +9,12 @@ import {LoanManager} from "./Modules/Manager/LoanManager";
 import {RenderLoans} from "./Modules/Render/RenderLoans";
 import {RenderBoots} from "./Modules/Render/RenderBoots";
 import {RenderMarketing} from "./Modules/Render/RenderMarketing";
-import {Customer} from "./Modules/Entity/Customer";
 import {MovieGenerator} from "./Modules/Generator/MovieGenerator";
 import {Movie} from "./Modules/Entity/Movie";
 import {RenderResearch} from "./Modules/Render/RenderResearch";
 import {ResearchItem} from "./Modules/Entity/Research/ResearchItem";
 import {Room} from "./Modules/Entity/Room";
-import {Scheduler} from "./Modules/Entity/Scheduler";
-import {Show} from "./Modules/Entity/Show";
 import {MovieType} from "./Modules/MovieTypes/MovieType";
-import {TimePoint} from "./Modules/Entity/TimePoint";
 import {RenderScheduler} from "./Modules/Render/RenderScheduler";
 import {RenderSchedulerForm} from "./Modules/Render/RenderSchedulerForm";
 
@@ -29,7 +24,7 @@ function init() {
 
 function generateMovie() {
     let manyMovies: Array<Movie> = [];
-    for (let i = 0; i < 10; i++){
+    for (let i = 0; i < 10; i++) {
         manyMovies[i] = MovieGenerator.newMovie();
     }
     console.log(manyMovies);
@@ -75,42 +70,42 @@ document.addEventListener('DOMContentLoaded', () => {
     }, 1000);
 
     //observers
-    observer.subscribe(observer.MONTH, () => {
-        loanManager.update(cinema);
-        cinema.researchManager.update(observer);
+    observer.subscribe(observer.HALFHOUR, () => {
+        console.info('Half an hour has passed');
 
-        render.renderByMonth();
-    });
-
-    observer.subscribe(observer.DAY, () => {
-        console.log('A day has passed');
-
-        render.renderByDay();
+        render.renderByHalfHour();
     });
 
     observer.subscribe(observer.HOUR, () => {
-
-
-    observer.subscribe('halfHour', () => {
-       render.renderByHalfHour();
-    });
-
-    observer.subscribe('hour', () => {
-        console.log('An hour has passed');
+        console.info('An hour has passed');
 
         cinema.bootManager.payHourCost();
 
         render.renderByHour();
     });
 
-    observer.subscribe(observer.YEAR, () => {
-        console.log('A year has passed');
+    observer.subscribe(observer.DAY, () => {
+        console.info('A day has passed');
+
+        render.renderByDay();
     });
 
-    observer.subscribe(observer.RESEARCH_FINISHED, function(params: { research: ResearchItem; }) {
-        alert('You finished research on '+ params.research.name + '. Make sure you select a new technology to work on. \nStanding still is going backwards.');
+    observer.subscribe(observer.MONTH, () => {
+        console.info('A month has passed');
 
+        loanManager.update(cinema);
+        cinema.researchManager.update(observer);
 
+        render.renderByMonth();
+    });
+
+    observer.subscribe(observer.YEAR, () => {
+        console.info('A year has passed');
+    });
+
+    observer.subscribe(observer.RESEARCH_FINISHED, function (params: { research: ResearchItem; }) {
+        alert('You finished research on ' + params.research.name + '. Make sure you select a new technology to work on. \nStanding still is going backwards.');
+    });
     //end observers code
 
     //control the speed buttons
@@ -127,5 +122,6 @@ document.addEventListener('DOMContentLoaded', () => {
             // @ts-ignore
             observer.trigger(e.target.getAttribute('rel'), [cinema.timeManager]);
         });
+
     });
 });

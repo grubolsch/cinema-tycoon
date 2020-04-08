@@ -38,9 +38,6 @@ class Cinema {
         this._bootManager = new BootManager(this);
         this._scheduler = new Scheduler(this);
         this._researchManager = new ResearchManager(this, config);
-
-        //@todo: remove tmp code when we have an actual room implementation
-        this.rooms.push(new Room());
     }
 
     get name(): string {
