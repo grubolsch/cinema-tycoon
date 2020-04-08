@@ -6,13 +6,27 @@ import {CustomerGenerator} from "./Modules/Generator/CustomerGenerator";
 import {Render} from "./Modules/Render/Render";
 import {FinanceManager} from "./Modules/Manager/FinanceManager";
 import {MarketingManager} from "./Modules/Manager/MarketingManager";
-import {MovieManager} from "./Modules/Manager/MovieManager";
 import {LoanManager} from "./Modules/Manager/LoanManager";
 import {RenderLoans} from "./Modules/Render/RenderLoans";
 import {RenderBoots} from "./Modules/Render/RenderBoots";
 import {RenderMarketing} from "./Modules/Render/RenderMarketing";
-import {RenderMoviePicker} from "./Modules/Render/RenderMoviePicker";
+import {Customer} from "./Modules/Entity/Customer";
+import {MovieGenerator} from "./Modules/Generator/MovieGenerator";
+import {Movie} from "./Modules/Entity/Movie";
 import {RenderResearch} from "./Modules/Render/RenderResearch";
+import {ResearchItem} from "./Modules/Entity/Research/ResearchItem";
+
+function init() {
+    generateMovie();
+}
+
+function generateMovie() {
+    let manyMovies: Array<Movie> = [];
+    for (let i = 0; i < 10; i++){
+        manyMovies[i] = MovieGenerator.newMovie();
+    }
+    console.log(manyMovies);
+}
 
 const observer = new Observer;
 const configManager = new ConfigManager;
@@ -20,21 +34,17 @@ const loanManager = new LoanManager;
 
 document.addEventListener('DOMContentLoaded', () => {
     // temporary code, this should come from a save or a "create new game" menu
+    init();
 
-    //@ts-ignore
-    showDebug();
-
-    let cinema = new Cinema("Our own Cinema", new TimeManager(observer), configManager, new FinanceManager(configManager), new MarketingManager(), new MovieManager());
+    let cinema = new Cinema("Our own Cinema", new TimeManager(observer), configManager, new FinanceManager(configManager), new MarketingManager());
 
     //Object responsible for rendering changes in state
     let render = new Render(cinema);
     render.addRender(new RenderLoans(cinema, loanManager));
     render.addRender(new RenderBoots(cinema));
-    render.addRender(new RenderMarketing(cinema));
     render.addRender(new RenderResearch(cinema));
+    render.addRender(new RenderMarketing(cinema));
     render.render();
-
-    let renderMoviePicker = new RenderMoviePicker(cinema);
 
     //the main loop that makes the game has a flow of time
     setInterval(() => {
@@ -45,41 +55,36 @@ document.addEventListener('DOMContentLoaded', () => {
     }, 1000);
 
     //observers
-    observer.subscribe('hour', () => {
-        cinema.bootManager.payHourCost();
-        console.log('An hour has passed');
-    });
-
-    observer.subscribe('day', () => {
-        console.log('A day has passed')
-    });
-
-    observer.subscribe('week', () => {
-        console.log('A week has passed');
-
-        cinema.marketingManager.weeklyCampaignUpdate();
-        renderMoviePicker.weeklyMoviePicker(render);
-    });
-
-    observer.subscribe('month', () => {
+    observer.subscribe(observer.MONTH, () => {
         loanManager.update(cinema);
-        cinema.researchManager.update();
+        cinema.researchManager.update(observer);
+
+        render.renderByMonth();
     });
 
-    observer.subscribe('year', () => {
+    observer.subscribe(observer.DAY, () => {
+        console.log('A day has passed');
+
+        render.renderByDay();
+    });
+
+    observer.subscribe(observer.HOUR, () => {
+        console.log('An hour has passed');
+
+        cinema.bootManager.payHourCost();
+
+        render.renderByHour();
+    });
+
+    observer.subscribe(observer.YEAR, () => {
         console.log('A year has passed');
     });
+
+    observer.subscribe(observer.RESEARCH_FINISHED, function(params: { research: ResearchItem; }) {
+        alert('You finished research on '+ params.research.name + '. Make sure you select a new technology to work on. \nStanding still is going backwards.');
+
+
     //end observers code
-
-    //tmp code to simulate some vistors joining the cinema
-    let customerGenerater = new CustomerGenerator(configManager);
-    setInterval(function() {
-        let customer = customerGenerater.createCustomer();
-        cinema.bootManager.addCustomer(customer);
-        console.info('customer created '+ customer.name);
-    }, 1000);
-
-    //end test data
 
     //control the speed buttons
     document.querySelectorAll('img.speed').forEach((element) => {

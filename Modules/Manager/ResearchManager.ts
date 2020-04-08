@@ -4,6 +4,7 @@ import researchJson from "../Assets/research.json";
 import {ResearchExtraInfo} from "../Entity/Research/ResearchExtraInfo";
 import {ResearchCategory} from "../Entity/Research/ResearchCategory";
 import {ResearchItem} from "../Entity/Research/ResearchItem";
+import {Observer} from "./Observer";
 
 class ResearchManager {
     private readonly DOUBLE_MAX_RESEARCH: number = 2;
@@ -36,7 +37,7 @@ class ResearchManager {
             }
 
             let category = this._categories.get(json.category)!;
-            let researchItem = new ResearchItem(json.id, json.name, category, [json.availableFrom[0], json.availableFrom[1]], parseInt(json.points));
+            let researchItem = new ResearchItem(json.id, json.name, category, [json.availableFrom[0], json.availableFrom[1]], <number>json.points);
             if (json.popularity !== undefined) {
                 researchItem.addExtraInfo(new ResearchExtraInfo(json.popularity, json.buildCost, json.maintenanceCost));
             }
@@ -56,7 +57,7 @@ class ResearchManager {
             return true;
         }
 
-        if(!researchItem.canResearch()) {
+        if(!researchItem.canResearch(this._cinema.timeManager)) {
             return false;
         }
 
@@ -81,18 +82,22 @@ class ResearchManager {
         let baseCost : number = this._level * this._configManager.researchDefaultCostPerPoint;
         let percentageIncrease : number = (this._cinema.rooms.length-1) * this._configManager.researchIncreasePercentageCostPerRoom;
 
-
-        console.log(this._cinema.rooms.length, percentageIncrease);
-
         return baseCost + (baseCost * percentageIncrease / 100);
     }
 
-    update() : void {
+    update(observer : Observer) : void {
         if(this._level <= 0 || this._activeResearch === null) {
             return;
         }
 
         this.progressSaved = this._activeResearch.addProgress(this._level + this.progressSaved);
+
+        if(this._activeResearch.isResearched) {
+            observer.trigger(observer.RESEARCH_FINISHED, {'research' : this._activeResearch});
+
+            this._activeResearch = null;
+        }
+
         this._cinema.financeManager.pay(this.getMontlyCost(), 'research');
     }
 

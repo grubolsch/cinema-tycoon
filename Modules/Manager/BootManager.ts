@@ -20,8 +20,6 @@ class BootManager {
         boots = Object.assign(boots, this._boots);
 
         boots.sort(function (a, b): number {
-            console.log(a.customers.length, b.customers.length);
-
             return a.customers.length >= b.customers.length ? 1 : -1;
         });
 
