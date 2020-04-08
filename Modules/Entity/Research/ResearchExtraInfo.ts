@@ -1,8 +1,8 @@
 class ResearchExtraInfo {
-    private _popularity : number;
-    private _buildCost : number;
-    private _maintenanceCost : number;
-    private _dateFirstBuild : [number, number]  | null = null;
+    private _popularity: number;
+    private _buildCost: number;
+    private _maintenanceCost: number;
+    private _dateFirstBuild: [number, number] | null = null;
 
     constructor(popularity: number, buildCost: number, maintenanceCost: number) {
         this._popularity = popularity;

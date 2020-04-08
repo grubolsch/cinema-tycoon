@@ -1,20 +1,20 @@
 import {Cinema} from "../Entity/Cinema";
 import {currency} from "../Utils";
 
-class RenderResearch implements RenderInterface {
+class RenderResearch implements RenderInterface, RenderByMonthInterface {
     private readonly costSlider = (<HTMLElement>document.querySelector('#research-cost-slider'));
     private readonly costPrice = (<HTMLElement>document.querySelector('#research-cost'));
     private readonly progressBar = (<HTMLElement>document.querySelector('#research-progress-bar'));
     private readonly container = (<HTMLElement>document.querySelector('#research-container'));
     private readonly template = (<HTMLTemplateElement>document.querySelector('#research-template'));
 
-    private readonly _cinema : Cinema;
+    private readonly _cinema: Cinema;
 
-    constructor(cinema : Cinema) {
+    constructor(cinema: Cinema) {
         this._cinema = cinema;
 
         var self = this;
-        this.costSlider.addEventListener('change', function() {
+        this.costSlider.addEventListener('change', function () {
             self._cinema.researchManager.level = parseInt((<HTMLInputElement>this).value);
 
             self.costPrice.innerHTML = currency(self._cinema.researchManager.getMontlyCost());
@@ -33,7 +33,7 @@ class RenderResearch implements RenderInterface {
 
         self.container.innerHTML = '';
         this._cinema.researchManager.categories.forEach(function (category) {
-            let researchItem = category.getNextResearch();
+            let researchItem = category.getNextResearch(self._cinema.timeManager);
 
             if (researchItem === undefined) {
                 return;
@@ -55,39 +55,53 @@ class RenderResearch implements RenderInterface {
             self.container.appendChild(clone);
         });
 
-        document.querySelectorAll('div.research-block').forEach(function(elementA) {
-            let element = <HTMLElement>elementA;
-            element.addEventListener('click', function() {
-                if(element.dataset.researchId === undefined) {
+        document.querySelectorAll('div.research-block').forEach(function (elementBase) {
+            let element = <HTMLElement>elementBase;
+            element.addEventListener('click', function () {
+                if (element.dataset.researchId === undefined) {
                     return;
                 }
 
-                let researchItem = self._cinema.researchManager.tree.get(parseInt(element.dataset.researchId));
+                let researchItemId = parseInt(element.dataset.researchId);
 
-                if(researchItem === undefined || !self._cinema.researchManager.setActiveResearch(researchItem)) {
+                //is this tech already active?
+                if (self._cinema.researchManager.activeResearch !== null && researchItemId === self._cinema.researchManager.activeResearch.id) {
+                    element.classList.remove('active');
+                    self._cinema.researchManager.setActiveResearch(null);
+                    self.renderWhenTechChanges();
                     return;
                 }
 
+                //is this a valid tech?
+                let researchItem = self._cinema.researchManager.tree.get(researchItemId);
+                if (researchItem === undefined || !self._cinema.researchManager.setActiveResearch(researchItem)) {
+                    return;
+                }
+
+                //everything ok, mark it as active
                 let alreadyActiveTech = self.container.querySelector('.active');
-                if(alreadyActiveTech !== null) {
+                if (alreadyActiveTech !== null) {
                     alreadyActiveTech.classList.remove('active');
                 }
 
                 element.classList.add("active");
-                self.costPrice.innerHTML = currency(self._cinema.researchManager.getMontlyCost());
-
+                self.renderWhenTechChanges();
             });
         });
     }
 
     render(): void {
-        this.progressBar.setAttribute('value', this._cinema.researchManager.getProgressPercentage().toString());
-        this.renderResearchGrid();
     }
 
-    renderMonthly() : void {
-        //only update once a month
+    //only update once a month
+    renderByMonth(): void {
         this.renderResearchGrid();
+        this.renderWhenTechChanges();//maybe the tech changed so we need to update the ui
+    }
+
+    private renderWhenTechChanges() {
+        this.progressBar.setAttribute('value', this._cinema.researchManager.getProgressPercentage().toString());
+        this.costPrice.innerHTML = currency(this._cinema.researchManager.getMontlyCost());
     }
 }
 

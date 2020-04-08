@@ -17,6 +17,7 @@ import {RenderBoots} from "./Modules/Render/RenderBoots";
 import {MovieGenerator} from "./Modules/Generator/MovieGenerator";
 import {Movie} from "./Modules/Entity/Movie";
 import {RenderResearch} from "./Modules/Render/RenderResearch";
+import {ResearchItem} from "./Modules/Entity/Research/ResearchItem";
 
 function init() {
     generateMovie();
@@ -105,29 +106,27 @@ document.addEventListener('DOMContentLoaded', () => {
     }, 1000);
 
     //observers
-    observer.subscribe('month', function() {
+    observer.subscribe(observer.MONTH, function() {
         loanManager.update(cinema);
+        cinema.researchManager.update(observer);
+
+        render.renderByMonth();
     });
 
-    observer.subscribe('hour', function() {
+    observer.subscribe(observer.DAY, function() {
+        render.renderByDay();
+    });
+
+    observer.subscribe(observer.HOUR, function() {
         cinema.bootManager.payHourCost();
+
+        render.renderByHour();
     });
 
-    observer.subscribe('month', function() {
-        cinema.researchManager.update();
+    observer.subscribe(observer.RESEARCH_FINISHED, function(params: { research: ResearchItem; }) {
+        alert('You finished research on '+ params.research.name + '. Make sure you select a new technology to work on. \nStanding still is going backwards.');
     });
     //end observers code
-
-    //tmp code to simulate some vistors joining the cinema
-
-    let customerGenerater = new CustomerGenerator(configManager);
-    setInterval(function() {
-        let customer = customerGenerater.createCustomer();
-        cinema.bootManager.addCustomer(customer);
-        console.info('customer created '+ customer.name);
-    }, 1000);
-
-    //end test data
 
     //control the speed buttons
     document.querySelectorAll('img.speed').forEach((element) => {
@@ -144,7 +143,4 @@ document.addEventListener('DOMContentLoaded', () => {
             observer.trigger(e.target.getAttribute('rel'), [cinema.timeManager]);
         });
     });
-
-    // trigger-event btn btn-secondary" rel="hour
-
 });
