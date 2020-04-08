@@ -1,15 +1,13 @@
 import {FinanceManager} from "../Manager/FinanceManager";
 import {TimeManager} from "../Manager/TimeManager";
 import {ConfigManager} from "../Manager/ConfigManager";
-import {MarketingCampaign} from "./MarketingCampaign";
 import {MarketingManager} from "../Manager/MarketingManager";
-import {Loan} from "./Loan";
-import {LoanException} from "../Exception/LoanException";
 import {LoanTaken} from "./LoanTaken";
 import {BootManager} from "../Manager/BootManager";
 import {Customer} from "./Customer";
-import {Room} from "./Room";
+import {ResearchManager} from "../Manager/ResearchManager";
 import {Movie} from "./Movie";
+import {Room} from "./Room";
 
 
 class Cinema {
@@ -17,26 +15,30 @@ class Cinema {
     private _fans : number;
     private _ticketPrice: number;
 
-    private _rooms: Array<Room> = [];
-    private _movies: Array<Movie> = [];
-    private _customers: Array<Customer> = [];
+    private _rooms : Array<Room> = [];
+    private _movies : Array<Movie> = [];
+    private _customers : Array<Customer> = [];
+    private _loans: Map<number, LoanTaken> = new Map<number, LoanTaken>();
 
     private _timeManager: TimeManager;
     private _financeManager: FinanceManager;
     private _bootManager: BootManager;
+    private _researchManager: ResearchManager;
     private _marketingManager: MarketingManager;
 
-    private _loans: Map<number, LoanTaken> = new Map<number, LoanTaken>();
-
-    public constructor(name: string, TimeManager: TimeManager, StartConfig: ConfigManager, financeManager: FinanceManager, marketingmanager: MarketingManager) {
+    public constructor(name: string, TimeManager : TimeManager, config : ConfigManager, financeManager : FinanceManager, marketingmanager: MarketingManager) {
         this._name = name;
-        this._fans = StartConfig.fans;
-        this._ticketPrice = StartConfig.ticketprice;
+        this._fans = config.fans;
+        this._ticketPrice = config.ticketprice;
         this._timeManager = TimeManager;
         this._financeManager = financeManager;
         this._marketingManager = marketingmanager;
 
         this._bootManager = new BootManager(this);
+        this._researchManager = new ResearchManager(this, config);
+
+        //@todo: remove tmp code when we have an actual room implementation
+        this.rooms.push(new Room());
     }
 
     get name(): string {
@@ -73,6 +75,10 @@ class Cinema {
 
     get bootManager(): BootManager {
         return this._bootManager;
+    }
+
+    get researchManager(): ResearchManager {
+        return this._researchManager;
     }
 
     public update() {

@@ -62,18 +62,6 @@ class Customer {
         return this._queueingTolerance;
     }
 
-    set queueingTolerance(value: number) {
-        this._queueingTolerance = value;
-    }
-
-    public lowerQueueingTolerance(): void {
-        while(this._queueingTolerance >= 0){
-            this.queueingTolerance--;
-         }
-        //temp to check
-        console.log(this.name + "'s queueingTolerance : " + this.queueingTolerance)
-    }
-
     get pricingToleranceShop(): number {
         return this._pricingToleranceShop;
     }
@@ -102,7 +90,7 @@ class Customer {
 
     //Testing purpose (temp)
     printCustomerInformation() {
-        console.log(this._name + ", " +
+        console.info(this._name + ", " +
             this._gender + ", " +
             this._age + " / " +
             this._likeBreak + ", " +
