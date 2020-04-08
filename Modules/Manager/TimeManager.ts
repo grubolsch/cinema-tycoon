@@ -74,8 +74,12 @@ class TimeManager {
         let newMinute = this.fixNumber(tmpTicks);
 
         //lets see if some datecategory had a changed, let the observers know
+        if(newMinute === (TimeManager.MINS_IN_HOURS/2)) {
+            this.observer.trigger('halfHour', [TimeManager]);
+        }
         if(newHour != this._hour) {
             this.observer.trigger('hour', [TimeManager]);
+            this.observer.trigger('halfHour', [TimeManager]);
         }
         if(newDay != this._day) {
             this.observer.trigger('day', [TimeManager]);

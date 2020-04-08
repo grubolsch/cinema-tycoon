@@ -10,6 +10,9 @@ class Show {
 
     private _room : Room;
 
+    //@todo make sure once we are actually playing movies to flag this boolean on
+    private _isPlaying : boolean = false;
+
     constructor(room: Room, start : TimePoint, showConfiguration : ShowConfig) {
         this._showConfiguration = showConfiguration;
 
@@ -42,6 +45,14 @@ class Show {
 
     get room(): Room {
         return this._room;
+    }
+
+    get isPlaying(): boolean {
+        return this._isPlaying;
+    }
+
+    set isPlaying(value: boolean) {
+        this._isPlaying = value;
     }
 }
 

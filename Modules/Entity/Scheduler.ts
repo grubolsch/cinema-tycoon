@@ -67,12 +67,15 @@ class Scheduler {
         return true;
     }
 
-    plan(show : Show) {
+    //return the id of the added movie
+    plan(show : Show) : number {
         if(!this._shows.has(show.room.id)) {
             this._shows.set(show.room.id, []);
         }
 
         this._shows.get(show.room.id)!.push(show);
+
+        return this._shows.get(show.room.id)!.length-1;
     }
 
     getShowsByRoom(room : Room): Array<Show> {
@@ -82,6 +85,21 @@ class Scheduler {
         }
 
         return this._shows.get(room.id)!;
+    }
+
+    removeShow(room: Room, showId: number) : boolean {
+        let roomsByShow = this._shows.get(room.id);
+        if(roomsByShow === undefined || !roomsByShow[showId]) {
+            console.error('Could not find show to delete', room.id, showId);
+            return false;
+        }
+
+        if(roomsByShow[showId].isPlaying) {
+            return false;
+        }
+
+        delete roomsByShow[showId];
+        return true;
     }
 }
 

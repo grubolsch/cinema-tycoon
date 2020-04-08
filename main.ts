@@ -43,50 +43,16 @@ document.addEventListener('DOMContentLoaded', () => {
 
     let cinema = new Cinema("Our own Cinema", new TimeManager(observer), configManager, new FinanceManager(configManager), new MarketingManager());
 
+    //Tmp code so there is a room and a movie for the scheduler
+    cinema.addMovie(new Movie('Crazy long movie', 7, 'fantasy', MovieType.isGeneric(), 180));
+    cinema.addMovie(new Movie('Test movie', 7, 'fantasy', MovieType.isGeneric(), 60));
+    cinema.addMovie(new Movie('Other movie', 7, 'fantasy', MovieType.isGeneric(), 90));
 
-
-
-    let movie : Movie = new Movie('test movie', 7, 'fantasy', MovieType.isGeneric(), 60);
-    cinema.addMovie(movie);
-
-    let room = new Room("koen room");
-    cinema.addRoom(room);
-
-    let show1 = new Show(room, movie, new TimePoint(9, 0), false, false);
-    let show2 = new Show(room, movie, new TimePoint(11, 0), false, false);
-    let show3 = new Show(room, movie, new TimePoint(13, 0), false, false);
-
-    console.log(show1.duration, show1.start, show1.end);
-
-    let schedule = new Scheduler(cinema);
-
-    console.log(schedule.plan(show1));
-    console.log(schedule.plan(show2));
-    console.log(schedule.plan(show3));
-
-    console.log(schedule.getShowsByRoom(room));
-
-
-
-
-
-
-/*
-    table.querySelectorAll('td.drop-enabled').forEach(function(element) {
-        element.addEventListener('dragover', function(event) {
-            console.log(event);
-            const isLink = event.dataTransfer.types.includes("text/plain");
-
-
-            event.preventDefault();
-        });
-
-        element.addEventListener('drop', function(event) {
-            alert('release');
-            event.preventDefault();
-        });
-    });
-*/
+    cinema.addRoom(new Room("Koen room"));
+    cinema.addRoom(new Room("Bona room"));
+    cinema.addRoom(new Room("Jan room"));
+    cinema.addRoom(new Room("Irina room"));
+    //done tmp code
 
     //Object responsible for rendering changes in state
     let render = new Render(cinema);
@@ -106,6 +72,11 @@ document.addEventListener('DOMContentLoaded', () => {
     }, 1000);
 
     //observers
+
+    observer.subscribe('halfHour', () => {
+       render.renderByHalfHour();
+    });
+
     observer.subscribe('hour', () => {
         cinema.bootManager.payHourCost();
         console.log('An hour has passed');
@@ -157,5 +128,4 @@ document.addEventListener('DOMContentLoaded', () => {
     });
 
     // trigger-event btn btn-secondary" rel="hour
-
 });

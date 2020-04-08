@@ -2,3 +2,29 @@
   cursor: pointer;
   color: blue;
 }
+
+#schedule-table {
+  table-layout: fixed;
+  width: 100%;
+
+  td, th {
+    width: 30px;
+    border-left: 1px gray dotted;
+
+    &.active {
+      border-left: 1px black solid;
+      border-right: 1px black solid;
+    }
+  }
+}
+
+#schedule-movie-dragger {
+  background-color: black;
+  color: white;
+  height: 30px;
+  display: inline-block;
+  cursor: grabbing;
+  overflow: hidden;
+  text-align: center;
+}
+

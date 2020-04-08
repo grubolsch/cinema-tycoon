@@ -16,10 +16,10 @@ class Render implements RenderInterface {
     }
 
     public render() {
-        document.querySelector('#ui-name')!.innerHTML = this._cinema.name;
+        (<HTMLElement>document.querySelector('#ui-name')).innerText = this._cinema.name;
         document.querySelector('#ui-date')!.innerHTML = this._cinema.timeManager.getDate();
         document.querySelector('#ui-currentcredit')!.innerHTML = currency(this._cinema.financeManager.credit);
-        document.querySelector('#ui-fans')!.innerHTML = this._cinema.fans + " fans";
+        document.querySelector('#ui-fans')!.innerHTML = this._cinema.fans + ' <i class="fa fa-user-friends"></i>';
 
         this._renders.forEach(function(render : RenderInterface) {
             render.render();
@@ -32,6 +32,15 @@ class Render implements RenderInterface {
 
     public addRender(render : RenderInterface) {
         this._renders.push(render);
+    }
+
+    renderByHalfHour() {
+        this._renders.forEach(function(render : RenderInterface) {
+            //you cannot check interfaces on runtime :( but we can check if a method exists
+            if ("renderByHalfHour" in render) {
+                return (<RenderByHalfHourInterface>render).renderByHalfHour();
+            }
+        })
     }
 }
 

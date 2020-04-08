@@ -7,7 +7,6 @@ class ConfigManager {
     private readonly _breakTolerance = 0.2;
     private readonly _commercialTolerance = 0.2;
 
-
     get credit(): number {
         return this._credit;
     }
@@ -29,4 +28,4 @@ class ConfigManager {
     }
 }
 
-export { ConfigManager };
+export { ConfigManager }
