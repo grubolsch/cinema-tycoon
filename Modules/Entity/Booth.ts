@@ -3,8 +3,7 @@ import {Customer} from "./Customer";
 import {CustomerThought} from "./CustomerThought";
 import {CustomerInQueue} from "./CustomerInQueue";
 
-class Boot {
-
+class Booth {
     private readonly THOUGHT_WAITING_TOO_LONG = "I am waiting too long in this queue";
     private readonly THOUGHT_WAITING_TOO_LONG_GOING_HOME = "I have waited far too long in this queue! I am going home!";
 
@@ -66,7 +65,9 @@ class Boot {
         if(++this._ticketSaleProgress === this._speed) {
             let customerInQueue = this.customers.shift();
 
-            this.buyTicket(customerInQueue.customer);
+            if(customerInQueue !== undefined) {
+                this.buyTicket(customerInQueue.customer);
+            }
 
             this._ticketSaleProgress = 0;
         }
@@ -111,4 +112,4 @@ class Boot {
     }
 }
 
-export {Boot}
+export {Booth}

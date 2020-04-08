@@ -8,7 +8,7 @@ import {FinanceManager} from "./Modules/Manager/FinanceManager";
 import {MarketingManager} from "./Modules/Manager/MarketingManager";
 import {LoanManager} from "./Modules/Manager/LoanManager";
 import {RenderLoans} from "./Modules/Render/RenderLoans";
-import {RenderBoots} from "./Modules/Render/RenderBoots";
+import {RenderBooths} from "./Modules/Render/RenderBooths";
 import {RenderMarketing} from "./Modules/Render/RenderMarketing";
 import {Customer} from "./Modules/Entity/Customer";
 import {MovieGenerator} from "./Modules/Generator/MovieGenerator";
@@ -41,10 +41,11 @@ document.addEventListener('DOMContentLoaded', () => {
     //Object responsible for rendering changes in state
     let render = new Render(cinema);
     render.addRender(new RenderLoans(cinema, loanManager));
-    render.addRender(new RenderBoots(cinema));
+    render.addRender(new RenderBooths(cinema));
     render.addRender(new RenderResearch(cinema));
     render.addRender(new RenderMarketing(cinema));
     render.render();
+
 
     //the main loop that makes the game has a flow of time
     setInterval(() => {
@@ -71,7 +72,7 @@ document.addEventListener('DOMContentLoaded', () => {
     observer.subscribe(observer.HOUR, () => {
         console.log('An hour has passed');
 
-        cinema.bootManager.payHourCost();
+        cinema.boothManager.payHourCost();
 
         render.renderByHour();
     });
@@ -82,7 +83,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
     observer.subscribe(observer.RESEARCH_FINISHED, function(params: { research: ResearchItem; }) {
         alert('You finished research on '+ params.research.name + '. Make sure you select a new technology to work on. \nStanding still is going backwards.');
-
+    });
 
     //end observers code
 

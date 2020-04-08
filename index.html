@@ -214,15 +214,18 @@
 </div>
 
 <div id="game-area">
-    <div id="boot-container"></div>
+    <div id="booth-container"></div>
 
-    <template id="boot-template">
-        <p>Amount of tickets sold: <span class="boot-ticket-sold"></span></p>
-        <p>Amount of customers waiting: <span class="boot-customer-waiting"></span></p>
-        <p>Amount of customers who went away: <span class="boot-customer-away"></span></p>
+    <template id="booth-template">
+        <div class="booth">
+            <i class="fa fa-person-booth"></i>
+            <p>Amount of tickets sold: <span class="booth-ticket-sold"></span></p>
+            <p>Amount of customers waiting: <span class="booth-customer-waiting"></span></p>
+            <p>Amount of customers who went away: <span class="booth-customer-away"></span></p>
+        </div>
     </template>
 
-    <button class="btn btn-secondary" id="build-boot">Build boot</button>
+    <button class="btn btn-secondary" id="build-booth">Build booth</button>
 
     <div>
         <span id="active_campaign"></span> <span id="duration_campaign"></span><br/>
