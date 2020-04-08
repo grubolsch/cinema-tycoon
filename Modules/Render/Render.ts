@@ -33,6 +33,33 @@ class Render implements RenderInterface {
     public addRender(render : RenderInterface) {
         this._renders.push(render);
     }
+
+    renderByHour() {
+        this._renders.forEach(function(render : RenderInterface) {
+            //you cannot check interfaces on runtime :( but we can check if a method exists
+            if ("renderByHour" in render) {
+                return (<RenderByHourInterface>render).renderByHour();
+            }
+        })
+    }
+
+    renderByDay() {
+        this._renders.forEach(function(render : RenderInterface) {
+            //you cannot check interfaces on runtime :( but we can check if a method exists
+            if ("renderByDay" in render) {
+                return (<RenderByDayInterface>render).renderByDay();
+            }
+        })
+    }
+
+    renderByMonth() {
+        this._renders.forEach(function(render : RenderInterface) {
+            //you cannot check interfaces on runtime :( but we can check if a method exists
+            if ("renderByMonth" in render) {
+                return (<RenderByMonthInterface>render).renderByMonth();
+            }
+        })
+    }
 }
 
 export { Render };
