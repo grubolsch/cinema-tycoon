@@ -15,6 +15,7 @@ import {MovieGenerator} from "./Modules/Generator/MovieGenerator";
 import {Movie} from "./Modules/Entity/Movie";
 import {RenderResearch} from "./Modules/Render/RenderResearch";
 import {ResearchItem} from "./Modules/Entity/Research/ResearchItem";
+import {DebugBar} from "./Modules/DebugBar";
 
 function init() {
     generateMovie();
@@ -22,7 +23,7 @@ function init() {
 
 function generateMovie() {
     let manyMovies: Array<Movie> = [];
-    for (let i = 0; i < 10; i++){
+    for (let i = 0; i < 10; i++) {
         manyMovies[i] = MovieGenerator.newMovie();
     }
     console.log(manyMovies);
@@ -82,7 +83,7 @@ document.addEventListener('DOMContentLoaded', () => {
     });
 
     observer.subscribe(observer.RESEARCH_FINISHED, function(params: { research: ResearchItem; }) {
-        alert('You finished research on '+ params.research.name + '. Make sure you select a new technology to work on. \nStanding still is going backwards.');
+        alert('You finished research on ' + params.research.name + '. Make sure you select a new technology to work on. \nStanding still is going backwards.');
     });
 
     //end observers code
@@ -95,11 +96,6 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     });
 
-    //create the debug bar
-    document.querySelectorAll('div#debugBar button.trigger-event').forEach((element) => {
-        element.addEventListener('click', (e) => {
-            // @ts-ignore
-            observer.trigger(e.target.getAttribute('rel'), [cinema.timeManager]);
-        });
-    });
+    let bar = new DebugBar(cinema);
+    bar.init();
 });
