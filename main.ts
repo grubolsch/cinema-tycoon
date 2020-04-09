@@ -15,6 +15,8 @@ import {RenderResearch} from "./Modules/Render/RenderResearch";
 import {ResearchItem} from "./Modules/Entity/Research/ResearchItem";
 import {GenreManager} from "./Modules/Manager/GenreManager";
 import {DebugBar} from "./Modules/DebugBar";
+import {CreditRenderGraph} from "./Modules/Manager/Graphs/CreditGraph";
+import {StatisticsManager} from "./Modules/Manager/StatisticsManager";
 
 function generateMovies(genreManager : GenreManager) : void {
     let manyMovies: Array<Movie> = [];
@@ -34,6 +36,7 @@ document.addEventListener('DOMContentLoaded', () => {
     generateMovies(genreManager);
 
     let cinema = new Cinema("Our own Cinema", new TimeManager(observer), configManager, new FinanceManager(configManager), new MarketingManager());
+    const statisticsManager = new StatisticsManager(cinema);
 
     //Object responsible for rendering changes in state
     let render = new Render(cinema);
@@ -41,6 +44,9 @@ document.addEventListener('DOMContentLoaded', () => {
     render.addRender(new RenderBooths(cinema));
     render.addRender(new RenderResearch(cinema));
     render.addRender(new RenderMarketing(cinema));
+
+    render.addRender(new CreditRenderGraph(cinema, statisticsManager));
+
     render.render();
 
 
@@ -65,6 +71,14 @@ document.addEventListener('DOMContentLoaded', () => {
         console.log('A day has passed');
 
         render.renderByDay();
+    });
+
+    observer.subscribe(observer.WEEK, () => {
+        console.log('A week has passed');
+
+        statisticsManager.updateWeekly();
+
+        render.renderByWeek();
     });
 
     observer.subscribe(observer.HOUR, () => {
@@ -93,6 +107,6 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     });
 
-    let bar = new DebugBar(cinema);
+    let bar = new DebugBar(cinema, observer);
     bar.init();
 });

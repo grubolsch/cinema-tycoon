@@ -60,6 +60,15 @@ class Render implements RenderInterface {
             }
         })
     }
+
+    renderByWeek() {
+        this._renders.forEach(function(render : RenderInterface) {
+            //you cannot check interfaces on runtime :( but we can check if a method exists
+            if ("renderByWeek" in render) {
+                return (<RenderByWeekInterface>render).renderByWeek();
+            }
+        })
+    }
 }
 
 export { Render };
