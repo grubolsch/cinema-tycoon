@@ -3,35 +3,33 @@ import {TimeManager} from "../Manager/TimeManager";
 import {ConfigManager} from "../Manager/ConfigManager";
 import {MarketingManager} from "../Manager/MarketingManager";
 import {LoanTaken} from "./LoanTaken";
-import {BootManager} from "../Manager/BootManager";
+import {BoothManager} from "../Manager/BoothManager";
 import {Customer} from "./Customer";
 import {ResearchManager} from "../Manager/ResearchManager";
 import {Movie} from "./Movie";
 import {MovieManager} from "../Manager/MovieManager";
+import {CustomerGenerator} from "../Generator/CustomerGenerator";
 
-class Room {
-} // temp code
+class Room {} // temp code
 
 class Cinema {
+    private _name : string ;
+    private _fans : number;
+    private _ticketPrice: number;
 
-    // properties
-    private readonly _name: string;
-    private readonly _fans: number;
-    private readonly _ticketPrice: number;
-
-    // collections
-    private _rooms: Array<Room> = [];
-    private _movies: Map<number, Movie> = new Map<number, Movie>();
-    private _customers: Array<Customer> = [];
+    private _rooms : Array<Room> = [];
+    private _movies : Map<number, Movie> = new Map<number, Movie>();
+    private _customers : Array<Customer> = [];
     private _loans: Map<number, LoanTaken> = new Map<number, LoanTaken>();
 
-    // managers
-    private readonly _timeManager: TimeManager;
-    private readonly _financeManager: FinanceManager;
-    private readonly _bootManager: BootManager;
-    private readonly _marketingManager: MarketingManager;
-    private readonly _movieManager: MovieManager;
-    private readonly _researchManager: ResearchManager;
+    private _timeManager: TimeManager;
+    private _financeManager: FinanceManager;
+    private _boothManager: BoothManager;
+    private _researchManager: ResearchManager;
+    private _marketingManager: MarketingManager;
+    private _config : ConfigManager;
+    private _movieManager: MovieManager;
+
 
     public constructor(name: string, TimeManager: TimeManager, config: ConfigManager, financeManager: FinanceManager, marketingmanager: MarketingManager, movieManager: MovieManager) {
         this._name = name;
@@ -42,9 +40,9 @@ class Cinema {
         this._marketingManager = marketingmanager;
         this._movieManager = movieManager;
 
-        this._bootManager = new BootManager(this);
+        this._boothManager = new BoothManager(this);
         this._researchManager = new ResearchManager(this, config);
-
+        this._config = config;
         //@todo: remove tmp code when we have an actual room implementation
         this.rooms.push(new Room());
     }
@@ -89,12 +87,24 @@ class Cinema {
         return this._financeManager;
     }
 
-    get bootManager(): BootManager {
-        return this._bootManager;
+    get boothManager(): BoothManager {
+        return this._boothManager;
     }
 
     get researchManager(): ResearchManager {
         return this._researchManager;
+    }
+
+    public update() {
+        //@todo remove tmp code that creates users
+        let customerGenerator = new CustomerGenerator(this._config);
+        let customer = customerGenerator.createCustomer();
+        this.boothManager.addCustomer(customer);
+        //end tmp code
+
+        this.boothManager.update();
+
+        this.timeManager.updateTime();
     }
 
     get loans(): Map<number, LoanTaken> {
@@ -107,15 +117,6 @@ class Cinema {
 
     get movieManager(): MovieManager {
         return this._movieManager;
-    }
-
-    removeMovie(movie: Movie) {
-        // TODO implement this
-    }
-
-    public update() {
-        this.bootManager.update();
-        this.timeManager.updateTime();
     }
 }
 

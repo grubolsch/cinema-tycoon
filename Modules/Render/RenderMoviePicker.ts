@@ -48,7 +48,7 @@ class RenderMoviePicker implements RenderInterface {
     private renderMovieBox(movie: Movie): void {
         let clone = <HTMLElement>this.template.content.cloneNode(true);
         (<HTMLElement>clone.querySelector('.movie-title')).innerHTML = movie.title;
-        (<HTMLElement>clone.querySelector('.movie-genre')).innerHTML = movie.genre;
+        (<HTMLElement>clone.querySelector('.movie-genre')).innerHTML = movie.genre.name;
         (<HTMLElement>clone.querySelector('.movie-cost')).innerHTML = `${movie.cost}`;
         (<HTMLElement>clone.querySelector('.movie-block')).dataset.movie = `${movie.id}`;
         this.container.appendChild(clone);

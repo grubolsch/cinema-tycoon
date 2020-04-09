@@ -1,16 +1,17 @@
 import {MovieType} from "../MovieTypes/MovieType";
 import {randomNumber} from "../Utils";
+import {Genre} from "./Genre";
 
 class Movie {
     private readonly _title: string;
     private readonly _rating: number;
-    private readonly _genre: string;
+    private readonly _genre: Genre;
     private readonly _type: MovieType;
     private readonly _duration : number;
     private readonly _id: number;
     private readonly _cost: number;
 
-    constructor(title: string, rating: number, genre: string, type: MovieType, duration : number) {
+    constructor(title: string, rating: number, genre: Genre, type: MovieType, duration : number) {
         this._title = title;
         this._rating = rating;
         this._genre = genre;
@@ -29,7 +30,7 @@ class Movie {
         return this._rating;
     }
 
-    get genre(): string {
+    get genre(): Genre {
         return this._genre;
     }
 
