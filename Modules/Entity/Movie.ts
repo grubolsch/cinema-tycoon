@@ -1,47 +1,52 @@
 import {MovieType} from "../MovieTypes/MovieType";
+import {randomNumber} from "../Utils";
 
 class Movie {
-    private readonly _movieTitle: string;
-    private readonly _movieRating: number;
-    private readonly _movieGenre: string;
-    private readonly _movieType: MovieType;
-    private _cost: number;
+    private readonly _title: string;
+    private readonly _rating: number;
+    private readonly _genre: string;
+    private readonly _type: MovieType;
+    private readonly _duration : number;
+    private readonly _id: number;
+    private readonly _cost: number;
 
-    private readonly _uniqueID: number;
+    constructor(title: string, rating: number, genre: string, type: MovieType, duration : number) {
+        this._title = title;
+        this._rating = rating;
+        this._genre = genre;
+        this._type = type;
+        this._duration = duration;
+        this._id = randomNumber(1, 1000000);
 
-    constructor(title: string, rating: number, genre: string, type: MovieType) {
-        this._movieTitle = title;
-        this._movieRating = rating;
-        this._movieGenre = genre;
-        this._movieType = type;
-
-        this._cost = Math.floor((Math.floor(Math.random() * 200) + 800) * (this.movieRating / 10));
-
-        this._uniqueID = Math.floor(Math.random() * 1000000000000000); // random, hopefully unique id
+        this._cost = Math.floor((Math.floor(Math.random() * 200) + 800) * (this.rating / 10));
     }
 
-    get movieTitle(): string {
-        return this._movieTitle;
+    get title(): string {
+        return this._title;
     }
 
-    get movieRating(): number {
-        return this._movieRating;
+    get rating(): number {
+        return this._rating;
     }
 
-    get movieGenre(): string {
-        return this._movieGenre;
+    get genre(): string {
+        return this._genre;
     }
 
-    get movieType(): MovieType {
-        return this._movieType;
+    get type(): MovieType {
+        return this._type;
+    }
+
+    get duration(): number {
+        return this._duration;
+    }
+
+    get id(): number {
+        return this._id;
     }
 
     get cost(): number {
         return this._cost;
-    }
-
-    get uniqueID(): number {
-        return this._uniqueID;
     }
 }
 export {Movie};

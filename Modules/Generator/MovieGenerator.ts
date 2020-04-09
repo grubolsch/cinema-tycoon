@@ -4,7 +4,7 @@ import Genres from "../Assets/Genres.json";
 
 class MovieGenerator {
     public static newMovie(): Movie {
-        return new Movie(this.titleGenerator(), this.ratingGenerator(), this.genreGenerator(), this.typeGenerator());
+        return new Movie(this.titleGenerator(), this.ratingGenerator(), this.genreGenerator(), this.typeGenerator(), this.durationGenerator());
     }
 
     protected static typeGenerator(): MovieType {
@@ -37,6 +37,12 @@ class MovieGenerator {
     protected static genreGenerator(): string {
         let randomIndex: number = Math.floor(Math.random() * 10);
         return Genres["genres"][randomIndex]["genre"];
+    }
+
+    private static durationGenerator() : number {
+        const duration = [90, 120, 150, 180];
+
+        return duration[Math.floor(Math.random() * duration.length)];
     }
 }
 

@@ -21,7 +21,7 @@ class Cinema {
 
     // collections
     private _rooms: Array<Room> = [];
-    private _movies: Array<Movie> = [];
+    private _movies: Map<number, Movie> = new Map<number, Movie>();
     private _customers: Array<Customer> = [];
     private _loans: Map<number, LoanTaken> = new Map<number, LoanTaken>();
 
@@ -65,8 +65,16 @@ class Cinema {
         return this._rooms;
     }
 
-    get movies(): Array<Movie> {
+    get movies(): Map<number, Movie> {
         return this._movies;
+    }
+
+    addMovie(movie: Movie) {
+        this._movies.set(movie.id, movie);
+    }
+
+    findMovie(id: number) : Movie|undefined {
+        return this._movies.get(id);
     }
 
     get customers(): Array<Customer> {
@@ -99,10 +107,6 @@ class Cinema {
 
     get movieManager(): MovieManager {
         return this._movieManager;
-    }
-
-    addMovie(movie: Movie) {
-        this._movies.push(movie)
     }
 
     removeMovie(movie: Movie) {
