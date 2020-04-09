@@ -9,7 +9,7 @@ class RenderBooths implements RenderInterface {
     constructor(cinema : Cinema) {
         this._cinema = cinema;
         document.querySelector('#build-booth')!.addEventListener('click', function() {
-            cinema.boothManager.buildBoot();
+            cinema.boothManager.buildBooth();
         });
     }
 

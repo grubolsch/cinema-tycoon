@@ -32,9 +32,9 @@ class BoothManager {
         });
     }
 
-    buildBoot() {
+    buildBooth() {
         if(this._booths.length >= this.MAX_BOOTHS) {
-            alert('You can only build '+ this.MAX_BOOTHS + ' boots in your cinema');
+            alert('You can only build '+ this.MAX_BOOTHS + ' booths in your cinema');
             return;
         }
 
@@ -44,7 +44,7 @@ class BoothManager {
             return;
         }
 
-        this._cinema.financeManager.pay(booth.getBuildCost(), 'Build boot');
+        this._cinema.financeManager.pay(booth.getBuildCost(), 'Build booth');
 
         this._booths.push(booth);
     }
