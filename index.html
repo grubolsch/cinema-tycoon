@@ -125,7 +125,7 @@
 <!-- /Advertising Modal -->
 
 
-<!-- Advertising Modal -->
+<!-- Loans Modal -->
 <div class="modal fade" id="loansModal" tabindex="-1" role="dialog" aria-labelledby="ModalCenterTitle"
      aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered" role="document">
@@ -161,7 +161,7 @@
         </div>
     </div>
 </div>
-<!-- /Advertising Modal -->
+<!-- /Loans Modal -->
 
 <!-- Research Modal -->
 <div class="modal fade" id="researchModal" tabindex="-1" role="dialog" aria-labelledby="ModalCenterTitle"
@@ -204,6 +204,42 @@
 </div>
 <!-- /Research Modal -->
 
+<!--Room Components Modal-->
+<div class="modal fade" id="RoomComponentsModal" tabindex="-1" role="dialog" aria-labelledby="ModalCenterTitle"
+     aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Room Components</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <p>Manage your room components here!</p>
+
+                <div class="container">
+                    <div class="row" id="room-components"></div>
+                </div>
+
+                <template id="room-components-template">
+                    <div class="col-sm">
+                        <h3 class="room-components-title"></h3>
+                        <p>Screen: <span class="room-components-screen"></span></p>
+                        <p>Projector: <span class="room-components-projector"></span></p>
+                        <p>Sound: <span class="room-components-sound"></span></p>
+                        <p>Heating: <span class="room-components-heating"></span></p>
+                    </div>
+                </template>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+            </div>
+        </div>
+    </div>
+</div>
+<!--/Room Components Modal-->
+
 <div id="debugBar" style="display: none;">
     <h1>Debug bar</h1>
     <button class="trigger-event btn btn-secondary" rel="hour">Trigger hour change</button>
@@ -214,6 +250,7 @@
 </div>
 
 <div id="game-area">
+<!--    booth-->
     <div id="boot-container"></div>
 
     <template id="boot-template">
@@ -224,9 +261,34 @@
 
     <button class="btn btn-secondary" id="build-boot">Build boot</button>
 
+<!--    campaign-->
     <div>
         <span id="active_campaign"></span> <span id="duration_campaign"></span><br/>
     </div>
+
+<!--    room-->
+    <hr>
+    <button class="btn btn-success" id="build-room">Build room</button>
+    <h3>Cinema Rooms :</h3>
+    <div id="room-container"></div>
+
+    <template id="room-template">
+        <div class="room">
+            <ul class="list-unstyled">
+                <li>name : <span class="room-name"></span></li>
+                <li>type : <span class="room-type"></span></li>
+                <li>daily Cost : <span class="room-daily-cost"></span></li>
+                <li>popularity : <span class="room-popularity"></span></li>
+                <li><button class="btn btn-outline-success btn-sm room-components">Manage room Components</button></li>
+                <li><button class="btn btn-outline-success btn-sm room-upgrade">Upgrade room</button></li>
+            </ul>
+        </div>
+    </template>
+
+
+
+
+
 </div>
 
 <progress max="100" value="0" style="width: 100%;" id="research-progress-bar"></progress>

@@ -1,6 +1,7 @@
 import {ConfigManager} from "../Manager/ConfigManager";
 
 class RoomType {
+    private _name: string;
     private _maintenanceCost: number;
     private _rows: number;
     private _seatPerRow: number;
@@ -8,7 +9,8 @@ class RoomType {
     private _price: number;
     private _priceUpgrade: number;
 
-    private constructor(cm: ConfigManager, maintenanceCost: number, rows: number) {
+    private constructor(cm: ConfigManager, name: string, maintenanceCost: number, rows: number) {
+        this._name = name;
         this._maintenanceCost = maintenanceCost;
         this._rows = rows;
         this._seatPerRow = cm.seatsPerRow;
@@ -18,15 +20,20 @@ class RoomType {
     }
 
     static smallRoom(cm: ConfigManager) {
-        return new RoomType(cm, cm.smallRoomMaintanaceCost, cm.smallRoomRows)
+        return new RoomType(cm, cm.small, cm.smallRoomMaintanaceCost, cm.smallRoomRows)
     }
 
     static mediumRoom(cm: ConfigManager) {
-        return new RoomType(cm, cm.mediumRoomMaintanaceCost, cm.mediumRoomRows)
+        return new RoomType(cm, cm.meidium, cm.mediumRoomMaintanaceCost, cm.mediumRoomRows)
     }
 
     static largeRoom(cm: ConfigManager) {
-        return new RoomType(cm, cm.largeRoomMaintanaceCost, cm.largeRoomRoomRows)
+        return new RoomType(cm, cm.large, cm.largeRoomMaintanaceCost, cm.largeRoomRoomRows)
+    }
+
+
+    get name(): string {
+        return this._name;
     }
 
     get maintenanceCost(): number {

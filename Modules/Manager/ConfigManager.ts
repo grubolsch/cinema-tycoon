@@ -11,6 +11,10 @@ class ConfigManager {
     private readonly _commercialTolerance = 0.2;
 
     //Room
+    private readonly _small = 'small';
+    private readonly _meidium = 'medium';
+    private readonly _large = 'large';
+
     private readonly _smallRoomMaintanaceCost = 100;
     private readonly _mediumRoomMaintanaceCost = 150;
     private readonly _largeRoomMaintanaceCost = 200;
@@ -24,6 +28,10 @@ class ConfigManager {
     private readonly _roomPrice = 20000;
     private readonly _roomUpgradeCost = 10000;
 
+    private readonly _maximumRoomsDefault = 3;
+    private readonly _maximumRoomsExtra = 2;
+
+    //Room components
     private readonly _basicScreenQuality = 20;
     private readonly _basicScreenDailyCost = 20;
 
@@ -68,6 +76,18 @@ class ConfigManager {
         return this._researchIncreasePercentageCostPerRoom;
     }
 
+    get small(): string {
+        return this._small;
+    }
+
+    get meidium(): string {
+        return this._meidium;
+    }
+
+    get large(): string {
+        return this._large;
+    }
+
     get smallRoomMaintanaceCost(): number {
         return this._smallRoomMaintanaceCost;
     }
@@ -102,6 +122,14 @@ class ConfigManager {
 
     get roomUpgradeCost(): number {
         return this._roomUpgradeCost;
+    }
+
+    get maximumRoomsDefault(): number {
+        return this._maximumRoomsDefault;
+    }
+
+    get maximumRoomsExtra(): number {
+        return this._maximumRoomsExtra;
     }
 
     get basicScreenQuality(): number {

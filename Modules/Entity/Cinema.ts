@@ -6,6 +6,7 @@ import {LoanTaken} from "./LoanTaken";
 import {BootManager} from "../Manager/BootManager";
 import {Customer} from "./Customer";
 import {ResearchManager} from "../Manager/ResearchManager";
+import {RoomManager} from "../Manager/RoomManager";
 import {Movie} from "./Movie";
 import {Room} from "./Room";
 
@@ -23,6 +24,7 @@ class Cinema {
     private _timeManager: TimeManager;
     private _financeManager: FinanceManager;
     private _bootManager: BootManager;
+    private _roomManager: RoomManager;
     private _researchManager: ResearchManager;
     private _marketingManager: MarketingManager;
 
@@ -35,10 +37,9 @@ class Cinema {
         this._marketingManager = marketingmanager;
 
         this._bootManager = new BootManager(this);
+        this._roomManager = new RoomManager(this, config);
         this._researchManager = new ResearchManager(this, config);
 
-        //@todo: remove tmp code when we have an actual room implementation
-        this.rooms.push(new Room());
     }
 
     get name(): string {
@@ -93,6 +94,10 @@ class Cinema {
 
     get marketingManager(): MarketingManager {
         return this._marketingManager;
+    }
+
+    get roomManager(): RoomManager {
+        return this._roomManager;
     }
 }
 

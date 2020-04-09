@@ -15,6 +15,7 @@ import {MovieGenerator} from "./Modules/Generator/MovieGenerator";
 import {Movie} from "./Modules/Entity/Movie";
 import {RenderResearch} from "./Modules/Render/RenderResearch";
 import {ResearchItem} from "./Modules/Entity/Research/ResearchItem";
+import {RenderRooms} from "./Modules/Render/RenderRooms";
 
 function init() {
     generateMovie();
@@ -42,6 +43,7 @@ document.addEventListener('DOMContentLoaded', () => {
     let render = new Render(cinema);
     render.addRender(new RenderLoans(cinema, loanManager));
     render.addRender(new RenderBoots(cinema));
+    render.addRender(new RenderRooms(cinema));
     render.addRender(new RenderResearch(cinema));
     render.addRender(new RenderMarketing(cinema));
     render.render();
