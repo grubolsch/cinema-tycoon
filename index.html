@@ -204,42 +204,6 @@
 </div>
 <!-- /Research Modal -->
 
-<!--Room Components Modal-->
-<div class="modal fade" id="RoomComponentsModal" tabindex="-1" role="dialog" aria-labelledby="ModalCenterTitle"
-     aria-hidden="true">
-    <div class="modal-dialog modal-dialog-centered" role="document">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title">Room Components</h5>
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                    <span aria-hidden="true">&times;</span>
-                </button>
-            </div>
-            <div class="modal-body">
-                <p>Manage your room components here!</p>
-
-                <div class="container">
-                    <div class="row" id="room-components"></div>
-                </div>
-
-                <template id="room-components-template">
-                    <div class="col-sm">
-                        <h3 class="room-components-title"></h3>
-                        <p>Screen: <span class="room-components-screen"></span></p>
-                        <p>Projector: <span class="room-components-projector"></span></p>
-                        <p>Sound: <span class="room-components-sound"></span></p>
-                        <p>Heating: <span class="room-components-heating"></span></p>
-                    </div>
-                </template>
-            </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-            </div>
-        </div>
-    </div>
-</div>
-<!--/Room Components Modal-->
-
 <div id="debugBar" style="display: none;">
     <h1>Debug bar</h1>
     <button class="trigger-event btn btn-secondary" rel="hour">Trigger hour change</button>
@@ -247,19 +211,27 @@
     <button class="trigger-event btn btn-secondary" rel="week">Trigger week change</button>
     <button class="trigger-event btn btn-secondary" rel="month">Trigger month change</button>
     <button class="trigger-event btn btn-secondary" rel="year">Trigger year change</button>
+
+    <form method="get" id="debugBar-add-money">
+        <input type="text" name="money" placeholder="Enter amount" />
+        <input type="submit" value="Add money" class="btn btn-danger"/>
+    </form>
 </div>
 
 <div id="game-area">
 <!--    booth-->
-    <div id="boot-container"></div>
+    <div id="booth-container"></div>
 
-    <template id="boot-template">
-        <p>Amount of tickets sold: <span class="boot-ticket-sold"></span></p>
-        <p>Amount of customers waiting: <span class="boot-customer-waiting"></span></p>
-        <p>Amount of customers who went away: <span class="boot-customer-away"></span></p>
+    <template id="booth-template">
+        <div class="booth">
+            <i class="fa fa-person-booth"></i>
+            <p>Amount of tickets sold: <span class="booth-ticket-sold"></span></p>
+            <p>Amount of customers waiting: <span class="booth-customer-waiting"></span></p>
+            <p>Amount of customers who went away: <span class="booth-customer-away"></span></p>
+        </div>
     </template>
 
-    <button class="btn btn-secondary" id="build-boot">Build boot</button>
+    <button class="btn btn-secondary" id="build-booth">Build booth</button>
 
 <!--    campaign-->
     <div>
@@ -284,10 +256,6 @@
             </ul>
         </div>
     </template>
-
-
-
-
 
 </div>
 

@@ -3,12 +3,13 @@ import {TimeManager} from "../Manager/TimeManager";
 import {ConfigManager} from "../Manager/ConfigManager";
 import {MarketingManager} from "../Manager/MarketingManager";
 import {LoanTaken} from "./LoanTaken";
-import {BootManager} from "../Manager/BootManager";
+import {BoothManager} from "../Manager/BoothManager";
 import {Customer} from "./Customer";
 import {ResearchManager} from "../Manager/ResearchManager";
 import {RoomManager} from "../Manager/RoomManager";
 import {Movie} from "./Movie";
 import {Room} from "./Room";
+import {CustomerGenerator} from "../Generator/CustomerGenerator";
 
 
 class Cinema {
@@ -23,10 +24,11 @@ class Cinema {
 
     private _timeManager: TimeManager;
     private _financeManager: FinanceManager;
-    private _bootManager: BootManager;
+    private _boothManager: BoothManager;
     private _roomManager: RoomManager;
     private _researchManager: ResearchManager;
     private _marketingManager: MarketingManager;
+    private _config : ConfigManager;
 
     public constructor(name: string, TimeManager : TimeManager, config : ConfigManager, financeManager : FinanceManager, marketingmanager: MarketingManager) {
         this._name = name;
@@ -36,9 +38,10 @@ class Cinema {
         this._financeManager = financeManager;
         this._marketingManager = marketingmanager;
 
-        this._bootManager = new BootManager(this);
         this._roomManager = new RoomManager(this, config);
+        this._boothManager = new BoothManager(this);
         this._researchManager = new ResearchManager(this, config);
+        this._config = config;
 
     }
 
@@ -74,8 +77,8 @@ class Cinema {
         return this._financeManager;
     }
 
-    get bootManager(): BootManager {
-        return this._bootManager;
+    get boothManager(): BoothManager {
+        return this._boothManager;
     }
 
     get researchManager(): ResearchManager {
@@ -83,7 +86,13 @@ class Cinema {
     }
 
     public update() {
-        this.bootManager.update();
+        //@todo remove tmp code that creates users
+        let customerGenerator = new CustomerGenerator(this._config);
+        let customer = customerGenerator.createCustomer();
+        this.boothManager.addCustomer(customer);
+        //end tmp code
+
+        this.boothManager.update();
 
         this.timeManager.updateTime();
     }
