@@ -54,6 +54,8 @@ document.addEventListener('DOMContentLoaded', () => {
 
     //observers
     observer.subscribe(observer.MONTH, () => {
+        console.log('A month has passed');
+
         loanManager.update(cinema);
         genreManager.update();
         cinema.researchManager.update(observer);
@@ -93,6 +95,6 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     });
 
-    let bar = new DebugBar(cinema);
+    let bar = new DebugBar(cinema, observer);
     bar.init();
 });
