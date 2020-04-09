@@ -128,13 +128,13 @@
 
 <!-- MoviePicker Modal -->
 <div class="modal fade" id="moviePickerModal" tabindex="-1" role="dialog" aria-labelledby="ModalCenterTitle"
-     aria-hidden="true">
+     aria-hidden="true" data-backdrop="static" data-keyboard="false">
     <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
         <div class="modal-content">
             <div class="modal-header">
                 <h2>Buy some movies</h2>
             </div>
-            <div class="modal-body">
+            <div class="modal-body text-center">
                 <div class="container">
                     <div class="row" id="movies-container">
 
@@ -148,16 +148,13 @@
                             <i><strong class="movie-genre"></strong></i>
                             <h3 class="movie-type"></h3>
 
-<!--                            Cost: <span class="movie-cost"></span>-->
+                            Cost: <span class="movie-cost"></span>
                         </div>
                     </div>
                 </template>
 
-                <button id="buy-movie-btn">Purchase</button>
+                <button class="btn btn-success mt-4" id="buy-movie-btn">Purchase</button>
 
-            </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
             </div>
         </div>
     </div>

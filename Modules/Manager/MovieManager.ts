@@ -12,14 +12,47 @@ class MovieManager {
         return movies;
     }
 
-    generateThreeMovies() : Movie[]{
+    generateThreeMovies(): Movie[] {
         return MovieManager.generateMovies(3);
     }
 
-    addMoviesToCinema(cinema : Cinema ,movies : Movie[]){
-        movies.forEach((movie) => {
-            cinema
-        })
+    activateMovies(availableMovies: Movie[], selectedIds: string[], cinema: Cinema,) {
+        let movies = this.getSelectedMovies(availableMovies, selectedIds);
+        if (this.checkCanAffordMovies(cinema, movies)){
+            this.payForMovies(cinema, this.movieCostSum(movies));
+            movies.forEach((movie) => {
+                cinema.addMovie(movie);
+            })
+        }
+    }
+
+    private getSelectedMovies(movies: Movie[], selectedIds: string[]) {
+        let selectedMovies: Movie[] = [];
+        selectedIds.forEach((movieID) => {
+            movies.forEach((movie) => {
+                if (parseInt(movieID) === movie.uniqueID) {
+                    selectedMovies.push(movie);
+                }
+            })
+        });
+        return selectedMovies;
+    }
+
+    private payForMovies(cinema : Cinema, cost : number){
+        cinema.financeManager.pay(cost, 'purchased movie rights');
+    }
+
+    checkCanAffordMovies(cinema: Cinema, movies: Movie[]) {
+        let cost = this.movieCostSum(movies);
+        return cinema.financeManager.canAfford(cost);
+    }
+
+    private movieCostSum(movies: Movie[]): number {
+        let sum: number = 0;
+        movies.forEach(movie => {
+            sum += movie.cost;
+        });
+        return sum;
     }
 }
 

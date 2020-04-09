@@ -5,6 +5,7 @@ class Movie {
     private readonly _movieRating: number;
     private readonly _movieGenre: string;
     private readonly _movieType: MovieType;
+    private _cost: number;
 
     private readonly _uniqueID: number;
 
@@ -13,7 +14,10 @@ class Movie {
         this._movieRating = rating;
         this._movieGenre = genre;
         this._movieType = type;
-        this._uniqueID = Math.floor(Math.random() * 1000000000000000) // random, hopefully unique id
+
+        this._cost = Math.floor((Math.floor(Math.random() * 200) + 800) * (this.movieRating / 10));
+
+        this._uniqueID = Math.floor(Math.random() * 1000000000000000); // random, hopefully unique id
     }
 
     get movieTitle(): string {
@@ -30,6 +34,10 @@ class Movie {
 
     get movieType(): MovieType {
         return this._movieType;
+    }
+
+    get cost(): number {
+        return this._cost;
     }
 
     get uniqueID(): number {

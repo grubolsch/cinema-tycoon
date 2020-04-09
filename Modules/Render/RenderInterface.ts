@@ -10,3 +10,6 @@ interface RenderByDayInterface {
 interface RenderByMonthInterface {
     renderByMonth() : void;
 }
+interface RenderByWeekInterface {
+    renderByWeek() : void;
+}

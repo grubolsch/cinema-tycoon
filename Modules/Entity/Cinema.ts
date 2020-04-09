@@ -9,20 +9,21 @@ import {ResearchManager} from "../Manager/ResearchManager";
 import {Movie} from "./Movie";
 import {MovieManager} from "../Manager/MovieManager";
 
-class Room {} // temp code
+class Room {
+} // temp code
 
 class Cinema {
 
     // properties
-    private readonly _name : string ;
-    private readonly _fans : number;
+    private readonly _name: string;
+    private readonly _fans: number;
     private readonly _ticketPrice: number;
 
     // collections
-    private readonly _rooms: Array<Room> = [];
-    private readonly _movies: Array<Movie> = [];
-    private readonly _customers: Array<Customer> = [];
-    private readonly _loans: Map<number, LoanTaken> = new Map<number, LoanTaken>();
+    private _rooms: Array<Room> = [];
+    private _movies: Array<Movie> = [];
+    private _customers: Array<Customer> = [];
+    private _loans: Map<number, LoanTaken> = new Map<number, LoanTaken>();
 
     // managers
     private readonly _timeManager: TimeManager;
@@ -100,11 +101,17 @@ class Cinema {
         return this._movieManager;
     }
 
+    addMovie(movie: Movie) {
+        this._movies.push(movie)
+    }
+
+    removeMovie(movie: Movie) {
+        // TODO implement this
+    }
+
     public update() {
         this.bootManager.update();
-
         this.timeManager.updateTime();
-
     }
 }
 

@@ -9,24 +9,10 @@ import {LoanManager} from "./Modules/Manager/LoanManager";
 import {RenderLoans} from "./Modules/Render/RenderLoans";
 import {RenderBoots} from "./Modules/Render/RenderBoots";
 import {RenderMarketing} from "./Modules/Render/RenderMarketing";
-import {MovieGenerator} from "./Modules/Generator/MovieGenerator";
-import {Movie} from "./Modules/Entity/Movie";
 import {RenderResearch} from "./Modules/Render/RenderResearch";
 import {ResearchItem} from "./Modules/Entity/Research/ResearchItem";
 import {MovieManager} from "./Modules/Manager/MovieManager";
-
-function init() {
-    generateMovie();
-
-}
-
-function generateMovie() {
-    let manyMovies: Array<Movie> = [];
-    for (let i = 0; i < 10; i++){
-        manyMovies[i] = MovieGenerator.newMovie();
-    }
-    console.log(manyMovies);
-}
+import {RenderMoviePicker} from "./Modules/Render/RenderMoviePicker";
 
 const observer = new Observer;
 const configManager = new ConfigManager;
@@ -34,7 +20,8 @@ const loanManager = new LoanManager;
 
 document.addEventListener('DOMContentLoaded', () => {
     // temporary code, this should come from a save or a "create new game" menu
-    init();
+
+    showDebug();
 
     let cinema = new Cinema("Our own Cinema", new TimeManager(observer), configManager, new FinanceManager(configManager), new MarketingManager(), new MovieManager());
 
@@ -45,6 +32,8 @@ document.addEventListener('DOMContentLoaded', () => {
     render.addRender(new RenderResearch(cinema));
     render.addRender(new RenderMarketing(cinema));
     render.render();
+
+    let renderMoviePicker = new RenderMoviePicker(cinema);
 
     //the main loop that makes the game has a flow of time
     setInterval(() => {
@@ -58,14 +47,17 @@ document.addEventListener('DOMContentLoaded', () => {
     observer.subscribe(observer.MONTH, () => {
         loanManager.update(cinema);
         cinema.researchManager.update(observer);
-
         render.renderByMonth();
     });
 
     observer.subscribe(observer.DAY, () => {
-        console.log('A day has passed');
-
         render.renderByDay();
+    });
+
+    observer.subscribe(observer.WEEK, () => {
+        cinema.marketingManager.weeklyCampaignUpdate();
+        renderMoviePicker.weeklyMoviePicker(render);
+        render.renderByWeek();
     });
 
     observer.subscribe(observer.HOUR, () => {
