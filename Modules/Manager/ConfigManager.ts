@@ -36,7 +36,19 @@ class ConfigManager {
     private readonly _maximumRoomsDefault = 3;
     private readonly _maximumRoomsExtra = 2;
 
+    private readonly _roomQualityProportionSeats = 0.20;
+
     //Room components
+    private readonly _screen = 'screen';
+    private readonly _projector = 'projector';
+    private readonly _sound = 'sound';
+    private readonly _heating = 'heating';
+
+    private readonly _roomQualityProportionScreen = 0.25;
+    private readonly _roomQualityProportionProjector = 0.30;
+    private readonly _roomQualityProportionSound = 0.20;
+    private readonly _roomQualityProportionHeating = 0.05;
+
     private readonly _basicScreenQuality = 20;
     private readonly _basicScreenDailyCost = 20;
 
@@ -151,6 +163,42 @@ class ConfigManager {
 
     get maximumRoomsExtra(): number {
         return this._maximumRoomsExtra;
+    }
+
+    get roomQualityProportionSeats(): number {
+        return this._roomQualityProportionSeats;
+    }
+
+    get screen(): string {
+        return this._screen;
+    }
+
+    get projector(): string {
+        return this._projector;
+    }
+
+    get sound(): string {
+        return this._sound;
+    }
+
+    get heating(): string {
+        return this._heating;
+    }
+
+    get roomQualityProportionScreen(): number {
+        return this._roomQualityProportionScreen;
+    }
+
+    get roomQualityProportionProjector(): number {
+        return this._roomQualityProportionProjector;
+    }
+
+    get roomQualityProportionSound(): number {
+        return this._roomQualityProportionSound;
+    }
+
+    get roomQualityProportionHeating(): number {
+        return this._roomQualityProportionHeating;
     }
 
     get basicScreenQuality(): number {
