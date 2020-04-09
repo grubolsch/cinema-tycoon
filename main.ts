@@ -14,6 +14,7 @@ import {Movie} from "./Modules/Entity/Movie";
 import {RenderResearch} from "./Modules/Render/RenderResearch";
 import {ResearchItem} from "./Modules/Entity/Research/ResearchItem";
 import {GenreManager} from "./Modules/Manager/GenreManager";
+import {DebugBar} from "./Modules/DebugBar";
 
 function generateMovies(genreManager : GenreManager) : void {
     let manyMovies: Array<Movie> = [];
@@ -77,8 +78,8 @@ document.addEventListener('DOMContentLoaded', () => {
         console.log('A year has passed');
     });
 
-    observer.subscribe(observer.RESEARCH_FINISHED, function(params: { research: ResearchItem; }) {
-        alert('You finished research on '+ params.research.name + '. Make sure you select a new technology to work on. \nStanding still is going backwards.');
+    observer.subscribe(observer.RESEARCH_FINISHED, function (params: { research: ResearchItem; }) {
+        alert('You finished research on ' + params.research.name + '. Make sure you select a new technology to work on. \nStanding still is going backwards.');
     });
 
     //end observers code
@@ -91,11 +92,6 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     });
 
-    //create the debug bar
-    document.querySelectorAll('div#debugBar button.trigger-event').forEach((element) => {
-        element.addEventListener('click', (e) => {
-            // @ts-ignore
-            observer.trigger(e.target.getAttribute('rel'), [cinema.timeManager]);
-        });
-    });
+    let bar = new DebugBar(cinema);
+    bar.init();
 });
