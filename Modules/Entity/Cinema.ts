@@ -22,13 +22,13 @@ class Cinema {
     private _customers : Array<Customer> = [];
     private _loans: Map<number, LoanTaken> = new Map<number, LoanTaken>();
 
-    private _timeManager: TimeManager;
-    private _financeManager: FinanceManager;
-    private _boothManager: BoothManager;
-    private _researchManager: ResearchManager;
-    private _marketingManager: MarketingManager;
-    private _config : ConfigManager;
-    private _movieManager: MovieManager;
+    private readonly _timeManager: TimeManager;
+    private readonly _financeManager: FinanceManager;
+    private readonly _boothManager: BoothManager;
+    private readonly _researchManager: ResearchManager;
+    private readonly _marketingManager: MarketingManager;
+    private readonly _config : ConfigManager;
+    private readonly _movieManager: MovieManager;
 
 
     public constructor(name: string, TimeManager: TimeManager, config: ConfigManager, financeManager: FinanceManager, marketingmanager: MarketingManager, movieManager: MovieManager) {

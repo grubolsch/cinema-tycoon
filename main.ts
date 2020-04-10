@@ -9,8 +9,6 @@ import {LoanManager} from "./Modules/Manager/LoanManager";
 import {RenderLoans} from "./Modules/Render/RenderLoans";
 import {RenderBooths} from "./Modules/Render/RenderBooths";
 import {RenderMarketing} from "./Modules/Render/RenderMarketing";
-import {MovieGenerator} from "./Modules/Generator/MovieGenerator";
-import {Movie} from "./Modules/Entity/Movie";
 import {RenderResearch} from "./Modules/Render/RenderResearch";
 import {ResearchItem} from "./Modules/Entity/Research/ResearchItem";
 import {MovieManager} from "./Modules/Manager/MovieManager";
@@ -29,7 +27,7 @@ document.addEventListener('DOMContentLoaded', () => {
     // @ts-ignore
     showDebug();
 
-    let cinema = new Cinema("Our own Cinema", new TimeManager(observer), configManager, new FinanceManager(configManager), new MarketingManager(), new MovieManager());
+    let cinema = new Cinema("Our own Cinema", new TimeManager(observer), configManager, new FinanceManager(configManager), new MarketingManager(), new MovieManager(genreManager));
 
     //Object responsible for rendering changes in state
     let render = new Render(cinema);
@@ -51,8 +49,6 @@ document.addEventListener('DOMContentLoaded', () => {
 
     //observers
     observer.subscribe(observer.MONTH, () => {
-        console.log('A month has passed');
-
         loanManager.update(cinema);
         genreManager.update();
         cinema.researchManager.update(observer);
@@ -70,10 +66,7 @@ document.addEventListener('DOMContentLoaded', () => {
     });
 
     observer.subscribe(observer.HOUR, () => {
-        console.log('An hour has passed');
-
         cinema.boothManager.payHourCost();
-
         render.renderByHour();
     });
 

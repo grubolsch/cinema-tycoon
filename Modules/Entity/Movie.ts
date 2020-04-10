@@ -19,7 +19,7 @@ class Movie {
         this._duration = duration;
         this._id = randomNumber(1, 1000000);
 
-        this._cost = Math.floor((Math.floor(Math.random() * 200) + 800) * (this.rating / 10));
+        this._cost = Math.floor((Math.floor(Math.random() * 200) + 800) * (this.rating * 10));
     }
 
     get title(): string {

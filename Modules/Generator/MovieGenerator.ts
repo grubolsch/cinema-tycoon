@@ -38,7 +38,7 @@ class MovieGenerator {
         return Genres["genres"][randomIndex]["genre"];
     }
 
-    private static durationGenerator() : number {
+    protected static durationGenerator() : number {
         const duration = [90, 120, 150, 180];
 
         return duration[Math.floor(Math.random() * duration.length)];

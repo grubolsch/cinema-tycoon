@@ -8,8 +8,9 @@ class RenderMoviePicker implements RenderInterface {
 
     private readonly moviePickerModal = $('#moviePickerModal');
     private readonly container = (<HTMLElement>document.querySelector('#movies-container'));
+    private readonly buttonContainer = (<HTMLElement>document.querySelector('#movies-button-container'));
+    private readonly errorContainer = (<HTMLElement>document.querySelector('#movies-error-container'));
     private readonly template = (<HTMLTemplateElement>document.querySelector('#movie-template'));
-    private readonly purchaseBtn = (<HTMLTemplateElement>document.querySelector('#buy-movie-btn'));
 
     constructor(cinema: Cinema) {
         this._cinema = cinema;
@@ -20,6 +21,7 @@ class RenderMoviePicker implements RenderInterface {
 
         render.pause();
         this.container.innerHTML = '';
+        this.buttonContainer.innerHTML = '';
         let movies = this._cinema.movieManager.generateThreeMovies();
 
         movies.forEach(movie => {
@@ -37,11 +39,39 @@ class RenderMoviePicker implements RenderInterface {
             });
         });
 
+        let btn = document.createElement('button');
+        btn.innerText = 'Purchase';
+        btn.classList.add('btn', 'btn-success');
+
+        btn.addEventListener('click', () => {
+            let selectedMovieIds = this.getSelectedMovieIds();
+            if(this._cinema.movieManager.handleMoviePicker(this._cinema, selectedMovieIds, movies)){
+                this.moviePickerModal.modal('hide');
+            } else {
+                this.errorContainer.innerHTML = '';
+                let error = document.createElement('div');
+                error.classList.add('alert', 'alert-warning');
+                error.innerText = "You don't have enough money for this purchase";
+                this.errorContainer.appendChild(error);
+            }
+        });
+
+        this.buttonContainer.appendChild(btn);
+
         this.moviePickerModal.modal('show');
     }
 
     render(): void {
 
+    }
+
+    private getSelectedMovieIds(): string[] {
+        let selectedMovieIds: string[] = [];
+        (document.querySelectorAll('.movie-block.active')).forEach((element) => {
+            let HTMLElement = <HTMLElement>element;
+            selectedMovieIds.push(<string>HTMLElement.dataset.movie);
+        });
+        return selectedMovieIds;
     }
 
     // good
