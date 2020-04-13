@@ -12,12 +12,12 @@ class Customer {
     private _queueingTolerance: number;
     private _pricingToleranceShop: number;
     private _pricingToleranceTicket: number;
+    private _isFan: boolean;
 
     private _thoughts: Array<CustomerThought> = [];
     private _moneySpent : number = 0;
 
-
-    constructor(name: string, age: number, gender: string, likeCommercial: boolean, commercialTolerance: number, likeBreak: boolean, breakTolerance: number, queueingTolerance: number, pricingToleranceShop: number, pricingToleranceTicket: number) {
+    constructor(name: string, age: number, gender: string, likeCommercial: boolean, commercialTolerance: number, likeBreak: boolean, breakTolerance: number, queueingTolerance: number, pricingToleranceShop: number, pricingToleranceTicket: number, isFan : boolean) {
         this._name = name;
         this._age = age;
         this._gender = gender;
@@ -28,6 +28,7 @@ class Customer {
         this._queueingTolerance = queueingTolerance;
         this._pricingToleranceShop = pricingToleranceShop;
         this._pricingToleranceTicket = pricingToleranceTicket;
+        this._isFan = isFan;
     }
 
     get name(): String {
@@ -70,6 +71,10 @@ class Customer {
         return this._pricingToleranceTicket;
     }
 
+    get isFan(): boolean {
+        return this._isFan;
+    }
+
     addThought(thought: CustomerThought) {
         this._thoughts.push(thought);
     }
@@ -86,7 +91,6 @@ class Customer {
     get moneySpent(): number {
         return this._moneySpent;
     }
-
 
     //Testing purpose (temp)
     printCustomerInformation() {

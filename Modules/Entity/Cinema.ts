@@ -10,6 +10,9 @@ import {Movie} from "./Movie";
 import {Scheduler} from "./Scheduler";
 import {ResearchManager} from "../Manager/ResearchManager";
 import {CustomerGenerator} from "../Generator/CustomerGenerator";
+import {GenreManager} from "../Manager/GenreManager";
+import {TimePoint} from "./TimePoint";
+import {CustomerSpawnerManager} from "../Manager/CustomerSpawnerManager";
 
 class Cinema {
     private _name : string ;
@@ -25,21 +28,25 @@ class Cinema {
     private _financeManager: FinanceManager;
     private _boothManager: BoothManager;
     private _researchManager: ResearchManager;
+    private _customerSpawnerManager: CustomerSpawnerManager;
     private _marketingManager: MarketingManager;
+    private _genreManager: GenreManager;
     private _scheduler: Scheduler;
     private _config : ConfigManager;
 
-    public constructor(name: string, TimeManager : TimeManager, config : ConfigManager, financeManager : FinanceManager, marketingmanager: MarketingManager) {
+    public constructor(name: string, TimeManager : TimeManager, config : ConfigManager, financeManager : FinanceManager, marketingmanager: MarketingManager, genreManager : GenreManager) {
         this._name = name;
         this._fans = config.fans;
         this._ticketPrice = config.ticketprice;
         this._timeManager = TimeManager;
         this._financeManager = financeManager;
         this._marketingManager = marketingmanager;
+        this._genreManager = genreManager;
 
         this._scheduler = new Scheduler(this);
         this._boothManager = new BoothManager(this);
         this._researchManager = new ResearchManager(this, config);
+        this._customerSpawnerManager = new CustomerSpawnerManager(this, config);
         this._config = config;
     }
 
@@ -78,13 +85,11 @@ class Cinema {
         return this._researchManager;
     }
 
-    public update() {
-        //@todo remove tmp code that creates users
-        let customerGenerator = new CustomerGenerator(this._config);
-        let customer = customerGenerator.createCustomer();
-        this.boothManager.addCustomer(customer);
-        //end tmp code
+    get customerSpawnerManager(): CustomerSpawnerManager {
+        return this._customerSpawnerManager;
+    }
 
+    public update() {
         this.boothManager.update();
 
         this.timeManager.updateTime();
@@ -96,6 +101,10 @@ class Cinema {
 
     get marketingManager(): MarketingManager {
         return this._marketingManager;
+    }
+
+    get genreManager(): GenreManager {
+        return this._genreManager;
     }
 
     get rooms(): Map<number, Room> {
@@ -120,6 +129,10 @@ class Cinema {
 
     findMovie(id: number) : Movie|undefined {
         return this._movies.get(id);
+    }
+
+    addCustomer(customer: Customer, movie: Movie, start: TimePoint) {
+        this.customers.push(customer);
     }
 }
 

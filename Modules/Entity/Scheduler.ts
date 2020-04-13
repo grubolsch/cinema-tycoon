@@ -62,6 +62,14 @@ class Scheduler {
         delete roomsByShow[showId];
         return true;
     }
+
+    get allShows(): Array<Show> {
+        let shows : Array<Show> = [];
+        this._shows.forEach(function(showsPerRoom ) {
+            shows = shows.concat(showsPerRoom);
+        });
+        return shows;
+    }
 }
 
 export {Scheduler}

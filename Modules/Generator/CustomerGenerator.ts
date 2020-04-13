@@ -12,7 +12,7 @@ const MAX_AGE = 80;
 class CustomerGenerator {
     private readonly configManager: ConfigManager;
 
-    public createCustomer(): Customer {
+    public createCustomer(isFan : boolean = false): Customer {
         let gender = faker.random.arrayElement(GENDER);
         let name = faker.name.firstName(GENDER.indexOf(gender)) + " " + faker.name.lastName(GENDER.indexOf(gender));
         let age = faker.random.number({min: MIN_AGE, max: MAX_AGE});
@@ -24,7 +24,7 @@ class CustomerGenerator {
         let pricingToleranceShop = faker.random.number({min: 12, max: 25}) / 10;
         let pricingToleranceTicket = faker.random.number({min: 12, max: 25}) / 10;
 
-        let customer = new Customer(name, age, gender, likeCommercial, commercialTolerance, likeBreak, breakTolerance, queueingTolerance, pricingToleranceShop, pricingToleranceTicket);
+        let customer = new Customer(name, age, gender, likeCommercial, commercialTolerance, likeBreak, breakTolerance, queueingTolerance, pricingToleranceShop, pricingToleranceTicket, isFan);
         customer.printCustomerInformation();
         return customer;
     }
