@@ -74,3 +74,14 @@ div.research-block  {
     background-color: lightgreen;
   }
 }
+
+#game-area {
+  position: relative;
+}
+
+.customer {
+  display: block;
+  position: absolute;
+  border: 1px black solid;
+  transition: top 1s, left 1s;
+}

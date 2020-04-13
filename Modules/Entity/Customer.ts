@@ -1,7 +1,11 @@
 import {CustomerThought} from "./CustomerThought";
 import {randomNumber} from "../Utils";
+import {CustomerAction} from "../CustomerActions/CustomerAction";
+
+type Location = {'x' : number, 'y' : number}
 
 class Customer {
+    private _id : number;
     private _name: string;
     private _age: number;
     private _gender: string;
@@ -16,8 +20,12 @@ class Customer {
     private _thoughts: Array<CustomerThought> = [];
     private _moneySpent : number = 0;
 
+    private _location : Location = {'x': 0, 'y': 0};//@todo make nullable?
+//    private actions : Array<CustomerAction> = [];
+    private _currentAction : CustomerAction;
 
     constructor(name: string, age: number, gender: string, likeCommercial: boolean, commercialTolerance: number, likeBreak: boolean, breakTolerance: number, queueingTolerance: number, pricingToleranceShop: number, pricingToleranceTicket: number) {
+        this._id = randomNumber(0, 100000000);
         this._name = name;
         this._age = age;
         this._gender = gender;
@@ -30,7 +38,11 @@ class Customer {
         this._pricingToleranceTicket = pricingToleranceTicket;
     }
 
-    get name(): String {
+    get id(): number {
+        return this._id;
+    }
+
+    get name(): string {
         return this._name;
     }
 
@@ -38,7 +50,7 @@ class Customer {
         return this._age;
     }
 
-    get gender(): String {
+    get gender(): string {
         return this._gender;
     }
 
@@ -78,6 +90,10 @@ class Customer {
         return this._thoughts;
     }
 
+    get location(): Location {
+        return this._location;
+    }
+
     //while the customer has unlimited money, we do track how much money he has spent in the cinema
     pay(ticketPrice: number) {
         this._moneySpent += ticketPrice;
@@ -87,8 +103,15 @@ class Customer {
         return this._moneySpent;
     }
 
+    get currentAction(): CustomerAction {
+        return this._currentAction;
+    }
 
-    //Testing purpose (temp)
+    set currentAction(value: CustomerAction) {
+        this._currentAction = value;
+    }
+
+//Testing purpose (temp)
     printCustomerInformation() {
         console.info(this._name + ", " +
             this._gender + ", " +
@@ -101,7 +124,11 @@ class Customer {
             this._pricingToleranceShop + ", " +
             this._pricingToleranceTicket);
     }
+
+    update() {
+        this.currentAction.update();
+    }
 }
 
 
-export { Customer };
+export { Customer, Location };

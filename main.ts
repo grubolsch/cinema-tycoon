@@ -20,6 +20,9 @@ import {MovieType} from "./Modules/MovieTypes/MovieType";
 import {RenderScheduler} from "./Modules/Render/RenderScheduler";
 import {RenderSchedulerForm} from "./Modules/Render/RenderSchedulerForm";
 import {Genre} from "./Modules/Entity/Genre";
+import {RenderCustomers} from "./Modules/Render/RenderCustomers.";
+import {CustomerGenerator} from "./Modules/Generator/CustomerGenerator";
+import {MoveAction} from "./Modules/CustomerActions/MovieAction";
 
 function generateMovies(genreManager : GenreManager) : void {
     let manyMovies: Array<Movie> = [];
@@ -60,8 +63,14 @@ document.addEventListener('DOMContentLoaded', () => {
     render.addRender(new RenderSchedulerForm(cinema));
     render.addRender(new RenderResearch(cinema));
     render.addRender(new RenderMarketing(cinema));
+    render.addRender(new RenderCustomers(cinema));
     render.render();
 
+
+    let customerGenerator = new CustomerGenerator(configManager);
+    let customer = customerGenerator.createCustomer();
+    customer.currentAction = new MoveAction(customer, {'x': 100, 'y': 200});
+    cinema.addCustomer(customer);
 
     //the main loop that makes the game has a flow of time
     setInterval(() => {

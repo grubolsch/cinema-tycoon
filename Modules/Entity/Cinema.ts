@@ -87,6 +87,10 @@ class Cinema {
 
         this.boothManager.update();
 
+        this.customers.forEach(function(customer) {
+            customer.update();
+        });
+
         this.timeManager.updateTime();
     }
 
@@ -120,6 +124,10 @@ class Cinema {
 
     findMovie(id: number) : Movie|undefined {
         return this._movies.get(id);
+    }
+
+    addCustomer(customer: Customer) {
+        this.customers.push(customer);
     }
 }
 
