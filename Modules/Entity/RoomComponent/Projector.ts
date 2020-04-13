@@ -4,7 +4,7 @@ import {RoomComponent} from "./RoomComponent";
 class Projector extends RoomComponent {
 
     constructor(cm: ConfigManager) {
-        super(cm, cm.basicProjectorDailyCost, cm.basicProjectorQuality);
+        super(cm.basicProjectorDailyCost, cm.basicProjectorQuality);
     }
 
 

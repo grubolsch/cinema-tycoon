@@ -2,19 +2,19 @@ import {ConfigManager} from "../../Manager/ConfigManager";
 
 abstract class RoomComponent {
     private _dailyCost: number;
-    private _popularity: number;
+    private _quality: number;
 
-    constructor(cm: ConfigManager, dailyCost: number, popularity: number) {
+    constructor(dailyCost: number, quality: number) {
         this._dailyCost = dailyCost;
-        this._popularity = popularity;
+        this._quality = quality;
     }
 
     get dailyCost(): number {
         return this._dailyCost;
     }
 
-    get popularity(): number {
-        return this._popularity;
+    get quality(): number {
+        return this._quality;
     }
 }
 

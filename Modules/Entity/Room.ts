@@ -5,19 +5,18 @@ import {Screen} from "./RoomComponent/Screen";
 import {Sound} from "./RoomComponent/Sound";
 import {Projector} from "./RoomComponent/Projector";
 import {Heating} from "./RoomComponent/Heating";
-import {randomNumber} from "../Utils";
+import {RoomException} from "../Exception/RoomException";
+import {RoomManager} from "../Manager/RoomManager";
 
 class Room {
     private _id : number;
     private _name: string;
     private _type: RoomType;
     private _components: Map<String, RoomComponent>;
-    private _maintenanceCost: number;
-    private _popularity: number; // = quality of the room
     private _config: ConfigManager;
 
     constructor(config: ConfigManager, name: string, type: RoomType, screen: Screen, projector: Projector, sound: Sound, heating: Heating) {
-        this._id = randomNumber(1, 1000000);
+        this._id = RoomManager._roomIdCounter;
         this._config = config;
         this._name = name;
         this._type = type;
@@ -26,11 +25,13 @@ class Room {
         this._components.set(config.projector, projector);
         this._components.set(config.sound, sound);
         this._components.set(config.heating, heating);
-        this._maintenanceCost = this._type.maintenanceCost + this.getComponentsCost();
-        this._popularity = this.getRoomQuality();
     }
 
-    getComponentsCost(): number {
+    calculateMaintenanceCost(): number {
+        return this._type.maintenanceCost + this.calculateTotalComponentsCost()
+    }
+
+    calculateTotalComponentsCost(): number {
         let total = 0;
         this._components.forEach(function (item) {
             total += item.dailyCost
@@ -38,7 +39,7 @@ class Room {
         return total;
     }
 
-    getRoomQuality(): number {
+    calculateRoomQuality(): number {
         let screen = this._components.get(this._config.screen);
         let projector = this._components.get(this._config.projector);
         let sound = this._components.get(this._config.sound);
@@ -46,13 +47,16 @@ class Room {
 
         let quality = 0;
         if(screen && projector && sound && heating){ // always. these are must-have-components
-            quality = screen.popularity * this._config.roomQualityProportionScreen
-                    + projector.popularity * this._config.roomQualityProportionProjector
-                    + sound.popularity * this._config.roomQualityProportionSound
-                    + heating.popularity * this._config.roomQualityProportionHeating
+            quality = screen.quality * this._config.roomQualityProportionScreen
+                    + projector.quality * this._config.roomQualityProportionProjector
+                    + sound.quality * this._config.roomQualityProportionSound
+                    + heating.quality * this._config.roomQualityProportionHeating
                     + this._type.capacity * this._config.roomQualityProportionSeats;
 
+        } else {
+            throw RoomException.noBasicComponents();
         }
+
         return quality;
     }
 
@@ -80,19 +84,7 @@ class Room {
         return this._components;
     }
 
-    get popularity(): number {
-        return this._popularity;
-    }
-
-    get maintenanceCost(): number {
-        return this._type.maintenanceCost + this.getComponentsCost()
-    }
-
-    set maintenanceCost(value: number) {
-        this._maintenanceCost = value;
-    }
-
-
 }
 
 export {Room};
+

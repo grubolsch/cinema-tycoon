@@ -30,8 +30,10 @@ class ConfigManager {
 
     private readonly _seatsPerRow = 12;
 
-    private readonly _roomPrice = 20000;
+    private readonly _newRoomPrice = 20000;
+    private readonly _newRoomPriceCoefficient = 0.25;
     private readonly _roomUpgradeCost = 10000;
+
 
     private readonly _maximumRoomsDefault = 3;
     private readonly _maximumRoomsExtra = 2;
@@ -58,7 +60,7 @@ class ConfigManager {
     private readonly _basicSoundQuality = 20;
     private readonly _basicSoundDailyCost = 20;
 
-    private readonly _basicHeatingorQuality = 20;
+    private readonly _basicHeatingQuality = 20;
     private readonly _basicHeatingDailyCost = 20;
 
     get credit(): number {
@@ -149,8 +151,12 @@ class ConfigManager {
         return this._seatsPerRow;
     }
 
-    get roomPrice(): number {
-        return this._roomPrice;
+    get newRoomPrice(): number {
+        return this._newRoomPrice;
+    }
+
+    get newRoomPriceCoefficient() {
+        return this._newRoomPriceCoefficient;
     }
 
     get roomUpgradeCost(): number {
@@ -225,8 +231,8 @@ class ConfigManager {
         return this._basicSoundDailyCost;
     }
 
-    get basicHeatingorQuality(): number {
-        return this._basicHeatingorQuality;
+    get basicHeatingQuality(): number {
+        return this._basicHeatingQuality;
     }
 
     get basicHeatingDailyCost(): number {

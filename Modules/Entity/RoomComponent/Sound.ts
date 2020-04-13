@@ -4,7 +4,7 @@ import {RoomComponent} from "./RoomComponent";
 class Sound extends RoomComponent {
 
     constructor(cm: ConfigManager) {
-        super(cm, cm.basicSoundDailyCost, cm.basicSoundQuality);
+        super(cm.basicSoundDailyCost, cm.basicSoundQuality);
     }
 
 

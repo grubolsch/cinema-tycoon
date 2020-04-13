@@ -15,6 +15,14 @@ class RoomException extends Error {
         return new this('This room is not upgradable')
     }
 
+    static noBasicComponents() : RoomException {
+        return new this('Basic component(s) of this room is missing')
+    }
+
+    static noSuchRoom() : RoomException{
+        return new this('Is this room really exist? Something wrong')
+    }
+
 
 }
 

@@ -47,10 +47,10 @@ document.addEventListener('DOMContentLoaded', () => {
     cinema.addMovie(new Movie('Test movie', 7, new Genre('fantasy'), MovieType.isGeneric(), 60));
     cinema.addMovie(new Movie('Other movie', 7, new Genre('fantasy'), MovieType.isGeneric(), 90));
 
-    cinema.addRoom(new Room("Koen room"));
-    cinema.addRoom(new Room("Bona room"));
-    cinema.addRoom(new Room("Jan room"));
-    cinema.addRoom(new Room("Irina room"));
+    // cinema.addRoom(new Room("Koen room"));
+    // cinema.addRoom(new Room("Bona room"));
+    // cinema.addRoom(new Room("Jan room"));
+    // cinema.addRoom(new Room("Irina room"));
     //done tmp code
 
     //Object responsible for rendering changes in state

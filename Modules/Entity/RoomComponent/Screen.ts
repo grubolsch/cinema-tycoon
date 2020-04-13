@@ -4,7 +4,7 @@ import {RoomComponent} from "./RoomComponent";
 class Screen extends RoomComponent {
 
     constructor(cm: ConfigManager) {
-        super(cm, cm.basicScreenDailyCost, cm.basicScreenQuality);
+        super(cm.basicScreenDailyCost, cm.basicScreenQuality);
     }
 
 
