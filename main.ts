@@ -13,6 +13,7 @@ import {MovieGenerator} from "./Modules/Generator/MovieGenerator";
 import {Movie} from "./Modules/Entity/Movie";
 import {RenderResearch} from "./Modules/Render/RenderResearch";
 import {ResearchItem} from "./Modules/Entity/Research/ResearchItem";
+import {RenderRooms} from "./Modules/Render/RenderRooms";
 import {GenreManager} from "./Modules/Manager/GenreManager";
 import {DebugBar} from "./Modules/DebugBar";
 import {Room} from "./Modules/Entity/Room";
@@ -46,16 +47,17 @@ document.addEventListener('DOMContentLoaded', () => {
     cinema.addMovie(new Movie('Test movie', 7, new Genre('fantasy'), MovieType.isGeneric(), 60));
     cinema.addMovie(new Movie('Other movie', 7, new Genre('fantasy'), MovieType.isGeneric(), 90));
 
-    cinema.addRoom(new Room("Koen room"));
-    cinema.addRoom(new Room("Bona room"));
-    cinema.addRoom(new Room("Jan room"));
-    cinema.addRoom(new Room("Irina room"));
+    // cinema.addRoom(new Room("Koen room"));
+    // cinema.addRoom(new Room("Bona room"));
+    // cinema.addRoom(new Room("Jan room"));
+    // cinema.addRoom(new Room("Irina room"));
     //done tmp code
 
     //Object responsible for rendering changes in state
     let render = new Render(cinema);
     render.addRender(new RenderLoans(cinema, loanManager));
     render.addRender(new RenderBooths(cinema));
+    render.addRender(new RenderRooms(cinema));
     render.addRender(new RenderScheduler(cinema));
     render.addRender(new RenderSchedulerForm(cinema));
     render.addRender(new RenderResearch(cinema));
@@ -123,6 +125,7 @@ document.addEventListener('DOMContentLoaded', () => {
     observer.subscribe(observer.RESEARCH_FINISHED, function (params: { research: ResearchItem; }) {
         alert('You finished research on ' + params.research.name + '. Make sure you select a new technology to work on. \nStanding still is going backwards.');
     });
+
     //end observers code
 
     //control the speed buttons

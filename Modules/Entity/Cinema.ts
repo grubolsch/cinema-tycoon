@@ -5,11 +5,13 @@ import {MarketingManager} from "../Manager/MarketingManager";
 import {LoanTaken} from "./LoanTaken";
 import {BoothManager} from "../Manager/BoothManager";
 import {Customer} from "./Customer";
-import {Room} from "./Room";
+import {RoomManager} from "../Manager/RoomManager";
 import {Movie} from "./Movie";
+import {Room} from "./Room";
 import {Scheduler} from "./Scheduler";
 import {ResearchManager} from "../Manager/ResearchManager";
 import {CustomerGenerator} from "../Generator/CustomerGenerator";
+
 
 class Cinema {
     private _name : string ;
@@ -24,6 +26,7 @@ class Cinema {
     private _timeManager: TimeManager;
     private _financeManager: FinanceManager;
     private _boothManager: BoothManager;
+    private _roomManager: RoomManager;
     private _researchManager: ResearchManager;
     private _marketingManager: MarketingManager;
     private _scheduler: Scheduler;
@@ -37,10 +40,12 @@ class Cinema {
         this._financeManager = financeManager;
         this._marketingManager = marketingmanager;
 
+        this._roomManager = new RoomManager(this, config);
         this._scheduler = new Scheduler(this);
         this._boothManager = new BoothManager(this);
         this._researchManager = new ResearchManager(this, config);
         this._config = config;
+
     }
 
     get name(): string {
@@ -96,6 +101,10 @@ class Cinema {
 
     get marketingManager(): MarketingManager {
         return this._marketingManager;
+    }
+
+    get roomManager(): RoomManager {
+        return this._roomManager;
     }
 
     get rooms(): Map<number, Room> {

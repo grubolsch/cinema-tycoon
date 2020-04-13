@@ -120,7 +120,7 @@
 <!-- /Advertising Modal -->
 
 
-<!-- loan Modal -->
+<!-- Advertising Modal -->
 <div class="modal fade" id="loansModal" tabindex="-1" role="dialog" aria-labelledby="ModalCenterTitle"
      aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered" role="document">
@@ -251,6 +251,7 @@
 </div>
 
 <div id="game-area">
+<!--    booth-->
     <div id="booth-container"></div>
 
     <template id="booth-template">
@@ -264,9 +265,30 @@
 
     <button class="btn btn-secondary" id="build-booth">Build booth</button>
 
+<!--    campaign-->
     <div>
         <span id="active_campaign"></span> <span id="duration_campaign"></span><br/>
     </div>
+
+<!--    room-->
+    <hr>
+    <button class="btn btn-success" id="build-room">Build room</button>
+    <h3>Cinema Rooms :</h3>
+    <div id="room-container"></div>
+
+    <template id="room-template">
+        <div class="room">
+            <ul class="list-unstyled">
+                <li>name : <span class="room-name"></span></li>
+                <li>type : <span class="room-type"></span></li>
+                <li>daily Cost : <span class="room-daily-cost"></span></li>
+                <li>quality : <span class="room-quality"></span></li>
+                <li><button class="btn btn-outline-success btn-sm room-components">Manage room Components</button></li>
+                <li><button class="btn btn-outline-success btn-sm room-upgrade">Upgrade room</button></li>
+            </ul>
+        </div>
+    </template>
+
 </div>
 
 <progress max="100" value="0" id="research-progress-bar"></progress>
