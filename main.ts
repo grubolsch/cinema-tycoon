@@ -19,6 +19,7 @@ import {Room} from "./Modules/Entity/Room";
 import {MovieType} from "./Modules/MovieTypes/MovieType";
 import {RenderScheduler} from "./Modules/Render/RenderScheduler";
 import {RenderSchedulerForm} from "./Modules/Render/RenderSchedulerForm";
+import {Genre} from "./Modules/Entity/Genre";
 
 function generateMovies(genreManager : GenreManager) : void {
     let manyMovies: Array<Movie> = [];
@@ -41,9 +42,9 @@ document.addEventListener('DOMContentLoaded', () => {
     let cinema = new Cinema("Our own Cinema", new TimeManager(observer), configManager, new FinanceManager(configManager), new MarketingManager());
 
     //Tmp code so there is a room and a movie for the scheduler
-    cinema.addMovie(new Movie('Crazy long movie', 7, 'fantasy', MovieType.isGeneric(), 180));
-    cinema.addMovie(new Movie('Test movie', 7, 'fantasy', MovieType.isGeneric(), 60));
-    cinema.addMovie(new Movie('Other movie', 7, 'fantasy', MovieType.isGeneric(), 90));
+    cinema.addMovie(new Movie('Crazy long movie', 7, new Genre('fantasy'), MovieType.isGeneric(), 180));
+    cinema.addMovie(new Movie('Test movie', 7, new Genre('fantasy'), MovieType.isGeneric(), 60));
+    cinema.addMovie(new Movie('Other movie', 7, new Genre('fantasy'), MovieType.isGeneric(), 90));
 
     cinema.addRoom(new Room("Koen room"));
     cinema.addRoom(new Room("Bona room"));
