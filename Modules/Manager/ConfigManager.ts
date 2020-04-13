@@ -64,4 +64,4 @@ class ConfigManager {
     }
 }
 
-export { ConfigManager };
+export { ConfigManager }
