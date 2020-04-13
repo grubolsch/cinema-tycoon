@@ -5,8 +5,10 @@ import {Screen} from "./RoomComponent/Screen";
 import {Sound} from "./RoomComponent/Sound";
 import {Projector} from "./RoomComponent/Projector";
 import {Heating} from "./RoomComponent/Heating";
+import {randomNumber} from "../Utils";
 
 class Room {
+    private _id : number;
     private _name: string;
     private _type: RoomType;
     private _components: Map<String, RoomComponent>;
@@ -15,6 +17,7 @@ class Room {
     private _config: ConfigManager;
 
     constructor(config: ConfigManager, name: string, type: RoomType, screen: Screen, projector: Projector, sound: Sound, heating: Heating) {
+        this._id = randomNumber(1, 1000000);
         this._config = config;
         this._name = name;
         this._type = type;
@@ -51,6 +54,10 @@ class Room {
 
         }
         return quality;
+    }
+
+    get id(): number {
+        return this._id;
     }
 
     get name(): string {

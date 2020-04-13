@@ -16,6 +16,11 @@ import {ResearchItem} from "./Modules/Entity/Research/ResearchItem";
 import {RenderRooms} from "./Modules/Render/RenderRooms";
 import {GenreManager} from "./Modules/Manager/GenreManager";
 import {DebugBar} from "./Modules/DebugBar";
+import {Room} from "./Modules/Entity/Room";
+import {MovieType} from "./Modules/MovieTypes/MovieType";
+import {RenderScheduler} from "./Modules/Render/RenderScheduler";
+import {RenderSchedulerForm} from "./Modules/Render/RenderSchedulerForm";
+import {Genre} from "./Modules/Entity/Genre";
 
 function generateMovies(genreManager : GenreManager) : void {
     let manyMovies: Array<Movie> = [];
@@ -32,18 +37,33 @@ const genreManager = new GenreManager(configManager);
 
 document.addEventListener('DOMContentLoaded', () => {
     // temporary code, this should come from a save or a "create new game" menu
+    //          init();
     generateMovies(genreManager);
 
     let cinema = new Cinema("Our own Cinema", new TimeManager(observer), configManager, new FinanceManager(configManager), new MarketingManager());
+
+    //Tmp code so there is a room and a movie for the scheduler
+    cinema.addMovie(new Movie('Crazy long movie', 7, new Genre('fantasy'), MovieType.isGeneric(), 180));
+    cinema.addMovie(new Movie('Test movie', 7, new Genre('fantasy'), MovieType.isGeneric(), 60));
+    cinema.addMovie(new Movie('Other movie', 7, new Genre('fantasy'), MovieType.isGeneric(), 90));
+
+    cinema.addRoom(new Room("Koen room"));
+    cinema.addRoom(new Room("Bona room"));
+    cinema.addRoom(new Room("Jan room"));
+    cinema.addRoom(new Room("Irina room"));
+    //done tmp code
 
     //Object responsible for rendering changes in state
     let render = new Render(cinema);
     render.addRender(new RenderLoans(cinema, loanManager));
     render.addRender(new RenderBooths(cinema));
     render.addRender(new RenderRooms(cinema));
+    render.addRender(new RenderScheduler(cinema));
+    render.addRender(new RenderSchedulerForm(cinema));
     render.addRender(new RenderResearch(cinema));
     render.addRender(new RenderMarketing(cinema));
     render.render();
+
 
     //the main loop that makes the game has a flow of time
     setInterval(() => {
@@ -54,8 +74,28 @@ document.addEventListener('DOMContentLoaded', () => {
     }, 1000);
 
     //observers
+    observer.subscribe(observer.HALFHOUR, () => {
+        console.info('Half an hour has passed');
+
+        render.renderByHalfHour();
+    });
+
+    observer.subscribe(observer.HOUR, () => {
+        console.info('An hour has passed');
+
+        cinema.boothManager.payHourCost();
+
+        render.renderByHour();
+    });
+
+    observer.subscribe(observer.DAY, () => {
+        console.info('A day has passed');
+
+        render.renderByDay();
+    });
+
     observer.subscribe(observer.MONTH, () => {
-        console.log('A month has passed');
+        console.info('A month has passed');
 
         loanManager.update(cinema);
         genreManager.update();
@@ -79,10 +119,10 @@ document.addEventListener('DOMContentLoaded', () => {
     });
 
     observer.subscribe(observer.YEAR, () => {
-        console.log('A year has passed');
+        console.info('A year has passed');
     });
 
-    observer.subscribe(observer.RESEARCH_FINISHED, function(params: { research: ResearchItem; }) {
+    observer.subscribe(observer.RESEARCH_FINISHED, function (params: { research: ResearchItem; }) {
         alert('You finished research on ' + params.research.name + '. Make sure you select a new technology to work on. \nStanding still is going backwards.');
     });
 
@@ -96,6 +136,7 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     });
 
+    //create the debug bar
     let bar = new DebugBar(cinema, observer);
     bar.init();
 });

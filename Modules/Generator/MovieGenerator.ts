@@ -6,7 +6,7 @@ import {GenreManager} from "../Manager/GenreManager";
 
 class MovieGenerator {
     public static newMovie(genreManager : GenreManager): Movie {
-        return new Movie(this.titleGenerator(), this.ratingGenerator(), genreManager.getRandomGenre(), this.typeGenerator());
+        return new Movie(this.titleGenerator(), this.ratingGenerator(), genreManager.getRandomGenre(), this.typeGenerator(), this.durationGenerator());
     }
 
     protected static typeGenerator() : MovieType{
@@ -31,6 +31,12 @@ class MovieGenerator {
         let partTwo : Array<string> = movieNames.lastpart;
         return  partOne[Math.floor(Math.random() * partOne.length)] + ' ' +
             partTwo[Math.floor(Math.random() * partTwo.length)];
+    }
+
+    private static durationGenerator() : number {
+        const duration = [90, 120, 150, 180];
+
+        return duration[Math.floor(Math.random() * duration.length)];
     }
 }
 
