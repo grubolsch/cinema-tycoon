@@ -7,25 +7,23 @@ import {FinanceManager} from "./Modules/Manager/FinanceManager";
 import {MarketingManager} from "./Modules/Manager/MarketingManager";
 import {LoanManager} from "./Modules/Manager/LoanManager";
 import {RenderLoans} from "./Modules/Render/RenderLoans";
-import {RenderBoots} from "./Modules/Render/RenderBoots";
+import {RenderBooths} from "./Modules/Render/RenderBooths";
 import {RenderMarketing} from "./Modules/Render/RenderMarketing";
 import {MovieGenerator} from "./Modules/Generator/MovieGenerator";
 import {Movie} from "./Modules/Entity/Movie";
 import {RenderResearch} from "./Modules/Render/RenderResearch";
 import {ResearchItem} from "./Modules/Entity/Research/ResearchItem";
+import {GenreManager} from "./Modules/Manager/GenreManager";
+import {DebugBar} from "./Modules/DebugBar";
 import {Room} from "./Modules/Entity/Room";
 import {MovieType} from "./Modules/MovieTypes/MovieType";
 import {RenderScheduler} from "./Modules/Render/RenderScheduler";
 import {RenderSchedulerForm} from "./Modules/Render/RenderSchedulerForm";
 
-function init() {
-    generateMovie();
-}
-
-function generateMovie() {
+function generateMovies(genreManager : GenreManager) : void {
     let manyMovies: Array<Movie> = [];
-    for (let i = 0; i < 10; i++) {
-        manyMovies[i] = MovieGenerator.newMovie();
+    for (let i = 0; i < 10; i++){
+        manyMovies[i] = MovieGenerator.newMovie(genreManager);
     }
     console.log(manyMovies);
 }
@@ -33,10 +31,12 @@ function generateMovie() {
 const observer = new Observer;
 const configManager = new ConfigManager;
 const loanManager = new LoanManager;
+const genreManager = new GenreManager(configManager);
 
 document.addEventListener('DOMContentLoaded', () => {
     // temporary code, this should come from a save or a "create new game" menu
     //          init();
+    generateMovies(genreManager);
 
     let cinema = new Cinema("Our own Cinema", new TimeManager(observer), configManager, new FinanceManager(configManager), new MarketingManager());
 
@@ -54,12 +54,13 @@ document.addEventListener('DOMContentLoaded', () => {
     //Object responsible for rendering changes in state
     let render = new Render(cinema);
     render.addRender(new RenderLoans(cinema, loanManager));
-    render.addRender(new RenderBoots(cinema));
+    render.addRender(new RenderBooths(cinema));
     render.addRender(new RenderScheduler(cinema));
     render.addRender(new RenderSchedulerForm(cinema));
     render.addRender(new RenderResearch(cinema));
     render.addRender(new RenderMarketing(cinema));
     render.render();
+
 
     //the main loop that makes the game has a flow of time
     setInterval(() => {
@@ -79,7 +80,7 @@ document.addEventListener('DOMContentLoaded', () => {
     observer.subscribe(observer.HOUR, () => {
         console.info('An hour has passed');
 
-        cinema.bootManager.payHourCost();
+        cinema.boothManager.payHourCost();
 
         render.renderByHour();
     });
@@ -94,9 +95,24 @@ document.addEventListener('DOMContentLoaded', () => {
         console.info('A month has passed');
 
         loanManager.update(cinema);
+        genreManager.update();
         cinema.researchManager.update(observer);
 
         render.renderByMonth();
+    });
+
+    observer.subscribe(observer.DAY, () => {
+        console.log('A day has passed');
+
+        render.renderByDay();
+    });
+
+    observer.subscribe(observer.HOUR, () => {
+        console.log('An hour has passed');
+
+        cinema.boothManager.payHourCost();
+
+        render.renderByHour();
     });
 
     observer.subscribe(observer.YEAR, () => {
@@ -117,11 +133,6 @@ document.addEventListener('DOMContentLoaded', () => {
     });
 
     //create the debug bar
-    document.querySelectorAll('div#debugBar button.trigger-event').forEach((element) => {
-        element.addEventListener('click', (e) => {
-            // @ts-ignore
-            observer.trigger(e.target.getAttribute('rel'), [cinema.timeManager]);
-        });
-
-    });
+    let bar = new DebugBar(cinema, observer);
+    bar.init();
 });

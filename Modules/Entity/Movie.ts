@@ -13,7 +13,7 @@ class Movie {
         this._title = title;
         this._rating = rating;
         this._genre = genre;
-        this._type = type
+        this._type = type;
         this._duration = duration;
         this._id = randomNumber(1, 1000000);
     }

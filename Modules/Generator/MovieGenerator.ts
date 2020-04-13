@@ -1,10 +1,12 @@
 import {Movie} from "../Entity/Movie";
 import {MovieType} from "../MovieTypes/MovieType";
 import Genres  from  "../Assets/Genres.json";
+import movieNames  from  "../Assets/movienames.json";
+import {GenreManager} from "../Manager/GenreManager";
 
 class MovieGenerator {
-    public static newMovie(): Movie {
-        return new Movie(this.titleGenerator(), this.ratingGenerator(), this.genreGenerator(), this.typeGenerator(), this.durationGenerator());
+    public static newMovie(genreManager : GenreManager): Movie {
+        return new Movie(this.titleGenerator(), this.ratingGenerator(), genreManager.getRandomGenre(), this.typeGenerator(), this.durationGenerator());
     }
 
     protected static typeGenerator() : MovieType{
@@ -25,18 +27,10 @@ class MovieGenerator {
     }
 
     protected static titleGenerator() : string {
-        let partOne : Array<string> = ["The Shawshank ", "The Dark ", "The Godfather: ", "The Lord of the Rings: ",
-                                        "Pulp ", "Schindler's ", "Fight ", "Forrest ", "The Good, The Bad ",
-                                        "Star Wars: Episode V - "];
-        let partTwo : Array<string> = ["Redemption",  "Knight", "Part II", "The Return of the King",
-                                        "Fiction", "List", "Club", "Gump", "and the Ugly", "The Empire Strikes Back"];
-        return  partOne[Math.floor(Math.random() * partOne.length)] +
-            partTwo[Math.floor(Math.random() * partOne.length)];
-    }
-
-    protected static genreGenerator(): string{
-        let randomIndex: number = Math.floor(Math.random() * 10);
-        return  Genres["genres"][randomIndex]["genre"];
+        let partOne : Array<string> = movieNames.firstpart;
+        let partTwo : Array<string> = movieNames.lastpart;
+        return  partOne[Math.floor(Math.random() * partOne.length)] + ' ' +
+            partTwo[Math.floor(Math.random() * partTwo.length)];
     }
 
     private static durationGenerator() : number {

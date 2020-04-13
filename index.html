@@ -98,8 +98,7 @@
                         <label><input type="radio" name="optMarketing" data-cost="1000" value="TV">TV</label>
                     </div>
                     <div class="radio">
-                        <label><input type="radio" name="optMarketing" data-cost="2000"
-                                      value="Internet">Internet</label>
+                        <label><input type="radio" name="optMarketing" data-cost="2000" value="Internet">Internet</label>
                     </div>
                     <hr>
                     <label for="marketingDurationRange">Choose duration: <span
@@ -244,18 +243,26 @@
     <button class="trigger-event btn btn-secondary" rel="week">Trigger week change</button>
     <button class="trigger-event btn btn-secondary" rel="month">Trigger month change</button>
     <button class="trigger-event btn btn-secondary" rel="year">Trigger year change</button>
+
+    <form method="get" id="debugBar-add-money">
+        <input type="text" name="money" placeholder="Enter amount" />
+        <input type="submit" value="Add money" class="btn btn-danger"/>
+    </form>
 </div>
 
 <div id="game-area">
-    <div id="boot-container"></div>
+    <div id="booth-container"></div>
 
-    <template id="boot-template">
-        <p>Amount of tickets sold: <span class="boot-ticket-sold"></span></p>
-        <p>Amount of customers waiting: <span class="boot-customer-waiting"></span></p>
-        <p>Amount of customers who went away: <span class="boot-customer-away"></span></p>
+    <template id="booth-template">
+        <div class="booth">
+            <i class="fa fa-person-booth"></i>
+            <p>Amount of tickets sold: <span class="booth-ticket-sold"></span></p>
+            <p>Amount of customers waiting: <span class="booth-customer-waiting"></span></p>
+            <p>Amount of customers who went away: <span class="booth-customer-away"></span></p>
+        </div>
     </template>
 
-    <button class="btn btn-secondary" id="build-boot">Build boot</button>
+    <button class="btn btn-secondary" id="build-booth">Build booth</button>
 
     <div>
         <span id="active_campaign"></span> <span id="duration_campaign"></span><br/>

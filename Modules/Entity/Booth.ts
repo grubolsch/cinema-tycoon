@@ -3,8 +3,7 @@ import {Customer} from "./Customer";
 import {CustomerThought} from "./CustomerThought";
 import {CustomerInQueue} from "./CustomerInQueue";
 
-class Boot {
-
+class Booth {
     private readonly THOUGHT_WAITING_TOO_LONG = "I am waiting too long in this queue";
     private readonly THOUGHT_WAITING_TOO_LONG_GOING_HOME = "I have waited far too long in this queue! I am going home!";
 
@@ -113,4 +112,4 @@ class Boot {
     }
 }
 
-export {Boot}
+export {Booth}

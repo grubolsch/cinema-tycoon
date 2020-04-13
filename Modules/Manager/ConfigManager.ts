@@ -10,6 +10,11 @@ class ConfigManager {
     private readonly _breakTolerance = 0.2;
     private readonly _commercialTolerance = 0.2;
 
+    private readonly _hypeChance : number = 50;
+    private readonly _hypeChanceDropRate : number = 10;
+    private readonly _hypeMinimumDuration : number = 2;
+    private readonly _hypeMaximumDuration : number = 6;
+
     get credit(): number {
         return this._credit;
     }
@@ -40,6 +45,22 @@ class ConfigManager {
 
     get researchIncreasePercentageCostPerRoom(): number {
         return this._researchIncreasePercentageCostPerRoom;
+    }
+
+    get hypeChance(): number {
+        return this._hypeChance;
+    }
+
+    get hypeChanceDropRate(): number {
+        return this._hypeChanceDropRate;
+    }
+
+    get hypeMinimumDuration(): number {
+        return this._hypeMinimumDuration;
+    }
+
+    get hypeMaximumDuration(): number {
+        return this._hypeMaximumDuration;
     }
 }
 
