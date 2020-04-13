@@ -17,7 +17,10 @@ class ReleaseDatePenaltyManager {
     }
 
     update() {
-        this._cinema.movies.forEach(this.updateMovie);
+        let self = this;
+        this._cinema.movies.forEach(function(movie) {
+            self.updateMovie(movie);
+        });
     }
 
     private updateMovie(movie : Movie) : void {
@@ -45,3 +48,4 @@ class ReleaseDatePenaltyManager {
     }
 }
 
+export {ReleaseDatePenaltyManager}

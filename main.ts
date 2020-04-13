@@ -26,6 +26,7 @@ import {CustomerGenerator} from "./Modules/Generator/CustomerGenerator";
 import {Show} from "./Modules/Entity/Show";
 import {TimePoint} from "./Modules/Entity/TimePoint";
 import {ShowConfig} from "./Modules/Entity/ShowConfig";
+import {ReleaseDatePenaltyManager} from "./Modules/Manager/ReleaseDatePenaltyManager";
 
 function generateMovies(config : ConfigManager, timeManager : TimeManager, genreManager : GenreManager) : Array<Movie> {
     let generator = new MovieGenerator(config, timeManager, genreManager);
@@ -48,6 +49,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // temporary code, this should come from a save or a "create new game" menu
     let cinema = new Cinema("Our own Cinema", timeManager, configManager, new FinanceManager(configManager), new MarketingManager(), genreManager);
+    const releaseDatePenaltyManager = new ReleaseDatePenaltyManager(cinema, configManager);
 
     let releaseDate = new ReleaseDate(cinema.timeManager.year, cinema.timeManager.month);
 
@@ -65,8 +67,6 @@ document.addEventListener('DOMContentLoaded', () => {
 
     cinema.scheduler.plan(new Show(room, new TimePoint(9, 0), new ShowConfig(movie, true, true)));
     cinema.scheduler.plan(new Show(room, new TimePoint(14, 0), new ShowConfig(movie, true, true)));
-
-    showDebug();
     //done tmp code
 
     //Object responsible for rendering changes in state
@@ -102,6 +102,12 @@ document.addEventListener('DOMContentLoaded', () => {
         render.renderByHour();
     });
 
+    observer.subscribe(observer.WEEK, () => {
+        console.info('A week has passed');
+
+        releaseDatePenaltyManager.update();
+    });
+
     observer.subscribe(observer.DAY, () => {
         console.info('A day has passed');
 
@@ -118,20 +124,6 @@ document.addEventListener('DOMContentLoaded', () => {
         cinema.researchManager.update(observer);
 
         render.renderByMonth();
-    });
-
-    observer.subscribe(observer.DAY, () => {
-        console.log('A day has passed');
-
-        render.renderByDay();
-    });
-
-    observer.subscribe(observer.HOUR, () => {
-        console.log('An hour has passed');
-
-        cinema.boothManager.payHourCost();
-
-        render.renderByHour();
     });
 
     observer.subscribe(observer.YEAR, () => {
