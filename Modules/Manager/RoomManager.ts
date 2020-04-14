@@ -10,7 +10,7 @@ import {RoomException} from "../Exception/RoomException";
 
 class RoomManager {
     private _maximumRooms: number;
-    private _rooms: Map<number, Room>;
+    private _rooms: Map<number, Room> = new Map<number, Room>();
     private _cinema : Cinema;
     private _config : ConfigManager;
     static _roomIdCounter = 0;
@@ -19,7 +19,6 @@ class RoomManager {
         this._cinema = cinema;
         this._config = config;
         this._maximumRooms = config.maximumRoomsDefault;
-        this._rooms = cinema.rooms;
         this._rooms.set(RoomManager._roomIdCounter,
             new Room(this._config, "default room", RoomType.smallRoom(this._config),
             new Screen(this._config), new Projector(this._config), new Sound(this._config), new Heating(this._config)));
@@ -99,6 +98,10 @@ class RoomManager {
             }
         });
         return isDuplicated;
+    }
+
+    find(id: number) : Room|undefined {
+        return this._rooms.get(id);
     }
 }
 

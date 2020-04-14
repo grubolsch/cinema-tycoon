@@ -7,11 +7,14 @@ import {BoothManager} from "../Manager/BoothManager";
 import {Customer} from "./Customer";
 import {RoomManager} from "../Manager/RoomManager";
 import {Movie} from "./Movie";
-import {Room} from "./Room";
 import {Scheduler} from "./Scheduler";
 import {ResearchManager} from "../Manager/ResearchManager";
 import {MovieManager} from "../Manager/MovieManager";
-import {CustomerGenerator} from "../Generator/CustomerGenerator";
+import {GenreManager} from "../Manager/GenreManager";
+import {TimePoint} from "./TimePoint";
+import {CustomerSpawnerManager} from "../Manager/CustomerSpawnerManager";
+import {ReleaseDatePenaltyManager} from "../Manager/ReleaseDatePenaltyManager";
+import {CustomerManager} from "../Manager/CustomerManager";
 
 
 class Cinema {
@@ -19,9 +22,6 @@ class Cinema {
     private _fans : number;
     private _ticketPrice: number;
 
-    private _rooms : Map<number, Room> = new Map<number, Room>();
-    private _movies : Map<number, Movie> = new Map<number, Movie>();
-    private _customers : Array<Customer> = [];
     private _loans: Map<number, LoanTaken> = new Map<number, LoanTaken>();
 
     private readonly _timeManager: TimeManager;
@@ -33,22 +33,27 @@ class Cinema {
     private readonly _movieManager: MovieManager;
     private readonly _scheduler: Scheduler;
     private readonly _roomManager: RoomManager;
+    private readonly _customerSpawnerManager: CustomerSpawnerManager;
+    private readonly _releaseDatePenaltyManager: ReleaseDatePenaltyManager;
+    private readonly _customerManager: CustomerManager;
 
-    public constructor(name: string, TimeManager: TimeManager, config: ConfigManager, financeManager: FinanceManager, marketingmanager: MarketingManager, movieManager: MovieManager) {
+    public constructor(name: string, TimeManager : TimeManager, config : ConfigManager, financeManager : FinanceManager, marketingmanager: MarketingManager) {
         this._name = name;
         this._fans = config.fans;
         this._ticketPrice = config.ticketprice;
         this._timeManager = TimeManager;
         this._financeManager = financeManager;
         this._marketingManager = marketingmanager;
-        this._movieManager = movieManager;
 
+        this._config = config;
         this._roomManager = new RoomManager(this, config);
         this._scheduler = new Scheduler(this);
         this._boothManager = new BoothManager(this);
         this._researchManager = new ResearchManager(this, config);
-        this._config = config;
-
+        this._customerSpawnerManager = new CustomerSpawnerManager(this, config);
+        this._releaseDatePenaltyManager = new ReleaseDatePenaltyManager(this, config);
+        this._movieManager = new MovieManager(this, config, new GenreManager(config));
+        this._customerManager = new CustomerManager();
     }
 
     get name(): string {
@@ -61,22 +66,6 @@ class Cinema {
 
     get ticketPrice(): number {
         return this._ticketPrice;
-    }
-
-    get movies(): Map<number, Movie> {
-        return this._movies;
-    }
-
-    addMovie(movie: Movie) {
-        this._movies.set(movie.id, movie);
-    }
-
-    findMovie(id: number) : Movie|undefined {
-        return this._movies.get(id);
-    }
-
-    get customers(): Array<Customer> {
-        return this._customers;
     }
 
     get timeManager(): TimeManager {
@@ -99,16 +88,15 @@ class Cinema {
         return this._researchManager;
     }
 
-    public update() {
-        //@todo remove tmp code that creates users
-        let customerGenerator = new CustomerGenerator(this._config);
-        let customer = customerGenerator.createCustomer();
-        this.boothManager.addCustomer(customer);
-        //end tmp code
+    get customerSpawnerManager(): CustomerSpawnerManager {
+        return this._customerSpawnerManager;
+    }
 
+    public update() {
         this.boothManager.update();
 
         this.timeManager.updateTime();
+        this._releaseDatePenaltyManager.update();
     }
 
     get loans(): Map<number, LoanTaken> {
@@ -119,6 +107,10 @@ class Cinema {
         return this._marketingManager;
     }
 
+    get genreManager(): GenreManager {
+        return this._movieManager.genreManager;
+    }
+
     get movieManager(): MovieManager {
         return this._movieManager;
     }
@@ -127,16 +119,8 @@ class Cinema {
         return this._roomManager;
     }
 
-    get rooms(): Map<number, Room> {
-        return this._rooms;
-    }
-
-    addRoom(room: Room) {
-        this._rooms.set(room.id, room);
-    }
-
-    findRoom(id: number) : Room|undefined {
-        return this._rooms.get(id);
+    get customerManager(): CustomerManager {
+        return this._customerManager;
     }
 }
 

@@ -6,26 +6,34 @@ import {ShowConfig} from "../Entity/ShowConfig";
 class RenderSchedulerForm implements RenderInterface {
     private readonly _cinema : Cinema;
 
-    private readonly movieDraggerElement: HTMLElement;
-    private readonly breakElement: HTMLInputElement;
-    private readonly commercialElement: HTMLInputElement;
-    private readonly movieElement: HTMLInputElement;
+    private readonly movieDraggerElement: HTMLElement = (<HTMLElement>document.querySelector('#schedule-movie-dragger'));
+    private readonly breakElement: HTMLInputElement = (<HTMLInputElement>document.querySelector('#schedule-planner-break'));
+    private readonly commercialElement: HTMLInputElement = (<HTMLInputElement>document.querySelector('#schedule-planner-commercial'));
+    private readonly movieElement: HTMLInputElement = (<HTMLInputElement>document.querySelector('#schedule-planner-movies'));
+    private readonly buttonElement: HTMLInputElement = (<HTMLInputElement>document.querySelector('#scheduleButton'));
+
+    //store the amount of movies, if this changes, render the schedule again
+    private renderedWithMovies : number = 0;
 
     constructor(cinema : Cinema) {
         this._cinema = cinema;
-
-        this.movieDraggerElement = (<HTMLElement>document.querySelector('#schedule-movie-dragger'));
-        this.breakElement = (<HTMLInputElement>document.querySelector('#schedule-planner-break'));
-        this.commercialElement = (<HTMLInputElement>document.querySelector('#schedule-planner-commercial'));
-        this.movieElement = (<HTMLInputElement>document.querySelector('#schedule-planner-movies'));
-
-        this.renderOnce();
     }
 
-    private renderOnce() {
+    private shouldRender() : boolean {
+        return (this.renderedWithMovies != this._cinema.movieManager.movies.size);
+    }
+
+    render() {
+        this.buttonElement.disabled = (this.renderedWithMovies === 0);
+
+        if(!this.shouldRender()) {
+            return;
+        }
+        this.renderedWithMovies = this._cinema.movieManager.movies.size;
+
         var self = this;
 
-        this._cinema.movies.forEach(function(movie: Movie) {
+        this._cinema.movieManager.movies.forEach(function(movie: Movie) {
             self.movieElement.appendChild(new Option(movie.title, movie.id.toString()));
         });
 
@@ -43,10 +51,6 @@ class RenderSchedulerForm implements RenderInterface {
                 self.updateMovieBlock();
             });
         });
-    }
-
-    render(): void {
-        //we only have to re render this if the movies or rooms changed
     }
 
     private updateMovieBlock() {

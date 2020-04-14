@@ -2,13 +2,20 @@ import {Movie} from "../Entity/Movie";
 import {MovieGenerator} from "../Generator/MovieGenerator";
 import {GenreManager} from "./GenreManager";
 import {Cinema} from "../Entity/Cinema";
+import {ConfigManager} from "./ConfigManager";
 
 class MovieManager {
 
     private readonly _genreManager: GenreManager;
+    private _movies : Map<number, Movie> = new Map<number, Movie>();
+    private readonly _cinema : Cinema;
+    private readonly _config : ConfigManager;
+    public static counter: number = 0;
 
-    constructor(genreManager: GenreManager) {
+    constructor(cinema : Cinema, config : ConfigManager, genreManager: GenreManager) {
         this._genreManager = genreManager;
+        this._cinema = cinema;
+        this._config = config;
     }
 
     get genreManager(): GenreManager {
@@ -16,9 +23,11 @@ class MovieManager {
     }
 
     private generateMovies(amount: number): Movie[] {
+        let movieGenerator = new MovieGenerator(this._config, this._cinema.timeManager, this.genreManager);
+
         let movies: Movie[] = [];
         for (let i = 0; i < amount; i++) {
-            movies.push(MovieGenerator.newMovie(this.genreManager));
+            movies.push(movieGenerator.createNewMovie());
         }
         return movies;
     }
@@ -36,7 +45,7 @@ class MovieManager {
         if (cinema.financeManager.canAfford(cost)) {
             cinema.financeManager.pay(cost, 'movie licensing costs');
             selectedMovies.forEach(movie => {
-                cinema.addMovie(movie);
+                this.addMovie(movie);
             });
             return true;
         }
@@ -47,8 +56,21 @@ class MovieManager {
         let sum: number = 0;
         movies.forEach((movie) => {
             sum += movie.cost;
-        })
+        });
         return sum;
+    }
+
+    addMovie(movie: Movie) {
+        this._movies.set(movie.id, movie);
+    }
+
+    get movies(): Map<number, Movie> {
+        return this._movies;
+    }
+
+    calculatePopularity(movie : Movie) : number {
+        let base = movie.startPopularity * this._config.popularityToCustomerFactor;
+        return Math.max(0, base - (base * movie.releaseDatePenalty / 100));
     }
 }
 

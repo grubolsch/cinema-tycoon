@@ -57,6 +57,31 @@ class GenreManager {
             }
         });
     }
+
+    findGenre(genre: Genre) {
+        let genreChosen = this._genres.find(function (genreElement) {
+            return genreElement.name === genre.name;
+        });
+        return genreChosen;
+    }
+
+    isPopular(genre: Genre) : boolean {
+        let genreChosen = this.findGenre(genre);
+
+        if(genreChosen === undefined) {
+            return false;
+        }
+        return genreChosen.isHype;
+    }
+
+    isUnpopular(genre: Genre) : boolean {
+        let genreChosen = this.findGenre(genre);
+
+        if(genreChosen === undefined) {
+            return false;
+        }
+        return genreChosen.isUnpopular;
+    }
 }
 
 export {GenreManager}

@@ -3,5 +3,9 @@ class ShowConfigHelperException extends Error {
     static invalidMovie(id : any) : ShowConfigHelperException {
         return new this('Could not find movie with id '+ id);
     }
+
+    static noMoviesFound() {
+        return new this('No movies found');
+    }
 }
 export {ShowConfigHelperException}

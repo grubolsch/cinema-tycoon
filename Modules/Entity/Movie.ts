@@ -1,8 +1,10 @@
 import {MovieType} from "../MovieTypes/MovieType";
-import {randomNumber} from "../Utils";
 import {Genre} from "./Genre";
+import {ReleaseDate} from "./ReleaseDate";
+import {MovieManager} from "../Manager/MovieManager";
 
 class Movie {
+
     private readonly _title: string;
     private readonly _rating: number;
     private readonly _genre: Genre;
@@ -10,16 +12,20 @@ class Movie {
     private readonly _duration : number;
     private readonly _id: number;
     private readonly _cost: number;
+    private readonly _startPopularity: number;
+    private readonly _releaseDate: ReleaseDate;
+    private _releaseDatePenalty : number = 0;
 
-    constructor(title: string, rating: number, genre: Genre, type: MovieType, duration : number) {
+    constructor(title: string, rating: number, startPopularity : number, genre: Genre, type: MovieType, duration : number, releaseDate : ReleaseDate, cost : number) {
+        this._id = MovieManager.counter++;
         this._title = title;
         this._rating = rating;
         this._genre = genre;
         this._type = type;
         this._duration = duration;
-        this._id = randomNumber(1, 1000000);
-
-        this._cost = Math.floor((Math.floor(Math.random() * 200) + 800) * (this.rating / 10));
+        this._releaseDate = releaseDate;
+        this._cost = cost;
+        this._startPopularity = startPopularity;
     }
     get title(): string {
         return this._title;
@@ -47,6 +53,22 @@ class Movie {
 
     get cost(): number {
         return this._cost;
+    }
+
+    get releaseDate(): ReleaseDate {
+        return this._releaseDate;
+    }
+
+    get releaseDatePenalty(): number {
+        return this._releaseDatePenalty;
+    }
+
+    get startPopularity(): number {
+        return this._startPopularity;
+    }
+
+    increaseReleasePenalty(quantity : number = 1) : void {
+        this._releaseDatePenalty += quantity;
     }
 }
 export {Movie};
