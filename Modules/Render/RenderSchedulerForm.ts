@@ -25,7 +25,7 @@ class RenderSchedulerForm implements RenderInterface {
     private renderOnce() {
         var self = this;
 
-        this._cinema.movies.forEach(function(movie: Movie) {
+        this._cinema.movieManager.movies.forEach(function(movie: Movie) {
             self.movieElement.appendChild(new Option(movie.title, movie.id.toString()));
         });
 

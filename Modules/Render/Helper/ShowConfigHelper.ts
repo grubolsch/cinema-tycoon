@@ -9,7 +9,7 @@ class ShowConfigHelper {
         var hasCommercial = (<HTMLInputElement>document.querySelector('#schedule-planner-commercial')).checked;
         var hasBreak = (<HTMLInputElement>document.querySelector('#schedule-planner-break')).checked;
 
-        let movie : Movie | undefined = cinema.findMovie(movieId);
+        let movie : Movie | undefined = cinema.movieManager.movies.get(movieId);
         if(movie === undefined) {
             throw ShowConfigHelperException.invalidMovie('Invalid movie selected');
         }

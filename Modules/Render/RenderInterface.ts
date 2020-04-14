@@ -14,6 +14,10 @@ interface RenderByMonthInterface {
     renderByMonth() : void;
 }
 
+interface RenderByWeekInterface {
+    renderByWeek() : void;
+}
+
 interface RenderByHalfHourInterface {
     renderByHalfHour() : void;
 }

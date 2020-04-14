@@ -80,7 +80,7 @@ class ResearchManager {
         }
 
         let baseCost : number = this._level * this._configManager.researchDefaultCostPerPoint;
-        let percentageIncrease : number = (this._cinema.rooms.length-1) * this._configManager.researchIncreasePercentageCostPerRoom;
+        let percentageIncrease : number = (this._cinema.roomManager.rooms.size-1) * this._configManager.researchIncreasePercentageCostPerRoom;
 
         return baseCost + (baseCost * percentageIncrease / 100);
     }
