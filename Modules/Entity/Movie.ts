@@ -21,7 +21,6 @@ class Movie {
 
         this._cost = Math.floor((Math.floor(Math.random() * 200) + 800) * (this.rating / 10));
     }
-
     get title(): string {
         return this._title;
     }

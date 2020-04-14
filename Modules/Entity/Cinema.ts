@@ -5,19 +5,21 @@ import {MarketingManager} from "../Manager/MarketingManager";
 import {LoanTaken} from "./LoanTaken";
 import {BoothManager} from "../Manager/BoothManager";
 import {Customer} from "./Customer";
-import {ResearchManager} from "../Manager/ResearchManager";
+import {RoomManager} from "../Manager/RoomManager";
 import {Movie} from "./Movie";
+import {Room} from "./Room";
+import {Scheduler} from "./Scheduler";
+import {ResearchManager} from "../Manager/ResearchManager";
 import {MovieManager} from "../Manager/MovieManager";
 import {CustomerGenerator} from "../Generator/CustomerGenerator";
 
-class Room {} // temp code
 
 class Cinema {
     private _name : string ;
     private _fans : number;
     private _ticketPrice: number;
 
-    private _rooms : Array<Room> = [];
+    private _rooms : Map<number, Room> = new Map<number, Room>();
     private _movies : Map<number, Movie> = new Map<number, Movie>();
     private _customers : Array<Customer> = [];
     private _loans: Map<number, LoanTaken> = new Map<number, LoanTaken>();
@@ -29,6 +31,8 @@ class Cinema {
     private readonly _marketingManager: MarketingManager;
     private readonly _config : ConfigManager;
     private readonly _movieManager: MovieManager;
+    private readonly _scheduler: Scheduler;
+    private readonly _roomManager: RoomManager;
 
 
     public constructor(name: string, TimeManager: TimeManager, config: ConfigManager, financeManager: FinanceManager, marketingmanager: MarketingManager, movieManager: MovieManager) {
@@ -40,11 +44,12 @@ class Cinema {
         this._marketingManager = marketingmanager;
         this._movieManager = movieManager;
 
+        this._roomManager = new RoomManager(this, config);
+        this._scheduler = new Scheduler(this);
         this._boothManager = new BoothManager(this);
         this._researchManager = new ResearchManager(this, config);
         this._config = config;
-        //@todo: remove tmp code when we have an actual room implementation
-        this.rooms.push(new Room());
+
     }
 
     get name(): string {
@@ -57,10 +62,6 @@ class Cinema {
 
     get ticketPrice(): number {
         return this._ticketPrice;
-    }
-
-    get rooms(): Array<Room> {
-        return this._rooms;
     }
 
     get movies(): Map<number, Movie> {
@@ -91,6 +92,10 @@ class Cinema {
         return this._boothManager;
     }
 
+    get scheduler(): Scheduler {
+        return this._scheduler;
+    }
+
     get researchManager(): ResearchManager {
         return this._researchManager;
     }
@@ -117,6 +122,22 @@ class Cinema {
 
     get movieManager(): MovieManager {
         return this._movieManager;
+    }
+
+    get roomManager(): RoomManager {
+        return this._roomManager;
+    }
+
+    get rooms(): Map<number, Room> {
+        return this._rooms;
+    }
+
+    addRoom(room: Room) {
+        this._rooms.set(room.id, room);
+    }
+
+    findRoom(id: number) : Room|undefined {
+        return this._rooms.get(id);
     }
 }
 

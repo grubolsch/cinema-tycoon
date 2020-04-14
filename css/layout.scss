@@ -9,3 +9,68 @@
   padding: 10px;
   margin-bottom: 10px;
 }
+
+.center {
+  text-align: center;
+}
+
+#schedule-table {
+  table-layout: fixed;
+  width: 100%;
+
+  td, th {
+    width: 30px;
+    border-left: 1px gray dotted;
+
+    &.active {
+      border-left: 1px black solid;
+      border-right: 1px black solid;
+    }
+  }
+
+  div.planned-movie {
+    position: relative;
+    background-color: lightgreen;
+    color: black;
+    height: 30px;
+    cursor: grabbing;
+
+    i.delete-show {
+      position: absolute;
+      right: 4px;
+      top: 4px;
+    }
+  }
+
+  #draggerShadow {
+    opacity: 50%;
+  }
+}
+
+#schedule-movie-dragger {
+  background-color: black;
+  color: white;
+  height: 30px;
+  display: inline-block;
+  cursor: grabbing;
+  overflow: hidden;
+  text-align: center;
+  padding-left: 3px;
+}
+
+#research-progress-bar {
+  width: 100%;
+  position: fixed;
+  bottom: 0px;
+}
+
+div.research-block  {
+  cursor: pointer;
+  border: 1px black solid;
+  padding: 6px;
+  margin: 6px;
+
+  .active {
+    background-color: lightgreen;
+  }
+}
