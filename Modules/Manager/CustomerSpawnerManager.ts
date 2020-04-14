@@ -24,7 +24,7 @@ class CustomerSpawnerManager {
         }
 
         if(show.movie.type.isBlockbuster) {
-            percentage -= this.config.customerBlockbusterBonus;
+            percentage += this.config.customerBlockbusterBonus;
         }
         else if(show.movie.type.isArthouse) {
             percentage -= this.config.customerArthousePenalty;
