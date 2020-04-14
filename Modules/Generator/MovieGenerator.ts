@@ -24,7 +24,7 @@ class MovieGenerator {
     }
 
     private typeGenerator(rating : number) : MovieType{
-        if(rating > this.config.blockbusterMinRating && randomNumber(0, 100) <= this.config.blockbusterChance) {
+        if((rating > this.config.blockbusterMinRating) && (randomNumber(0, 100) <= this.config.blockbusterChance)) {
             return MovieType.isBlockbuster();
         }
 
