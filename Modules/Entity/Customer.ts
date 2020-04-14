@@ -1,7 +1,9 @@
 import {CustomerThought} from "./CustomerThought";
 import {randomNumber} from "../Utils";
+import {CustomerManager} from "../Manager/CustomerManager";
 
 class Customer {
+    private _id: number;
     private _name: string;
     private _age: number;
     private _gender: string;
@@ -18,6 +20,7 @@ class Customer {
     private _moneySpent : number = 0;
 
     constructor(name: string, age: number, gender: string, likeCommercial: boolean, commercialTolerance: number, likeBreak: boolean, breakTolerance: number, queueingTolerance: number, pricingToleranceShop: number, pricingToleranceTicket: number, isFan : boolean) {
+        this._id = CustomerManager.customerCounter++;
         this._name = name;
         this._age = age;
         this._gender = gender;
@@ -29,6 +32,10 @@ class Customer {
         this._pricingToleranceShop = pricingToleranceShop;
         this._pricingToleranceTicket = pricingToleranceTicket;
         this._isFan = isFan;
+    }
+
+    get id(): number {
+        return this._id;
     }
 
     get name(): String {

@@ -68,9 +68,7 @@ class RenderMoviePicker implements RenderInterface, RenderByWeekInterface {
         this.moviePickerModal.modal('show');
     }
 
-    render(): void {
-
-    }
+    render(): void {}
 
     private getSelectedMovieIds(): string[] {
         let selectedMovieIds: string[] = [];

@@ -7,7 +7,6 @@ import {BoothManager} from "../Manager/BoothManager";
 import {Customer} from "./Customer";
 import {RoomManager} from "../Manager/RoomManager";
 import {Movie} from "./Movie";
-import {Room} from "./Room";
 import {Scheduler} from "./Scheduler";
 import {ResearchManager} from "../Manager/ResearchManager";
 import {MovieManager} from "../Manager/MovieManager";
@@ -15,6 +14,7 @@ import {GenreManager} from "../Manager/GenreManager";
 import {TimePoint} from "./TimePoint";
 import {CustomerSpawnerManager} from "../Manager/CustomerSpawnerManager";
 import {ReleaseDatePenaltyManager} from "../Manager/ReleaseDatePenaltyManager";
+import {CustomerManager} from "../Manager/CustomerManager";
 
 
 class Cinema {
@@ -22,7 +22,6 @@ class Cinema {
     private _fans : number;
     private _ticketPrice: number;
 
-    private _customers : Array<Customer> = [];
     private _loans: Map<number, LoanTaken> = new Map<number, LoanTaken>();
 
     private readonly _timeManager: TimeManager;
@@ -36,6 +35,7 @@ class Cinema {
     private readonly _roomManager: RoomManager;
     private readonly _customerSpawnerManager: CustomerSpawnerManager;
     private readonly _releaseDatePenaltyManager: ReleaseDatePenaltyManager;
+    private readonly _customerManager: CustomerManager;
 
     public constructor(name: string, TimeManager : TimeManager, config : ConfigManager, financeManager : FinanceManager, marketingmanager: MarketingManager) {
         this._name = name;
@@ -53,6 +53,7 @@ class Cinema {
         this._customerSpawnerManager = new CustomerSpawnerManager(this, config);
         this._releaseDatePenaltyManager = new ReleaseDatePenaltyManager(this, config);
         this._movieManager = new MovieManager(this, config, new GenreManager(config));
+        this._customerManager = new CustomerManager();
     }
 
     get name(): string {
@@ -65,10 +66,6 @@ class Cinema {
 
     get ticketPrice(): number {
         return this._ticketPrice;
-    }
-
-    get customers(): Array<Customer> {
-        return this._customers;
     }
 
     get timeManager(): TimeManager {
@@ -122,8 +119,8 @@ class Cinema {
         return this._roomManager;
     }
 
-    addCustomer(customer: Customer, movie: Movie, start: TimePoint) {
-        this.customers.push(customer);
+    get customerManager(): CustomerManager {
+        return this._customerManager;
     }
 }
 

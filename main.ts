@@ -12,9 +12,7 @@ import {RenderMarketing} from "./Modules/Render/RenderMarketing";
 import {RenderResearch} from "./Modules/Render/RenderResearch";
 import {ResearchItem} from "./Modules/Entity/Research/ResearchItem";
 import {RenderRooms} from "./Modules/Render/RenderRooms";
-import {MovieManager} from "./Modules/Manager/MovieManager";
 import {RenderMoviePicker} from "./Modules/Render/RenderMoviePicker";
-import {GenreManager} from "./Modules/Manager/GenreManager";
 import {DebugBar} from "./Modules/DebugBar";
 import {RenderScheduler} from "./Modules/Render/RenderScheduler";
 import {RenderSchedulerForm} from "./Modules/Render/RenderSchedulerForm";
@@ -83,7 +81,7 @@ document.addEventListener('DOMContentLoaded', () => {
         console.info('A month has passed');
 
         loanManager.update(cinema);
-        genreManager.update();
+        cinema.genreManager.update();
         cinema.researchManager.update(observer);
         render.renderByMonth();
     });
