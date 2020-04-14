@@ -36,8 +36,12 @@ document.addEventListener('DOMContentLoaded', () => {
     render.addRender(new RenderSchedulerForm(cinema));
     render.addRender(new RenderResearch(cinema));
     render.addRender(new RenderMarketing(cinema));
-    render.addRender(new RenderMoviePicker(cinema, render));
+    let renderMoviePicker = new RenderMoviePicker(cinema, render);
+    render.addRender(renderMoviePicker);
     render.render();
+
+    //force the screen to pick a movie to show up at the beginning of the game
+    renderMoviePicker.renderByWeek();
 
     //the main loop that makes the game has a flow of time
     setInterval(() => {
@@ -105,6 +109,5 @@ document.addEventListener('DOMContentLoaded', () => {
     });
 
     //create the debug bar
-    let bar = new DebugBar(cinema, observer);
-    bar.init();
+    (new DebugBar(cinema, observer)).init();
 });

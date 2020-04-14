@@ -10,6 +10,7 @@ class MovieManager {
     private _movies : Map<number, Movie> = new Map<number, Movie>();
     private readonly _cinema : Cinema;
     private readonly _config : ConfigManager;
+    public static counter: number = 0;
 
     constructor(cinema : Cinema, config : ConfigManager, genreManager: GenreManager) {
         this._genreManager = genreManager;

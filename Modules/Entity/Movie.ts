@@ -1,7 +1,7 @@
 import {MovieType} from "../MovieTypes/MovieType";
-import {randomNumber} from "../Utils";
 import {Genre} from "./Genre";
 import {ReleaseDate} from "./ReleaseDate";
+import {MovieManager} from "../Manager/MovieManager";
 
 class Movie {
 
@@ -14,10 +14,10 @@ class Movie {
     private readonly _cost: number;
     private readonly _startPopularity: number;
     private readonly _releaseDate: ReleaseDate;
-    private _releaseDatePenalty: number = 0;
+    private _releaseDatePenalty : number = 0;
 
     constructor(title: string, rating: number, startPopularity : number, genre: Genre, type: MovieType, duration : number, releaseDate : ReleaseDate, cost : number) {
-        this._id = randomNumber(1, 1000000);
+        this._id = MovieManager.counter++;
         this._title = title;
         this._rating = rating;
         this._genre = genre;

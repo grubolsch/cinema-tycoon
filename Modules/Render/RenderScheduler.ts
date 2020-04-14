@@ -66,6 +66,10 @@ class RenderScheduler implements RenderInterface, RenderByHourInterface {
         var self = this;
         //we only have to re render this if the movies or rooms changed
 
+        if(this._cinema.movieManager.movies.size === 0) {
+            return;
+        }
+
         if(!this.shouldRender()) {
             return;
         }
