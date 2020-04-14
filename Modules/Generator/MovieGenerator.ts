@@ -8,6 +8,7 @@ import {randomNumber} from "../Utils";
 import {ConfigManager} from "../Manager/ConfigManager";
 
 class MovieGenerator {
+
     private readonly config : ConfigManager;
     private readonly timeManager : TimeManager;
     private readonly genreManager : GenreManager;
@@ -20,7 +21,11 @@ class MovieGenerator {
 
     public createNewMovie(): Movie {
         let rating : number = this.ratingGenerator();
-        return new Movie(this.titleGenerator(), rating, this.genreManager.getRandomGenre(), this.typeGenerator(rating), this.durationGenerator(), new ReleaseDate(this.timeManager.year, this.timeManager.month));
+
+        let startPopularity  = randomNumber(rating-this.config.popularityDeviation, rating+this.config.popularityDeviation);
+        let cost = Math.floor((Math.floor(Math.random() * 200) + 800) * (rating / 10));
+
+        return new Movie(this.titleGenerator(), rating, startPopularity, this.genreManager.getRandomGenre(), this.typeGenerator(rating), this.durationGenerator(), new ReleaseDate(this.timeManager.year, this.timeManager.month), cost);
     }
 
     private typeGenerator(rating : number) : MovieType{
@@ -47,9 +52,7 @@ class MovieGenerator {
     }
 
     private durationGenerator() : number {
-        const duration = [90, 120, 150, 180];
-
-        return duration[Math.floor(Math.random() * duration.length)];
+        return this.config.movieDurations[Math.floor(Math.random() * this.config.movieDurations.length)];
     }
 }
 

@@ -13,7 +13,7 @@ class CustomerSpawnerManager {
     }
 
     private getCustomersPerShow(show : Show) : number {
-        let base = this.config.customerBase * show.movie.popularity / 100;
+        let base = this.config.customerBase * this.cinema.movieManager.calculatePopularity(show.movie) / 100;
         let percentage : number = 0;
 
         if(this.cinema.genreManager.isPopular(show.movie.genre)) {

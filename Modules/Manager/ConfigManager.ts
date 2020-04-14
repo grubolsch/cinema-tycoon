@@ -77,6 +77,13 @@ class ConfigManager {
     private readonly _basicHeatingQuality = 20;
     private readonly _basicHeatingDailyCost = 20;
 
+    private readonly _maxPopularityPenalty: number = 100;
+
+    private readonly _popularityDeviation: number = 10;
+    private readonly _popularityToCustomerFactor: number = 10;
+    private readonly _releaseDatePenalty: number = 5;
+    private readonly _movieDurations: Array<number> = [90, 120, 150, 180];
+
     get credit(): number {
         return this._credit;
     }
@@ -303,6 +310,26 @@ class ConfigManager {
 
     get basicHeatingDailyCost(): number {
         return this._basicHeatingDailyCost;
+    }
+
+    get maxPopularityPenalty(): number {
+        return this._maxPopularityPenalty;
+    }
+
+    get popularityDeviation(): number {
+        return this._popularityDeviation;
+    }
+
+    get popularityToCustomerFactor(): number {
+        return this._popularityToCustomerFactor;
+    }
+
+    get releaseDatePenalty(): number {
+        return this._releaseDatePenalty;
+    }
+
+    get movieDurations(): Array<number> {
+        return this._movieDurations;
     }
 }
 

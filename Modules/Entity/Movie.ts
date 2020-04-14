@@ -4,9 +4,6 @@ import {Genre} from "./Genre";
 import {ReleaseDate} from "./ReleaseDate";
 
 class Movie {
-    private readonly POPULARITY_DEVIATION = 2;
-    private readonly POPULARITY_TO_CUSTOMER_FACTOR = 10;
-    private readonly RELEASE_DATE_PENALTY = 5;
 
     private readonly _title: string;
     private readonly _rating: number;
@@ -19,16 +16,16 @@ class Movie {
     private readonly _releaseDate: ReleaseDate;
     private _releaseDatePenalty: number = 0;
 
-    constructor(title: string, rating: number, genre: Genre, type: MovieType, duration : number, releaseDate : ReleaseDate) {
+    constructor(title: string, rating: number, startPopularity : number, genre: Genre, type: MovieType, duration : number, releaseDate : ReleaseDate, cost : number) {
+        this._id = randomNumber(1, 1000000);
         this._title = title;
         this._rating = rating;
         this._genre = genre;
         this._type = type;
         this._duration = duration;
-        this._id = randomNumber(1, 1000000);
         this._releaseDate = releaseDate;
-        this._startPopularity  = randomNumber(this._rating-this.POPULARITY_DEVIATION, this._rating+this.POPULARITY_DEVIATION);
-        this._cost = Math.floor((Math.floor(Math.random() * 200) + 800) * (this.rating / 10));
+        this._cost = cost;
+        this._startPopularity = startPopularity;
     }
     get title(): string {
         return this._title;
@@ -62,17 +59,16 @@ class Movie {
         return this._releaseDate;
     }
 
-    get popularity() : number {
-        let base = this._startPopularity * this.POPULARITY_TO_CUSTOMER_FACTOR;
-        return Math.max(0, base - (base * this._releaseDatePenalty / 100));
-    }
-
     get releaseDatePenalty(): number {
         return this._releaseDatePenalty;
     }
 
-    increaseReleasePenalty() : void {
-        this._releaseDatePenalty += this.RELEASE_DATE_PENALTY;
+    get startPopularity(): number {
+        return this._startPopularity;
+    }
+
+    increaseReleasePenalty(quantity : number = 1) : void {
+        this._releaseDatePenalty += quantity;
     }
 }
 export {Movie};

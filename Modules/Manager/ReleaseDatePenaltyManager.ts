@@ -9,7 +9,6 @@ import {randomNumber} from "../Utils";
 class ReleaseDatePenaltyManager {
     private readonly _cinema : Cinema;
     private _config: ConfigManager;
-    private MAX_PENALTY: number = 100;//you can never have more than -100% popularity bonus
 
     constructor(cinema: Cinema, config : ConfigManager) {
         this._cinema = cinema;
@@ -24,12 +23,13 @@ class ReleaseDatePenaltyManager {
     }
 
     private updateMovie(movie : Movie) : void {
-        if(movie.releaseDatePenalty === this.MAX_PENALTY) {
+        if(movie.releaseDatePenalty === this._config.maxPopularityPenalty) {
+            //you can never have more than -100% popularity bonus
             return;
         }
 
         if(randomNumber(0, 100) <= this.getPopularityDropChance(movie)) {
-            movie.increaseReleasePenalty();
+            movie.increaseReleasePenalty(this._config.releaseDatePenalty);
         }
     }
 
