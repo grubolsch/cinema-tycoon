@@ -9,11 +9,11 @@ import {LoanManager} from "./Modules/Manager/LoanManager";
 import {RenderLoans} from "./Modules/Render/RenderLoans";
 import {RenderBooths} from "./Modules/Render/RenderBooths";
 import {RenderMarketing} from "./Modules/Render/RenderMarketing";
-import {MovieGenerator} from "./Modules/Generator/MovieGenerator";
-import {Movie} from "./Modules/Entity/Movie";
 import {RenderResearch} from "./Modules/Render/RenderResearch";
 import {ResearchItem} from "./Modules/Entity/Research/ResearchItem";
 import {RenderRooms} from "./Modules/Render/RenderRooms";
+import {MovieManager} from "./Modules/Manager/MovieManager";
+import {RenderMoviePicker} from "./Modules/Render/RenderMoviePicker";
 import {GenreManager} from "./Modules/Manager/GenreManager";
 import {DebugBar} from "./Modules/DebugBar";
 import {Room} from "./Modules/Entity/Room";
@@ -21,14 +21,8 @@ import {MovieType} from "./Modules/MovieTypes/MovieType";
 import {RenderScheduler} from "./Modules/Render/RenderScheduler";
 import {RenderSchedulerForm} from "./Modules/Render/RenderSchedulerForm";
 import {Genre} from "./Modules/Entity/Genre";
+import {Movie} from "./Modules/Entity/Movie";
 
-function generateMovies(genreManager : GenreManager) : void {
-    let manyMovies: Array<Movie> = [];
-    for (let i = 0; i < 10; i++){
-        manyMovies[i] = MovieGenerator.newMovie(genreManager);
-    }
-    console.log(manyMovies);
-}
 
 const observer = new Observer;
 const configManager = new ConfigManager;
@@ -37,10 +31,11 @@ const genreManager = new GenreManager(configManager);
 
 document.addEventListener('DOMContentLoaded', () => {
     // temporary code, this should come from a save or a "create new game" menu
-    //          init();
-    generateMovies(genreManager);
 
-    let cinema = new Cinema("Our own Cinema", new TimeManager(observer), configManager, new FinanceManager(configManager), new MarketingManager());
+    // @ts-ignore
+    showDebug();
+
+    let cinema = new Cinema("Our own Cinema", new TimeManager(observer), configManager, new FinanceManager(configManager), new MarketingManager(), new MovieManager(genreManager));
 
     //Tmp code so there is a room and a movie for the scheduler
     cinema.addMovie(new Movie('Crazy long movie', 7, new Genre('fantasy'), MovieType.isGeneric(), 180));
@@ -62,8 +57,8 @@ document.addEventListener('DOMContentLoaded', () => {
     render.addRender(new RenderSchedulerForm(cinema));
     render.addRender(new RenderResearch(cinema));
     render.addRender(new RenderMarketing(cinema));
+    render.addRender(new RenderMoviePicker(cinema, render));
     render.render();
-
 
     //the main loop that makes the game has a flow of time
     setInterval(() => {
@@ -100,21 +95,21 @@ document.addEventListener('DOMContentLoaded', () => {
         loanManager.update(cinema);
         genreManager.update();
         cinema.researchManager.update(observer);
-
         render.renderByMonth();
     });
 
     observer.subscribe(observer.DAY, () => {
-        console.log('A day has passed');
-
         render.renderByDay();
     });
 
+    observer.subscribe(observer.WEEK, () => {
+        cinema.marketingManager.weeklyCampaignUpdate();
+        // renderMoviePicker.weeklyMoviePicker(render);
+        render.renderByWeek();
+    });
+
     observer.subscribe(observer.HOUR, () => {
-        console.log('An hour has passed');
-
         cinema.boothManager.payHourCost();
-
         render.renderByHour();
     });
 

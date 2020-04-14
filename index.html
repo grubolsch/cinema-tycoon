@@ -19,8 +19,8 @@
             integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl"
             crossorigin="anonymous"></script>
 
-    <link href="/fa-icons/css/all.css" rel="stylesheet" type="text/css" />
-    <link href="css/layout.scss" rel="stylesheet" type="text/css" />
+    <link href="/fa-icons/css/all.css" rel="stylesheet" type="text/css"/>
+    <link href="css/layout.scss" rel="stylesheet" type="text/css"/>
 
     <script>
         function showDebug() {
@@ -40,7 +40,9 @@
         <td id="ui-currentcredit"></td>
         <td id="ui-fans"></td>
         <td>
-            <button rel="research" class="btn btn-primary top-menu"  data-toggle="modal" data-target="#researchModal">Research</button>
+            <button rel="research" class="btn btn-primary top-menu" data-toggle="modal" data-target="#researchModal">
+                Research
+            </button>
         </td>
         <td>
             <button rel="schedule" class="btn btn-primary top-menu" data-toggle="modal" data-target="#scheduleModal">Schedule</button>
@@ -119,8 +121,45 @@
 </div>
 <!-- /Advertising Modal -->
 
+<!-- MoviePicker Modal -->
+<div class="modal fade" id="moviePickerModal" tabindex="-1" role="dialog" aria-labelledby="ModalCenterTitle"
+     aria-hidden="true" data-backdrop="static" data-keyboard="false">
+    <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2>Buy some movies</h2>
+            </div>
+            <div class="modal-body text-center">
+                <div class="container">
+                    <div class="row" id="movies-container">
 
-<!-- Advertising Modal -->
+                    </div>
+                    <div class="row">
+                        <div class="col" id="movies-button-container"></div>
+                        <div class="col" id="movies-error-container"></div>
+                    </div>
+                </div>
+
+                <template id="movie-template">
+                    <div class="col-sm-4">
+                        <div class="movie-block">
+                            <h3 class="movie-title"></h3>
+                            <i><strong class="movie-genre"></strong></i>
+                            <h3 class="movie-type"></h3>
+
+                            Cost: <span class="movie-cost"></span>
+                        </div>
+                    </div>
+                </template>
+
+            </div>
+        </div>
+    </div>
+</div>
+<!-- /MoviePicker Modal -->
+
+
+<!-- loans Modal -->
 <div class="modal fade" id="loansModal" tabindex="-1" role="dialog" aria-labelledby="ModalCenterTitle"
      aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered" role="document">
@@ -207,17 +246,15 @@
                 </button>
             </div>
             <div class="modal-body">
-                <p>Research items to stay up to date with the newest technologies and keep your customers interested! Don't fall behind the competition!</p>
-
+                <p>Research items to stay up to date with the newest technologies and keep your customers interested!
+                    Don't fall behind the competition!</p>
                 <div class="center">
                     <input type="range" class="slider" id="research-cost-slider">
                     <p>Cost: <span id="research-cost"></span>/month</p>
                 </div>
-
                 <div class="container">
                     <div class="row" id="research-container"></div>
                 </div>
-
                 <template id="research-template">
                     <div class="col-sm-4">
                         <div class="research-block">
@@ -298,5 +335,40 @@
         $('[data-toggle="tooltip"]').tooltip()
     });
 </script>
+<style>
+    #research-progress-bar {
+        width: 100%;
+        position: fixed;
+        bottom: 0px;
+    }
+
+    div.research-block {
+        cursor: pointer;
+        border: 1px black solid;
+        padding: 6px;
+        margin: 6px;
+    }
+
+    div.movie-block {
+        cursor: pointer;
+        text-align: center;
+        border: 1px black solid;
+        padding: 6px;
+        margin: 6px;
+    }
+
+    div.research-block.active {
+        background-color: lightgreen;
+    }
+
+    div.movie-block.active {
+        background-color: lightgreen;
+    }
+
+    .center {
+        text-align: center;
+    }
+</style>
+
 </body>
 </html>

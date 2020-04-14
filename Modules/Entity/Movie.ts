@@ -9,6 +9,7 @@ class Movie {
     private readonly _type: MovieType;
     private readonly _duration : number;
     private readonly _id: number;
+    private readonly _cost: number;
 
     constructor(title: string, rating: number, genre: Genre, type: MovieType, duration : number) {
         this._title = title;
@@ -17,12 +18,9 @@ class Movie {
         this._type = type;
         this._duration = duration;
         this._id = randomNumber(1, 1000000);
-    }
 
-    get id(): number {
-        return this._id;
+        this._cost = Math.floor((Math.floor(Math.random() * 200) + 800) * (this.rating / 10));
     }
-
     get title(): string {
         return this._title;
     }
@@ -41,6 +39,14 @@ class Movie {
 
     get duration(): number {
         return this._duration;
+    }
+
+    get id(): number {
+        return this._id;
+    }
+
+    get cost(): number {
+        return this._cost;
     }
 }
 export {Movie};
