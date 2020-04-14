@@ -30,11 +30,7 @@ class MovieManager {
     handleMoviePicker(cinema: Cinema, selectedMovieIds: string[], movies: Movie[]): boolean {
         let selectedMovies: Movie[] = [];
         selectedMovieIds.forEach((id) => {
-            movies.forEach((movie) => {
-                if (movie.id === parseInt(id)) {
-                    selectedMovies.push(movie);
-                }
-            })
+            selectedMovies.push(<Movie>movies.find((movie) => { return movie.id === parseInt(id)}));
         });
         let cost = this.calculateCost(selectedMovies);
         if (cinema.financeManager.canAfford(cost)) {

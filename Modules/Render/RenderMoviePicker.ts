@@ -1,10 +1,12 @@
 import {Cinema} from "../Entity/Cinema";
 import {Movie} from "../Entity/Movie";
 import {Render} from "./Render";
+import {currency} from "../Utils";
 
-class RenderMoviePicker implements RenderInterface {
+class RenderMoviePicker implements RenderInterface, RenderByWeekInterface {
 
     readonly _cinema: Cinema;
+    readonly _render: Render;
 
     private readonly moviePickerModal = $('#moviePickerModal');
     private readonly container = (<HTMLElement>document.querySelector('#movies-container'));
@@ -12,12 +14,16 @@ class RenderMoviePicker implements RenderInterface {
     private readonly errorContainer = (<HTMLElement>document.querySelector('#movies-error-container'));
     private readonly template = (<HTMLTemplateElement>document.querySelector('#movie-template'));
 
-    constructor(cinema: Cinema) {
+    constructor(cinema: Cinema, render : Render) {
         this._cinema = cinema;
+        this._render = render;
     }
 
-    // not good
-    weeklyMoviePicker(render: Render) {
+    renderByWeek(): void {
+        this.weeklyMoviePicker(this._render);
+    }
+
+    private weeklyMoviePicker(render: Render): void {
 
         render.pause();
         this.container.innerHTML = '';
@@ -45,7 +51,7 @@ class RenderMoviePicker implements RenderInterface {
 
         btn.addEventListener('click', () => {
             let selectedMovieIds = this.getSelectedMovieIds();
-            if(this._cinema.movieManager.handleMoviePicker(this._cinema, selectedMovieIds, movies)){
+            if (this._cinema.movieManager.handleMoviePicker(this._cinema, selectedMovieIds, movies)) {
                 this.moviePickerModal.modal('hide');
             } else {
                 this.errorContainer.innerHTML = '';
@@ -79,7 +85,7 @@ class RenderMoviePicker implements RenderInterface {
         let clone = <HTMLElement>this.template.content.cloneNode(true);
         (<HTMLElement>clone.querySelector('.movie-title')).innerHTML = movie.title;
         (<HTMLElement>clone.querySelector('.movie-genre')).innerHTML = movie.genre.name;
-        (<HTMLElement>clone.querySelector('.movie-cost')).innerHTML = `${movie.cost}`;
+        (<HTMLElement>clone.querySelector('.movie-cost')).innerHTML = currency(movie.cost);
         (<HTMLElement>clone.querySelector('.movie-block')).dataset.movie = `${movie.id}`;
         this.container.appendChild(clone);
     }

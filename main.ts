@@ -57,9 +57,8 @@ document.addEventListener('DOMContentLoaded', () => {
     render.addRender(new RenderSchedulerForm(cinema));
     render.addRender(new RenderResearch(cinema));
     render.addRender(new RenderMarketing(cinema));
+    render.addRender(new RenderMoviePicker(cinema, render));
     render.render();
-
-    let renderMoviePicker = new RenderMoviePicker(cinema);
 
     //the main loop that makes the game has a flow of time
     setInterval(() => {
@@ -105,7 +104,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
     observer.subscribe(observer.WEEK, () => {
         cinema.marketingManager.weeklyCampaignUpdate();
-        renderMoviePicker.weeklyMoviePicker(render);
+        // renderMoviePicker.weeklyMoviePicker(render);
         render.renderByWeek();
     });
 

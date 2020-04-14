@@ -34,7 +34,6 @@ class Cinema {
     private readonly _scheduler: Scheduler;
     private readonly _roomManager: RoomManager;
 
-
     public constructor(name: string, TimeManager: TimeManager, config: ConfigManager, financeManager: FinanceManager, marketingmanager: MarketingManager, movieManager: MovieManager) {
         this._name = name;
         this._fans = config.fans;
