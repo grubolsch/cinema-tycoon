@@ -1,0 +1,124 @@
+{
+  "products": [
+    {
+      "shoptype": "Popcorn Stand",
+      "default products": [
+        {
+          "id": 1,
+          "name": "Small Popcorn",
+          "costPrice": 2.50,
+          "defaultPrice": 5.00,
+          "category": "food"
+        },
+        {
+          "id": 2,
+          "name": "Medium Popcorn",
+          "costPrice": 3.50,
+          "defaultPrice": 7.00,
+          "category": "food"
+        },
+        {
+          "id": 3,
+          "name": "Large Popcorn",
+          "costPrice": 3.75,
+          "defaultPrice": 9.50,
+          "category": "food"
+        },
+        {
+          "id": 4,
+          "name": "Soft Drinks",
+          "costPrice": 1.75,
+          "defaultPrice": 2.50,
+          "category": "drink"
+        }
+      ]
+    },
+    {
+      "shoptype": "Ice Cream Stand",
+      "default products": [
+        {
+          "id": 1,
+          "name": "Small Ice Cream",
+          "costPrice": 1.00,
+          "defaultPrice": 2.00,
+          "category": "food"
+        },
+        {
+          "id": 2,
+          "name": "Medium Ice Cream",
+          "costPrice": 2.00,
+          "defaultPrice": 4.00,
+          "category": "food"
+        },
+        {
+          "id": 3,
+          "name": "Large Ice Cream",
+          "costPrice": 2.50,
+          "defaultPrice": 5.00,
+          "category": "food"
+        },
+        {
+          "id": 4,
+          "name": "Soft Drinks",
+          "costPrice": 1.75,
+          "defaultPrice": 2.50,
+          "category": "drinks"
+        },
+        {
+          "id": 5,
+          "name": "Milkshake",
+          "costPrice": 2.50,
+          "defaultPrice": 5.00,
+          "category": "drinks"
+        }
+      ]
+    },
+    {
+      "shoptype": "Snack Shop",
+      "default products": [
+        {
+          "id": 1,
+          "name": "Chips",
+          "costPrice": 2.75,
+          "defaultPrice": 3.50,
+          "category": "food"
+        },
+        {
+          "id": 2,
+          "name": "Willy Wonka's magic chocolate bar",
+          "costPrice": 2.75,
+          "defaultPrice": 5.50,
+          "category": "food"
+        },
+        {
+          "id": 3,
+          "name": "Loose Candy",
+          "costPrice": 3.75,
+          "defaultPrice": 7.50,
+          "category": "food"
+        },
+        {
+          "id": 4,
+          "name": "Small Soft Drink",
+          "costPrice": 1.25,
+          "defaultPrice": 2.50,
+          "category": "drinks"
+        },
+        {
+          "id": 5,
+          "name": "Medium Soft Drink",
+          "costPrice": 2.25,
+          "defaultPrice": 4.50,
+          "category": "drinks"
+        },
+        {
+          "id": 6,
+          "name": "Large Soft Drink",
+          "costPrice": 3.25,
+          "defaultPrice": 6.50,
+          "category": "drinks"
+        }
+      ]
+    }
+  ]
+}
