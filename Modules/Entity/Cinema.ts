@@ -138,6 +138,10 @@ class Cinema {
     findRoom(id: number) : Room|undefined {
         return this._rooms.get(id);
     }
+
+    set ticketPrice(value: number) {
+        this._ticketPrice = value;
+    }
 }
 
 export {Cinema};

@@ -58,7 +58,7 @@ class RenderMarketing implements RenderInterface {
             return element.checked;
         });
 
-        if (selectedOption !== undefined && selectedOption.value !== typeof TYPES) {
+        if (selectedOption !== undefined) {
             let campaign = this._cinema.marketingManager.createCampaign(selectedOption.value, rangeValue);
             this._cinema.marketingManager.startCampaign(campaign, this._cinema);
         }

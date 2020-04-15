@@ -47,7 +47,7 @@ class MovieManager {
         let sum: number = 0;
         movies.forEach((movie) => {
             sum += movie.cost;
-        })
+        });
         return sum;
     }
 }

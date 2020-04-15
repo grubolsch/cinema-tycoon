@@ -7,6 +7,7 @@ import {TvCampaignType} from "../MarketingCampaignTypes/TvCampaignType";
 import {InternetCampaignType} from "../MarketingCampaignTypes/InternetCampaignType";
 import {CampaignTypeException} from "../Exception/CampaignTypeException";
 import {Cinema} from "../Entity/Cinema";
+import {TicketsCampaignType} from "../MarketingCampaignTypes/TicketsCampaignType";
 
 const MAX_WEEKS = 12;
 const MIN_WEEKS = 1;
@@ -26,14 +27,16 @@ class MarketingManager {
         }
         this._activeMarketingCampaign = campaign;
         this._activeMarketingRemainingDuration = campaign.duration;
+        campaign.applyBonus(cinema);
         console.info('New marketing campaign started!');
         return true;
     }
 
-    public weeklyCampaignUpdate(): void {
+    public weeklyCampaignUpdate(cinema : Cinema): void {
         if (this._activeMarketingCampaign !== null && this._activeMarketingRemainingDuration > 0) {
             this._activeMarketingRemainingDuration--;
             if (this._activeMarketingRemainingDuration === 0) {
+                this._activeMarketingCampaign.removeBonus(cinema);
                 this._activeMarketingCampaign = null;
                 console.info('Your marketing campaign has expired!');
             }
@@ -57,6 +60,9 @@ class MarketingManager {
                 break;
             case 'Internet':
                 campaignType = new InternetCampaignType();
+                break;
+            case 'Tickets':
+                campaignType = new TicketsCampaignType();
                 break;
             default:
                 throw CampaignTypeException.noSuchType();

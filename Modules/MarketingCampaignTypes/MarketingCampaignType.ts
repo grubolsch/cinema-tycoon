@@ -1,12 +1,19 @@
-class MarketingCampaignType {
+import {MarketingCampaignInterface} from "./MarketingCampaignInterface";
+import {Cinema} from "../Entity/Cinema";
+
+class MarketingCampaignType implements MarketingCampaignInterface{
     name: string;
     cost: number;
-    bonus : number;
 
-    constructor(name: string, cost: number, duration: number, bonus: number) {
+    constructor(name: string, cost: number) {
         this.name = name;
         this.cost = cost;
-        this.bonus = bonus;
+    }
+
+    applyBonus(cinema: Cinema): void {
+    }
+
+    removeBonus(cinema: Cinema): void {
     }
 }
 

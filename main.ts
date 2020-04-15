@@ -64,6 +64,7 @@ document.addEventListener('DOMContentLoaded', () => {
     setInterval(() => {
         for (let i = 0; render.speed > i; i++) {
             cinema.update();
+            console.log(cinema.ticketPrice);
         }
         render.render();
     }, 1000);
@@ -103,7 +104,7 @@ document.addEventListener('DOMContentLoaded', () => {
     });
 
     observer.subscribe(observer.WEEK, () => {
-        cinema.marketingManager.weeklyCampaignUpdate();
+        cinema.marketingManager.weeklyCampaignUpdate(cinema);
         // renderMoviePicker.weeklyMoviePicker(render);
         render.renderByWeek();
     });

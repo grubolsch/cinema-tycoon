@@ -53,6 +53,7 @@ class RenderMoviePicker implements RenderInterface, RenderByWeekInterface {
             let selectedMovieIds = this.getSelectedMovieIds();
             if (this._cinema.movieManager.handleMoviePicker(this._cinema, selectedMovieIds, movies)) {
                 this.moviePickerModal.modal('hide');
+                render.resume();
             } else {
                 this.errorContainer.innerHTML = '';
                 let error = document.createElement('div');
