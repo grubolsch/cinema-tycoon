@@ -74,3 +74,15 @@ div.research-block  {
     background-color: lightgreen;
   }
 }
+
+div.movie-block {
+  cursor: pointer;
+  text-align: center;
+  border: 1px black solid;
+  padding: 6px;
+  margin: 6px;
+
+  &.active {
+    background-color: lightgreen;
+  }
+}
