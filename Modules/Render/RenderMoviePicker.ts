@@ -8,6 +8,7 @@ class RenderMoviePicker implements RenderInterface, RenderByWeekInterface {
     readonly _cinema: Cinema;
     readonly _render: Render;
 
+    // @ts-ignore
     private readonly moviePickerModal = $('#moviePickerModal');
     private readonly container = (<HTMLElement>document.querySelector('#movies-container'));
     private readonly buttonContainer = (<HTMLElement>document.querySelector('#movies-button-container'));
@@ -24,7 +25,6 @@ class RenderMoviePicker implements RenderInterface, RenderByWeekInterface {
     }
 
     private weeklyMoviePicker(render: Render): void {
-
         render.pause();
         this.container.innerHTML = '';
         this.buttonContainer.innerHTML = '';

@@ -12,7 +12,7 @@ class RenderRooms implements RenderInterface {
         document.querySelector('#build-room')!.addEventListener('click', function() {
             cinema.roomManager.addRoom();
             alert('build room');
-            alert('You have now ' + cinema.rooms.size + 'room(s)');
+            alert('You have now ' + cinema.roomManager.rooms.size + 'room(s)');
             self.renderOnChange();
         });
 
@@ -45,7 +45,7 @@ class RenderRooms implements RenderInterface {
             element.addEventListener('click', function(){
                 // @ts-ignore
                 let roomKey = Number((<HTMLElement>element).dataset.room);
-                let room = self._cinema.rooms.get(roomKey);
+                let room = self._cinema.roomManager.rooms.get(roomKey);
                 // In normal cases, the room should not be undefined, otherwise throw error.
                 if(room == undefined){
                     throw RoomException.noSuchRoom()

@@ -59,19 +59,23 @@ class RenderScheduler implements RenderInterface, RenderByHourInterface {
     }
 
     private shouldRender() : boolean {
-        return (this.renderedWithMovies != this._cinema.movies.size || this.renderedWithRooms != this._cinema.rooms.size);
+        return (this.renderedWithMovies != this._cinema.movieManager.movies.size || this.renderedWithRooms != this._cinema.roomManager.rooms.size);
     }
 
     render(): void {
         var self = this;
         //we only have to re render this if the movies or rooms changed
 
+        if(this._cinema.movieManager.movies.size === 0) {
+            return;
+        }
+
         if(!this.shouldRender()) {
             return;
         }
 
-        this.renderedWithMovies = this._cinema.movies.size;
-        this.renderedWithRooms = this._cinema.rooms.size;
+        this.renderedWithMovies = this._cinema.movieManager.movies.size;
+        this.renderedWithRooms = this._cinema.roomManager.rooms.size;
 
         this._table.innerHTML = '';
         this.renderHeader();
@@ -102,7 +106,7 @@ class RenderScheduler implements RenderInterface, RenderByHourInterface {
                 if (!(event.target instanceof HTMLElement) || event.target.dataset.timeslot === undefined || event.target.dataset.room === undefined) {
                     return;
                 }
-                var room = self._cinema.findRoom(parseInt(event.target.dataset.room));
+                var room = self._cinema.roomManager.find(parseInt(event.target.dataset.room));
 
                 if(room === undefined) {
                     console.log('room not found');
@@ -129,7 +133,8 @@ class RenderScheduler implements RenderInterface, RenderByHourInterface {
 
             element.addEventListener('dragleave', function(event) {
                 let convertedEvent = (<DragEvent>event);
-                if(convertedEvent.relatedTarget === null || (convertedEvent.relatedTarget.id != 'draggerShadow' && convertedEvent.relatedTarget.parentElement.id != 'draggerShadow')) {
+
+                if(convertedEvent.relatedTarget === null || ((<HTMLElement>convertedEvent.relatedTarget).id != 'draggerShadow' && (<HTMLElement>convertedEvent.relatedTarget).parentElement!.id != 'draggerShadow')) {
                     self.removeDraggerShadow();
                 }
             });
@@ -140,7 +145,7 @@ class RenderScheduler implements RenderInterface, RenderByHourInterface {
                 if (!(event.target instanceof HTMLElement) || event.target.dataset.timeslot === undefined || event.target.dataset.room === undefined) {
                     return;
                 }
-                var room = self._cinema.findRoom(parseInt(event.target.dataset.room));
+                var room = self._cinema.roomManager.find(parseInt(event.target.dataset.room));
 
                 if(room === undefined) {
                     return;
@@ -177,7 +182,7 @@ class RenderScheduler implements RenderInterface, RenderByHourInterface {
             return;
         }
 
-        var room = this._cinema.findRoom(parseInt(parent.dataset.room));
+        var room = this._cinema.roomManager.find(parseInt(parent.dataset.room));
 
         if(room === undefined) {
             return;
@@ -224,7 +229,7 @@ class RenderScheduler implements RenderInterface, RenderByHourInterface {
         this._table.appendChild(tbody);
 
         var self = this;
-        this._cinema.rooms.forEach(function(room : Room) {
+        this._cinema.roomManager.rooms.forEach(function(room : Room) {
             let tr = document.createElement('tr');
             let td = document.createElement('th');
             td.innerHTML = room.name;

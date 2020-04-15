@@ -1,6 +1,7 @@
 import {Room} from "./Room";
 import {TimePoint} from "./TimePoint";
 import {ShowConfig} from "./ShowConfig";
+import {Movie} from "./Movie";
 
 class Show {
     private _showConfiguration : ShowConfig;
@@ -53,6 +54,14 @@ class Show {
 
     set isPlaying(value: boolean) {
         this._isPlaying = value;
+    }
+
+    get showConfiguration(): ShowConfig {
+        return this._showConfiguration;
+    }
+
+    get movie() : Movie {
+        return this._showConfiguration.movie;
     }
 }
 
