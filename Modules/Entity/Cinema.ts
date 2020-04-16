@@ -122,6 +122,10 @@ class Cinema {
     get customerManager(): CustomerManager {
         return this._customerManager;
     }
+
+    get config(): ConfigManager {
+        return this._config;
+    }
 }
 
 export {Cinema};
