@@ -2,8 +2,12 @@ import {CustomerThought} from "./CustomerThought";
 import {randomNumber} from "../Utils";
 import {CustomerManager} from "../Manager/CustomerManager";
 import {CustomerAppearance} from "../Render/CustomerAppearance";
+import {Genre} from "./Genre";
 
 class Customer {
+    public static readonly GENDER_MALE = 'Male';
+    public static readonly GENDER_FEMALE = 'Female';
+
     private _id: number;
     private _name: string;
     private _age: number;
@@ -19,6 +23,7 @@ class Customer {
     private _thoughts: Array<CustomerThought> = [];
     private _moneySpent : number = 0;
     private _appearance: CustomerAppearance;
+    private genreThought : Genre|null = null;
 
     constructor(name: string, age: number, gender: string, likeCommercial: boolean, commercialTolerance: number, likeBreak: boolean, breakTolerance: number, queueingTolerance: number, pricingToleranceShop: number, pricingToleranceTicket: number, isFan : boolean) {
         this._id = CustomerManager.customerCounter++;
@@ -40,7 +45,7 @@ class Customer {
         return this._id;
     }
 
-    get name(): String {
+    get name(): string {
         return this._name;
     }
 
@@ -48,7 +53,7 @@ class Customer {
         return this._age;
     }
 
-    get gender(): String {
+    get gender(): string {
         return this._gender;
     }
 
@@ -117,6 +122,23 @@ class Customer {
             this._queueingTolerance + ", " +
             this._pricingToleranceShop + ", " +
             this._pricingToleranceTicket);
+    }
+
+    genreComment(genre: Genre) {
+        //once we set a comment for a genre that customer sticks with it.
+
+        if(this.genreThought === null) {
+            this.genreThought = genre;
+        }
+
+        if(this.genreThought.isHype) {
+            return 'I love ' + genre.name + ' movies. They are all the rage now.';
+        }
+        else if(this.genreThought.isUnpopular) {
+            return 'I think ' + genre.name + ' movies are so boring.';
+        }
+
+        return '';
     }
 }
 

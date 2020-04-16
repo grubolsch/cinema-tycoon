@@ -127,3 +127,31 @@ div.movie-block {
     height: 10px;
   }
 }
+
+@mixin boxShadow($config) {
+  -webkit-box-shadow: $config;
+  -moz-box-shadow: $config;
+  box-shadow: $config;
+}
+
+
+#customer-detail-panel {
+  display: none;
+  border: 1px black solid;
+  position: absolute;
+  padding: 12px;
+  @include boxShadow('10px 10px 5px 0px rgba(0,0,0,0.75)');
+  background-color: white;
+
+  i.fa-female {color: pink; display: none;}
+  i.fa-male {color: lightblue; display: none;}
+  i.fa-heart {color: darkred; display: none;}
+
+  ul.customer-thoughts {
+    padding-left: 0px;
+    list-style: none;
+  }
+
+  li.positive-thought {color: green;}
+  li.negative-thought {color: red;}
+}
