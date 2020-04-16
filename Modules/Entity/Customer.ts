@@ -1,9 +1,18 @@
 import {CustomerThought} from "./CustomerThought";
-import {randomNumber} from "../Utils";
 import {CustomerManager} from "../Manager/CustomerManager";
 import {CustomerAppearance} from "../Render/CustomerAppearance";
+import {Show} from "./Show";
+import {Cinema} from "./Cinema";
+import {Movie} from "./Movie";
+import {TicketSaleException} from "../Exception/TicketSaleException";
+import {CustomerAi} from "../Manager/CustomerAi";
+
+type CustomerLocation = {x: number, y: number};
 
 class Customer {
+    public readonly PLAN_LEAVE = 'leave';
+    public readonly PLAN_WATCH_MOVIE = 'watchmovie';
+
     private _id: number;
     private _name: string;
     private _age: number;
@@ -19,8 +28,12 @@ class Customer {
     private _thoughts: Array<CustomerThought> = [];
     private _moneySpent : number = 0;
     private _appearance: CustomerAppearance;
+    private _targetShow: Show;
 
-    constructor(name: string, age: number, gender: string, likeCommercial: boolean, commercialTolerance: number, likeBreak: boolean, breakTolerance: number, queueingTolerance: number, pricingToleranceShop: number, pricingToleranceTicket: number, isFan : boolean) {
+    private _plans : Map<string, boolean> = new Map<string, boolean>();
+    private _ai: CustomerAi|null = null;
+
+    constructor(name: string, age: number, gender: string, likeCommercial: boolean, commercialTolerance: number, likeBreak: boolean, breakTolerance: number, queueingTolerance: number, pricingToleranceShop: number, pricingToleranceTicket: number, isFan : boolean, targetShow : Show) {
         this._id = CustomerManager.customerCounter++;
         this._name = name;
         this._age = age;
@@ -34,6 +47,7 @@ class Customer {
         this._pricingToleranceTicket = pricingToleranceTicket;
         this._isFan = isFan;
         this._appearance = new CustomerAppearance(this);
+        this._targetShow = targetShow;
     }
 
     get id(): number {
@@ -105,7 +119,15 @@ class Customer {
         return this._appearance;
     }
 
-    //Testing purpose (temp)
+    get targetShow(): Show {
+        return this._targetShow;
+    }
+
+    set targetShow(value: Show) {
+        this._targetShow = value;
+    }
+
+//Testing purpose (temp)
     printCustomerInformation() {
         console.info(this._name + ", " +
             this._gender + ", " +
@@ -118,7 +140,64 @@ class Customer {
             this._pricingToleranceShop + ", " +
             this._pricingToleranceTicket);
     }
+
+    get hasFreeTicket() {
+        return false;//@todo: make this work with Marketing
+    }
+
+    /**
+     * Function buys a ticket and sets the thoughts of the customer about the price
+     * Returns the price of the ticket
+     */
+    public purchaseTicket(originalTargetMovie: Movie, cinema: Cinema) : number {
+        if(this.hasFreeTicket) {
+            if (originalTargetMovie.id === this.targetShow.movie.id) {
+                this._plans.set(this.PLAN_WATCH_MOVIE, true);
+                this.addThought(new CustomerThought(CustomerThought.THOUGHT_USED_FREE_TICKET, true));
+                return 0;
+            }
+
+            this.addThought(new CustomerThought(CustomerThought.THOUGHT_COULD_NOT_USE_FREE_TICKET, false));
+        }
+
+        let ticketBreakpoint = cinema.config.ticketBreakpointCustomer;
+        if(this.isFan) {
+            ticketBreakpoint = cinema.config.ticketBreakpointFan;
+        }
+
+        if(cinema.config.ticketprice * this.pricingToleranceTicket * ticketBreakpoint <= cinema.ticketPrice) {
+            this._plans.set(this.PLAN_LEAVE, true);
+
+            this.addThought(new CustomerThought(CustomerThought.TICKET_EXPENSIVE_WENT_HOME, false));
+            throw TicketSaleException.ticketTooExpensive();
+        }
+
+        if(cinema.config.ticketprice * this.pricingToleranceTicket <= cinema.ticketPrice) {
+            this.addThought(new CustomerThought(CustomerThought.TICKET_EXPENSIVE, false));
+        }
+        else if(cinema.config.ticketprice * this.pricingToleranceTicket * cinema.config.ticketCheapBonusThreshold <= cinema.ticketPrice) {
+            this.addThought(new CustomerThought(CustomerThought.TICKET_CHEAP, true));
+        }
+
+        this._plans.set(this.PLAN_WATCH_MOVIE, true);
+
+        this.pay(cinema.ticketPrice);
+        return cinema.ticketPrice;
+    }
+
+    get plans(): Map<string, boolean> {
+        return this._plans;
+    }
+
+    //runs every tick
+    update(cinema: Cinema) {
+        if(this._ai === null) {
+            this._ai = new CustomerAi(cinema, this);
+        }
+
+        this._ai.update();
+    }
 }
 
 
-export { Customer };
+export { Customer, CustomerLocation };

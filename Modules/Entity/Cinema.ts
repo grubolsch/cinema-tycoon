@@ -97,6 +97,8 @@ class Cinema {
 
         this.timeManager.updateTime();
         this._releaseDatePenaltyManager.update();
+
+        this.customerManager.update(this);
     }
 
     get loans(): Map<number, LoanTaken> {

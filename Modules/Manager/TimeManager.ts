@@ -145,6 +145,11 @@ class TimeManager {
         return ((this.year === year && this.month >= month)
             || (this.year > year));
     }
+
+    hasTimePassed(hour : number, minute: number) : boolean {
+        return ((this.hour === hour && this.minute >= minute)
+            || (this.hour > hour));
+    }
 }
 
 export { TimeManager };
