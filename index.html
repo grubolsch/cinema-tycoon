@@ -281,6 +281,8 @@
     <button class="trigger-event btn btn-secondary" rel="month">Trigger month change</button>
     <button class="trigger-event btn btn-secondary" rel="year">Trigger year change</button>
 
+    <button class="btn btn-secondary" id="createCustomerDebug">Create + render customer</button>
+
     <form method="get" id="debugBar-add-money">
         <input type="text" name="money" placeholder="Enter amount" />
         <input type="submit" value="Add money" class="btn btn-danger"/>
@@ -331,14 +333,14 @@
 <progress max="100" value="0" id="research-progress-bar"></progress>
 
 <script>
+    if(process.env.NODE_ENV === 'development') {
+        showDebug();
+    }
+
     $(function () {
         $('[data-toggle="tooltip"]').tooltip()
     });
 </script>
-<style>
-
-
-</style>
 
 </body>
 </html>

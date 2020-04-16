@@ -64,7 +64,7 @@
   bottom: 0px;
 }
 
-div.research-block  {
+div.research-block {
   cursor: pointer;
   border: 1px black solid;
   padding: 6px;
@@ -84,5 +84,46 @@ div.movie-block {
 
   &.active {
     background-color: lightgreen;
+  }
+}
+.customer {
+  height: 95px;
+  width: 70px;
+  background: url("/public/skin.png") no-repeat 0px -20px;
+  position: absolute;
+
+  .hair {
+    height: 50px;
+    width: 70px;
+    background: url("/public/hair.png") no-repeat 0px -20px;
+  }
+
+  .tops {
+    position: absolute;
+    height: 50px;
+    width: 70px;
+    background: url("/public/tops.png") no-repeat 0px -70px;
+  }
+
+  .bottoms {
+    height: 50px;
+    width: 70px;
+    background: url("/public/bottoms.png") no-repeat 0px -70px;
+  }
+
+  .shoes {
+    position: absolute;
+    top: 80px;
+    width: 70px;
+    background: url("/public/shoes.png") no-repeat 0px -100px;
+    height: 15px;
+  }
+
+  .eyes {
+    position: absolute;
+    top: 40px;
+    width: 70px;
+    background: url("/public/eyes.png") no-repeat 0px -60px;
+    height: 10px;
   }
 }

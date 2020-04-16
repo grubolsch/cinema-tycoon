@@ -1,6 +1,7 @@
 import {CustomerThought} from "./CustomerThought";
 import {randomNumber} from "../Utils";
 import {CustomerManager} from "../Manager/CustomerManager";
+import {CustomerAppearance} from "../Render/CustomerAppearance";
 
 class Customer {
     private _id: number;
@@ -15,9 +16,9 @@ class Customer {
     private _pricingToleranceShop: number;
     private _pricingToleranceTicket: number;
     private _isFan: boolean;
-
     private _thoughts: Array<CustomerThought> = [];
     private _moneySpent : number = 0;
+    private _appearance: CustomerAppearance;
 
     constructor(name: string, age: number, gender: string, likeCommercial: boolean, commercialTolerance: number, likeBreak: boolean, breakTolerance: number, queueingTolerance: number, pricingToleranceShop: number, pricingToleranceTicket: number, isFan : boolean) {
         this._id = CustomerManager.customerCounter++;
@@ -32,6 +33,7 @@ class Customer {
         this._pricingToleranceShop = pricingToleranceShop;
         this._pricingToleranceTicket = pricingToleranceTicket;
         this._isFan = isFan;
+        this._appearance = new CustomerAppearance(this);
     }
 
     get id(): number {
@@ -97,6 +99,10 @@ class Customer {
 
     get moneySpent(): number {
         return this._moneySpent;
+    }
+
+    get appearance(): CustomerAppearance {
+        return this._appearance;
     }
 
     //Testing purpose (temp)
