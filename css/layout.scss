@@ -74,3 +74,78 @@ div.research-block  {
     background-color: lightgreen;
   }
 }
+
+
+
+
+
+/*START CINEMA LOOK AND FEEL*/
+.room {
+  border: 1px solid black;
+  width: 300px;
+  height: 300px;
+  position: relative;
+
+  .component {
+    border: 1px green solid;
+    position: absolute;
+  }
+
+  .screen {
+    width: 80%;
+    margin: 0 auto;
+    padding: 12px;
+  }
+
+  .speaker {
+    width: 40px;
+    height: 20px;
+    top: 40px;
+  }
+
+  .speaker-left {
+    left: 10px;
+  }
+
+   .speaker-right {
+     right: 10px;
+   }
+
+  .heating {
+    bottom: 5px;
+    height: 30px;
+    width: 30px;
+    left: 10px;
+  }
+
+  .projector {
+    bottom: 5px;
+    height: 30px;
+    width: 30px;
+    margin: 0 auto;
+  }
+
+  .seats {
+    position: absolute;
+    top: 50px;
+    left: 50px;
+    border: 1px green solid;
+    width: 200px;
+    height: 200px;
+  }
+}
+
+.entryhall {
+  width: 300px;
+  height: 80%;
+}
+
+.hallway {
+  border: 1px solid black;
+  height: 80px;
+  width: 100%;
+  position: absolute;
+  top: 50%;
+  left: 300px;
+  background-image: url('../public/hallfloor2.jpg');
+}
