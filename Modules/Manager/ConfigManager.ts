@@ -79,7 +79,7 @@ class ConfigManager {
 
     private readonly _maxPopularityPenalty: number = 100;
 
-    private readonly _popularityDeviation: number = 10;
+    private readonly _popularityDeviation: number = 2;
     private readonly _popularityToCustomerFactor: number = 10;
     private readonly _releaseDatePenalty: number = 5;
     private readonly _movieDurations: Array<number> = [90, 120, 150, 180];

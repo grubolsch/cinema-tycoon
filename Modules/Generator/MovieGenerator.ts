@@ -22,7 +22,8 @@ class MovieGenerator {
     public createNewMovie(): Movie {
         let rating : number = this.ratingGenerator();
 
-        let startPopularity  = randomNumber(rating-this.config.popularityDeviation, rating+this.config.popularityDeviation);
+        let startPopularity = Math.min(10, Math.max(1, randomNumber(rating - this.config.popularityDeviation, rating + this.config.popularityDeviation)));
+
         let cost = Math.floor((Math.floor(Math.random() * 200) + 800) * (rating / 10));
 
         return new Movie(this.titleGenerator(), rating, startPopularity, this.genreManager.getRandomGenre(), this.typeGenerator(rating), this.durationGenerator(), new ReleaseDate(this.timeManager.year, this.timeManager.month), cost);

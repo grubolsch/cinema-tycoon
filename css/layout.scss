@@ -76,6 +76,7 @@ div.research-block {
 }
 
 div.movie-block {
+  position: relative;
   cursor: pointer;
   text-align: center;
   border: 1px black solid;
@@ -84,6 +85,31 @@ div.movie-block {
 
   &.active {
     background-color: lightgreen;
+  }
+
+  .movie-stamp {
+    display: none;
+    transform: rotate(45deg);
+    position: absolute;
+    top: 10px;
+    right: -35px;
+    border: 1px gold solid;
+    color: gold;
+    background-color: black;
+    padding: 6px;
+    opacity: 0.7;
+  }
+
+  .movie-block-sub {
+    min-height: 435px;
+  }
+
+  .movie-cost {
+    font-weight: bold;
+  }
+
+  li {
+    padding: 6px 0px;
   }
 }
 .customer {
