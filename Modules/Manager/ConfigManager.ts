@@ -79,10 +79,26 @@ class ConfigManager {
 
     private readonly _maxPopularityPenalty: number = 100;
 
-    private readonly _popularityDeviation: number = 10;
+    private readonly _popularityDeviation: number = 2;
     private readonly _popularityToCustomerFactor: number = 10;
     private readonly _releaseDatePenalty: number = 5;
     private readonly _movieDurations: Array<number> = [90, 120, 150, 180];
+
+    public readonly customerWaitingHour: number = 2;
+    public readonly chanceWatchingAnotherMovie: number = 50;
+
+    public readonly ticketBreakpointCustomer: number = 2;
+    public readonly ticketBreakpointFan: number = 3;
+    public readonly ticketCheapBonusThreshold: number = 0.5;
+
+    public readonly boothBaseSpeed : number = 5;
+    public readonly pcSpeedBonus: number = .8;
+    public readonly queueSecondBreakpoint: number = 1.5;
+    public readonly queueFinalBreakpoint: number = 2;
+    public readonly cashierWages: number = 50;
+    public readonly boothBuildprice : number = 3000;
+
+
 
     get credit(): number {
         return this._credit;

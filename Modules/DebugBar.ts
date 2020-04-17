@@ -1,6 +1,7 @@
 import {Cinema} from "./Entity/Cinema";
 import {Observer} from "./Manager/Observer";
 import {CustomerGenerator} from "./Generator/CustomerGenerator";
+import {Show} from "./Entity/Show";
 
 class DebugBar {
     readonly moneyForm = <HTMLElement>document.querySelector("#debugBar-add-money");
@@ -22,7 +23,12 @@ class DebugBar {
     private createCustomer() {
         let generator = new CustomerGenerator(this._cinema.config);
 
-        let customer = generator.createCustomer();
+        if(this._cinema.scheduler.allShows.length === 0) {
+            alert('You can only generate customers if you have at least 1 show planned');
+            return;
+        }
+
+        let customer = generator.createCustomer(this._cinema.scheduler.allShows[0]);
         customer.appearance.render();
         console.log('generated customer', customer);
     }

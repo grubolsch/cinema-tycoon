@@ -52,13 +52,14 @@ class CustomerSpawnerManager {
         let self = this;
         this.cinema.scheduler.allShows.forEach(function(show) {
             let totalCustomers = self.getCustomersPerShow(show);
-            for (let i = 0; i < totalCustomers; i++) {
-                self.cinema.customerManager.add(generator.createCustomer(), show.movie, show.start);
+
+            for (let i = 1; i <= totalCustomers; i++) {
+                self.cinema.customerManager.add(generator.createCustomer(show));
             }
 
             let totalFans = self.getFansPerShow();
-            for (let i = 0; i < totalCustomers; i++) {
-                self.cinema.customerManager.add(generator.createCustomer(true), show.movie, show.start);
+            for (let i = 1; i <= totalFans; i++) {
+                self.cinema.customerManager.add(generator.createCustomer(show, true));
             }
 
             console.log('Show '+ show.movie.title + ' gets '+ totalCustomers + ' customers, '+ totalFans +' fans.');

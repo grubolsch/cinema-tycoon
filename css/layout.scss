@@ -92,6 +92,8 @@ div.movie-block {
   background: url("/public/skin.png") no-repeat 0px -20px;
   position: absolute;
 
+  transition: top 1s, left 1s;
+
   .hair {
     height: 50px;
     width: 70px;
@@ -125,5 +127,37 @@ div.movie-block {
     width: 70px;
     background: url("/public/eyes.png") no-repeat 0px -60px;
     height: 10px;
+  }
+}
+
+$heightArea: 400;
+$widthArea: 400;
+
+#game-area {
+  position: relative;
+  height: $heightArea + 0px;
+  margin-bottom: 10px;
+
+  .ai-area {
+    border: 3px lightgreen double;
+    position: absolute;
+    height: $heightArea + 0px;
+    width: $widthArea + 0px;
+
+    h2 {
+      text-align: center;
+    }
+  }
+
+  #buying-ticket-area {
+    left: 0px;
+  }
+
+  #watching-movie-area {
+    left: $widthArea   + 0px;;
+  }
+
+  #leaving-cinema-area {
+    left: $widthArea * 2  + 0px;;
   }
 }
