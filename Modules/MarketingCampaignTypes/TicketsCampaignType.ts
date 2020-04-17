@@ -1,5 +1,6 @@
 import {MarketingCampaignType} from "./MarketingCampaignType";
 import {Cinema} from "../Entity/Cinema";
+import {Movie} from "../Entity/Movie";
 
 class TicketsCampaignType extends MarketingCampaignType{
 

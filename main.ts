@@ -17,6 +17,7 @@ import {DebugBar} from "./Modules/DebugBar";
 import {RenderScheduler} from "./Modules/Render/RenderScheduler";
 import {RenderSchedulerForm} from "./Modules/Render/RenderSchedulerForm";
 import {RenderCustomerDetailPanel} from "./Modules/Render/RenderCustomerDetailPanel";
+import {GameSpeedManager} from "./Modules/Manager/GameSpeedManager";
 
 const observer = new Observer;
 const configManager = new ConfigManager;
@@ -28,19 +29,21 @@ document.addEventListener('DOMContentLoaded', () => {
     let cinema = new Cinema("Our own Cinema", timeManager, configManager, new FinanceManager(configManager), new MarketingManager());
     //done tmp code
 
+
     //Object responsible for rendering changes in state
-    let render = new Render(cinema);
+    let render : Render = new Render(cinema);
+    //Object responsible for controlling game speed
+    let gsm : GameSpeedManager = new GameSpeedManager(render);
     render.addRender(new RenderLoans(cinema, loanManager));
     render.addRender(new RenderBooths(cinema));
     render.addRender(new RenderRooms(cinema));
     render.addRender(new RenderScheduler(cinema));
     render.addRender(new RenderSchedulerForm(cinema));
     render.addRender(new RenderResearch(cinema));
-    render.addRender(new RenderMarketing(cinema));
+    render.addRender(new RenderMarketing(cinema, gsm));
     render.addRender(new RenderCustomerDetailPanel(cinema));
 
-
-    let renderMoviePicker = new RenderMoviePicker(cinema, render);
+    let renderMoviePicker = new RenderMoviePicker(cinema, gsm);
     render.addRender(renderMoviePicker);
     render.render();
 

@@ -1,14 +1,19 @@
 import {MarketingCampaignType} from "../MarketingCampaignTypes/MarketingCampaignType";
 import {Cinema} from "./Cinema";
+import {Movie} from "./Movie";
 
 class MarketingCampaign {
 
-    readonly _type: MarketingCampaignType;
-    readonly _duration: number;
+    private readonly _type: MarketingCampaignType;
+    private readonly _duration: number;
+    private _remainingWeeks: number;
+    private readonly _movie : Movie | null;
 
-    constructor(type: MarketingCampaignType, duration: number) {
+    constructor(type: MarketingCampaignType, duration: number, movie : Movie | null = null) {
         this._type = type;
         this._duration = duration;
+        this._remainingWeeks = duration;
+        this._movie = movie;
     }
 
     get type(): MarketingCampaignType {
@@ -19,12 +24,24 @@ class MarketingCampaign {
         return this._duration;
     }
 
+    get remainingWeeks(): number {
+        return this._remainingWeeks;
+    }
+
+    get movie(): Movie | null {
+        return this._movie;
+    }
+
     applyBonus(cinema: Cinema) {
         this.type.applyBonus(cinema);
     }
 
     removeBonus(cinema: Cinema) {
         this.type.removeBonus(cinema);
+    }
+
+    weekUpdate(): void{
+        this._remainingWeeks--;
     }
 }
 

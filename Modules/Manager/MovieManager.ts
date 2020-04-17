@@ -68,6 +68,10 @@ class MovieManager {
         return this._movies;
     }
 
+    findMovie(id : number): Movie{
+        return <Movie>this.movies.get(id);
+    }
+
     calculatePopularity(movie : Movie) : number {
         let base = movie.startPopularity * this._config.popularityToCustomerFactor;
         return Math.max(0, base - movie.releaseDatePenalty);
