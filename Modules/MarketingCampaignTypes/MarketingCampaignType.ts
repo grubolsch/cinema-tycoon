@@ -1,7 +1,6 @@
-import {MarketingCampaignInterface} from "./MarketingCampaignInterface";
 import {Cinema} from "../Entity/Cinema";
 
-class MarketingCampaignType implements MarketingCampaignInterface{
+class MarketingCampaignType{
     name: string;
     cost: number;
 
@@ -10,11 +9,8 @@ class MarketingCampaignType implements MarketingCampaignInterface{
         this.cost = cost;
     }
 
-    applyBonus(cinema: Cinema): void {
-    }
-
-    removeBonus(cinema: Cinema): void {
-    }
+    applyBonus(cinema: Cinema): void {}
+    removeBonus(cinema: Cinema): void {}
 }
 
 export {MarketingCampaignType}

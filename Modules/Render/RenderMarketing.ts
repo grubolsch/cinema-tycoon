@@ -59,7 +59,7 @@ class RenderMarketing implements RenderInterface {
         });
 
         if (selectedOption !== undefined) {
-            let campaign = this._cinema.marketingManager.createCampaign(selectedOption.value, rangeValue);
+            let campaign = this._cinema.marketingManager.createCampaign(selectedOption.value, rangeValue, this._cinema);
             this._cinema.marketingManager.startCampaign(campaign, this._cinema);
         }
     }

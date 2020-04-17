@@ -43,26 +43,26 @@ class MarketingManager {
         }
     }
 
-    public createCampaign(type: string, duration: number): MarketingCampaign {
+    public createCampaign(type: string, duration: number, cinema: Cinema): MarketingCampaign {
         let campaignType: MarketingCampaignType;
         switch (type) {
             case 'Flyers':
-                campaignType = new FlyersCampaignType();
+                campaignType = new FlyersCampaignType(cinema);
                 break;
             case 'Newspaper':
-                campaignType = new NewspaperCampaignType();
+                campaignType = new NewspaperCampaignType(cinema);
                 break;
             case 'Radio':
-                campaignType = new RadioCampaignType();
+                campaignType = new RadioCampaignType(cinema);
                 break;
             case 'TV':
-                campaignType = new TvCampaignType();
+                campaignType = new TvCampaignType(cinema);
                 break;
             case 'Internet':
-                campaignType = new InternetCampaignType();
+                campaignType = new InternetCampaignType(cinema);
                 break;
             case 'Tickets':
-                campaignType = new TicketsCampaignType();
+                campaignType = new TicketsCampaignType(cinema);
                 break;
             default:
                 throw CampaignTypeException.noSuchType();
