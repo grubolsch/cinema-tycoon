@@ -64,6 +64,14 @@ class Cinema {
         return this._fans;
     }
 
+    public addFan() : void {
+        this._fans++;
+    }
+
+    loseFan() {
+        this._fans--;
+    }
+
     get ticketPrice(): number {
         return this._ticketPrice;
     }

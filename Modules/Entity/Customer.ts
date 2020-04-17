@@ -2,6 +2,9 @@ import {CustomerThought} from "./CustomerThought";
 import {randomNumber} from "../Utils";
 import {CustomerManager} from "../Manager/CustomerManager";
 import {CustomerAppearance} from "../Render/CustomerAppearance";
+import {Room} from "./Room";
+import {Movie} from "./Movie";
+import {ConfigManager} from "../Manager/ConfigManager";
 
 class Customer {
     private _id: number;
@@ -117,6 +120,62 @@ class Customer {
             this._queueingTolerance + ", " +
             this._pricingToleranceShop + ", " +
             this._pricingToleranceTicket);
+    }
+
+    private _visitedRoom : Room|null = null;
+    private _visitedMovie : Movie|null = null;
+
+
+    private THOUGHT_POSTIVE_BONUS = 5;
+    private THOUGHT_NEGATIVE_PENALTY = 5;
+
+    calculateHappiness(config : ConfigManager) {
+        /*
+        *percentage change of converting / losing pop to fan
+        If pop saw a blockbuster -20% chance
+        If pop saw an arthouse movie +20% chance
+
+        If happiness is more than 100%, it has a chance of making a “friend” a fan.
+         */
+
+        let movieQuality = 0;
+        if(this._visitedMovie != null) {
+            movieQuality = this._visitedMovie.rating * 10;
+        }
+
+        let roomQuality = 0;
+        if(this._visitedRoom != null) {
+            roomQuality = this._visitedRoom.calculateRoomQuality();
+        }
+
+        let thoughtBonus = this.getPositiveThoughts().length * this.THOUGHT_POSTIVE_BONUS;
+        let thoughtPenalty = this.getNegativeThoughts().length * this.THOUGHT_NEGATIVE_PENALTY;
+
+        //@todo: happiness bonus products
+        //@todo: happiness bonus Toilet
+        //@todo: happiness bonus Arcade
+
+        return movieQuality + roomQuality + thoughtBonus - thoughtPenalty;
+    }
+
+    public getPositiveThoughts() : Array<CustomerThought> {
+        return this.thoughts.filter(function (thought) {
+            return thought.postive;
+        });
+    }
+
+    public getNegativeThoughts() : Array<CustomerThought> {
+        return this.thoughts.filter(function (thought) {
+            return !thought.postive;
+        });
+    }
+
+    get visitedRoom(): Room | null {
+        return this._visitedRoom;
+    }
+
+    get visitedMovie(): Movie | null {
+        return this._visitedMovie;
     }
 }
 
