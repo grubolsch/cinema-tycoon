@@ -101,6 +101,8 @@ class Cinema {
 
         this.timeManager.updateTime();
         this._releaseDatePenaltyManager.update();
+
+        this.customerManager.update(this);
     }
 
     get loans(): Map<number, LoanTaken> {
@@ -129,6 +131,10 @@ class Cinema {
 
     get facilityManager(): FacilityManager {
         return this._facilityManager;
+    }
+
+    get config(): ConfigManager {
+        return this._config;
     }
 }
 

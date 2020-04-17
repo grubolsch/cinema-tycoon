@@ -103,5 +103,7 @@ function shuffle<t>(a : Array<t>) : Array<t> {
     return a;
 }
 
-export { number_format, currency, randomNumber, shuffle };
+var average = (array) => array.reduce((a, b) => a + b) / array.length;
+
+export { number_format, currency, randomNumber, shuffle, average };
 

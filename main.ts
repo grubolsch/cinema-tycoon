@@ -17,6 +17,7 @@ import {DebugBar} from "./Modules/DebugBar";
 import {RenderScheduler} from "./Modules/Render/RenderScheduler";
 import {RenderSchedulerForm} from "./Modules/Render/RenderSchedulerForm";
 import {RenderFacilities} from "./Modules/Render/RenderFacilities";
+import {RenderCustomerDetailPanel} from "./Modules/Render/RenderCustomerDetailPanel";
 
 const observer = new Observer;
 const configManager = new ConfigManager;
@@ -38,6 +39,9 @@ document.addEventListener('DOMContentLoaded', () => {
     render.addRender(new RenderResearch(cinema));
     render.addRender(new RenderMarketing(cinema));
     render.addRender(new RenderFacilities(cinema));
+    render.addRender(new RenderCustomerDetailPanel(cinema));
+
+
     let renderMoviePicker = new RenderMoviePicker(cinema, render);
     render.addRender(renderMoviePicker);
     render.render();
@@ -73,6 +77,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
         render.renderByDay();
 
+        cinema.scheduler.resetShows();
         cinema.customerSpawnerManager.updateByDay();
     });
 
