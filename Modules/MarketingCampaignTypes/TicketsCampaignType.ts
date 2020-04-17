@@ -5,9 +5,11 @@ class TicketsCampaignType extends MarketingCampaignType{
 
     constructor(cinema : Cinema) {
         super('Tickets', (50 * cinema.roomManager.rooms.size), 0);
+
     }
 
     applyBonus(cinema: Cinema): void {
+
     }
 
     removeBonus(cinema: Cinema): void {
