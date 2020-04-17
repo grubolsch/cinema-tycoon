@@ -89,7 +89,7 @@ class RenderMoviePicker implements RenderInterface, RenderByWeekInterface {
         (<HTMLElement>clone.querySelector('.movie-cost span')).innerHTML = currency(movie.cost);
         (<HTMLElement>clone.querySelector('.movie-block')).dataset.movie = `${movie.id}`;
 
-        for (let i = 0; i < 3; i++) {
+        for (let i = 0; i < this._cinema.config.numberOfReviews; i++) {
             let rating = randomNumber(Math.max(movie.rating - this._cinema.config.popularityDeviation, 1), Math.min(movie.rating + this._cinema.config.popularityDeviation, 10)) ;
 
             let li = document.createElement('li');
