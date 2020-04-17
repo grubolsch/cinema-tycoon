@@ -46,6 +46,9 @@ class ShowConfig {
         return this._duration;
     }
 
+    get durationBreakTime(): number {
+        return this.DURATION_BREAK;
+    }
 }
 
 export {ShowConfig}

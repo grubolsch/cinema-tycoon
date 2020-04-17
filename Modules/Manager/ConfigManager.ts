@@ -86,6 +86,25 @@ class ConfigManager {
     private readonly _releaseDatePenalty: number = 5;
     private readonly _movieDurations: Array<number> = [90, 120, 150, 180];
 
+    public readonly customerWaitingHour: number = 2;
+    public readonly chanceWatchingAnotherMovie: number = 50;
+
+    public readonly ticketBreakpointCustomer: number = 2;
+    public readonly ticketBreakpointFan: number = 3;
+    public readonly ticketCheapBonusThreshold: number = 0.5;
+
+    public readonly boothBaseSpeed : number = 5;
+    public readonly pcSpeedBonus: number = .8;
+    public readonly queueSecondBreakpoint: number = 1.5;
+    public readonly queueFinalBreakpoint: number = 2;
+    public readonly cashierWages: number = 50;
+    public readonly boothBuildprice : number = 3000;
+
+    public readonly licenseFeeExtraPerRoom: number = 20;
+    public readonly licenseBlockbusterExtraCost: number = 10;
+    public readonly licenseFeeMin: number = 800;
+    public readonly licenseFeeMax: number = 1000;
+
     get credit(): number {
         return this._credit;
     }

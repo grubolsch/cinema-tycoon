@@ -1,5 +1,5 @@
 import {randomNumber} from "../Utils";
-import {Customer} from "../Entity/Customer";
+import {Customer, CustomerLocation} from "../Entity/Customer";
 
 class CustomerAppearance {
     private readonly gameAreaElement = <HTMLElement>document.querySelector('#game-area');
@@ -11,11 +11,14 @@ class CustomerAppearance {
     private readonly eyes = 'eyes';
     private readonly customer : Customer;
 
+    private _location: CustomerLocation|null = null;
+
     constructor(customer : Customer) {
         this.customer = customer;
         this.customerElement = document.createElement('div');
-        this.customerElement.className = 'customer';
+        this.customerElement.className = 'customer clickable';
         this.customerElement.id = 'customer-' + customer.id;
+        this.customerElement.dataset.customer = customer.id.toString();
 
         this.generateSkin();
         this.renderClothPart(this.hair, 13, [-20, -135, -250, -370, -485]);
@@ -40,12 +43,22 @@ class CustomerAppearance {
         this.customerElement.appendChild(element);
     }
 
-    public render() {
-        if(document.querySelector('#customer-' + this.customer.id)) {
-            return;
+    public render(location : CustomerLocation) {
+        this._location = location;
+        this.customerElement.style.top = this._location.x + "px";
+        this.customerElement.style.left = this._location.y + "px";
+
+        if(!document.querySelector('#customer-' + this.customer.id)) {
+            this.gameAreaElement.appendChild(this.customerElement);
+        }
+    }
+
+    get location(): CustomerLocation {
+        if(this._location === null) {
+            return {'x': 0, 'y': 0};
         }
 
-        this.gameAreaElement.appendChild(this.customerElement);
+        return this._location;
     }
 }
 

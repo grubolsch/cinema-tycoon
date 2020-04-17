@@ -1,6 +1,7 @@
 import {Cinema} from "./Cinema";
 import {Room} from "./Room";
 import {Show} from "./Show";
+import {TimeManager} from "../Manager/TimeManager";
 
 class Scheduler {
     private _cinema : Cinema;
@@ -55,7 +56,8 @@ class Scheduler {
             return false;
         }
 
-        if(roomsByShow[showId].isPlaying) {
+        if(roomsByShow[showId].isPlaying(this._cinema)) {
+            alert('You cannot delete a show that is currently playing.');
             return false;
         }
 
@@ -69,6 +71,12 @@ class Scheduler {
             shows = shows.concat(showsPerRoom);
         });
         return shows;
+    }
+
+    resetShows() : void {
+        this.allShows.forEach(function(show) {
+           show.resetTickets();
+        });
     }
 }
 

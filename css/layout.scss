@@ -1,3 +1,12 @@
+@mixin boxShadow($config) {
+  -webkit-box-shadow: $config;
+  -moz-box-shadow: $config;
+  box-shadow: $config;
+}
+
+$heightArea: 400;
+$widthArea: 400;
+
 .clickable {
   cursor: pointer;
   color: blue;
@@ -118,6 +127,8 @@ div.movie-block {
   background: url("/public/skin.png") no-repeat 0px -20px;
   position: absolute;
 
+  transition: top 1s, left 1s;
+
   .hair {
     height: 50px;
     width: 70px;
@@ -152,4 +163,54 @@ div.movie-block {
     background: url("/public/eyes.png") no-repeat 0px -60px;
     height: 10px;
   }
+}
+
+#game-area {
+  position: relative;
+  height: $heightArea + 0px;
+  margin-bottom: 10px;
+
+  .ai-area {
+    border: 3px lightgreen double;
+    position: absolute;
+    height: $heightArea + 0px;
+    width: $widthArea + 0px;
+
+    h2 {
+      text-align: center;
+    }
+  }
+
+  #buying-ticket-area {
+    left: 0px;
+  }
+
+  #watching-movie-area {
+    left: $widthArea   + 0px;;
+  }
+
+  #leaving-cinema-area {
+    left: $widthArea * 2  + 0px;;
+  }
+}
+
+#customer-detail-panel {
+  display: none;
+  border: 1px black solid;
+  position: absolute;
+  padding: 12px;
+  @include boxShadow('10px 10px 5px 0px rgba(0,0,0,0.75)');
+  background-color: white;
+
+  i.fa-female {color: pink; display: none;}
+  i.fa-male {color: lightblue; display: none;}
+  i.fa-heart {color: darkred; display: none;}
+
+  ul.customer-thoughts {
+    padding-left: 0px;
+    list-style: none;
+  }
+
+  li.positive-thought {color: green;}
+  li.negative-thought {color: red;}
 }
