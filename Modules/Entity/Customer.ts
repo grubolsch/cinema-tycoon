@@ -112,7 +112,7 @@ class Customer {
         return this._inventory;
     }
 
-    addInventoryItem(desc: string, item: InventoryItem) : void {
+    addInventoryItem(desc: string, item: InventoryItem): void {
         this._inventory.set(desc, item);
     }
 
@@ -141,7 +141,7 @@ class Customer {
         this._targetShow = value;
     }
 
-//Testing purpose (temp)
+    //Testing purpose (temp)
     printCustomerInformation(): void {
         console.info(this._name + ", " +
             this._gender + ", " +
@@ -211,6 +211,5 @@ class Customer {
         this._ai.update();
     }
 }
-
 
 export {Customer, CustomerLocation};
