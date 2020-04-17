@@ -284,13 +284,27 @@
     <button class="trigger-event btn btn-secondary" rel="month">Trigger month change</button>
     <button class="trigger-event btn btn-secondary" rel="year">Trigger year change</button>
 
+    <button class="btn btn-secondary" id="createCustomerDebug">Create + render customer</button>
+
     <form method="get" id="debugBar-add-money">
         <input type="text" name="money" placeholder="Enter amount" />
         <input type="submit" value="Add money" class="btn btn-danger"/>
     </form>
 </div>
 
-<div id="game-area">
+<section id="game-area">
+    <div class="ai-area" id="buying-ticket-area">
+        <h2>Buying ticket</h2>
+    </div>
+    <div class="ai-area" id="watching-movie-area">
+        <h2>Watching movie</h2>
+    </div>
+    <div class="ai-area" id="leaving-cinema-area">
+        <h2>Leaving cinema</h2>
+    </div>
+</section>
+
+<div>
 <!--    booth-->
     <div id="booth-container"></div>
 
@@ -328,50 +342,19 @@
             </ul>
         </div>
     </template>
-
 </div>
 
 <progress max="100" value="0" id="research-progress-bar"></progress>
 
 <script>
+    if(process.env.NODE_ENV === 'development') {
+        showDebug();
+    }
+
     $(function () {
         $('[data-toggle="tooltip"]').tooltip()
     });
 </script>
-<style>
-    #research-progress-bar {
-        width: 100%;
-        position: fixed;
-        bottom: 0px;
-    }
-
-    div.research-block {
-        cursor: pointer;
-        border: 1px black solid;
-        padding: 6px;
-        margin: 6px;
-    }
-
-    div.movie-block {
-        cursor: pointer;
-        text-align: center;
-        border: 1px black solid;
-        padding: 6px;
-        margin: 6px;
-    }
-
-    div.research-block.active {
-        background-color: lightgreen;
-    }
-
-    div.movie-block.active {
-        background-color: lightgreen;
-    }
-
-    .center {
-        text-align: center;
-    }
-</style>
 
 </body>
 </html>
