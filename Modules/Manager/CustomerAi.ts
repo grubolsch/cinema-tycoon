@@ -8,7 +8,7 @@ import {GameAreaCoordinates} from "../Assets/GameAreaCoordinates";
 
 class CustomerAi {
     private customer : Customer;
-    private currentAction : CustomerAction;
+    private _currentAction : CustomerAction;
     private cinema: Cinema;
 
     constructor(cinema: Cinema, customer: Customer) {
@@ -19,19 +19,23 @@ class CustomerAi {
         this.customer.appearance.render(spawnLocation);//make the customer visible on the screen
 
         // @todo currently the moving action will direct resolve because there is nothing to move too.
-        this.currentAction = new MoveAction(spawnLocation, new BuyTicketAction());
+        this._currentAction = new MoveAction(spawnLocation, new BuyTicketAction());
 
         console.log('start ai', this.customer.name);
     }
 
     ///gets called each tick
     update() {
-        this.currentAction.update(this.cinema, this.customer);
+        this._currentAction.update(this.cinema, this.customer);
 
-        if(this.currentAction.isFinished(this.cinema, this.customer)) {
-            this.currentAction = this.currentAction.nextAction(this.cinema, this.customer);
-            console.log('NEXT ACTION: ', this.currentAction);
+        if(this._currentAction.isFinished(this.cinema, this.customer)) {
+            this._currentAction = this._currentAction.nextAction(this.cinema, this.customer);
+            console.log('NEXT ACTION: ', this._currentAction);
         }
+    }
+
+    get currentAction(): CustomerAction {
+        return this._currentAction;
     }
 }
 

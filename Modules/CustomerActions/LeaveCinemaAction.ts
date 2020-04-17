@@ -30,6 +30,10 @@ class LeaveCinemaAction implements CustomerAction {
         this.leavingInTicks--;
     }
 
+    getDescription(cinema: Cinema, customer: Customer): string {
+        return "Left the cinema";
+    }
+
 }
 
 export  {LeaveCinemaAction}
