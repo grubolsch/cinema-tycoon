@@ -89,6 +89,10 @@ document.addEventListener('DOMContentLoaded', () => {
         render.renderByMonth();
     });
 
+    observer.subscribe(observer.YEAR, () => {
+        console.info('A year has passed');
+    });
+
     observer.subscribe(observer.RESEARCH_FINISHED, function (params: { research: ResearchItem; }) {
         alert('You finished research on ' + params.research.name + '. Make sure you select a new technology to work on. \nStanding still is going backwards.');
     });
