@@ -98,7 +98,10 @@ class ConfigManager {
     public readonly cashierWages: number = 50;
     public readonly boothBuildprice : number = 3000;
 
-
+    public readonly licenseFeeExtraPerRoom: number = 20;
+    public readonly licenseBlockbusterExtraCost: number = 10;
+    public readonly licenseFeeMin: number = 800;
+    public readonly licenseFeeMax: number = 1000;
 
     get credit(): number {
         return this._credit;
