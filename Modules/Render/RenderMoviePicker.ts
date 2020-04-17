@@ -1,10 +1,10 @@
 import {Cinema} from "../Entity/Cinema";
 import {Movie} from "../Entity/Movie";
 import {Render} from "./Render";
-import {currency} from "../Utils";
+import {currency, randomNumber} from "../Utils";
+import reviews from "../Assets/reviews.json";
 
 class RenderMoviePicker implements RenderInterface, RenderByWeekInterface {
-
     readonly _cinema: Cinema;
     readonly _render: Render;
 
@@ -15,7 +15,7 @@ class RenderMoviePicker implements RenderInterface, RenderByWeekInterface {
     private readonly errorContainer = (<HTMLElement>document.querySelector('#movies-error-container'));
     private readonly template = (<HTMLTemplateElement>document.querySelector('#movie-template'));
 
-    constructor(cinema: Cinema, render : Render) {
+    constructor(cinema: Cinema, render: Render) {
         this._cinema = cinema;
         this._render = render;
     }
@@ -53,6 +53,7 @@ class RenderMoviePicker implements RenderInterface, RenderByWeekInterface {
             let selectedMovieIds = this.getSelectedMovieIds();
             if (this._cinema.movieManager.handleMoviePicker(this._cinema, selectedMovieIds, movies)) {
                 this.moviePickerModal.modal('hide');
+                render.resume();
             } else {
                 this.errorContainer.innerHTML = '';
                 let error = document.createElement('div');
@@ -83,10 +84,25 @@ class RenderMoviePicker implements RenderInterface, RenderByWeekInterface {
     // good
     private renderMovieBox(movie: Movie): void {
         let clone = <HTMLElement>this.template.content.cloneNode(true);
-        (<HTMLElement>clone.querySelector('.movie-title')).innerHTML = movie.title;
-        (<HTMLElement>clone.querySelector('.movie-genre')).innerHTML = movie.genre.name;
-        (<HTMLElement>clone.querySelector('.movie-cost')).innerHTML = currency(movie.cost);
+        (<HTMLElement>clone.querySelector('.movie-title')).innerText = movie.title;
+        (<HTMLElement>clone.querySelector('.movie-genre')).innerText = movie.genre.name;
+        (<HTMLElement>clone.querySelector('.movie-cost span')).innerHTML = currency(movie.cost);
         (<HTMLElement>clone.querySelector('.movie-block')).dataset.movie = `${movie.id}`;
+
+        for (let i = 0; i < this._cinema.config.numberOfReviews; i++) {
+            let rating = randomNumber(Math.max(movie.rating - this._cinema.config.popularityDeviation, 1), Math.min(movie.rating + this._cinema.config.popularityDeviation, 10)) ;
+
+            let li = document.createElement('li');
+            li.innerText = (rating+1) + "/10: " + reviews.reviews[rating-1][randomNumber(0, reviews.reviews[rating-1].length - 1)];
+            (<HTMLElement>clone.querySelector('.movie-reviews')).appendChild(li);
+        }
+
+        if (movie.type.isArthouse) {
+            (<HTMLElement>clone.querySelector('.movie-arthouse')).style.display = 'block';
+        } else if (movie.type.isBlockbuster) {
+            (<HTMLElement>clone.querySelector('.movie-blockbuster')).style.display = 'block';
+        }
+
         this.container.appendChild(clone);
     }
 }

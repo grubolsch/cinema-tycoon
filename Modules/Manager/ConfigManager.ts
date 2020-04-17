@@ -29,6 +29,8 @@ class ConfigManager {
     private readonly _blockbusterChance: number = 50;
     private readonly _arthouseChance: number = 5;
 
+    public readonly numberOfReviews: number = 3;
+
     //Room
     private readonly _small = 'small';
     private readonly _meidium = 'medium';

@@ -151,11 +151,19 @@
                 <template id="movie-template">
                     <div class="col-sm-4">
                         <div class="movie-block">
-                            <h3 class="movie-title"></h3>
-                            <i><strong class="movie-genre"></strong></i>
-                            <h3 class="movie-type"></h3>
+                            <div class="movie-block-sub">
+                                <span class="movie-arthouse movie-stamp">Arthouse movie</span>
+                                <span class="movie-blockbuster movie-stamp">Blockbuster movie</span>
 
-                            Cost: <span class="movie-cost"></span>
+                                <h3 class="movie-title"></h3>
+                                <i><strong class="movie-genre"></strong></i>
+                                <h3 class="movie-type"></h3>
+
+                                <ul class="movie-reviews"></ul>
+                            </div>
+                            <div class="movie-cost">
+                                Cost: <span></span>
+                            </div>
                         </div>
                     </div>
                 </template>
