@@ -2,6 +2,8 @@ import {Cinema} from "./Entity/Cinema";
 import {Observer} from "./Manager/Observer";
 import {CustomerGenerator} from "./Generator/CustomerGenerator";
 import {TimePoint} from "./Entity/TimePoint";
+import {Show} from "./Entity/Show";
+import {randomNumber} from "./Utils";
 
 class DebugBar {
     readonly moneyForm = <HTMLElement>document.querySelector("#debugBar-add-money");
@@ -23,17 +25,17 @@ class DebugBar {
     private createCustomer() {
         let generator = new CustomerGenerator(this._cinema.config);
 
-        let movie = this._cinema.movieManager.movies.get(0);
-
-        if(movie === undefined) {
-            return alert('You need at least 1 movie to generate a customer.');
+        let allShows = this._cinema.scheduler.allShows;
+        if(allShows.length === 0) {
+            alert('You can only generate customers if you have at least 1 show planned');
+            return;
         }
 
-        let customer = generator.createCustomer();
-        customer.appearance.render();
-        console.log('generated customer', customer);
+        let customer = generator.createCustomer(allShows[randomNumber(0, allShows.length-1)]);
+        this._cinema.customerManager.add(customer);
 
-        this._cinema.customerManager.add(customer, movie, new TimePoint(9, 0));
+        //customer.appearance.render();
+        console.log('generated customer', customer);
     }
 
     init() {

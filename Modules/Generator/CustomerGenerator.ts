@@ -2,6 +2,7 @@ import * as faker from 'faker';
 
 import {Customer} from "../Entity/Customer";
 import {ConfigManager} from "../Manager/ConfigManager";
+import {Show} from "../Entity/Show";
 
 class CustomerGenerator {
     private readonly GENDER = [Customer.GENDER_MALE, Customer.GENDER_FEMALE];
@@ -10,7 +11,7 @@ class CustomerGenerator {
 
     private readonly configManager: ConfigManager;
 
-    public createCustomer(isFan : boolean = false): Customer {
+    public createCustomer(show : Show, isFan : boolean = false): Customer {
         let gender = faker.random.arrayElement(this.GENDER);
         let name = faker.name.firstName(this.GENDER.indexOf(gender)) + " " + faker.name.lastName(this.GENDER.indexOf(gender));
         let age = faker.random.number({min: this.MIN_AGE, max: this.MAX_AGE});
@@ -22,9 +23,8 @@ class CustomerGenerator {
         let pricingToleranceShop = faker.random.number({min: 12, max: 25}) / 10;
         let pricingToleranceTicket = faker.random.number({min: 12, max: 25}) / 10;
 
-        let customer = new Customer(name, age, gender, likeCommercial, commercialTolerance, likeBreak, breakTolerance, queueingTolerance, pricingToleranceShop, pricingToleranceTicket, isFan);
-        customer.printCustomerInformation();
-        return customer;
+        console.log('created '+ name);
+        return new Customer(name, age, gender, likeCommercial, commercialTolerance, likeBreak, breakTolerance, queueingTolerance, pricingToleranceShop, pricingToleranceTicket, isFan, show);
     }
 
     constructor(configManager: ConfigManager) {
