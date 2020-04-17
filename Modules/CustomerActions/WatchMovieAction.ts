@@ -5,6 +5,8 @@ import {LeaveCinemaAction} from "./LeaveCinemaAction";
 import {MoveAction} from "./MoveAction";
 import {randomNumber} from "../Utils";
 import {GameAreaCoordinates} from "../Assets/GameAreaCoordinates";
+import {RateRoom} from "../Manager/ExperienceRatings/RateRoom";
+import {RateMovie} from "../Manager/ExperienceRatings/RateMovie";
 
 class WatchMovieAction implements CustomerAction {
     isFinished(cinema: Cinema, customer: Customer): boolean {
@@ -12,6 +14,12 @@ class WatchMovieAction implements CustomerAction {
     }
 
     nextAction(cinema: Cinema, customer: Customer): CustomerAction {
+        let rateMovie = new RateMovie(cinema.config);
+        rateMovie.rate(customer.targetShow.movie, customer);
+
+        let rateRoom = new RateRoom(cinema.config);
+        rateRoom.rate(customer.targetShow.room, customer);
+
         return new MoveAction({'x': customer.appearance.location!.x, 'y': randomNumber(GameAreaCoordinates.leavingCinemaStart, GameAreaCoordinates.leavingCinemaEnd)}, new LeaveCinemaAction());
     }
 

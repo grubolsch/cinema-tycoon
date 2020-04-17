@@ -222,34 +222,23 @@ class Customer {
         this._ai.update();
     }
 
-    private _visitedRoom : Room|null = null;
-    private _visitedMovie : Movie|null = null;
-
-
-    private THOUGHT_POSTIVE_BONUS = 5;
-    private THOUGHT_NEGATIVE_PENALTY = 5;
-
     calculateHappiness(config : ConfigManager) {
-        /*
-        *percentage change of converting / losing pop to fan
-        If pop saw a blockbuster -20% chance
-        If pop saw an arthouse movie +20% chance
+        let movieQuality : number = 0;
+        let roomQuality : number = 0;
 
-        If happiness is more than 100%, it has a chance of making a “friend” a fan.
-         */
+        if(this.plans.get(this.PLAN_WATCH_MOVIE) === true) {
+            //make sure he actually watched the movie (not just left the cinema).
+            if (this.targetShow.movie != null) {
+                movieQuality = this.targetShow.movie.rating * config.movieToQualityFactor;
+            }
 
-        let movieQuality = 0;
-        if(this._visitedMovie != null) {
-            movieQuality = this._visitedMovie.rating * 10;
+            if (this.targetShow.room != null) {
+                roomQuality = this.targetShow.room.calculateRoomQuality();
+            }
         }
 
-        let roomQuality = 0;
-        if(this._visitedRoom != null) {
-            roomQuality = this._visitedRoom.calculateRoomQuality();
-        }
-
-        let thoughtBonus = this.getPositiveThoughts().length * this.THOUGHT_POSTIVE_BONUS;
-        let thoughtPenalty = this.getNegativeThoughts().length * this.THOUGHT_NEGATIVE_PENALTY;
+        let thoughtBonus = this.getPositiveThoughts().length * config.thoughtPositiveBonus;
+        let thoughtPenalty = this.getNegativeThoughts().length * config.thoughtNegativeBonus;
 
         //@todo: happiness bonus products
         //@todo: happiness bonus Toilet
@@ -268,14 +257,6 @@ class Customer {
         return this.thoughts.filter(function (thought) {
             return !thought.postive;
         });
-    }
-
-    get visitedRoom(): Room | null {
-        return this._visitedRoom;
-    }
-
-    get visitedMovie(): Movie | null {
-        return this._visitedMovie;
     }
 }
 
