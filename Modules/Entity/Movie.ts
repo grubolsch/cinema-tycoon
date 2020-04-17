@@ -15,6 +15,7 @@ class Movie {
     private readonly _startPopularity: number;
     private readonly _releaseDate: ReleaseDate;
     private _releaseDatePenalty : number = 0;
+    private _freeTicketsRemaining : number = 0;
 
     constructor(title: string, rating: number, startPopularity : number, genre: Genre, type: MovieType, duration : number, releaseDate : ReleaseDate, cost : number) {
         this._id = MovieManager.counter++;
@@ -27,6 +28,7 @@ class Movie {
         this._cost = cost;
         this._startPopularity = startPopularity;
     }
+
     get title(): string {
         return this._title;
     }
@@ -69,6 +71,14 @@ class Movie {
 
     increaseReleasePenalty(quantity : number = 1) : void {
         this._releaseDatePenalty += quantity;
+    }
+
+    get freeTicketsRemaining(): number {
+        return this._freeTicketsRemaining;
+    }
+
+    addFreeTickets(amount: number) : void {
+        this._freeTicketsRemaining += amount;
     }
 }
 export {Movie};
