@@ -62,10 +62,7 @@ document.addEventListener('DOMContentLoaded', () => {
     });
 
     observer.subscribe(observer.HOUR, () => {
-        console.info('An hour has passed');
-
         cinema.boothManager.payHourCost();
-
         render.renderByHour();
     });
 
@@ -79,8 +76,6 @@ document.addEventListener('DOMContentLoaded', () => {
     });
 
     observer.subscribe(observer.WEEK, () => {
-        console.info('A week has passed');
-
         cinema.marketingManager.weeklyCampaignUpdate(cinema);
         render.renderByWeek();
     });
@@ -92,25 +87,6 @@ document.addEventListener('DOMContentLoaded', () => {
         cinema.genreManager.update();
         cinema.researchManager.update(observer);
         render.renderByMonth();
-    });
-
-    observer.subscribe(observer.DAY, () => {
-        render.renderByDay();
-    });
-
-    observer.subscribe(observer.WEEK, () => {
-        cinema.marketingManager.weeklyCampaignUpdate(cinema);
-        // renderMoviePicker.weeklyMoviePicker(render);
-        render.renderByWeek();
-    });
-
-    observer.subscribe(observer.HOUR, () => {
-        cinema.boothManager.payHourCost();
-        render.renderByHour();
-    });
-
-    observer.subscribe(observer.YEAR, () => {
-        console.info('A year has passed');
     });
 
     observer.subscribe(observer.RESEARCH_FINISHED, function (params: { research: ResearchItem; }) {
