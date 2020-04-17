@@ -71,6 +71,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
         render.renderByDay();
 
+        cinema.scheduler.resetShows();
         cinema.customerSpawnerManager.updateByDay();
     });
 
