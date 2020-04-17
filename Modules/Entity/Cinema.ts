@@ -15,6 +15,7 @@ import {TimePoint} from "./TimePoint";
 import {CustomerSpawnerManager} from "../Manager/CustomerSpawnerManager";
 import {ReleaseDatePenaltyManager} from "../Manager/ReleaseDatePenaltyManager";
 import {CustomerManager} from "../Manager/CustomerManager";
+import {FacilityManager} from "../Manager/FacilityManager";
 
 
 class Cinema {
@@ -36,6 +37,8 @@ class Cinema {
     private readonly _customerSpawnerManager: CustomerSpawnerManager;
     private readonly _releaseDatePenaltyManager: ReleaseDatePenaltyManager;
     private readonly _customerManager: CustomerManager;
+    private readonly _facilityManager: FacilityManager;
+
 
     public constructor(name: string, TimeManager : TimeManager, config : ConfigManager, financeManager : FinanceManager, marketingmanager: MarketingManager) {
         this._name = name;
@@ -54,6 +57,7 @@ class Cinema {
         this._releaseDatePenaltyManager = new ReleaseDatePenaltyManager(this, config);
         this._movieManager = new MovieManager(this, config, new GenreManager(config));
         this._customerManager = new CustomerManager();
+        this._facilityManager = new FacilityManager(this, config);
     }
 
     get name(): string {
@@ -123,6 +127,10 @@ class Cinema {
 
     get customerManager(): CustomerManager {
         return this._customerManager;
+    }
+
+    get facilityManager(): FacilityManager {
+        return this._facilityManager;
     }
 
     get config(): ConfigManager {

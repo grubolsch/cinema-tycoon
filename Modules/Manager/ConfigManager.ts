@@ -105,6 +105,28 @@ class ConfigManager {
     public readonly licenseFeeMin: number = 800;
     public readonly licenseFeeMax: number = 1000;
 
+    //facilities
+    //Common
+    private readonly _maximumCashiers = 4;
+    private readonly _defaultCashiers = 1;
+
+    //Toilet
+    private readonly _toiletCapacityPerCashier = 10;
+    private readonly _toiletHourlyWageCashier = 5;
+    private readonly _toiletMonthlyRent = 25;
+    private readonly _toiletHappinessBonus = 100;
+    private readonly _toiletCostPrice = 0;
+    private readonly _toiletDefaultSellingPrice = 0.2;
+
+    //Arcade
+    private readonly _arcadeCapacityPerCashier = 8;
+    private readonly _arcadeHourlyWageCashier = 10;
+    private readonly _arcadeMonthlyRent = 25;
+    private readonly _arcadeHappinessBonus = 100;
+    private readonly _arcadeCostPrice = 0.2;
+    private readonly _arcadeDefaultSellingPrice = 0.5;
+
+
     get credit(): number {
         return this._credit;
     }
@@ -351,6 +373,62 @@ class ConfigManager {
 
     get movieDurations(): Array<number> {
         return this._movieDurations;
+    }
+
+    get maximumCashiers(): number {
+        return this._maximumCashiers;
+    }
+
+    get toiletCapacityPerCashier(): number {
+        return this._toiletCapacityPerCashier;
+    }
+
+    get arcadeCapacityPerCashier(): number {
+        return this._arcadeCapacityPerCashier;
+    }
+
+    get toiletMonthlyRent(): number {
+        return this._toiletMonthlyRent;
+    }
+
+    get toiletHappinessBonus(): number {
+        return this._toiletHappinessBonus;
+    }
+
+    get toiletCostPrice(): number {
+        return this._toiletCostPrice;
+    }
+
+    get toiletDefaultSellingPrice(): number {
+        return this._toiletDefaultSellingPrice;
+    }
+
+    get arcadeMonthlyRent(): number {
+        return this._arcadeMonthlyRent;
+    }
+
+    get arcadeHappinessBonus(): number {
+        return this._arcadeHappinessBonus;
+    }
+
+    get arcadeCostPrice(): number {
+        return this._arcadeCostPrice;
+    }
+
+    get arcadeDefaultSellingPrice(): number {
+        return this._arcadeDefaultSellingPrice;
+    }
+
+    get defaultCashiers(): number {
+        return this._defaultCashiers;
+    }
+
+    get toiletHourlyWageCashier(): number {
+        return this._toiletHourlyWageCashier;
+    }
+
+    get arcadeHourlyWageCashier(): number {
+        return this._arcadeHourlyWageCashier;
     }
 }
 
