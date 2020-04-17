@@ -41,7 +41,8 @@ document.addEventListener('DOMContentLoaded', () => {
 
 
     let renderMoviePicker = new RenderMoviePicker(cinema, render);
-    render.addRender(renderMoviePicker);    render.render();
+    render.addRender(renderMoviePicker);
+    render.render();
 
     //force the screen to pick a movie to show up at the beginning of the game
     renderMoviePicker.renderByWeek();
