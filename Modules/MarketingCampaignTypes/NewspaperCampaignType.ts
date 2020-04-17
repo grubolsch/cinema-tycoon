@@ -3,13 +3,7 @@ import {Cinema} from "../Entity/Cinema";
 
 class NewspaperCampaignType extends MarketingCampaignType {
     constructor(cinema : Cinema) {
-        super('Newspapers', (150 * cinema.roomManager.rooms.size));
-    }
-
-    applyBonus(cinema: Cinema): void {
-    }
-
-    removeBonus(cinema: Cinema): void {
+        super('Newspapers', (150 * cinema.roomManager.rooms.size), 10);
     }
 }
 
