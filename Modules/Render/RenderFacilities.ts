@@ -65,7 +65,7 @@ class RenderFacilities implements RenderInterface {
             var clone = document.querySelector('#toilet-template').content.cloneNode(true);
             clone.querySelector('.toilet-id').innerHTML = toilet.id + 1;
             clone.querySelector('.toilet-cashiers').innerHTML = toilet.numberOfCashier;
-            clone.querySelector('.toilet-capacity').innerHTML = toilet.calcCapacity();
+            clone.querySelector('.toilet-capacity').innerHTML = toilet.capacity;
             clone.querySelector('.toilet-customers').innerHTML = toilet.numberOfCustomer;
             clone.querySelector('.toilet-selling-price').innerHTML = toilet.sellingPrice;
             clone.querySelector('button.manage-toilet').dataset.toilet = key;
@@ -78,11 +78,10 @@ class RenderFacilities implements RenderInterface {
             var clone = document.querySelector('#arcade-template').content.cloneNode(true);
             clone.querySelector('.arcade-id').innerHTML = arcade.id + 1;
             clone.querySelector('.arcade-cashiers').innerHTML = arcade.numberOfCashier;
-            clone.querySelector('.arcade-capacity').innerHTML = arcade.calcCapacity();
+            clone.querySelector('.arcade-capacity').innerHTML = arcade.capacity;
             clone.querySelector('.arcade-customers').innerHTML = arcade.numberOfCustomer;
             clone.querySelector('.arcade-selling-price').innerHTML = arcade.sellingPrice;
-            // clone.querySelector('button.manage-toilet').dataset.toilet = key;
-            // clone.querySelector('.facility-monthly-cost').innerHTML = facility.monthlyFixedCost();
+            clone.querySelector('button.manage-arcade').dataset.arcade = key;
             document.querySelector('#arcade-container')!.appendChild(clone);
         })
 

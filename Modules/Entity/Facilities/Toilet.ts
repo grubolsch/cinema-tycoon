@@ -7,16 +7,14 @@ class Toilet extends Facility{
 
     constructor(config: ConfigManager, id: number) {
         super(config, id, FacilityType.TOILET,
-            config.toiletDefaultSellingPrice, config.toiletCostPrice, config.toiletHappinessBonus);
+            config.toiletCapacityPerCashier,
+            config.toiletDefaultSellingPrice,
+            config.toiletCostPrice,
+            config.toiletMonthlyRent,
+            config.toiletHourlyWageCashier,
+            config.toiletHappinessBonus);
     }
 
-    calcHourlyExpense(): number {
-        return this.calcLaborCostsPerHour()
-    }
-
-    get monthlyFixedCost(): number {
-        return this.config.toiletfixedCostPerMonth;
-    }
 }
 
 export {Toilet}

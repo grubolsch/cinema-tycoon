@@ -8,20 +8,27 @@ abstract class Facility {
     private _config: ConfigManager;
     private _id: number;
     private _type: FacilityType;
+    private _capacityPerCashier: number;
     private _numberOfCashier: number;
     private _numberOfCustomer: number;
     private _sellingPrice: number;
     private _costPrice: number;
+    private _monthlyRent: number;
+    private _hourlyWagePerCashier: number;
     private _happinessBonus: number;
 
-    constructor(config: ConfigManager, id: number, type: FacilityType, sellingPrice: number, costPrice: number, happinessBonus: number) {
+    constructor(config: ConfigManager, id: number, type: FacilityType, capacityPerCashier: number,
+                sellingPrice: number, costPrice: number, monthlyRent: number, hourlyWagePerCashier: number, happinessBonus: number) {
         this._config = config;
         this._id = id;
         this._type = type;
+        this._capacityPerCashier = capacityPerCashier;
         this._numberOfCashier = config.defaultCashiers; // 1
         this._numberOfCustomer = 0; // 1
         this._sellingPrice = sellingPrice;
         this._costPrice = costPrice;
+        this._monthlyRent = monthlyRent;
+        this._hourlyWagePerCashier = hourlyWagePerCashier;
         this._happinessBonus = happinessBonus;
     }
 
@@ -30,16 +37,6 @@ abstract class Facility {
         //Todo on Manage facility Modal
     };
 
-    public calcCapacity(): number {
-        return this._numberOfCashier * this._config.capacityPerCashier;
-    };
-
-    public calcLaborCostsPerHour(): number {
-        return this._numberOfCashier * this._config.hourlyWageCashier
-    };
-
-    // Individual : toilet, arcade ->  same with calcLaborCostsPerHour() , shops -> add hourly fixed expense as well
-    abstract calcHourlyExpense(): number;
 
     get config(): ConfigManager {
         return this._config;
@@ -83,6 +80,18 @@ abstract class Facility {
 
     get happinessBonus(): number {
         return this._happinessBonus;
+    }
+
+    get capacity(): number {
+        return this._numberOfCashier * this._capacityPerCashier;
+    }
+
+    get monthlyRent(): number {
+        return this._monthlyRent;
+    }
+
+    get totalHourlyWages(): number {
+        return this._numberOfCashier * this._hourlyWagePerCashier
     }
 }
 

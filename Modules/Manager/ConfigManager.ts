@@ -107,19 +107,19 @@ class ConfigManager {
     //Common
     private readonly _maximumCashiers = 4;
     private readonly _defaultCashiers = 1;
-    private readonly _capacityPerCashier = 10;
-    private readonly _hourlyWageCashier = 50;
 
     //Toilet
-    private readonly _toilet = 'TOILET';
-    private readonly _toiletfixedCostPerMonth = 25;
+    private readonly _toiletCapacityPerCashier = 10;
+    private readonly _toiletHourlyWageCashier = 5;
+    private readonly _toiletMonthlyRent = 25;
     private readonly _toiletHappinessBonus = 100;
     private readonly _toiletCostPrice = 0;
     private readonly _toiletDefaultSellingPrice = 0.2;
 
     //Arcade
-    private readonly _arcade = "ARCADE";
-    private readonly _arcadefixedCostPerMonth = 25;
+    private readonly _arcadeCapacityPerCashier = 8;
+    private readonly _arcadeHourlyWageCashier = 10;
+    private readonly _arcadeMonthlyRent = 25;
     private readonly _arcadeHappinessBonus = 100;
     private readonly _arcadeCostPrice = 0.2;
     private readonly _arcadeDefaultSellingPrice = 0.5;
@@ -377,16 +377,16 @@ class ConfigManager {
         return this._maximumCashiers;
     }
 
-    get capacityPerCashier(): number {
-        return this._capacityPerCashier;
+    get toiletCapacityPerCashier(): number {
+        return this._toiletCapacityPerCashier;
     }
 
-    get hourlyWageCashier(): number {
-        return this._hourlyWageCashier;
+    get arcadeCapacityPerCashier(): number {
+        return this._arcadeCapacityPerCashier;
     }
 
-    get toiletfixedCostPerMonth(): number {
-        return this._toiletfixedCostPerMonth;
+    get toiletMonthlyRent(): number {
+        return this._toiletMonthlyRent;
     }
 
     get toiletHappinessBonus(): number {
@@ -401,8 +401,8 @@ class ConfigManager {
         return this._toiletDefaultSellingPrice;
     }
 
-    get arcadefixedCostPerMonth(): number {
-        return this._arcadefixedCostPerMonth;
+    get arcadeMonthlyRent(): number {
+        return this._arcadeMonthlyRent;
     }
 
     get arcadeHappinessBonus(): number {
@@ -421,12 +421,12 @@ class ConfigManager {
         return this._defaultCashiers;
     }
 
-    get toilet(): string {
-        return this._toilet;
+    get toiletHourlyWageCashier(): number {
+        return this._toiletHourlyWageCashier;
     }
 
-    get arcade(): string {
-        return this._arcade;
+    get arcadeHourlyWageCashier(): number {
+        return this._arcadeHourlyWageCashier;
     }
 }
 

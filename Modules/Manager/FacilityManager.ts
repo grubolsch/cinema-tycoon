@@ -40,14 +40,10 @@ class FacilityManager {
                 break;
             }
             default: {
-                throw FacilityException.undefinedFacilityTypeError()
+                throw FacilityException.undefinedFacilityTypeError();
                 break;
             }
 
-        }
-
-        if(newFacility == undefined){
-            throw FacilityException.undefinedFacilityTypeError()
         }
 
         if(!this.facilities.has(type)){
