@@ -23,7 +23,7 @@ class MovieManager {
     }
 
     private generateMovies(amount: number): Movie[] {
-        let movieGenerator = new MovieGenerator(this._config, this._cinema.timeManager, this.genreManager);
+        let movieGenerator = new MovieGenerator(this._cinema, this._cinema.timeManager, this.genreManager);
 
         let movies: Movie[] = [];
         for (let i = 0; i < amount; i++) {

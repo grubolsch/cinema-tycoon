@@ -59,6 +59,9 @@
             </button>
         </td>
         <td>
+            <button rel="facilities" class="btn btn-primary top-menu" data-toggle="modal" data-target="#facilitiesModal">Facilities</button>
+        </td>
+        <td>
             <button rel="tickets" class="btn btn-primary top-menu">Tickets</button>
         </td>
         <td>
@@ -216,11 +219,19 @@
                 <template id="movie-template">
                     <div class="col-sm-4">
                         <div class="movie-block">
-                            <h3 class="movie-title"></h3>
-                            <i><strong class="movie-genre"></strong></i>
-                            <h3 class="movie-type"></h3>
+                            <div class="movie-block-sub">
+                                <span class="movie-arthouse movie-stamp">Arthouse movie</span>
+                                <span class="movie-blockbuster movie-stamp">Blockbuster movie</span>
 
-                            Cost: <span class="movie-cost"></span>
+                                <h3 class="movie-title"></h3>
+                                <i><strong class="movie-genre"></strong></i>
+                                <h3 class="movie-type"></h3>
+
+                                <ul class="movie-reviews"></ul>
+                            </div>
+                            <div class="movie-cost">
+                                Cost: <span></span>
+                            </div>
                         </div>
                     </div>
                 </template>
@@ -269,6 +280,43 @@
     </div>
 </div>
 <!-- /loan Modal -->
+
+<!-- Facilities Build Menu Modal -->
+<div class="modal fade" id="facilitiesModal" tabindex="-1" role="dialog" aria-labelledby="ModalCenterTitle"
+     aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Facilities</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <p>Need some facilities? Here you can build toilets, arcade and food/beverage shops!</p>
+
+                <div class="container">
+                    <div class="row" id="facilities-menu"></div>
+                </div>
+
+                <template id="build-facilities-template">
+                    <div class="col-sm">
+<!--                        TODO add more info?-->
+                        <button class="build-facility btn btn-primary">Build <span class="facility-type"></span></button>
+                    </div>
+                </template>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- /Facilities Build Menu Modal -->
+
+<!-- Facilities Manage Menu Modal -->
+
+<!-- /Facilities Manage Menu Modal -->
 
 <!-- Schedule Modal -->
 <div class="modal fade" id="scheduleModal" tabindex="-1" role="dialog" aria-labelledby="ModalCenterTitle"
@@ -398,7 +446,7 @@
     <!--    room-->
     <hr>
     <button class="btn btn-success" id="build-room">Build room</button>
-    <h3>Cinema Rooms :</h3>
+    <h5>Rooms</h5>
     <div id="room-container"></div>
 
     <template id="room-template">
@@ -417,6 +465,43 @@
             </ul>
         </div>
     </template>
+
+    <!--    facilities-->
+    <hr>
+    <div id="facility-container">
+
+        <!--    toilet-->
+        <h5>Toilet</h5>
+        <div id="toilet-container"></div>
+
+        <!--    Arcade-->
+        <h5>Arcade</h5>
+        <div id="arcade-container"></div>
+
+        <template id="toilet-template">
+            <div class="toilet">
+                <h6>Toilet #<span class="toilet-id"></span></h6>
+                <p>Cashiers : <span class="toilet-cashiers"></span></p>
+                <p>Availability : <span class="toilet-customers"></span> / <span class="toilet-capacity"></span></p>
+                <p>fee : <span class="toilet-selling-price"></span></p>
+                <button class="manage-toilet">Manage</button>
+            </div>
+        </template>
+
+        <template id="arcade-template">
+            <div class="arcade">
+                <h6>Arcade</h6>
+                <h6>Arcade : #<span class="arcade-id"></span></h6>
+                <p>Cashiers : <span class="arcade-cashiers"></span></p>
+                <p>Availability : <span class="arcade-customers"></span> / <span class="arcade-capacity"></span></p>
+                <p>fee : <span class="arcade-selling-price"></span></p>
+                <button class="manage-arcade">Manage</button>
+
+            </div>
+        </template>
+
+    </div>
+
 </div>
 
 <div id="customer-detail-panel">
