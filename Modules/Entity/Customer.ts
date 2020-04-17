@@ -7,12 +7,16 @@ import {Movie} from "./Movie";
 import {TicketSaleException} from "../Exception/TicketSaleException";
 import {CustomerAi} from "../Manager/CustomerAi";
 import {InventoryItem} from "./InventoryItem";
+import {Genre} from "./Genre";
 
 type CustomerLocation = { x: number, y: number };
 
 class Customer {
     public readonly PLAN_LEAVE = 'leave';
     public readonly PLAN_WATCH_MOVIE = 'watchmovie';
+
+    public static readonly GENDER_MALE = 'Male';
+    public static readonly GENDER_FEMALE = 'Female';
 
     private _id: number;
     private _name: string;
@@ -29,6 +33,7 @@ class Customer {
     private _thoughts: Array<CustomerThought> = [];
     private _moneySpent: number = 0;
     private _appearance: CustomerAppearance;
+    private genreThought : Genre|null = null;
     private _targetShow: Show;
     private _inventory: Map<string, InventoryItem> = new Map<string, InventoryItem>();
 
@@ -56,7 +61,7 @@ class Customer {
         return this._id;
     }
 
-    get name(): String {
+    get name(): string {
         return this._name;
     }
 
@@ -64,7 +69,7 @@ class Customer {
         return this._age;
     }
 
-    get gender(): String {
+    get gender(): string {
         return this._gender;
     }
 
@@ -153,6 +158,23 @@ class Customer {
             this._queueingTolerance + ", " +
             this._pricingToleranceShop + ", " +
             this._pricingToleranceTicket);
+    }
+
+    genreComment(genre: Genre) {
+        //once we set a comment for a genre that customer sticks with it.
+
+        if(this.genreThought === null) {
+            this.genreThought = genre;
+        }
+
+        if(this.genreThought.isHype) {
+            return 'I love ' + genre.name + ' movies. They are all the rage now.';
+        }
+        else if(this.genreThought.isUnpopular) {
+            return 'I think ' + genre.name + ' movies are so boring.';
+        }
+
+        return '';
     }
 
     get hasFreeTicket(): boolean {

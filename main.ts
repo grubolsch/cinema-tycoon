@@ -16,6 +16,7 @@ import {RenderMoviePicker} from "./Modules/Render/RenderMoviePicker";
 import {DebugBar} from "./Modules/DebugBar";
 import {RenderScheduler} from "./Modules/Render/RenderScheduler";
 import {RenderSchedulerForm} from "./Modules/Render/RenderSchedulerForm";
+import {RenderCustomerDetailPanel} from "./Modules/Render/RenderCustomerDetailPanel";
 
 const observer = new Observer;
 const configManager = new ConfigManager;
@@ -36,6 +37,9 @@ document.addEventListener('DOMContentLoaded', () => {
     render.addRender(new RenderSchedulerForm(cinema));
     render.addRender(new RenderResearch(cinema));
     render.addRender(new RenderMarketing(cinema));
+    render.addRender(new RenderCustomerDetailPanel(cinema));
+
+
     let renderMoviePicker = new RenderMoviePicker(cinema, render);
     render.addRender(renderMoviePicker);    render.render();
 

@@ -16,8 +16,9 @@ class CustomerAppearance {
     constructor(customer : Customer) {
         this.customer = customer;
         this.customerElement = document.createElement('div');
-        this.customerElement.className = 'customer';
+        this.customerElement.className = 'customer clickable';
         this.customerElement.id = 'customer-' + customer.id;
+        this.customerElement.dataset.customer = customer.id.toString();
 
         this.generateSkin();
         this.renderClothPart(this.hair, 13, [-20, -135, -250, -370, -485]);
