@@ -1,13 +1,13 @@
-import {ResearchItem} from "../Entity/Research/ResearchItem";
-
 class Observer {
-    private subscribers : Map<string, CallableFunction[]> = new Map<string, CallableFunction[]>();
     readonly RESEARCH_FINISHED: string = 'research_finished';
+    readonly HALFHOUR: string = 'halfhour';
     readonly HOUR: string = 'hour';
     readonly DAY: string = 'day';
     readonly WEEK: string = 'week';
     readonly MONTH: string = 'month';
     readonly YEAR: string = 'year';
+
+    private subscribers : Map<string, CallableFunction[]> = new Map<string, CallableFunction[]>();
 
     public trigger(event: string, params: any) {
         if(!this.subscribers.get(event)) {

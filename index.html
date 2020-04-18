@@ -5,7 +5,7 @@
     <meta name="viewport"
           content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>Cinema tycoon test</title>
+    <title>Cinema tycoon</title>
 
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css"
           integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
@@ -18,6 +18,8 @@
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"
             integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl"
             crossorigin="anonymous"></script>
+
+    <link href="/fa-icons/css/all.css" rel="stylesheet" type="text/css"/>
     <link href="css/layout.scss" rel="stylesheet" type="text/css"/>
 
     <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
@@ -43,20 +45,22 @@
 
 <table width="100%">
     <tr>
-        <td id="ui-name"></td>
+        <td width="20">
+            <button rel="openSettings" type="button" class="btn"><i class="fa fa-cogs"></i></button>
+        </td>
+        <td id="ui-name" width="10%"></td>
         <td id="ui-date"></td>
         <td id="ui-currentcredit"></td>
         <td id="ui-fans"></td>
-        <td>
-            <button rel="openSettings" type="button" class="btn btn-primary top-menu">Settings</button>
-        </td>
         <td>
             <button rel="research" class="btn btn-primary top-menu" data-toggle="modal" data-target="#researchModal">
                 Research
             </button>
         </td>
         <td>
-            <button rel="schedule" class="btn btn-primary top-menu">Schedule</button>
+            <button rel="schedule" class="btn btn-primary top-menu" data-toggle="modal" data-target="#scheduleModal"
+                    id="scheduleButton">Schedule
+            </button>
         </td>
         <td>
             <button rel="advertising" class="btn btn-primary top-menu" data-toggle="modal"
@@ -66,6 +70,9 @@
         <td>
             <button rel="loans" class="btn btn-primary top-menu" data-toggle="modal" data-target="#loansModal">Loans
             </button>
+        </td>
+        <td>
+            <button rel="facilities" class="btn btn-primary top-menu" data-toggle="modal" data-target="#facilitiesModal">Facilities</button>
         </td>
         <td>
             <button rel="tickets" class="btn btn-primary top-menu">Tickets</button>
@@ -87,7 +94,6 @@
         </td>
     </tr>
 </table>
-
 
 <!-- Advertising Modal -->
 <div class="modal fade" id="advertisingModal" tabindex="-1" role="dialog" aria-labelledby="ModalCenterTitle"
@@ -139,8 +145,53 @@
 </div>
 <!-- /Advertising Modal -->
 
+<!-- MoviePicker Modal -->
+<div class="modal fade" id="moviePickerModal" tabindex="-1" role="dialog" aria-labelledby="ModalCenterTitle"
+     aria-hidden="true" data-backdrop="static" data-keyboard="false">
+    <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2>Buy some movies</h2>
+            </div>
+            <div class="modal-body text-center">
+                <div class="container">
+                    <div class="row" id="movies-container">
 
-<!-- Advertising Modal -->
+                    </div>
+                    <div class="row">
+                        <div class="col" id="movies-button-container"></div>
+                        <div class="col" id="movies-error-container"></div>
+                    </div>
+                </div>
+
+                <template id="movie-template">
+                    <div class="col-sm-4">
+                        <div class="movie-block">
+                            <div class="movie-block-sub">
+                                <span class="movie-arthouse movie-stamp">Arthouse movie</span>
+                                <span class="movie-blockbuster movie-stamp">Blockbuster movie</span>
+
+                                <h3 class="movie-title"></h3>
+                                <i><strong class="movie-genre"></strong></i>
+                                <h3 class="movie-type"></h3>
+
+                                <ul class="movie-reviews"></ul>
+                            </div>
+                            <div class="movie-cost">
+                                Cost: <span></span>
+                            </div>
+                        </div>
+                    </div>
+                </template>
+
+            </div>
+        </div>
+    </div>
+</div>
+<!-- /MoviePicker Modal -->
+
+
+<!-- loans Modal -->
 <div class="modal fade" id="loansModal" tabindex="-1" role="dialog" aria-labelledby="ModalCenterTitle"
      aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered" role="document">
@@ -176,7 +227,82 @@
         </div>
     </div>
 </div>
-<!-- /Advertising Modal -->
+<!-- /loan Modal -->
+
+<!-- Facilities Build Menu Modal -->
+<div class="modal fade" id="facilitiesModal" tabindex="-1" role="dialog" aria-labelledby="ModalCenterTitle"
+     aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Facilities</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <p>Need some facilities? Here you can build toilets, arcade and food/beverage shops!</p>
+
+                <div class="container">
+                    <div class="row" id="facilities-menu"></div>
+                </div>
+
+                <template id="build-facilities-template">
+                    <div class="col-sm">
+<!--                        TODO add more info?-->
+                        <button class="build-facility btn btn-primary">Build <span class="facility-type"></span></button>
+                    </div>
+                </template>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- /Facilities Build Menu Modal -->
+
+<!-- Facilities Manage Menu Modal -->
+
+<!-- /Facilities Manage Menu Modal -->
+
+<!-- Schedule Modal -->
+<div class="modal fade" id="scheduleModal" tabindex="-1" role="dialog" aria-labelledby="ModalCenterTitle"
+     aria-hidden="true">
+    <div class="modal-dialog modal-xl" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Scheduler</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <form id="schedule-planner">
+                    <select name="movie" id="schedule-planner-movies"></select>
+
+                    <label>
+                        <input type="checkbox" id="schedule-planner-commercial"/>
+                        Show 15 minute of commercials before the movie starts
+                    </label>
+                    <label>
+                        <input type="checkbox" id="schedule-planner-break"/>
+                        Have a 15 minute break
+                    </label>
+                </form>
+
+                <span id="schedule-movie-dragger" draggable="true" data-toggle="tooltip" data-placement="top"
+                      title="Drag the movie in the timeslot and room you wish to plan it in."></span>
+
+                <table id="schedule-table" class="table table-striped"></table>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- /Schedule Modal -->
 
 <!-- Research Modal -->
 <div class="modal fade" id="researchModal" tabindex="-1" role="dialog" aria-labelledby="ModalCenterTitle"
@@ -192,16 +318,13 @@
             <div class="modal-body">
                 <p>Research items to stay up to date with the newest technologies and keep your customers interested!
                     Don't fall behind the competition!</p>
-
                 <div class="center">
                     <input type="range" class="slider" id="research-cost-slider">
                     <p>Cost: <span id="research-cost"></span>/month</p>
                 </div>
-
                 <div class="container">
                     <div class="row" id="research-container"></div>
                 </div>
-
                 <template id="research-template">
                     <div class="col-sm-4">
                         <div class="research-block">
@@ -299,13 +422,28 @@
     <button class="trigger-event btn btn-secondary" rel="month">Trigger month change</button>
     <button class="trigger-event btn btn-secondary" rel="year">Trigger year change</button>
 
+    <button class="btn btn-secondary" id="createCustomerDebug">Create + render customer</button>
+
     <form method="get" id="debugBar-add-money">
         <input type="text" name="money" placeholder="Enter amount"/>
         <input type="submit" value="Add money" class="btn btn-danger"/>
     </form>
 </div>
 
-<div id="game-area">
+<section id="game-area">
+    <div class="ai-area" id="buying-ticket-area">
+        <h2>Buying ticket</h2>
+    </div>
+    <div class="ai-area" id="watching-movie-area">
+        <h2>Watching movie</h2>
+    </div>
+    <div class="ai-area" id="leaving-cinema-area">
+        <h2>Leaving cinema</h2>
+    </div>
+</section>
+
+<div>
+<!--    booth-->
     <div id="booth-container"></div>
 
     <template id="booth-template">
@@ -319,36 +457,104 @@
 
     <button class="btn btn-secondary" id="build-booth">Build booth</button>
 
+    <!--    campaign-->
     <div>
         <span id="active_campaign"></span> <span id="duration_campaign"></span><br/>
     </div>
+
+    <!--    room-->
+    <hr>
+    <button class="btn btn-success" id="build-room">Build room</button>
+    <h5>Rooms</h5>
+    <div id="room-container"></div>
+
+    <template id="room-template">
+        <div class="room">
+            <ul class="list-unstyled">
+                <li>name : <span class="room-name"></span></li>
+                <li>type : <span class="room-type"></span></li>
+                <li>daily Cost : <span class="room-daily-cost"></span></li>
+                <li>quality : <span class="room-quality"></span></li>
+                <li>
+                    <button class="btn btn-outline-success btn-sm room-components">Manage room Components</button>
+                </li>
+                <li>
+                    <button class="btn btn-outline-success btn-sm room-upgrade">Upgrade room</button>
+                </li>
+            </ul>
+        </div>
+    </template>
+
+    <!--    facilities-->
+    <hr>
+    <div id="facility-container">
+
+        <!--    toilet-->
+        <h5>Toilet</h5>
+        <div id="toilet-container"></div>
+
+        <!--    Arcade-->
+        <h5>Arcade</h5>
+        <div id="arcade-container"></div>
+
+        <template id="toilet-template">
+            <div class="toilet">
+                <h6>Toilet #<span class="toilet-id"></span></h6>
+                <p>Cashiers : <span class="toilet-cashiers"></span></p>
+                <p>Availability : <span class="toilet-customers"></span> / <span class="toilet-capacity"></span></p>
+                <p>fee : <span class="toilet-selling-price"></span></p>
+                <button class="manage-toilet">Manage</button>
+            </div>
+        </template>
+
+        <template id="arcade-template">
+            <div class="arcade">
+                <h6>Arcade</h6>
+                <h6>Arcade : #<span class="arcade-id"></span></h6>
+                <p>Cashiers : <span class="arcade-cashiers"></span></p>
+                <p>Availability : <span class="arcade-customers"></span> / <span class="arcade-capacity"></span></p>
+                <p>fee : <span class="arcade-selling-price"></span></p>
+                <button class="manage-arcade">Manage</button>
+
+            </div>
+        </template>
+
+    </div>
+
 </div>
 
-<progress max="100" value="0" style="width: 100%;" id="research-progress-bar"></progress>
+<div id="customer-detail-panel">
+    <h3>
+        <i class="fa fa-female"></i>
+        <i class="fa fa-male"></i>
 
+        <i class="fa fa-heart"></i>
 
-<style>
-    #research-progress-bar {
-        width: 100%;
-        position: fixed;
-        bottom: 0px;
+        <span class="customer-name"></span>
+    </h3>
+
+    <p><span class="customer-age"></span> years old.</p>
+    <p class="customer-genre-comment"></p>
+    <p class="customer-current-action"></p>
+
+    <p><i class="fa fa-euro-sign"></i> <span class="customer-money-spent"></span></p>
+
+    <p><i class="fa fa-ticket-alt"></i> <span class="customer-ticket"></span></p>
+
+    <ul class="customer-thoughts"></ul>
+</div>
+
+<progress max="100" value="0" id="research-progress-bar"></progress>
+
+<script>
+    if (process.env.NODE_ENV === 'development') {
+        showDebug();
     }
 
-    div.research-block {
-        cursor: pointer;
-        border: 1px black solid;
-        padding: 6px;
-        margin: 6px;
-    }
-
-    div.research-block.active {
-        background-color: lightgreen;
-    }
-
-    .center {
-        text-align: center;
-    }
-</style>
+    $(function () {
+        $('[data-toggle="tooltip"]').tooltip()
+    });
+</script>
 
 </body>
 </html>

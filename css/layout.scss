@@ -1,3 +1,12 @@
+@mixin boxShadow($config) {
+  -webkit-box-shadow: $config;
+  -moz-box-shadow: $config;
+  box-shadow: $config;
+}
+
+$heightArea: 400;
+$widthArea: 400;
+
 .clickable {
   cursor: pointer;
   color: blue;
@@ -8,4 +17,200 @@
   width: 10%;
   padding: 10px;
   margin-bottom: 10px;
+}
+
+.center {
+  text-align: center;
+}
+
+#schedule-table {
+  table-layout: fixed;
+  width: 100%;
+
+  td, th {
+    width: 30px;
+    border-left: 1px gray dotted;
+
+    &.active {
+      border-left: 1px black solid;
+      border-right: 1px black solid;
+    }
+  }
+
+  div.planned-movie {
+    position: relative;
+    background-color: lightgreen;
+    color: black;
+    height: 30px;
+    cursor: grabbing;
+
+    i.delete-show {
+      position: absolute;
+      right: 4px;
+      top: 4px;
+    }
+  }
+
+  #draggerShadow {
+    opacity: 50%;
+  }
+}
+
+#schedule-movie-dragger {
+  background-color: black;
+  color: white;
+  height: 30px;
+  display: inline-block;
+  cursor: grabbing;
+  overflow: hidden;
+  text-align: center;
+  padding-left: 3px;
+}
+
+#research-progress-bar {
+  width: 100%;
+  position: fixed;
+  bottom: 0px;
+}
+
+div.research-block {
+  cursor: pointer;
+  border: 1px black solid;
+  padding: 6px;
+  margin: 6px;
+
+  .active {
+    background-color: lightgreen;
+  }
+}
+
+div.movie-block {
+  position: relative;
+  cursor: pointer;
+  text-align: center;
+  border: 1px black solid;
+  padding: 6px;
+  margin: 6px;
+
+  &.active {
+    background-color: lightgreen;
+  }
+
+  .movie-stamp {
+    display: none;
+    transform: rotate(45deg);
+    position: absolute;
+    top: 10px;
+    right: -35px;
+    border: 1px gold solid;
+    color: gold;
+    background-color: black;
+    padding: 6px;
+    opacity: 0.7;
+  }
+
+  .movie-block-sub {
+    min-height: 435px;
+  }
+
+  .movie-cost {
+    font-weight: bold;
+  }
+
+  li {
+    padding: 6px 0px;
+  }
+}
+.customer {
+  height: 95px;
+  width: 70px;
+  background: url("/public/skin.png") no-repeat 0px -20px;
+  position: absolute;
+
+  transition: top 1s, left 1s;
+
+  .hair {
+    height: 50px;
+    width: 70px;
+    background: url("/public/hair.png") no-repeat 0px -20px;
+  }
+
+  .tops {
+    position: absolute;
+    height: 50px;
+    width: 70px;
+    background: url("/public/tops.png") no-repeat 0px -70px;
+  }
+
+  .bottoms {
+    height: 50px;
+    width: 70px;
+    background: url("/public/bottoms.png") no-repeat 0px -70px;
+  }
+
+  .shoes {
+    position: absolute;
+    top: 80px;
+    width: 70px;
+    background: url("/public/shoes.png") no-repeat 0px -100px;
+    height: 15px;
+  }
+
+  .eyes {
+    position: absolute;
+    top: 40px;
+    width: 70px;
+    background: url("/public/eyes.png") no-repeat 0px -60px;
+    height: 10px;
+  }
+}
+
+#game-area {
+  position: relative;
+  height: $heightArea + 0px;
+  margin-bottom: 10px;
+
+  .ai-area {
+    border: 3px lightgreen double;
+    position: absolute;
+    height: $heightArea + 0px;
+    width: $widthArea + 0px;
+
+    h2 {
+      text-align: center;
+    }
+  }
+
+  #buying-ticket-area {
+    left: 0px;
+  }
+
+  #watching-movie-area {
+    left: $widthArea   + 0px;;
+  }
+
+  #leaving-cinema-area {
+    left: $widthArea * 2  + 0px;;
+  }
+}
+
+#customer-detail-panel {
+  display: none;
+  border: 1px black solid;
+  position: absolute;
+  padding: 12px;
+  @include boxShadow('10px 10px 5px 0px rgba(0,0,0,0.75)');
+  background-color: white;
+
+  i.fa-female {color: pink; display: none;}
+  i.fa-male {color: lightblue; display: none;}
+  i.fa-heart {color: darkred; display: none;}
+
+  ul.customer-thoughts {
+    padding-left: 0px;
+    list-style: none;
+  }
+
+  li.positive-thought {color: green;}
+  li.negative-thought {color: red;}
 }

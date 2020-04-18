@@ -9,46 +9,48 @@ import {LoanManager} from "./Modules/Manager/LoanManager";
 import {RenderLoans} from "./Modules/Render/RenderLoans";
 import {RenderBooths} from "./Modules/Render/RenderBooths";
 import {RenderMarketing} from "./Modules/Render/RenderMarketing";
-import {MovieGenerator} from "./Modules/Generator/MovieGenerator";
-import {Movie} from "./Modules/Entity/Movie";
 import {RenderResearch} from "./Modules/Render/RenderResearch";
 import {ResearchItem} from "./Modules/Entity/Research/ResearchItem";
-import {GenreManager} from "./Modules/Manager/GenreManager";
+import {RenderRooms} from "./Modules/Render/RenderRooms";
+import {RenderMoviePicker} from "./Modules/Render/RenderMoviePicker";
 import {DebugBar} from "./Modules/DebugBar";
+import {RenderScheduler} from "./Modules/Render/RenderScheduler";
+import {RenderSchedulerForm} from "./Modules/Render/RenderSchedulerForm";
+import {RenderFacilities} from "./Modules/Render/RenderFacilities";
+import {RenderCustomerDetailPanel} from "./Modules/Render/RenderCustomerDetailPanel";
 import {CreditRenderGraph} from "./Modules/Manager/Graphs/CreditGraph";
 import {StatisticsManager} from "./Modules/Manager/StatisticsManager";
-
-function generateMovies(genreManager : GenreManager) : void {
-    let manyMovies: Array<Movie> = [];
-    for (let i = 0; i < 10; i++){
-        manyMovies[i] = MovieGenerator.newMovie(genreManager);
-    }
-    console.log(manyMovies);
-}
 
 const observer = new Observer;
 const configManager = new ConfigManager;
 const loanManager = new LoanManager;
-const genreManager = new GenreManager(configManager);
+const timeManager = new TimeManager(observer);
 
 document.addEventListener('DOMContentLoaded', () => {
     // temporary code, this should come from a save or a "create new game" menu
-    generateMovies(genreManager);
-
-    let cinema = new Cinema("Our own Cinema", new TimeManager(observer), configManager, new FinanceManager(configManager), new MarketingManager());
+    let cinema = new Cinema("Our own Cinema", timeManager, configManager, new FinanceManager(configManager), new MarketingManager());
+    //done tmp code
     const statisticsManager = new StatisticsManager(cinema);
 
     //Object responsible for rendering changes in state
     let render = new Render(cinema);
     render.addRender(new RenderLoans(cinema, loanManager));
     render.addRender(new RenderBooths(cinema));
+    render.addRender(new RenderRooms(cinema));
+    render.addRender(new RenderScheduler(cinema));
+    render.addRender(new RenderSchedulerForm(cinema));
     render.addRender(new RenderResearch(cinema));
     render.addRender(new RenderMarketing(cinema));
-
+    render.addRender(new RenderFacilities(cinema));
+    render.addRender(new RenderCustomerDetailPanel(cinema));
     render.addRender(new CreditRenderGraph(cinema, statisticsManager));
 
+    let renderMoviePicker = new RenderMoviePicker(cinema, render);
+    render.addRender(renderMoviePicker);
     render.render();
 
+    //force the screen to pick a movie to show up at the beginning of the game
+    renderMoviePicker.renderByWeek();
 
     //the main loop that makes the game has a flow of time
     setInterval(() => {
@@ -59,41 +61,51 @@ document.addEventListener('DOMContentLoaded', () => {
     }, 1000);
 
     //observers
-    observer.subscribe(observer.MONTH, () => {
-        loanManager.update(cinema);
-        genreManager.update();
-        cinema.researchManager.update(observer);
+    observer.subscribe(observer.HALFHOUR, () => {
+        console.info('Half an hour has passed');
 
-        render.renderByMonth();
-    });
-
-    observer.subscribe(observer.DAY, () => {
-        console.log('A day has passed');
-
-        render.renderByDay();
-    });
-
-    observer.subscribe(observer.WEEK, () => {
-        console.log('A week has passed');
-
-        statisticsManager.updateWeekly();
-
-        render.renderByWeek();
+        render.renderByHalfHour();
     });
 
     observer.subscribe(observer.HOUR, () => {
-        console.log('An hour has passed');
+        console.info('An hour has passed');
 
         cinema.boothManager.payHourCost();
 
         render.renderByHour();
     });
 
-    observer.subscribe(observer.YEAR, () => {
-        console.log('A year has passed');
+    observer.subscribe(observer.DAY, () => {
+        console.info('A day has passed');
+
+        render.renderByDay();
+
+        cinema.scheduler.resetShows();
+        cinema.customerSpawnerManager.updateByDay();
     });
 
-    observer.subscribe(observer.RESEARCH_FINISHED, function(params: { research: ResearchItem; }) {
+    observer.subscribe(observer.WEEK, () => {
+        console.info('A week has passed');
+
+        statisticsManager.updateWeekly();
+        cinema.marketingManager.weeklyCampaignUpdate();
+        render.renderByWeek();
+    });
+
+    observer.subscribe(observer.MONTH, () => {
+        console.info('A month has passed');
+
+        loanManager.update(cinema);
+        cinema.genreManager.update();
+        cinema.researchManager.update(observer);
+        render.renderByMonth();
+    });
+
+    observer.subscribe(observer.YEAR, () => {
+        console.info('A year has passed');
+    });
+
+    observer.subscribe(observer.RESEARCH_FINISHED, function (params: { research: ResearchItem; }) {
         alert('You finished research on ' + params.research.name + '. Make sure you select a new technology to work on. \nStanding still is going backwards.');
     });
 
@@ -107,6 +119,6 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     });
 
-    let bar = new DebugBar(cinema, observer);
-    bar.init();
+    //create the debug bar
+    (new DebugBar(cinema, observer)).init();
 });

@@ -20,6 +20,7 @@
   },
   "homepage": "https://github.com/grubolsch/cinema-tycoon#readme",
   "devDependencies": {
+    "@types/bootstrap": "^4.3.2",
     "faker": "^4.1.0",
     "parcel-bundler": "^1.12.4",
     "sass": "^1.26.3",
@@ -27,6 +28,9 @@
   },
   "dependencies": {
     "@types/faker": "^4.1.11",
-    "css": "^2.2.4"
+    "@types/jquery": "^3.3.34",
+    "css": "^2.2.4",
+    "jquery": "^3.4.1",
+    "ts-enum-util": "^4.0.1"
   }
 }

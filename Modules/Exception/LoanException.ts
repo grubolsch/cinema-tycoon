@@ -1,8 +1,4 @@
 class LoanException extends Error {
-    private constructor(msg : string) {
-        super(msg);
-    }
-
     static loanPaidOff() : LoanException {
         return new this('Loan is paid off');
     }
