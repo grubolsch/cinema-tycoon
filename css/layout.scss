@@ -7,6 +7,9 @@
 $heightArea: 400;
 $widthArea: 400;
 
+$positive: lightgreen;
+$negative: darkred;
+
 .clickable {
   cursor: pointer;
   color: blue;
@@ -239,14 +242,22 @@ div.movie-block {
 
 #incomeReport {
   tr.income td {
-    color: lightgreen;
+    color: $positive;
   }
 
   tr.expense td {
-    color: darkred;;
+    color: $negative;
   }
 
   tr.total {
     font-size: 1.2em;
   }
+}
+
+.positive {
+  color: $positive !important;
+}
+
+.negative {
+  color: $negative !important;
 }

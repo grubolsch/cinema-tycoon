@@ -64,7 +64,9 @@
             </button>
         </td>
         <td>
-            <button rel="facilities" class="btn btn-primary top-menu" data-toggle="modal" data-target="#facilitiesModal">Facilities</button>
+            <button rel="facilities" class="btn btn-primary top-menu" data-toggle="modal"
+                    data-target="#facilitiesModal">Facilities
+            </button>
         </td>
         <td>
             <button rel="tickets" class="btn btn-primary top-menu">Tickets</button>
@@ -240,8 +242,9 @@
 
                 <template id="build-facilities-template">
                     <div class="col-sm">
-<!--                        TODO add more info?-->
-                        <button class="build-facility btn btn-primary">Build <span class="facility-type"></span></button>
+                        <!--                        TODO add more info?-->
+                        <button class="build-facility btn btn-primary">Build <span class="facility-type"></span>
+                        </button>
                     </div>
                 </template>
             </div>
@@ -363,17 +366,19 @@
                     </li>
                 </ul>
                 <div class="tab-content">
-                    <div class="tab-pane fade show active" id="financal-report" role="tabpanel" aria-labelledby="financal-report-tab">
+                    <div class="tab-pane fade show active" id="financal-report" role="tabpanel"
+                         aria-labelledby="financal-report-tab">
                         <table id="incomeReport" class="table table-bordered table-striped">
                             <tbody></tbody>
                             <tfoot></tfoot>
                         </table>
                     </div>
-                    <div class="tab-pane fade" id="general-statistics" role="tabpanel" aria-labelledby="general-statistics-tab">
+                    <div class="tab-pane fade" id="general-statistics" role="tabpanel"
+                         aria-labelledby="general-statistics-tab">
                         <div class="container hide" id="statistics-available">
                             <div class="row">
                                 <div class="col-sm">
-                                    <div class="chart"  id="chart-credit"></div>
+                                    <div class="chart" id="chart-credit"></div>
                                 </div>
                             </div>
                             <div class="row">
@@ -391,51 +396,57 @@
                     <div class="tab-pane fade" id="statistics-movie" role="tabpanel"
                          aria-labelledby="statistics-movie-tab">
 
-                            <select id="movie-detail-selector"></select>
+                        <select id="movie-detail-selector"></select>
 
-                            <p id="movie-detail-panel-no-movie">Please select a movie to see it's details.</p>
-                            <div id="movie-detail-panel" class="hide">
-                                <span class="movie-arthouse movie-stamp">Arthouse movie</span>
-                                <span class="movie-blockbuster movie-stamp">Blockbuster movie</span>
+                        <p id="movie-detail-panel-no-movie">Please select a movie to see it's details.</p>
+                        <div id="movie-detail-panel" class="hide">
+                            <span class="movie-arthouse movie-stamp">Arthouse movie</span>
+                            <span class="movie-blockbuster movie-stamp">Blockbuster movie</span>
 
-                                <h2 class="title"></h2>
+                            <h2 class="title"></h2>
 
-                                <table class="table table-bordered table-striped">
-                                    <tbody>
-                                        <tr>
-                                            <th>Genre</th>
-                                            <td><span class="genre"></span></td>
-                                        </tr>
-                                        <tr>
-                                            <th>Duration</th>
-                                            <td><span class="duration"></span> minutes</td>
-                                        </tr>
-                                        <tr>
-                                            <th>License fee</th>
-                                            <td class="cost"></td>
-                                        </tr>
-                                        <tr>
-                                            <th>Reviews</th>
-                                            <td><ul class="reviews"></ul></td>
-                                        </tr>
-                                        <tr>
-                                            <th>Release date</th>
-                                            <td class="release-date"></td>
-                                        </tr>
-                                    </tbody>
-                                    <tfoot>
-                                    <tr>
-                                        <td></td>
-                                        <td>
-                                            <button class="btn btn-danger" id="retire-movie-action">Retire movie</button>
-                                        </td>
-                                    </tr>
-                                    </tfoot>
-                                </table>
+                            <table class="table table-bordered table-striped">
+                                <tbody>
+                                <tr>
+                                    <th>Genre</th>
+                                    <td><span class="genre"></span></td>
+                                    <th>License fee</th>
+                                    <td class="cost"></td>
+                                </tr>
+                                <tr>
+                                    <th>Duration</th>
+                                    <td><span class="duration"></span> minutes</td>
+                                    <th>Total revenue</th>
+                                    <td class="total-profit"></td>
+                                </tr>
+                                <tr>
+                                    <th>Release date</th>
+                                    <td class="release-date"></td>
+                                    <th>Total tickets</th>
+                                    <td class="total-tickets"></td>
+                                </tr>
+                                <tr>
+                                    <th>Reviews</th>
+                                    <td colspan="3">
+                                        <ul class="reviews"></ul>
+                                    </td>
+                                </tr>
+                                </tbody>
+                                <tfoot>
+                                <tr>
+                                    <td></td>
+                                    <td>
+                                        <button class="btn btn-danger" id="retire-movie-action">Retire movie</button>
+                                    </td>
+                                </tr>
+                                </tfoot>
+                            </table>
 
+                            <div id="container-chart-movie-over-time" class="hide">
                                 <h2>Ticket sales over time</h2>
                                 <div class="chart" id="chart-movie-over-time"></div>
                             </div>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -476,7 +487,7 @@
 </section>
 
 <div>
-<!--    booth-->
+    <!--    booth-->
     <div id="booth-container"></div>
 
     <template id="booth-template">

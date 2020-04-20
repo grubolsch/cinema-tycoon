@@ -10,7 +10,6 @@ type ReviewsType = Array<string>;
 type TicketHistoryType = Array<Array<Array<number>>>;
 
 class Movie {
-
     private readonly _title: string;
     private readonly _rating: number;
     private readonly _genre: Genre;
@@ -85,7 +84,10 @@ class Movie {
     }
 
     private _ticketHistory : TicketHistoryType = [];
-    public bookTicket(timeManager : TimeManager) {
+    private _totalRevenue : number = 0;
+    private _totalTickets : number = 0;
+
+    public bookTicket(ticketPrice : number, timeManager : TimeManager) {
         const year = timeManager.year;
         const month = timeManager.month;
         const week = timeManager.week;
@@ -105,10 +107,21 @@ class Movie {
         }
 
         this._ticketHistory[year][month][week]++;
+
+        this._totalTickets++;
+        this._totalRevenue += ticketPrice;
     }
 
     get ticketHistory(): TicketHistoryType {
         return this._ticketHistory;
+    }
+
+    get totalRevenue(): number {
+        return this._totalRevenue - this.cost;
+    }
+
+    get totalTickets(): number {
+        return this._totalTickets;
     }
 }
 export {Movie, ReviewsType};

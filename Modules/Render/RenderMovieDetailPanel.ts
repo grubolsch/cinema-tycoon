@@ -16,11 +16,13 @@ class RenderMovieDetailPanel implements RenderInterface {
     private readonly noMovieSelectedElement = (<HTMLElement>document.querySelector('#movie-detail-panel-no-movie'));
     private readonly movieSelector = (<HTMLSelectElement>document.querySelector('#movie-detail-selector'));
     private readonly retireMovieButton = (<HTMLElement>document.querySelector('#retire-movie-action'));
+    private readonly chartContainer = (<HTMLElement>document.querySelector('#container-chart-movie-over-time'));
     private readonly movieDropdown : MovieDropdown;
 
     private readonly cinema : Cinema;
     private readonly movieManager : MovieManager;
     private readonly scheduler : Scheduler;
+    private movie : Movie|undefined;
 
     constructor(cinema : Cinema) {
         this.cinema = cinema;
@@ -32,15 +34,15 @@ class RenderMovieDetailPanel implements RenderInterface {
 
     renderOnce() {
         this.movieSelector.addEventListener('change', (event) => {
-            let movie = this.movieManager.movies.get(parseInt(this.movieSelector.value));
-            if(movie === undefined) {
+            this.movie = this.movieManager.movies.get(parseInt(this.movieSelector.value));
+            if(this.movie === undefined) {
                 this.noMovieSelectedElement.classList.remove('hide');
                 this.container.classList.add('hide');
                 return;
             }
 
-            this.renderDetailScreen(movie);
-            this.renderChart(movie);
+            this.renderDetailScreen(this.movie);
+            this.renderChart(this.movie);
         });
 
         this.retireMovieButton.addEventListener('click', (event) => {
@@ -81,6 +83,14 @@ class RenderMovieDetailPanel implements RenderInterface {
 
     render(): void {
         this.movieDropdown.render();
+
+        if(this.movie === undefined) {
+            return;
+        }
+
+        this.container.querySelector('.total-profit')!.innerHTML = currency(this.movie.totalRevenue);
+        this.container.querySelector('.total-profit')!.className = 'total-profit ' + ((this.movie.totalRevenue >= 0) ? 'positive' : 'negative');
+        this.container.querySelector('.total-tickets')!.innerHTML = this.movie.totalTickets.toString();
     }
 
     renderDetailScreen(movie : Movie) {
@@ -90,14 +100,7 @@ class RenderMovieDetailPanel implements RenderInterface {
         this.container.querySelector('.cost')!.innerHTML = currency(movie.cost);
         this.container.querySelector('.release-date')!.innerHTML = movie.releaseDate.format();
 
-
-        this.container.querySelector('.reviews')!.innerHTML = '';
-        movie.reviews.forEach((review) => {
-            let li = document.createElement('li');
-            li.innerText = review;
-            this.container.querySelector('.reviews')!.appendChild(li);
-        });
-
+        this.loadReviews(movie);
 
         (<HTMLElement>this.container.querySelector('.movie-arthouse')).style.display = (movie.type.isArthouse) ? 'block' : 'none';
         (<HTMLElement>this.container.querySelector('.movie-blockbuster')).style.display = (movie.type.isBlockbuster) ? 'block' : 'none';
@@ -108,6 +111,15 @@ class RenderMovieDetailPanel implements RenderInterface {
         this.container.classList.remove('hide');
     }
 
+    private loadReviews(movie: Movie) {
+        this.container.querySelector('.reviews')!.innerHTML = '';
+        movie.reviews.forEach((review) => {
+            let li = document.createElement('li');
+            li.innerText = review;
+            this.container.querySelector('.reviews')!.appendChild(li);
+        });
+    }
+
     renderChart(movie : Movie) {
         let chart = new MovieSaleOverTime(movie);
 
@@ -116,8 +128,10 @@ class RenderMovieDetailPanel implements RenderInterface {
 
         let rawData = chart.getData(this.cinema.statisticsManager, this.cinema.timeManager.year);
         if (rawData === undefined) {
+            this.chartContainer.classList.add('hide');
             return;
         }
+        this.chartContainer.classList.remove('hide');
 
         rawData.forEach(function (valueByWeeks, key) {
             let month = key;
