@@ -1,10 +1,13 @@
 import {MovieType} from "../MovieTypes/MovieType";
 import {Genre} from "./Genre";
-import {ReleaseDate} from "./ReleaseDate";
+import {MonthDayPoint, ReleaseDate} from "./ReleaseDate";
 import {MovieManager} from "../Manager/MovieManager";
 import {TimePoint} from "./TimePoint";
+import {StatisticsManagerInternalStorageType} from "../Manager/StatisticsManager";
+import {TimeManager} from "../Manager/TimeManager";
 
 type ReviewsType = Array<string>;
+type TicketHistoryType = Array<Array<Array<number>>>;
 
 class Movie {
 
@@ -81,14 +84,31 @@ class Movie {
         this._releaseDatePenalty += quantity;
     }
 
-    private ticketHistory : Map<TimePoint, number> = new Map<TimePoint, number>();
-    public bookTicket(timepoint : TimePoint) {
+    private _ticketHistory : TicketHistoryType = [];
+    public bookTicket(timeManager : TimeManager) {
+        const year = timeManager.year;
+        const month = timeManager.month;
+        const week = timeManager.week;
+
         let value = 1;
-        if(this.ticketHistory.has(timepoint)) {
-            value += this.ticketHistory.get(timepoint)!;
+
+        if(!this._ticketHistory[year]) {
+            this._ticketHistory[year] = [];
         }
 
-        this.ticketHistory.set(timepoint, value);
+        if(!this._ticketHistory[year][month]) {
+            this._ticketHistory[year][month] = [];
+        }
+
+        if(!this._ticketHistory[year][month][week]) {
+            this._ticketHistory[year][month][week] = 0;
+        }
+
+        this._ticketHistory[year][month][week]++;
+    }
+
+    get ticketHistory(): TicketHistoryType {
+        return this._ticketHistory;
     }
 }
 export {Movie, ReviewsType};

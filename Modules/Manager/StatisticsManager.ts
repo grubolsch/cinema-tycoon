@@ -1,4 +1,7 @@
 import {Cinema} from "../Entity/Cinema";
+import {MovieManager} from "./MovieManager";
+import {TimePoint} from "../Entity/TimePoint";
+import {MonthDayPoint} from "../Entity/ReleaseDate";
 
 type StatisticsManagerInternalStorageType = Array<Array<Array<number>>>;
 
@@ -6,11 +9,15 @@ class StatisticsManager {
     private _creditOverTime : StatisticsManagerInternalStorageType = [];
     private _fansOverTime : StatisticsManagerInternalStorageType = [];
     private _visitorsOverTime : StatisticsManagerInternalStorageType = [];
-    
+
     private _cinema : Cinema;
     
     constructor(cinema: Cinema) {
         this._cinema = cinema;
+    }
+
+    get cinema(): Cinema {
+        return this._cinema;
     }
 
     public updateWeekly() {
@@ -39,7 +46,6 @@ class StatisticsManager {
 
     getCreditOverTime(year : number): Array<Array<number>>|undefined {
         return this._creditOverTime[year];
-
     }
 
     getFansOverTime(year : number): Array<Array<number>>|undefined {

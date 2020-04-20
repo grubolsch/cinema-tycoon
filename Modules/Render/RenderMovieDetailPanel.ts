@@ -3,27 +3,36 @@ import {MovieManager} from "../Manager/MovieManager";
 import {MovieDropdown} from "./Helper/MovieDropdown";
 import {Movie} from "../Entity/Movie";
 import {Scheduler} from "../Entity/Scheduler";
+import {MovieSaleOverTime} from "../Manager/Graphs/MovieSaleOverTime";
+import {Cinema} from "../Entity/Cinema";
+import {ChartConfigInterface, GraphLine} from "../Manager/Graphs/ChartConfigInterface";
+import {ChartConfigurationHelper} from "./Helper/ChartConfigurationHelper";
 
 class RenderMovieDetailPanel implements RenderInterface {
+    // @ts-ignore
+    private readonly modal = $('#statisticsModal');
+
     private readonly container = (<HTMLElement>document.querySelector('#movie-detail-panel'));
     private readonly noMovieSelectedElement = (<HTMLElement>document.querySelector('#movie-detail-panel-no-movie'));
-    private readonly movieElement = (<HTMLSelectElement>document.querySelector('#movie-detail-selector'));
+    private readonly movieSelector = (<HTMLSelectElement>document.querySelector('#movie-detail-selector'));
     private readonly retireMovieButton = (<HTMLElement>document.querySelector('#retire-movie-action'));
     private readonly movieDropdown : MovieDropdown;
 
+    private readonly cinema : Cinema;
     private readonly movieManager : MovieManager;
     private readonly scheduler : Scheduler;
 
-    constructor(scheduler : Scheduler, movieManager: MovieManager) {
-        this.movieManager = movieManager;
-        this.scheduler = scheduler;
-        this.movieDropdown = new MovieDropdown(this.movieManager, this.movieElement, true);
+    constructor(cinema : Cinema) {
+        this.cinema = cinema;
+        this.movieManager = cinema.movieManager;
+        this.scheduler = cinema.scheduler;
+        this.movieDropdown = new MovieDropdown(this.movieManager, this.movieSelector, true);
         this.renderOnce();
     }
 
     renderOnce() {
-        this.movieElement.addEventListener('change', (event) => {
-            let movie = this.movieManager.movies.get(parseInt(this.movieElement.value));
+        this.movieSelector.addEventListener('change', (event) => {
+            let movie = this.movieManager.movies.get(parseInt(this.movieSelector.value));
             if(movie === undefined) {
                 this.noMovieSelectedElement.classList.remove('hide');
                 this.container.classList.add('hide');
@@ -31,6 +40,7 @@ class RenderMovieDetailPanel implements RenderInterface {
             }
 
             this.renderDetailScreen(movie);
+            this.renderChart(movie);
         });
 
         this.retireMovieButton.addEventListener('click', (event) => {
@@ -96,6 +106,32 @@ class RenderMovieDetailPanel implements RenderInterface {
 
         this.noMovieSelectedElement.classList.add('hide');
         this.container.classList.remove('hide');
+    }
+
+    renderChart(movie : Movie) {
+        let chart = new MovieSaleOverTime(movie);
+
+        let flattenedData: Array<GraphLine> = [];
+        flattenedData.push(chart.getHeader());
+
+        let rawData = chart.getData(this.cinema.statisticsManager, this.cinema.timeManager.year);
+        if (rawData === undefined) {
+            return;
+        }
+
+        rawData.forEach(function (valueByWeeks, key) {
+            let month = key;
+
+            valueByWeeks.forEach(function (value, key) {
+                flattenedData.push([`m ${month}, w ${key}`, value]);
+            });
+        });
+
+        // @ts-ignore
+        const chartElement = new google.visualization.LineChart(chart.targetNodeSelector());
+
+        // @ts-ignore
+        chartElement.draw(google.visualization.arrayToDataTable(flattenedData), ChartConfigurationHelper.getChartOptions(this.modal, chart));
     }
 }
 

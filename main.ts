@@ -26,6 +26,7 @@ import {RenderChart} from "./Modules/Render/RenderChart";
 import {VisitorChart} from "./Modules/Manager/Graphs/VisitorsChart";
 import {RenderFinancialReport} from "./Modules/Render/RenderFinancialReport";
 import {RenderMovieDetailPanel} from "./Modules/Render/RenderMovieDetailPanel";
+import {MovieSaleOverTime} from "./Modules/Manager/Graphs/MovieSaleOverTime";
 
 const observer = new Observer;
 const configManager = new ConfigManager;
@@ -34,9 +35,8 @@ const timeManager = new TimeManager(observer);
 
 document.addEventListener('DOMContentLoaded', () => {
     // temporary code, this should come from a save or a "create new game" menu
-    let cinema = new Cinema("Our own Cinema", timeManager, configManager, new FinanceManager(configManager), new MarketingManager());
+    let cinema = new Cinema("Our own Cinema", timeManager, configManager, new FinanceManager(configManager));
     //done tmp code
-    const statisticsManager = new StatisticsManager(cinema);
 
     //Object responsible for rendering changes in state
     let render = new Render(cinema);
@@ -51,9 +51,9 @@ document.addEventListener('DOMContentLoaded', () => {
     render.addRender(new RenderCustomerDetailPanel(cinema));
     render.addRender(new RenderFinancialReport(cinema.financeManager));
 
-    render.addRender(new RenderMovieDetailPanel(cinema.scheduler, cinema.movieManager));
+    render.addRender(new RenderMovieDetailPanel(cinema));
 
-    let renderChart = new RenderChart(cinema, statisticsManager);
+    let renderChart = new RenderChart(cinema);
     renderChart.addGraph(new FanChart());
     renderChart.addGraph(new CreditChart());
     renderChart.addGraph(new VisitorChart());
@@ -101,16 +101,7 @@ document.addEventListener('DOMContentLoaded', () => {
     observer.subscribe(observer.WEEK, () => {
         console.info('A week has passed');
 
-
-        /// test code
-
-        cinema.fans = cinema.fans + randomNumber(1, 100);
-
-        //end test code
-
-
-
-        statisticsManager.updateWeekly();
+        cinema.statisticsManager.updateWeekly();
         cinema.marketingManager.weeklyCampaignUpdate();
         render.renderByWeek();
     });

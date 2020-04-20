@@ -26,4 +26,6 @@ class ReleaseDate {
     }
 }
 
-export {ReleaseDate}
+class MonthDayPoint extends ReleaseDate {}
+
+export {ReleaseDate, MonthDayPoint}

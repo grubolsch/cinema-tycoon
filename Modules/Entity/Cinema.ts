@@ -16,6 +16,7 @@ import {CustomerSpawnerManager} from "../Manager/CustomerSpawnerManager";
 import {ReleaseDatePenaltyManager} from "../Manager/ReleaseDatePenaltyManager";
 import {CustomerManager} from "../Manager/CustomerManager";
 import {FacilityManager} from "../Manager/FacilityManager";
+import {StatisticsManager} from "../Manager/StatisticsManager";
 
 
 class Cinema {
@@ -38,15 +39,15 @@ class Cinema {
     private readonly _releaseDatePenaltyManager: ReleaseDatePenaltyManager;
     private readonly _customerManager: CustomerManager;
     private readonly _facilityManager: FacilityManager;
+    private readonly _statisticsManager: StatisticsManager;
 
-
-    public constructor(name: string, TimeManager : TimeManager, config : ConfigManager, financeManager : FinanceManager, marketingmanager: MarketingManager) {
+    public constructor(name: string, TimeManager : TimeManager, config : ConfigManager, financeManager : FinanceManager) {
         this._name = name;
         this._fans = config.fans;
         this._ticketPrice = config.ticketprice;
         this._timeManager = TimeManager;
         this._financeManager = financeManager;
-        this._marketingManager = marketingmanager;
+        this._marketingManager = new MarketingManager();
 
         this._config = config;
         this._roomManager = new RoomManager(this, config);
@@ -58,6 +59,7 @@ class Cinema {
         this._movieManager = new MovieManager(this, config, new GenreManager(config));
         this._customerManager = new CustomerManager();
         this._facilityManager = new FacilityManager(this, config);
+        this._statisticsManager = new StatisticsManager(this);
     }
 
     get name(): string {
@@ -137,22 +139,8 @@ class Cinema {
         return this._config;
     }
 
-
-
-
-
-
-
-
-
-
-
-
-    //////////////////////REMOVE///////////////
-
-
-    set fans(value: number) {
-        this._fans = value;
+    get statisticsManager(): StatisticsManager {
+        return this._statisticsManager;
     }
 }
 

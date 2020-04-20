@@ -128,6 +128,19 @@ div.movie-block {
 
 #movie-detail-panel {
   position: relative;
+
+  h2 {
+    margin-top: 10px;
+  }
+}
+
+#movie-detail-selector {
+  width: 100%;
+  height: 30px;
+}
+
+.tab-content {
+  margin-top: 10px;
 }
 
 .customer {
