@@ -136,6 +136,24 @@ class Cinema {
     get config(): ConfigManager {
         return this._config;
     }
+
+
+
+
+
+
+
+
+
+
+
+
+    //////////////////////REMOVE///////////////
+
+
+    set fans(value: number) {
+        this._fans = value;
+    }
 }
 
 export {Cinema};

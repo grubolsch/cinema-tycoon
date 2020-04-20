@@ -18,8 +18,12 @@ import {RenderScheduler} from "./Modules/Render/RenderScheduler";
 import {RenderSchedulerForm} from "./Modules/Render/RenderSchedulerForm";
 import {RenderFacilities} from "./Modules/Render/RenderFacilities";
 import {RenderCustomerDetailPanel} from "./Modules/Render/RenderCustomerDetailPanel";
-import {CreditRenderGraph} from "./Modules/Manager/Graphs/CreditGraph";
 import {StatisticsManager} from "./Modules/Manager/StatisticsManager";
+import {randomNumber} from "./Modules/Utils";
+import {CreditChart} from "./Modules/Manager/Graphs/CreditChart";
+import {FanChart} from "./Modules/Manager/Graphs/FanChart";
+import {RenderChart} from "./Modules/Render/Charts/RenderChart";
+import {VisitorChart} from "./Modules/Manager/Graphs/VisitorsChart";
 
 const observer = new Observer;
 const configManager = new ConfigManager;
@@ -43,7 +47,13 @@ document.addEventListener('DOMContentLoaded', () => {
     render.addRender(new RenderMarketing(cinema));
     render.addRender(new RenderFacilities(cinema));
     render.addRender(new RenderCustomerDetailPanel(cinema));
-    render.addRender(new CreditRenderGraph(cinema, statisticsManager));
+
+
+    let renderChart = new RenderChart(cinema, statisticsManager);
+    renderChart.addGraph(new FanChart());
+    renderChart.addGraph(new CreditChart());
+    renderChart.addGraph(new VisitorChart());
+    render.addRender(renderChart);
 
     let renderMoviePicker = new RenderMoviePicker(cinema, render);
     render.addRender(renderMoviePicker);
@@ -86,6 +96,15 @@ document.addEventListener('DOMContentLoaded', () => {
 
     observer.subscribe(observer.WEEK, () => {
         console.info('A week has passed');
+
+
+        /// test code
+
+        cinema.fans = cinema.fans + randomNumber(1, 100);
+
+        //end test code
+
+
 
         statisticsManager.updateWeekly();
         cinema.marketingManager.weeklyCampaignUpdate();

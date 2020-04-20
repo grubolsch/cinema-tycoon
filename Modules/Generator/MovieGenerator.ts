@@ -68,7 +68,7 @@ class MovieGenerator {
             cost += cost * this.config.licenseBlockbusterExtraCost / 100;
         }
 
-        return cost;
+        return Math.round(cost);
     }
 }
 

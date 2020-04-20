@@ -1,5 +1,5 @@
 class ConfigManager {
-    private readonly _credit : number = 10000;
+    private readonly _credit : number = 50000;
     private readonly _ticketprice : number  = 10;
     private readonly _fans : number  = 0;
     private readonly _researchDefaultValue : number = 100;

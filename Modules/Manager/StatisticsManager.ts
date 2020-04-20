@@ -1,9 +1,11 @@
 import {Cinema} from "../Entity/Cinema";
 
+type StatisticsManagerInternalStorageType = Array<Array<Array<number>>>;
+
 class StatisticsManager {
-    private _creditOverTime : Array<Array<Number>> = [];
-    private _fansOverTime : Array<Array<Number>> = [];
-    private _visitorsOverTime : Array<Array<Number>> = [];
+    private _creditOverTime : StatisticsManagerInternalStorageType = [];
+    private _fansOverTime : StatisticsManagerInternalStorageType = [];
+    private _visitorsOverTime : StatisticsManagerInternalStorageType = [];
     
     private _cinema : Cinema;
     
@@ -12,30 +14,58 @@ class StatisticsManager {
     }
 
     public updateWeekly() {
-        let key = this._cinema.timeManager.year +'_'+ this._cinema.timeManager.month;
+        const year = this._cinema.timeManager.year;
+        const month = this._cinema.timeManager.month;
+        const week = this._cinema.timeManager.week;
 
-        if(!this._creditOverTime[this._cinema.timeManager.year]) {
-            this._creditOverTime[this._cinema.timeManager.year] = [];
+        if(!this._creditOverTime[year]) {
+            this._creditOverTime[year] = [];
+            this._fansOverTime[year] = [];
+            this._visitorsOverTime[year] = [];
         }
 
-        this._creditOverTime[this._cinema.timeManager.year][this._cinema.timeManager.month] = this._cinema.financeManager.credit;
-        this._creditOverTime[this._cinema.timeManager.year][this._cinema.timeManager.month] = this._cinema.fans;
-        this._creditOverTime[this._cinema.timeManager.year][this._cinema.timeManager.month] = this._cinema.boothManager.visitors;
+        if(!this._creditOverTime[year][month]) {
+            this._creditOverTime[year][month] = [];
+            this._fansOverTime[year][month] = [];
+            this._visitorsOverTime[year][month] = [];
+        }
+
+        this._creditOverTime[year][month][week] = this._cinema.financeManager.credit;
+        this._fansOverTime[year][month][week] = this._cinema.fans;
+        this._visitorsOverTime[year][month][week] = this._cinema.boothManager.visitors;
+
+        this._fansOverTime[year][month][1] = this._cinema.fans;
+        this._fansOverTime[year][month][2] = 100;
+        this._fansOverTime[year][month][3] = 200;
+        this._fansOverTime[year][month][4] = 300;
+
+        this._visitorsOverTime[year][month][1] = this._cinema.fans;
+        this._visitorsOverTime[year][month][2] = 100;
+        this._visitorsOverTime[year][month][3] = 200;
+        this._visitorsOverTime[year][month][4] = 300;
+
+        this._creditOverTime[year][month][1] = this._cinema.fans;
+        this._creditOverTime[year][month][2] = 100;
+        this._creditOverTime[year][month][3] = 200;
+        this._creditOverTime[year][month][4] = 300;
+
+
 
         this._cinema.boothManager.resetVisitors();
     }
 
-    get creditOverTime(): Array<Array<Number>> {
-        return this._creditOverTime;
+    getCreditOverTime(year : number): Array<Array<number>>|undefined {
+        return this._creditOverTime[year];
+
     }
 
-    get fansOverTime(): Array<Array<Number>> {
-        return this._fansOverTime;
+    getFansOverTime(year : number): Array<Array<number>>|undefined {
+        return this._fansOverTime[year];
     }
 
-    get visitorsOverTime(): Array<Array<Number>> {
-        return this._visitorsOverTime;
+    getVisitorsOverTime(year : number): Array<Array<number>>|undefined {
+        return this._visitorsOverTime[year];
     }
 }
 
-export {StatisticsManager}
+export {StatisticsManager, StatisticsManagerInternalStorageType}
