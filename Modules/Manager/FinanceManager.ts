@@ -6,6 +6,7 @@ class FinanceReport extends Map<string, number> {}
 class FinanceManager {
     private _incomeReport : FinanceReport = new FinanceReport;
     private _expensesReport : FinanceReport = new FinanceReport;
+    private _balance : number = 0;
 
     private _credit : number;
 
@@ -20,12 +21,14 @@ class FinanceManager {
     public pay(value : number, description : string) : void {
         if(this.bookTransaction(value, description, this._expensesReport)) {
             this._credit -= value;
+            this._balance -= value;
         }
     }
 
     public earn(value : number, description : string) : void {
         if(this.bookTransaction(value, description, this._incomeReport)) {
             this._credit += value;
+            this._balance += value;
         }
     }
 
@@ -55,21 +58,15 @@ class FinanceManager {
         return this._expensesReport;
     }
 
-    calculateTotal() : number {
-        let income = Array.from(this._incomeReport).reduce(function(a,b, d){
-            return a + d;
-        }, 0);
-        let expenses = Array.from(this._incomeReport).reduce(function(a,b, d){
-            return a + d;
-        }, 0);
-
-        return income - expenses;
+    get balance(): number {
+        return this._balance;
     }
 
-    //this is run every month to clear the statistics
+//this is run every month to clear the statistics
     resetReports() : void {
         this._incomeReport = new FinanceReport;
         this._expensesReport = new FinanceReport;
+        this._balance = 0;
     }
 }
 

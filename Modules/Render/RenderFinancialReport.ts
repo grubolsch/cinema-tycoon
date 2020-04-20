@@ -25,9 +25,8 @@ class RenderFinancialReport implements RenderInterface, RenderByHourInterface {
             this.reportBodyTable.innerHTML  += `<tr class="expense"><th>${label}</th><td>- ${currency(value)}</td></tr>`
         });
 
-        let total = this.financeManager.calculateTotal();
-        let totalClass = (total >= 0) ? 'positive' : 'negative';
-        this.reportFooterTable.innerHTML  += `<tr class="total ${totalClass}"><th>Total</th><td>${currency(this.financeManager.calculateTotal())}</td></tr>`;
+        let totalClass = (this.financeManager.balance >= 0) ? 'positive' : 'negative';
+        this.reportFooterTable.innerHTML  += `<tr class="total ${totalClass}"><th>Total</th><td>${currency(this.financeManager.balance)}</td></tr>`;
     }
 }
 
