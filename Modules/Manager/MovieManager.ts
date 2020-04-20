@@ -10,7 +10,7 @@ class MovieManager {
     private _movies : Map<number, Movie> = new Map<number, Movie>();
     private readonly _cinema : Cinema;
     private readonly _config : ConfigManager;
-    public static counter: number = 0;
+    public static counter: number = 1;
 
     constructor(cinema : Cinema, config : ConfigManager, genreManager: GenreManager) {
         this._genreManager = genreManager;
@@ -71,6 +71,10 @@ class MovieManager {
     calculatePopularity(movie : Movie) : number {
         let base = movie.startPopularity * this._config.popularityToCustomerFactor;
         return Math.max(0, base - movie.releaseDatePenalty);
+    }
+
+    retireMovie(movie: Movie) : void {
+        this._movies.delete(movie.id);
     }
 }
 

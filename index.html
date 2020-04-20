@@ -391,6 +391,50 @@
                     <div class="tab-pane fade" id="statistics-movie" role="tabpanel"
                          aria-labelledby="statistics-movie-tab">
 
+                            <select id="movie-detail-selector"></select>
+
+                            <p id="movie-detail-panel-no-movie">Please select a movie to see it's details.</p>
+                            <div id="movie-detail-panel" class="hide">
+                                <span class="movie-arthouse movie-stamp">Arthouse movie</span>
+                                <span class="movie-blockbuster movie-stamp">Blockbuster movie</span>
+
+                                <h2 class="title"></h2>
+
+                                <table class="table table-bordered table-striped">
+                                    <tbody>
+                                        <tr>
+                                            <th>Genre</th>
+                                            <td><span class="genre"></span></td>
+                                        </tr>
+                                        <tr>
+                                            <th>Duration</th>
+                                            <td><span class="duration"></span> minutes</td>
+                                        </tr>
+                                        <tr>
+                                            <th>License fee</th>
+                                            <td class="cost"></td>
+                                        </tr>
+                                        <tr>
+                                            <th>Reviews</th>
+                                            <td><ul class="reviews"></ul></td>
+                                        </tr>
+                                        <tr>
+                                            <th>Release date</th>
+                                            <td class="release-date"></td>
+                                        </tr>
+                                    </tbody>
+                                    <tfoot>
+                                    <tr>
+                                        <td></td>
+                                        <td>
+                                            <button class="btn btn-danger" id="retire-movie-action">Retire movie</button>
+                                        </td>
+                                    </tr>
+                                    </tfoot>
+                                </table>
+
+                                <h3>Ticket sales over time</h3>
+                            </div>
                     </div>
                 </div>
             </div>

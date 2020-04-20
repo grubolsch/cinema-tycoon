@@ -22,9 +22,10 @@ import {StatisticsManager} from "./Modules/Manager/StatisticsManager";
 import {randomNumber} from "./Modules/Utils";
 import {CreditChart} from "./Modules/Manager/Graphs/CreditChart";
 import {FanChart} from "./Modules/Manager/Graphs/FanChart";
-import {RenderChart} from "./Modules/Render/Charts/RenderChart";
+import {RenderChart} from "./Modules/Render/RenderChart";
 import {VisitorChart} from "./Modules/Manager/Graphs/VisitorsChart";
 import {RenderFinancialReport} from "./Modules/Render/RenderFinancialReport";
+import {RenderMovieDetailPanel} from "./Modules/Render/RenderMovieDetailPanel";
 
 const observer = new Observer;
 const configManager = new ConfigManager;
@@ -49,6 +50,8 @@ document.addEventListener('DOMContentLoaded', () => {
     render.addRender(new RenderFacilities(cinema));
     render.addRender(new RenderCustomerDetailPanel(cinema));
     render.addRender(new RenderFinancialReport(cinema.financeManager));
+
+    render.addRender(new RenderMovieDetailPanel(cinema.scheduler, cinema.movieManager));
 
     let renderChart = new RenderChart(cinema, statisticsManager);
     renderChart.addGraph(new FanChart());

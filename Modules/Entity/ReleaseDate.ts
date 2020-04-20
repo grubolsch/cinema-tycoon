@@ -1,4 +1,4 @@
-import {TimeManager} from "../Manager/TimeManager";
+import {MONTHS, TimeManager} from "../Manager/TimeManager";
 
 class ReleaseDate {
     private readonly _year : number;
@@ -19,6 +19,10 @@ class ReleaseDate {
 
     calculateDifferenceInMonths(timeManager : TimeManager) : number {
         return Math.max(0, timeManager.month - this.month) + Math.min(0, timeManager.year - this.year) * TimeManager.MONTHS_IN_YEAR
+    }
+
+    format() : string {
+        return MONTHS[this._month-1] + ' '+ this._year;
     }
 }
 

@@ -1,7 +1,7 @@
-import {StatisticsManager} from "../../Manager/StatisticsManager";
-import {Cinema} from "../../Entity/Cinema";
-import {ChartConfigInterface, GraphLine} from "../../Manager/Graphs/ChartConfigInterface";
-import {MONTHS} from "../../Manager/TimeManager";
+import {StatisticsManager} from "../Manager/StatisticsManager";
+import {Cinema} from "../Entity/Cinema";
+import {ChartConfigInterface, GraphLine} from "../Manager/Graphs/ChartConfigInterface";
+import {MONTHS} from "../Manager/TimeManager";
 
 class RenderChart implements RenderInterface {
     // @ts-ignore
@@ -68,7 +68,6 @@ class RenderChart implements RenderInterface {
             });
         }
         catch(error) {
-            console.error(error)
             this.availableElement.classList.add('hide');
             this.noDataElement.classList.remove('hide');
 
@@ -80,8 +79,6 @@ class RenderChart implements RenderInterface {
     protected getChartOptions(chartConfig : ChartConfigInterface) : object {
         //we need to calculate this at the moment the modal is clicked because google charts is not responsive itself, and it can only size itself for containers that are visible at the moment of rendering
         let width = Math.ceil(<number>this.modal.width() * chartConfig.getWidthPercentage() / 2);
-
-        console.log(<number>this.modal.width(), chartConfig.getWidthPercentage())
 
         return {
             'title': chartConfig.getTitle(),

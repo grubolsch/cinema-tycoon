@@ -100,19 +100,6 @@ div.movie-block {
     background-color: lightgreen;
   }
 
-  .movie-stamp {
-    display: none;
-    transform: rotate(45deg);
-    position: absolute;
-    top: 10px;
-    right: -35px;
-    border: 1px gold solid;
-    color: gold;
-    background-color: black;
-    padding: 6px;
-    opacity: 0.7;
-  }
-
   .movie-block-sub {
     min-height: 435px;
   }
@@ -125,6 +112,24 @@ div.movie-block {
     padding: 6px 0px;
   }
 }
+
+.movie-stamp {
+  display: none;
+  transform: rotate(45deg);
+  position: absolute;
+  top: 10px;
+  right: -35px;
+  border: 1px gold solid;
+  color: gold;
+  background-color: black;
+  padding: 6px;
+  opacity: 0.7;
+}
+
+#movie-detail-panel {
+  position: relative;
+}
+
 .customer {
   height: 95px;
   width: 70px;

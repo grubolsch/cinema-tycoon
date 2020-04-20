@@ -14,7 +14,6 @@ class RenderFinancialReport implements RenderInterface, RenderByHourInterface {
     render(): void {}
 
     renderByHour(): void {
-        console.log('render report', this.financeManager.expensesReport)
         this.reportBodyTable.innerHTML = '';
         this.reportFooterTable.innerHTML = '';
 

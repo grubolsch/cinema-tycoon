@@ -2,6 +2,9 @@ import {MovieType} from "../MovieTypes/MovieType";
 import {Genre} from "./Genre";
 import {ReleaseDate} from "./ReleaseDate";
 import {MovieManager} from "../Manager/MovieManager";
+import {TimePoint} from "./TimePoint";
+
+type ReviewsType = Array<string>;
 
 class Movie {
 
@@ -15,8 +18,9 @@ class Movie {
     private readonly _startPopularity: number;
     private readonly _releaseDate: ReleaseDate;
     private _releaseDatePenalty : number = 0;
+    private _reviews: ReviewsType;
 
-    constructor(title: string, rating: number, startPopularity : number, genre: Genre, type: MovieType, duration : number, releaseDate : ReleaseDate, cost : number) {
+    constructor(title: string, rating: number, startPopularity : number, genre: Genre, type: MovieType, duration : number, releaseDate : ReleaseDate, cost : number, reviews: ReviewsType) {
         this._id = MovieManager.counter++;
         this._title = title;
         this._rating = rating;
@@ -26,7 +30,9 @@ class Movie {
         this._releaseDate = releaseDate;
         this._cost = cost;
         this._startPopularity = startPopularity;
+        this._reviews = reviews;
     }
+
     get title(): string {
         return this._title;
     }
@@ -67,8 +73,22 @@ class Movie {
         return this._startPopularity;
     }
 
+    get reviews(): Array<string> {
+        return this._reviews;
+    }
+
     increaseReleasePenalty(quantity : number = 1) : void {
         this._releaseDatePenalty += quantity;
     }
+
+    private ticketHistory : Map<TimePoint, number> = new Map<TimePoint, number>();
+    public bookTicket(timepoint : TimePoint) {
+        let value = 1;
+        if(this.ticketHistory.has(timepoint)) {
+            value += this.ticketHistory.get(timepoint)!;
+        }
+
+        this.ticketHistory.set(timepoint, value);
+    }
 }
-export {Movie};
+export {Movie, ReviewsType};
