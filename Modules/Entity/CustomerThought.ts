@@ -9,6 +9,9 @@ class CustomerThought {
     public static readonly TICKET_CHEAP: string = 'The ticket for this movie is really cheap! Awesome.';
     public static readonly TICKET_EXPENSIVE: string = 'The ticket for this movie is really expensive! This is a ripoff';
     public static readonly TICKET_EXPENSIVE_WENT_HOME: string = 'I am not selling my organs for a ticket in this cinema! I am going home.';
+    public static readonly FAN_NEW: string = 'After this great experience I became of fan of this Cinema';
+    public static readonly FAN_NEW_FRIEND: string = 'This place is so great I even convinced a friend to check this cinema out!';
+    public static readonly FAN_LOST: 'This place has gone downhill. I am no longer a fan.';
 
     private readonly _thought: string;
     private readonly _postive: boolean;

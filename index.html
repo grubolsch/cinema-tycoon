@@ -55,9 +55,7 @@
             </button>
         </td>
         <td>
-            <button rel="advertising" class="btn btn-primary top-menu" data-toggle="modal"
-                    data-target="#advertisingModal">Advertising
-            </button>
+            <button rel="advertising" class="btn btn-primary top-menu" id="advertisingButton">Advertising</button>
         </td>
         <td>
             <button rel="loans" class="btn btn-primary top-menu" data-toggle="modal" data-target="#loansModal">Loans
@@ -100,38 +98,101 @@
                 </button>
             </div>
             <div class="modal-body">
-                <div class="form-group">
-                    <div class="radio">
-                        <label><input type="radio" name="optMarketing" data-cost="50" value="Flyers"
-                                      checked>Flyers</label>
-                    </div>
-                    <div class="radio">
-                        <label><input type="radio" name="optMarketing" data-cost="250"
-                                      value="Newspaper">Newspapers</label>
-                    </div>
-                    <div class="radio">
-                        <label><input type="radio" name="optMarketing" data-cost="500" value="Radio">Radio</label>
-                    </div>
-                    <div class="radio">
-                        <label><input type="radio" name="optMarketing" data-cost="1000" value="TV">TV</label>
-                    </div>
-                    <div class="radio">
-                        <label><input type="radio" name="optMarketing" data-cost="2000"
-                                      value="Internet">Internet</label>
-                    </div>
-                    <hr>
-                    <label for="marketingDurationRange">Choose duration: <span
-                            id="MarketingDurationPreview">1</span></label>
-                    <input type="range" class="form-control-range" value="1" min="1" max="12"
-                           id="marketingDurationRange">
-                    <hr>
-                    <button type="submit" data-dismiss="modal" class="btn btn-success" id="marketingSubmit">Confirm
-                    </button>
-                </div>
-            </div>
+                <!-- Nav tabs -->
+                <div role="tabpanel">
+                    <ul class="nav nav-tabs" role="tablist">
+                        <li role="presentation" class="active"><a href="#genericTab" aria-controls="genericTab"
+                                                                  role="tab"
+                                                                  data-toggle="tab">Generic</a></li>
+                        <li role="presentation"><a href="#movieTab" aria-controls="movieTab" role="tab"
+                                                   data-toggle="tab">Movie</a>
+                        </li>
+                        <li role="presentation"><a href="#activeTab" aria-controls="activeTab" role="tab"
+                                                   data-toggle="tab">Active</a>
+                        </li>
+                    </ul>
+                    <div class="tab-content">
+                        <div role="tabpanel" class="tab-pane active" id="genericTab">
+                            <div class="form-group">
+                                <div class="radio">
+                                    <label><input type="radio" name="optMarketing" data-cost="50" value="Flyers"
+                                                  checked>Flyers</label>
+                                </div>
+                                <div class="radio">
+                                    <label><input type="radio" name="optMarketing" data-cost="150"
+                                                  value="Newspaper">Newspapers</label>
+                                </div>
+                                <div class="radio">
+                                    <label><input type="radio" name="optMarketing" data-cost="500"
+                                                  value="Radio">Radio</label>
+                                </div>
+                                <div class="radio">
+                                    <label><input type="radio" name="optMarketing" data-cost="750"
+                                                  value="TV">TV</label>
+                                </div>
+                                <div class="radio">
+                                    <label><input type="radio" name="optMarketing" data-cost="1000"
+                                                  value="Internet">Internet</label>
+                                </div>
+                                <hr>
+                                <label for="marketingDurationRange">Choose duration: <span
+                                        id="MarketingDurationPreview"></span></label>
+                                <input type="range" class="form-control-range" value="1" min="1" max="12"
+                                       id="marketingDurationRange">
+                                <hr>
+                                <button type="submit" class="btn btn-success" id="marketingSubmit">
+                                    Confirm
+                                </button>
+                            </div>
+                        </div>
+                        <div role="tabpanel" class="tab-pane" id="movieTab">
+                            <div class="form-group">
+                                <label for="movieMarketingSelector">Choose a movie</label>
+                                <select name="movieMarketingSelect" id="movieMarketingSelector">
 
-            <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                                </select>
+                                <div class="radio">
+                                    <label><input type="radio" name="optMovieMarketing" data-cost="50" value="Flyers"
+                                                  checked>Flyers</label>
+                                </div>
+                                <div class="radio">
+                                    <label><input type="radio" name="optMovieMarketing" data-cost="150"
+                                                  value="Newspaper">Newspapers</label>
+                                </div>
+                                <div class="radio">
+                                    <label><input type="radio" name="optMovieMarketing" data-cost="500"
+                                                  value="Radio">Radio</label>
+                                </div>
+                                <div class="radio">
+                                    <label><input type="radio" name="optMovieMarketing" data-cost="750"
+                                                  value="TV">TV</label>
+                                </div>
+                                <div class="radio">
+                                    <label><input type="radio" name="optMovieMarketing" data-cost="1000"
+                                                  value="Internet">Internet</label>
+                                </div>
+                                <div class="radio">
+                                    <label><input type="radio" name="optMovieMarketing" data-cost="0" value="Tickets">Free
+                                        tickets</label>
+                                </div>
+                                <hr>
+                                <label for="movieMarketingDurationRange">Choose duration: <span
+                                        id="movieMarketingDurationPreview"></span></label>
+                                <input type="range" class="form-control-range" value="1" min="1" max="12"
+                                       id="movieMarketingDurationRange">
+                                <hr>
+                                <button type="submit" class="btn btn-success" id="movieMarketingSubmit">
+                                    Confirm
+                                </button>
+                            </div>
+                        </div>
+                        <div role="tabpanel" class="tab-pane" id="activeTab">
+                            <ul id="activeCampaigns">
+
+                            </ul>
+                        </div>
+                    </div>
+                </div>
             </div>
         </div>
     </div>
@@ -501,11 +562,6 @@
 
     <button class="btn btn-secondary" id="build-booth">Build booth</button>
 
-    <!--    campaign-->
-    <div>
-        <span id="active_campaign"></span> <span id="duration_campaign"></span><br/>
-    </div>
-
     <!--    room-->
     <hr>
     <button class="btn btn-success" id="build-room">Build room</button>
@@ -568,6 +624,10 @@
 </div>
 
 <div id="customer-detail-panel">
+    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+        <span aria-hidden="true">×</span>
+    </button>
+
     <h3>
         <i class="fa fa-female"></i>
         <i class="fa fa-male"></i>

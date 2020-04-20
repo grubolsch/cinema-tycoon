@@ -42,7 +42,7 @@ class MovieManager {
             selectedMovies.push(<Movie>movies.find((movie) => { return movie.id === parseInt(id)}));
         });
         let cost = this.calculateCost(selectedMovies);
-        if (cinema.financeManager.canAfford(cost)) {
+        if (cinema.financeManager.canAfford(cost, true)) {
             cinema.financeManager.pay(cost, 'movie licensing costs');
             selectedMovies.forEach(movie => {
                 this.addMovie(movie);
@@ -66,6 +66,10 @@ class MovieManager {
 
     get movies(): Map<number, Movie> {
         return this._movies;
+    }
+
+    findMovie(id : number): Movie{
+        return <Movie>this.movies.get(id);
     }
 
     calculatePopularity(movie : Movie) : number {

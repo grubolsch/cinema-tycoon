@@ -31,14 +31,30 @@ class ConfigManager {
 
     public readonly numberOfReviews: number = 3;
 
+    //Marketing
+    private readonly _marketing_max_weeks = 12;
+    private readonly _marketing_min_weeks = 1;
+
+    private readonly _flyers_base_cost = 50;
+    private readonly _newspapers_base_cost = 250;
+    private readonly _radio_base_cost = 500;
+    private readonly _tv_base_cost = 750;
+    private readonly _internet_base_cost = 1000;
+
+    private readonly _flyers_base_bonus = 5;
+    private readonly _newspapers_base_bonus = 10;
+    private readonly _radio_base_bonus = 15;
+    private readonly _tv_base_bonus = 20;
+    private readonly _internet_base_bonus = 25;
+
     //Room
     private readonly _small = 'small';
-    private readonly _meidium = 'medium';
+    private readonly _medium = 'medium';
     private readonly _large = 'large';
 
-    private readonly _smallRoomMaintanaceCost = 100;
-    private readonly _mediumRoomMaintanaceCost = 150;
-    private readonly _largeRoomMaintanaceCost = 200;
+    private readonly _smallRoomMaintenanceCost = 100;
+    private readonly _mediumRoomMaintenanceCost = 150;
+    private readonly _largeRoomMaintenanceCost = 200;
 
     private readonly _smallRoomRows = 5;
     private readonly _mediumRoomRows = 7;
@@ -100,10 +116,29 @@ class ConfigManager {
     public readonly cashierWages: number = 50;
     public readonly boothBuildprice : number = 3000;
 
+    public readonly chanceLosingFan : number = 50;
+    public readonly bonusArthouseFanConversion : number = 20;
+    public readonly penaltyBlockbusterFanConversion : number = 20;
+
     public readonly licenseFeeExtraPerRoom: number = 20;
     public readonly licenseBlockbusterExtraCost: number = 10;
     public readonly licenseFeeMin: number = 800;
     public readonly licenseFeeMax: number = 1000;
+
+    public readonly thoughtPositiveBonus: number = 5;
+    public readonly thoughtNegativeBonus: number = 5;
+
+    public readonly movieToQualityFactor: number = 10;
+
+    public readonly qualityRoomVeryBad: number = 20;
+    public readonly qualityRoomBad: number = 40;
+    public readonly qualityRoomGood: number = 70;
+    public readonly qualityRoomVeryGood: number = 90;
+
+    public readonly qualityMovieVeryBad: number = 2;
+    public readonly qualityMovieBad: number = 4;
+    public readonly qualityMovieGood: number = 7;
+    public readonly qualityMovieVeryGood: number = 9;
 
     //facilities
     //Common
@@ -125,7 +160,6 @@ class ConfigManager {
     private readonly _arcadeHappinessBonus = 100;
     private readonly _arcadeCostPrice = 0.2;
     private readonly _arcadeDefaultSellingPrice = 0.5;
-
 
     get credit(): number {
         return this._credit;
@@ -169,6 +203,54 @@ class ConfigManager {
 
     get hypeMinimumDuration(): number {
         return this._hypeMinimumDuration;
+    }
+
+    get marketing_max_weeks(): number {
+        return this._marketing_max_weeks;
+    }
+
+    get marketing_min_weeks(): number {
+        return this._marketing_min_weeks;
+    }
+
+    get flyers_base_cost(): number {
+        return this._flyers_base_cost;
+    }
+
+    get newspapers_base_cost(): number {
+        return this._newspapers_base_cost;
+    }
+
+    get radio_base_cost(): number {
+        return this._radio_base_cost;
+    }
+
+    get tv_base_cost(): number {
+        return this._tv_base_cost;
+    }
+
+    get internet_base_cost(): number {
+        return this._internet_base_cost;
+    }
+
+    get flyers_base_bonus(): number {
+        return this._flyers_base_bonus;
+    }
+
+    get newspapers_base_bonus(): number {
+        return this._newspapers_base_bonus;
+    }
+
+    get radio_base_bonus(): number {
+        return this._radio_base_bonus;
+    }
+
+    get tv_base_bonus(): number {
+        return this._tv_base_bonus;
+    }
+
+    get internet_base_bonus(): number {
+        return this._internet_base_bonus;
     }
 
     get hypeMaximumDuration(): number {
@@ -231,24 +313,24 @@ class ConfigManager {
         return this._small;
     }
 
-    get meidium(): string {
-        return this._meidium;
+    get medium(): string {
+        return this._medium;
     }
 
     get large(): string {
         return this._large;
     }
 
-    get smallRoomMaintanaceCost(): number {
-        return this._smallRoomMaintanaceCost;
+    get smallRoomMaintenanceCost(): number {
+        return this._smallRoomMaintenanceCost;
     }
 
-    get mediumRoomMaintanaceCost(): number {
-        return this._mediumRoomMaintanaceCost;
+    get mediumRoomMaintenanceCost(): number {
+        return this._mediumRoomMaintenanceCost;
     }
 
-    get largeRoomMaintanaceCost(): number {
-        return this._largeRoomMaintanaceCost;
+    get largeRoomMaintenanceCost(): number {
+        return this._largeRoomMaintenanceCost;
     }
 
     get smallRoomRows(): number {

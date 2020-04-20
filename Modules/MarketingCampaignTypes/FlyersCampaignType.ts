@@ -1,8 +1,9 @@
 import {MarketingCampaignType} from "./MarketingCampaignType";
+import {ConfigManager} from "../Manager/ConfigManager";
 
 class FlyersCampaignType extends MarketingCampaignType {
-    constructor() {
-        super('Flyers', 50, 2, 5);
+    constructor(config : ConfigManager) {
+        super('Flyers', config.flyers_base_cost, config.flyers_base_bonus);
     }
 }
 

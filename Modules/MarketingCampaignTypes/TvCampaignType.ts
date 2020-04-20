@@ -1,9 +1,10 @@
 import {MarketingCampaignType} from "./MarketingCampaignType";
+import {ConfigManager} from "../Manager/ConfigManager";
 
 class TvCampaignType extends MarketingCampaignType {
 
-    constructor() {
-        super('TV', 1000, 10, 20);
+    constructor(config : ConfigManager) {
+        super('TV', config.tv_base_cost, config.tv_base_bonus);
     }
 }
 

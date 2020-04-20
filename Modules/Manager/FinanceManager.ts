@@ -7,15 +7,20 @@ class FinanceManager {
     private _incomeReport : FinanceReport = new FinanceReport;
     private _expensesReport : FinanceReport = new FinanceReport;
     private _balance : number = 0;
+    private _credit: number;
 
-    private _credit : number;
-
-    public constructor(startConfig : ConfigManager) {
+    public constructor(startConfig: ConfigManager) {
         this._credit = startConfig.credit;
     }
 
-    public canAfford(value : number) : boolean {
-        return (this._credit >= value);
+    public canAfford(value: number, allowDebt : boolean = false): boolean {
+        if (this._credit >= value || value === 0){
+            return true;
+        }
+        if (allowDebt){
+            return window.confirm('Are you sure you want to pay € ' + value + '? This would put you in the red!');
+        }
+        return false;
     }
 
     public pay(value : number, description : string) : void {
