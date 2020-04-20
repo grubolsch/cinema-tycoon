@@ -29,14 +29,32 @@ class ConfigManager {
     private readonly _blockbusterChance: number = 50;
     private readonly _arthouseChance: number = 5;
 
+    public readonly numberOfReviews: number = 3;
+
+    //Marketing
+    private readonly _marketing_max_weeks = 12;
+    private readonly _marketing_min_weeks = 1;
+
+    private readonly _flyers_base_cost = 50;
+    private readonly _newspapers_base_cost = 250;
+    private readonly _radio_base_cost = 500;
+    private readonly _tv_base_cost = 750;
+    private readonly _internet_base_cost = 1000;
+
+    private readonly _flyers_base_bonus = 5;
+    private readonly _newspapers_base_bonus = 10;
+    private readonly _radio_base_bonus = 15;
+    private readonly _tv_base_bonus = 20;
+    private readonly _internet_base_bonus = 25;
+
     //Room
     private readonly _small = 'small';
-    private readonly _meidium = 'medium';
+    private readonly _medium = 'medium';
     private readonly _large = 'large';
 
-    private readonly _smallRoomMaintanaceCost = 100;
-    private readonly _mediumRoomMaintanaceCost = 150;
-    private readonly _largeRoomMaintanaceCost = 200;
+    private readonly _smallRoomMaintenanceCost = 100;
+    private readonly _mediumRoomMaintenanceCost = 150;
+    private readonly _largeRoomMaintenanceCost = 200;
 
     private readonly _smallRoomRows = 5;
     private readonly _mediumRoomRows = 7;
@@ -122,6 +140,27 @@ class ConfigManager {
     public readonly qualityMovieGood: number = 7;
     public readonly qualityMovieVeryGood: number = 9;
 
+    //facilities
+    //Common
+    private readonly _maximumCashiers = 4;
+    private readonly _defaultCashiers = 1;
+
+    //Toilet
+    private readonly _toiletCapacityPerCashier = 10;
+    private readonly _toiletHourlyWageCashier = 5;
+    private readonly _toiletMonthlyRent = 25;
+    private readonly _toiletHappinessBonus = 100;
+    private readonly _toiletCostPrice = 0;
+    private readonly _toiletDefaultSellingPrice = 0.2;
+
+    //Arcade
+    private readonly _arcadeCapacityPerCashier = 8;
+    private readonly _arcadeHourlyWageCashier = 10;
+    private readonly _arcadeMonthlyRent = 25;
+    private readonly _arcadeHappinessBonus = 100;
+    private readonly _arcadeCostPrice = 0.2;
+    private readonly _arcadeDefaultSellingPrice = 0.5;
+
     get credit(): number {
         return this._credit;
     }
@@ -164,6 +203,54 @@ class ConfigManager {
 
     get hypeMinimumDuration(): number {
         return this._hypeMinimumDuration;
+    }
+
+    get marketing_max_weeks(): number {
+        return this._marketing_max_weeks;
+    }
+
+    get marketing_min_weeks(): number {
+        return this._marketing_min_weeks;
+    }
+
+    get flyers_base_cost(): number {
+        return this._flyers_base_cost;
+    }
+
+    get newspapers_base_cost(): number {
+        return this._newspapers_base_cost;
+    }
+
+    get radio_base_cost(): number {
+        return this._radio_base_cost;
+    }
+
+    get tv_base_cost(): number {
+        return this._tv_base_cost;
+    }
+
+    get internet_base_cost(): number {
+        return this._internet_base_cost;
+    }
+
+    get flyers_base_bonus(): number {
+        return this._flyers_base_bonus;
+    }
+
+    get newspapers_base_bonus(): number {
+        return this._newspapers_base_bonus;
+    }
+
+    get radio_base_bonus(): number {
+        return this._radio_base_bonus;
+    }
+
+    get tv_base_bonus(): number {
+        return this._tv_base_bonus;
+    }
+
+    get internet_base_bonus(): number {
+        return this._internet_base_bonus;
     }
 
     get hypeMaximumDuration(): number {
@@ -226,24 +313,24 @@ class ConfigManager {
         return this._small;
     }
 
-    get meidium(): string {
-        return this._meidium;
+    get medium(): string {
+        return this._medium;
     }
 
     get large(): string {
         return this._large;
     }
 
-    get smallRoomMaintanaceCost(): number {
-        return this._smallRoomMaintanaceCost;
+    get smallRoomMaintenanceCost(): number {
+        return this._smallRoomMaintenanceCost;
     }
 
-    get mediumRoomMaintanaceCost(): number {
-        return this._mediumRoomMaintanaceCost;
+    get mediumRoomMaintenanceCost(): number {
+        return this._mediumRoomMaintenanceCost;
     }
 
-    get largeRoomMaintanaceCost(): number {
-        return this._largeRoomMaintanaceCost;
+    get largeRoomMaintenanceCost(): number {
+        return this._largeRoomMaintenanceCost;
     }
 
     get smallRoomRows(): number {
@@ -368,6 +455,62 @@ class ConfigManager {
 
     get movieDurations(): Array<number> {
         return this._movieDurations;
+    }
+
+    get maximumCashiers(): number {
+        return this._maximumCashiers;
+    }
+
+    get toiletCapacityPerCashier(): number {
+        return this._toiletCapacityPerCashier;
+    }
+
+    get arcadeCapacityPerCashier(): number {
+        return this._arcadeCapacityPerCashier;
+    }
+
+    get toiletMonthlyRent(): number {
+        return this._toiletMonthlyRent;
+    }
+
+    get toiletHappinessBonus(): number {
+        return this._toiletHappinessBonus;
+    }
+
+    get toiletCostPrice(): number {
+        return this._toiletCostPrice;
+    }
+
+    get toiletDefaultSellingPrice(): number {
+        return this._toiletDefaultSellingPrice;
+    }
+
+    get arcadeMonthlyRent(): number {
+        return this._arcadeMonthlyRent;
+    }
+
+    get arcadeHappinessBonus(): number {
+        return this._arcadeHappinessBonus;
+    }
+
+    get arcadeCostPrice(): number {
+        return this._arcadeCostPrice;
+    }
+
+    get arcadeDefaultSellingPrice(): number {
+        return this._arcadeDefaultSellingPrice;
+    }
+
+    get defaultCashiers(): number {
+        return this._defaultCashiers;
+    }
+
+    get toiletHourlyWageCashier(): number {
+        return this._toiletHourlyWageCashier;
+    }
+
+    get arcadeHourlyWageCashier(): number {
+        return this._arcadeHourlyWageCashier;
     }
 }
 

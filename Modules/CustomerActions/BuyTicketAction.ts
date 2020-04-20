@@ -34,6 +34,13 @@ class BuyTicketAction implements CustomerAction {
         cinema.boothManager.addCustomer(customer);
     }
 
+    getDescription(cinema: Cinema, customer: Customer): string {
+        if(customer.hasFreeTicket) {
+            return "Using his free ticket for movie " + customer.targetShow.movie.title;
+
+        }
+        return "Buying a ticket for movie " + customer.targetShow.movie.title;
+    }
 }
 
 export {BuyTicketAction}

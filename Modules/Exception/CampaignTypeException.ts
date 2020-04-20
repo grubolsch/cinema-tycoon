@@ -6,6 +6,10 @@ class CampaignTypeException extends Error {
     static noSuchType() {
         return new this('Something went wrong selecting a campaign type.');
     }
+
+    static noMovieSelected(){
+        return new this('Invalid movie choice');
+    }
 }
 
 export {CampaignTypeException}

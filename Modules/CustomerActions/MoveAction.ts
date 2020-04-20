@@ -2,6 +2,9 @@
 import {Customer, CustomerLocation} from "../Entity/Customer";
 import {CustomerAction} from "./CustomerAction";
 import {Cinema} from "../Entity/Cinema";
+import {BuyTicketAction} from "./BuyTicketAction";
+import {LeaveCinemaAction} from "./LeaveCinemaAction";
+import {WatchMovieAction} from "./WatchMovieAction";
 
 class MoveAction implements CustomerAction {
     private readonly WALKINGSPEED = 20;
@@ -41,6 +44,20 @@ class MoveAction implements CustomerAction {
 
     nextAction(cinema: Cinema, customer: Customer): CustomerAction {
         return this._nextAction;
+    }
+
+    getDescription(cinema: Cinema, customer: Customer): string {
+        if(this._nextAction instanceof BuyTicketAction) {
+            return "Walking towards a ticket booth";
+        }
+        if(this._nextAction instanceof WatchMovieAction) {
+            return "Walking towards "+ customer.targetShow.room.name + ' to see movie '+ customer.targetShow.movie.title;
+        }
+        if(this._nextAction instanceof LeaveCinemaAction) {
+            return "Walking towards the exit";
+        }
+
+        return "Walking around the cinema";
     }
 }
 

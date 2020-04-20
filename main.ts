@@ -16,7 +16,9 @@ import {RenderMoviePicker} from "./Modules/Render/RenderMoviePicker";
 import {DebugBar} from "./Modules/DebugBar";
 import {RenderScheduler} from "./Modules/Render/RenderScheduler";
 import {RenderSchedulerForm} from "./Modules/Render/RenderSchedulerForm";
+import {RenderFacilities} from "./Modules/Render/RenderFacilities";
 import {RenderCustomerDetailPanel} from "./Modules/Render/RenderCustomerDetailPanel";
+import {GameSpeedManager} from "./Modules/Manager/GameSpeedManager";
 
 const observer = new Observer;
 const configManager = new ConfigManager;
@@ -25,22 +27,25 @@ const timeManager = new TimeManager(observer);
 
 document.addEventListener('DOMContentLoaded', () => {
     // temporary code, this should come from a save or a "create new game" menu
-    let cinema = new Cinema("Our own Cinema", timeManager, configManager, new FinanceManager(configManager), new MarketingManager());
+    let cinema = new Cinema("Our own Cinema", timeManager, configManager, new FinanceManager(configManager), new MarketingManager(configManager));
     //done tmp code
 
+
     //Object responsible for rendering changes in state
-    let render = new Render(cinema);
+    let render : Render = new Render(cinema);
+    //Object responsible for controlling game speed
+    let gameSpeedManager : GameSpeedManager = new GameSpeedManager(render);
     render.addRender(new RenderLoans(cinema, loanManager));
     render.addRender(new RenderBooths(cinema));
     render.addRender(new RenderRooms(cinema));
     render.addRender(new RenderScheduler(cinema));
     render.addRender(new RenderSchedulerForm(cinema));
     render.addRender(new RenderResearch(cinema));
-    render.addRender(new RenderMarketing(cinema));
+    render.addRender(new RenderMarketing(cinema, gameSpeedManager));
+    render.addRender(new RenderFacilities(cinema));
     render.addRender(new RenderCustomerDetailPanel(cinema));
 
-
-    let renderMoviePicker = new RenderMoviePicker(cinema, render);
+    let renderMoviePicker = new RenderMoviePicker(cinema, gameSpeedManager);
     render.addRender(renderMoviePicker);
     render.render();
 
@@ -63,10 +68,7 @@ document.addEventListener('DOMContentLoaded', () => {
     });
 
     observer.subscribe(observer.HOUR, () => {
-        console.info('An hour has passed');
-
         cinema.boothManager.payHourCost();
-
         render.renderByHour();
     });
 
@@ -80,9 +82,7 @@ document.addEventListener('DOMContentLoaded', () => {
     });
 
     observer.subscribe(observer.WEEK, () => {
-        console.info('A week has passed');
-
-        cinema.marketingManager.weeklyCampaignUpdate();
+        cinema.marketingManager.weeklyCampaignUpdate(cinema);
         render.renderByWeek();
     });
 
