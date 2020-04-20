@@ -8,6 +8,7 @@ import {TicketSaleException} from "../Exception/TicketSaleException";
 import {CustomerAi} from "../Manager/CustomerAi";
 import {InventoryItem} from "./InventoryItem";
 import {Genre} from "./Genre";
+import {CustomerAction} from "../CustomerActions/CustomerAction";
 
 type CustomerLocation = { x: number, y: number };
 
@@ -168,10 +169,10 @@ class Customer {
         }
 
         if(this.genreThought.isHype) {
-            return 'I love ' + genre.name + ' movies. They are all the rage now.';
+            return 'I love ' + this.genreThought.name + ' movies. They are all the rage now.';
         }
         else if(this.genreThought.isUnpopular) {
-            return 'I think ' + genre.name + ' movies are so boring.';
+            return 'I think ' + this.genreThought.name + ' movies are so boring.';
         }
 
         return '';
@@ -231,6 +232,14 @@ class Customer {
         }
 
         this._ai.update();
+    }
+
+    getCurrentAction(): CustomerAction {
+        if(this._ai === null) {
+            throw new Error('this customer does not have an AI assigned!');
+        }
+
+        return this._ai.currentAction;
     }
 }
 

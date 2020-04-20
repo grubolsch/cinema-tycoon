@@ -18,6 +18,13 @@ class WatchMovieAction implements CustomerAction {
     update(cinema: Cinema, customer: Customer): void {
         //do nothing, only time will
     }
+
+    getDescription(cinema: Cinema, customer: Customer): string {
+        if(customer.targetShow.isPlaying(cinema)) {
+            return 'Waiting for the movie '+ customer.targetShow.movie.title + ' to start.';
+        }
+        return "Watching the movie "+ customer.targetShow.movie.title;
+    }
 }
 
 export {WatchMovieAction}
