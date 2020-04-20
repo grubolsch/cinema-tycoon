@@ -1,9 +1,10 @@
 import {MarketingCampaignType} from "./MarketingCampaignType";
+import {ConfigManager} from "../Manager/ConfigManager";
 
 class RadioCampaignType extends MarketingCampaignType {
 
-    constructor() {
-        super('Radio', 500, 6, 15);
+    constructor(config : ConfigManager) {
+        super('Radio', config.radio_base_cost, config.radio_base_bonus);
     }
 }
 
