@@ -18,7 +18,7 @@ class CampaignGenerator {
         this._config = config;
     }
 
-    createCampaign(type: string, duration: number, movie: Movie | null = null) : MarketingCampaign{
+    createCampaign(type: string, duration: number, movie: Movie | null = null, freeTicketAmount: number = 0) : MarketingCampaign{
         let campaignType: MarketingCampaignType;
         switch (type) {
             case 'Flyers':
@@ -38,7 +38,8 @@ class CampaignGenerator {
                 break;
             case 'Tickets':
                 if (movie !== null){
-                    campaignType = new TicketsCampaignType(this._config, movie);
+                    campaignType = new TicketsCampaignType(this._config, movie, freeTicketAmount);
+                    duration = 4; // 4 weeks = 1 month
                     break;
                 }
                 throw CampaignTypeException.noMovieSelected();
