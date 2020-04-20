@@ -5,6 +5,8 @@ import {randomNumber} from "../Utils";
 import {BuyTicketAction} from "../CustomerActions/BuyTicketAction";
 import {CustomerAction} from "../CustomerActions/CustomerAction";
 import {GameAreaCoordinates} from "../Assets/GameAreaCoordinates";
+import {LoanException} from "../Exception/LoanException";
+import {AiException} from "../Exception/AiException";
 
 class CustomerAi {
     private customer : Customer;
@@ -20,8 +22,6 @@ class CustomerAi {
 
         // @todo currently the moving action will direct resolve because there is nothing to move too.
         this._currentAction = new MoveAction(spawnLocation, new BuyTicketAction());
-
-        console.log('start ai', this.customer.name);
     }
 
     ///gets called each tick
@@ -29,8 +29,18 @@ class CustomerAi {
         this._currentAction.update(this.cinema, this.customer);
 
         if(this._currentAction.isFinished(this.cinema, this.customer)) {
-            this._currentAction = this._currentAction.nextAction(this.cinema, this.customer);
-            console.log('NEXT ACTION: ', this._currentAction);
+            try {
+                this._currentAction = this._currentAction.nextAction(this.cinema, this.customer);
+                console.log('NEXT ACTION: ', this._currentAction);
+            }
+            catch(error) {
+                //in the case if an AIException there is nothing to do, the last action was reached
+                if(!(error instanceof AiException)) {
+                    alert('AI ERROR: '+ error.message);
+                } else {
+                    console.log(error)
+                }
+            }
         }
     }
 
