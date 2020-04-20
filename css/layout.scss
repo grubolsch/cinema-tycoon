@@ -218,3 +218,17 @@ div.movie-block {
   li.positive-thought {color: green;}
   li.negative-thought {color: red;}
 }
+
+#incomeReport {
+  tr.income td {
+    color: lightgreen;
+  }
+
+  tr.expense td {
+    color: darkred;;
+  }
+
+  tr.total {
+    font-size: 1.2em;
+  }
+}

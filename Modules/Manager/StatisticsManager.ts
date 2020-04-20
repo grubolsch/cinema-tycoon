@@ -34,23 +34,6 @@ class StatisticsManager {
         this._fansOverTime[year][month][week] = this._cinema.fans;
         this._visitorsOverTime[year][month][week] = this._cinema.boothManager.visitors;
 
-        this._fansOverTime[year][month][1] = this._cinema.fans;
-        this._fansOverTime[year][month][2] = 100;
-        this._fansOverTime[year][month][3] = 200;
-        this._fansOverTime[year][month][4] = 300;
-
-        this._visitorsOverTime[year][month][1] = this._cinema.fans;
-        this._visitorsOverTime[year][month][2] = 100;
-        this._visitorsOverTime[year][month][3] = 200;
-        this._visitorsOverTime[year][month][4] = 300;
-
-        this._creditOverTime[year][month][1] = this._cinema.fans;
-        this._creditOverTime[year][month][2] = 100;
-        this._creditOverTime[year][month][3] = 200;
-        this._creditOverTime[year][month][4] = 300;
-
-
-
         this._cinema.boothManager.resetVisitors();
     }
 

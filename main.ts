@@ -24,6 +24,7 @@ import {CreditChart} from "./Modules/Manager/Graphs/CreditChart";
 import {FanChart} from "./Modules/Manager/Graphs/FanChart";
 import {RenderChart} from "./Modules/Render/Charts/RenderChart";
 import {VisitorChart} from "./Modules/Manager/Graphs/VisitorsChart";
+import {RenderFinancialReport} from "./Modules/Render/RenderFinancialReport";
 
 const observer = new Observer;
 const configManager = new ConfigManager;
@@ -47,7 +48,7 @@ document.addEventListener('DOMContentLoaded', () => {
     render.addRender(new RenderMarketing(cinema));
     render.addRender(new RenderFacilities(cinema));
     render.addRender(new RenderCustomerDetailPanel(cinema));
-
+    render.addRender(new RenderFinancialReport(cinema.financeManager));
 
     let renderChart = new RenderChart(cinema, statisticsManager);
     renderChart.addGraph(new FanChart());
@@ -117,6 +118,7 @@ document.addEventListener('DOMContentLoaded', () => {
         loanManager.update(cinema);
         cinema.genreManager.update();
         cinema.researchManager.update(observer);
+        cinema.financeManager.resetReports();
         render.renderByMonth();
     });
 

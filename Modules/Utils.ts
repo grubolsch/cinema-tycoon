@@ -105,5 +105,10 @@ function shuffle<t>(a : Array<t>) : Array<t> {
 
 var average = (array) => array.reduce((a, b) => a + b) / array.length;
 
-export { number_format, currency, randomNumber, shuffle, average };
+const capitalize = (s) => {
+    if (typeof s !== 'string') return ''
+    return s.charAt(0).toUpperCase() + s.slice(1)
+}
+
+export { number_format, currency, randomNumber, shuffle, average, capitalize };
 

@@ -24,12 +24,7 @@
 
     <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
     <script type="text/javascript">
-        var googleVisualization = null;
         google.charts.load('current', {'packages': ['corechart']});
-        google.charts.setOnLoadCallback(function() {
-            //yes, I just declared a global. Shame on my family! Shame on my dog! Shame on my cow!
-            //googleVisualization = google.visualization;
-        });
 
         function showDebug() {
             document.getElementById('debugBar').style.display = 'block';
@@ -350,13 +345,17 @@
                     <span aria-hidden="true">&times;</span>
                 </button>
             </div>
-            <div class="modal-body" id="statistics-not-available"></div>
-            <div class="modal-body hide" id="statistics-available">
+            <div class="modal-body">
                 <ul class="nav nav-tabs" role="tablist">
                     <li class="nav-item">
-                        <a class="nav-link active" id="general-statistics-tab" data-toggle="tab"
-                           href="#general-statistics" role="tab" aria-controls="general-statistics"
+                        <a class="nav-link active" id="financal-report-tab" data-toggle="tab"
+                           href="#financal-report" role="tab" aria-controls="financal-report"
                            aria-selected="true">General statistics</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" id="general-statistics-tab" data-toggle="tab"
+                           href="#general-statistics" role="tab" aria-controls="general-statistics"
+                           aria-selected="false">General statistics</a>
                     </li>
                     <li class="nav-item">
                         <a class="nav-link" id="statistics-movie-tab" data-toggle="tab" href="#statistics-movie"
@@ -364,8 +363,14 @@
                     </li>
                 </ul>
                 <div class="tab-content">
-                    <div class="tab-pane fade show active" id="general-statistics" role="tabpanel" aria-labelledby="general-statistics-tab">
-                        <div class="container">
+                    <div class="tab-pane fade show active" id="financal-report" role="tabpanel" aria-labelledby="financal-report-tab">
+                        <table id="incomeReport" class="table table-bordered table-striped">
+                            <tbody></tbody>
+                            <tfoot></tfoot>
+                        </table>
+                    </div>
+                    <div class="tab-pane fade" id="general-statistics" role="tabpanel" aria-labelledby="general-statistics-tab">
+                        <div class="container hide" id="statistics-available">
                             <div class="row">
                                 <div class="col-sm">
                                     <div class="chart"  id="chart-credit"></div>
@@ -380,9 +385,12 @@
                                 </div>
                             </div>
                         </div>
+
+                        <p id="statistics-not-available"></p>
                     </div>
                     <div class="tab-pane fade" id="statistics-movie" role="tabpanel"
-                         aria-labelledby="statistics-movie-tab">Todo
+                         aria-labelledby="statistics-movie-tab">
+
                     </div>
                 </div>
             </div>
