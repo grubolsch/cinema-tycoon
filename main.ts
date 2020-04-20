@@ -27,25 +27,25 @@ const timeManager = new TimeManager(observer);
 
 document.addEventListener('DOMContentLoaded', () => {
     // temporary code, this should come from a save or a "create new game" menu
-    let cinema = new Cinema("Our own Cinema", timeManager, configManager, new FinanceManager(configManager), new MarketingManager());
+    let cinema = new Cinema("Our own Cinema", timeManager, configManager, new FinanceManager(configManager), new MarketingManager(configManager));
     //done tmp code
 
 
     //Object responsible for rendering changes in state
     let render : Render = new Render(cinema);
     //Object responsible for controlling game speed
-    let gsm : GameSpeedManager = new GameSpeedManager(render);
+    let gameSpeedManager : GameSpeedManager = new GameSpeedManager(render);
     render.addRender(new RenderLoans(cinema, loanManager));
     render.addRender(new RenderBooths(cinema));
     render.addRender(new RenderRooms(cinema));
     render.addRender(new RenderScheduler(cinema));
     render.addRender(new RenderSchedulerForm(cinema));
     render.addRender(new RenderResearch(cinema));
-    render.addRender(new RenderMarketing(cinema, gsm));
+    render.addRender(new RenderMarketing(cinema, gameSpeedManager));
     render.addRender(new RenderFacilities(cinema));
     render.addRender(new RenderCustomerDetailPanel(cinema));
 
-    let renderMoviePicker = new RenderMoviePicker(cinema, gsm);
+    let renderMoviePicker = new RenderMoviePicker(cinema, gameSpeedManager);
     render.addRender(renderMoviePicker);
     render.render();
 

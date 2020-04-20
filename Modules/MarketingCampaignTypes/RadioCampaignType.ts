@@ -1,10 +1,10 @@
 import {MarketingCampaignType} from "./MarketingCampaignType";
-import {Cinema} from "../Entity/Cinema";
+import {ConfigManager} from "../Manager/ConfigManager";
 
 class RadioCampaignType extends MarketingCampaignType {
 
-    constructor(cinema : Cinema) {
-        super('Radio', (500 * cinema.roomManager.rooms.size), 15);
+    constructor(config : ConfigManager) {
+        super('Radio', config.radio_base_cost, config.radio_base_bonus);
     }
 }
 

@@ -1,10 +1,10 @@
 import {MarketingCampaignType} from "./MarketingCampaignType";
-import {Cinema} from "../Entity/Cinema";
+import {ConfigManager} from "../Manager/ConfigManager";
 
 class TvCampaignType extends MarketingCampaignType {
 
-    constructor(cinema : Cinema) {
-        super('TV', (750 * cinema.roomManager.rooms.size), 20);
+    constructor(config : ConfigManager) {
+        super('TV', config.tv_base_cost, config.tv_base_bonus);
     }
 }
 

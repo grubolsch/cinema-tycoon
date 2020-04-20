@@ -5,18 +5,16 @@ import {Movie} from "../Entity/Movie";
 class RenderMarketing implements RenderInterface {
 
     private readonly _cinema: Cinema;
-    private readonly _gsm: GameSpeedManager;
+    private readonly _gameSpeedManager: GameSpeedManager;
 
-    constructor(cinema: Cinema, gsm: GameSpeedManager) {
+    constructor(cinema: Cinema, gameSpeedManager: GameSpeedManager) {
         this._cinema = cinema;
-        this._gsm = gsm;
+        this._gameSpeedManager = gameSpeedManager;
         this.renderOneTime();
     }
 
     private readonly advertisingModal = $('#advertisingModal');
     private readonly advertisingBtn = <HTMLElement>document.getElementById('advertisingButton');
-    private readonly activeCampaignSpan = <HTMLElement>document.getElementById('active_campaign');
-    private readonly durationCampaignSpan = <HTMLElement>document.getElementById('duration_campaign');
     private readonly durationPreview = <HTMLElement>document.getElementById('MarketingDurationPreview');
     private readonly movieDurationPreview = <HTMLElement>document.getElementById('movieMarketingDurationPreview');
     private readonly durationRange = <HTMLElement>document.getElementById('marketingDurationRange');
@@ -30,18 +28,12 @@ class RenderMarketing implements RenderInterface {
 
 
     render(): void {
-        if (this._cinema.marketingManager.activeMarketingCampaign !== null) {
-            this.activeCampaignSpan.innerText = this._cinema.marketingManager.activeMarketingCampaign.type.name;
-            this.durationCampaignSpan.innerText = '| time left: ' + this._cinema.marketingManager.activeMarketingCampaign.remainingWeeks + ' weeks';
-        } else {
-            this.activeCampaignSpan.innerText = 'No active campaign';
-            this.durationCampaignSpan.innerText = '';
-        }
+
     }
 
     public renderOneTime() {
         this.advertisingBtn.addEventListener('click', _ => {
-            this._gsm.pause();
+            this._gameSpeedManager.pause();
             this.updateMovieSelector();
             this.updateActiveCampaigns();
             this.advertisingModal.modal('show');
@@ -49,6 +41,10 @@ class RenderMarketing implements RenderInterface {
 
         this.durationRange.addEventListener('input', (e: Event) => {
             this.updateMarketingSlider(e);
+        });
+
+        this.movieDurationRange.addEventListener('input', (e: Event) => {
+            this.updateMovieMarketingSlider(e);
         });
 
         this.movieMarketingTypeOptions.forEach(option => {
@@ -82,7 +78,6 @@ class RenderMarketing implements RenderInterface {
                 (<HTMLInputElement>this.movieDurationRange).value = '1';
             })
         })
-
     }
 
     private updateMovieSelector() {
@@ -110,54 +105,47 @@ class RenderMarketing implements RenderInterface {
     private submitMarketingChoice(): void {
         let rangeValue: number = parseInt((<HTMLInputElement>this.durationRange).value);
         rangeValue = this._cinema.marketingManager.checkWeekRangeMinMaxValue(rangeValue);
-
         let selectedOption: HTMLInputElement = <HTMLInputElement>this.marketingTypeOptions.find((element: HTMLInputElement) => {
             return element.checked;
         });
-
         if (selectedOption !== undefined) {
-            let campaign = this._cinema.marketingManager.createCampaign(selectedOption.value, rangeValue, this._cinema);
+            let campaign = this._cinema.marketingManager.createCampaign(selectedOption.value, rangeValue);
             this._cinema.marketingManager.startCampaign(campaign, this._cinema);
+            this.advertisingModal.modal('hide');
         }
     }
 
     private submitMovieMarketingChoice(): void {
         let rangeValue: number = parseInt((<HTMLInputElement>this.movieDurationRange).value);
         rangeValue = this._cinema.marketingManager.checkWeekRangeMinMaxValue(rangeValue);
-
         let selectedOption: HTMLInputElement = <HTMLInputElement>this.movieMarketingTypeOptions.find((element: HTMLInputElement) => {
             return element.checked;
         });
-
         let movieId = this.movieMarketingSelector.options[this.movieMarketingSelector.selectedIndex].value;
-
         if (selectedOption !== undefined) {
-            let campaign = this._cinema.marketingManager.createCampaign(selectedOption.value, rangeValue, this._cinema, this._cinema.movieManager.findMovie(parseInt(movieId)));
+            let campaign = this._cinema.marketingManager.createCampaign(selectedOption.value, rangeValue, this._cinema.movieManager.findMovie(parseInt(movieId)));
             this._cinema.marketingManager.startMovieCampaign(campaign, this._cinema, movieId);
+            this.advertisingModal.modal('hide');
         }
     }
 
     private updateMarketingSlider(e: Event) {
-        let calculatedCost: number;
+        let cost : number;
         this.marketingTypeOptions.forEach((option: HTMLInputElement) => {
-            let costPerWeek: number;
-            if (option.checked && option.dataset.cost) {
-                costPerWeek = parseInt(option.dataset.cost);
-                calculatedCost = parseInt((<HTMLInputElement>e.target).value) * costPerWeek;
+            if (option.checked) {
+                cost = this._cinema.marketingManager.calculatePreviewCost(option.value,parseInt((<HTMLInputElement>e.target).value),this._cinema);
             }
-            this.durationPreview.innerText = (<HTMLInputElement>e.target).value + " -> cost: " + calculatedCost;
+            this.durationPreview.innerText = (<HTMLInputElement>e.target).value + " -> cost: " + cost;
         });
     }
 
     private updateMovieMarketingSlider(e: Event) {
-        let calculatedCost: number;
+        let cost: number;
         this.movieMarketingTypeOptions.forEach((option: HTMLInputElement) => {
-            let costPerWeek: number;
-            if (option.checked && option.dataset.cost) {
-                costPerWeek = parseInt(option.dataset.cost);
-                calculatedCost = parseInt((<HTMLInputElement>e.target).value) * costPerWeek;
+            if (option.checked) {
+                cost = this._cinema.marketingManager.calculatePreviewCost(option.value,parseInt((<HTMLInputElement>e.target).value),this._cinema, true);
             }
-            this.movieDurationPreview.innerText = (<HTMLInputElement>e.target).value + " -> cost: " + calculatedCost;
+            this.movieDurationPreview.innerText = (<HTMLInputElement>e.target).value + " -> cost: " + cost;
         });
     }
 }

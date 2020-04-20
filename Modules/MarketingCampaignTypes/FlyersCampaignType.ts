@@ -1,9 +1,9 @@
 import {MarketingCampaignType} from "./MarketingCampaignType";
-import {Cinema} from "../Entity/Cinema";
+import {ConfigManager} from "../Manager/ConfigManager";
 
 class FlyersCampaignType extends MarketingCampaignType {
-    constructor(cinema : Cinema) {
-        super('Flyers', (50 * cinema.roomManager.rooms.size), 5);
+    constructor(config : ConfigManager) {
+        super('Flyers', config.flyers_base_cost, config.flyers_base_bonus);
     }
 }
 

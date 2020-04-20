@@ -1,10 +1,10 @@
 import {MarketingCampaignType} from "./MarketingCampaignType";
-import {Cinema} from "../Entity/Cinema";
+import {ConfigManager} from "../Manager/ConfigManager";
 
 class InternetCampaignType extends MarketingCampaignType {
 
-    constructor(cinema : Cinema) {
-        super('Internet', (1000 * cinema.roomManager.rooms.size), 25);
+    constructor(config : ConfigManager) {
+        super('Internet', config.internet_base_cost, config.internet_base_bonus);
     }
 }
 

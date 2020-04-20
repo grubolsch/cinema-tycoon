@@ -80,5 +80,9 @@ class Movie {
     addFreeTickets(amount: number) : void {
         this._freeTicketsRemaining += amount;
     }
+
+    removeFreeTicket() : void {
+        this._freeTicketsRemaining--;
+    }
 }
 export {Movie};
