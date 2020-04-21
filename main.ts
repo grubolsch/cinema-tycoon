@@ -18,6 +18,15 @@ import {RenderScheduler} from "./Modules/Render/RenderScheduler";
 import {RenderSchedulerForm} from "./Modules/Render/RenderSchedulerForm";
 import {RenderFacilities} from "./Modules/Render/RenderFacilities";
 import {RenderCustomerDetailPanel} from "./Modules/Render/RenderCustomerDetailPanel";
+import {StatisticsManager} from "./Modules/Manager/StatisticsManager";
+import {randomNumber} from "./Modules/Utils";
+import {CreditChart} from "./Modules/Manager/Graphs/CreditChart";
+import {FanChart} from "./Modules/Manager/Graphs/FanChart";
+import {RenderChart} from "./Modules/Render/RenderChart";
+import {VisitorChart} from "./Modules/Manager/Graphs/VisitorsChart";
+import {RenderFinancialReport} from "./Modules/Render/RenderFinancialReport";
+import {RenderMovieDetailPanel} from "./Modules/Render/RenderMovieDetailPanel";
+import {MovieSaleOverTime} from "./Modules/Manager/Graphs/MovieSaleOverTime";
 import {GameSpeedManager} from "./Modules/Manager/GameSpeedManager";
 
 const observer = new Observer;
@@ -27,7 +36,7 @@ const timeManager = new TimeManager(observer);
 
 document.addEventListener('DOMContentLoaded', () => {
     // temporary code, this should come from a save or a "create new game" menu
-    let cinema = new Cinema("Our own Cinema", timeManager, configManager, new FinanceManager(configManager), new MarketingManager(configManager));
+    let cinema = new Cinema("Our own Cinema", timeManager, configManager, new FinanceManager(configManager));
     //done tmp code
 
 
@@ -44,6 +53,14 @@ document.addEventListener('DOMContentLoaded', () => {
     render.addRender(new RenderMarketing(cinema, gameSpeedManager));
     render.addRender(new RenderFacilities(cinema));
     render.addRender(new RenderCustomerDetailPanel(cinema));
+    render.addRender(new RenderFinancialReport(cinema.financeManager));
+    render.addRender(new RenderMovieDetailPanel(cinema));
+
+    let renderChart = new RenderChart(cinema);
+    renderChart.addGraph(new FanChart());
+    renderChart.addGraph(new CreditChart());
+    renderChart.addGraph(new VisitorChart());
+    render.addRender(renderChart);
 
     let renderMoviePicker = new RenderMoviePicker(cinema, gameSpeedManager);
     render.addRender(renderMoviePicker);
@@ -83,6 +100,8 @@ document.addEventListener('DOMContentLoaded', () => {
 
     observer.subscribe(observer.WEEK, () => {
         cinema.marketingManager.weeklyCampaignUpdate(cinema);
+        cinema.statisticsManager.updateWeekly();
+        cinema.marketingManager.weeklyCampaignUpdate();
         render.renderByWeek();
     });
 
@@ -92,6 +111,7 @@ document.addEventListener('DOMContentLoaded', () => {
         loanManager.update(cinema);
         cinema.genreManager.update();
         cinema.researchManager.update(observer);
+        cinema.financeManager.resetReports();
         render.renderByMonth();
     });
 

@@ -7,9 +7,16 @@
 $heightArea: 400;
 $widthArea: 400;
 
+$positive: lightgreen;
+$negative: darkred;
+
 .clickable {
   cursor: pointer;
   color: blue;
+}
+
+.hide {
+  display: none;
 }
 
 .booth {
@@ -96,19 +103,6 @@ div.movie-block {
     background-color: lightgreen;
   }
 
-  .movie-stamp {
-    display: none;
-    transform: rotate(45deg);
-    position: absolute;
-    top: 10px;
-    right: -35px;
-    border: 1px gold solid;
-    color: gold;
-    background-color: black;
-    padding: 6px;
-    opacity: 0.7;
-  }
-
   .movie-block-sub {
     min-height: 435px;
   }
@@ -121,6 +115,37 @@ div.movie-block {
     padding: 6px 0px;
   }
 }
+
+.movie-stamp {
+  display: none;
+  transform: rotate(45deg);
+  position: absolute;
+  top: 10px;
+  right: -35px;
+  border: 1px gold solid;
+  color: gold;
+  background-color: black;
+  padding: 6px;
+  opacity: 0.7;
+}
+
+#movie-detail-panel {
+  position: relative;
+
+  h2 {
+    margin-top: 10px;
+  }
+}
+
+#movie-detail-selector {
+  width: 100%;
+  height: 30px;
+}
+
+.tab-content {
+  margin-top: 10px;
+}
+
 .customer {
   height: 95px;
   width: 70px;
@@ -213,4 +238,26 @@ div.movie-block {
 
   li.positive-thought {color: green;}
   li.negative-thought {color: red;}
+}
+
+#incomeReport {
+  tr.income td {
+    color: $positive;
+  }
+
+  tr.expense td {
+    color: $negative;
+  }
+
+  tr.total {
+    font-size: 1.2em;
+  }
+}
+
+.positive {
+  color: $positive !important;
+}
+
+.negative {
+  color: $negative !important;
 }

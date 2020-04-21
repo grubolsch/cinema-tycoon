@@ -1,16 +1,15 @@
 import {CustomerThought} from "./CustomerThought";
 import {CustomerManager} from "../Manager/CustomerManager";
 import {CustomerAppearance} from "../Render/CustomerAppearance";
-import {Room} from "./Room";
 import {ConfigManager} from "../Manager/ConfigManager";
 import {Show} from "./Show";
 import {Cinema} from "./Cinema";
 import {Movie} from "./Movie";
 import {TicketSaleException} from "../Exception/TicketSaleException";
 import {CustomerAi} from "../Manager/CustomerAi";
-import {InventoryItem} from "./InventoryItem";
 import {Genre} from "./Genre";
 import {CustomerAction} from "../CustomerActions/CustomerAction";
+import {InventoryItem} from "./InventoryItem";
 
 type CustomerLocation = { x: number, y: number };
 
@@ -36,7 +35,7 @@ class Customer {
     private _thoughts: Array<CustomerThought> = [];
     private _moneySpent: number = 0;
     private _appearance: CustomerAppearance;
-    private genreThought : Genre|null = null;
+    private genreThought: Genre | null = null;
     private _targetShow: Show;
     private _inventory: Map<string, InventoryItem> = new Map<string, InventoryItem>();
 
@@ -166,14 +165,13 @@ class Customer {
     genreComment(genre: Genre) {
         //once we set a comment for a genre that customer sticks with it.
 
-        if(this.genreThought === null) {
+        if (this.genreThought === null) {
             this.genreThought = genre;
         }
 
-        if(this.genreThought.isHype) {
+        if (this.genreThought.isHype) {
             return 'I love ' + this.genreThought.name + ' movies. They are all the rage now.';
-        }
-        else if(this.genreThought.isUnpopular) {
+        } else if (this.genreThought.isUnpopular) {
             return 'I think ' + this.genreThought.name + ' movies are so boring.';
         }
 
@@ -219,6 +217,8 @@ class Customer {
 
         this._plans.set(this.PLAN_WATCH_MOVIE, true);
 
+        this.targetShow.movie.bookTicket(cinema.ticketPrice, cinema.timeManager);
+
         this.pay(cinema.ticketPrice);
         return cinema.ticketPrice;
     }
@@ -236,11 +236,11 @@ class Customer {
         this._ai.update();
     }
 
-    calculateHappiness(config : ConfigManager) {
-        let movieQuality : number = 0;
-        let roomQuality : number = 0;
+    calculateHappiness(config: ConfigManager) {
+        let movieQuality: number = 0;
+        let roomQuality: number = 0;
 
-        if(this.plans.get(this.PLAN_WATCH_MOVIE) === true) {
+        if (this.plans.get(this.PLAN_WATCH_MOVIE) === true) {
             //make sure he actually watched the movie (not just left the cinema).
             if (this.targetShow.movie != null) {
                 movieQuality = this.targetShow.movie.rating * config.movieToQualityFactor;
@@ -261,20 +261,20 @@ class Customer {
         return movieQuality + roomQuality + thoughtBonus - thoughtPenalty;
     }
 
-    public getPositiveThoughts() : Array<CustomerThought> {
+    public getPositiveThoughts(): Array<CustomerThought> {
         return this.thoughts.filter(function (thought) {
             return thought.postive;
         });
     }
 
-    public getNegativeThoughts() : Array<CustomerThought> {
+    public getNegativeThoughts(): Array<CustomerThought> {
         return this.thoughts.filter(function (thought) {
             return !thought.postive;
         });
     }
 
     getCurrentAction(): CustomerAction {
-        if(this._ai === null) {
+        if (this._ai === null) {
             throw new Error('this customer does not have an AI assigned!');
         }
 

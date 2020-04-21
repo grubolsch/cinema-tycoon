@@ -152,4 +152,4 @@ class TimeManager {
     }
 }
 
-export { TimeManager };
+export { TimeManager, MONTHS };

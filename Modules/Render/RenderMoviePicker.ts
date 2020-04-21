@@ -89,13 +89,11 @@ class RenderMoviePicker implements RenderInterface, RenderByWeekInterface {
         (<HTMLElement>clone.querySelector('.movie-cost span')).innerHTML = currency(movie.cost);
         (<HTMLElement>clone.querySelector('.movie-block')).dataset.movie = `${movie.id}`;
 
-        for (let i = 0; i < this._cinema.config.numberOfReviews; i++) {
-            let rating = randomNumber(Math.max(movie.rating - this._cinema.config.popularityDeviation, 1), Math.min(movie.rating + this._cinema.config.popularityDeviation, 10)) ;
-
+        movie.reviews.forEach((review) => {
             let li = document.createElement('li');
-            li.innerText = (rating+1) + "/10: " + reviews.reviews[rating-1][randomNumber(0, reviews.reviews[rating-1].length - 1)];
+            li.innerText = review;
             (<HTMLElement>clone.querySelector('.movie-reviews')).appendChild(li);
-        }
+        });
 
         if (movie.type.isArthouse) {
             (<HTMLElement>clone.querySelector('.movie-arthouse')).style.display = 'block';

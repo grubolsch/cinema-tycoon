@@ -4,6 +4,8 @@ import {CustomerThought} from "./CustomerThought";
 import {CustomerInQueue} from "./CustomerInQueue";
 import {MoviePickerCustomer} from "../Manager/MoviePickerCustomer";
 import {Movie} from "./Movie";
+import {LoanException} from "../Exception/LoanException";
+import {TicketSaleException} from "../Exception/TicketSaleException";
 
 class Booth {
     private _hasPc: boolean = false;
@@ -99,10 +101,12 @@ class Booth {
             this._ticketsSold++;
         }
         catch(error) {
-            customer.plans.set(customer.PLAN_LEAVE, true);
-
-            console.log(error.message);
-            alert(error.message);
+            if(error instanceof TicketSaleException) {
+                customer.plans.set(customer.PLAN_LEAVE, true);
+            } else {
+                //this should never happen
+                alert('Unknown error BoothManager: '+ error.message);
+            }
         }
     }
 

@@ -31,14 +31,14 @@ class CustomerAi {
         if(this._currentAction.isFinished(this.cinema, this.customer)) {
             try {
                 this._currentAction = this._currentAction.nextAction(this.cinema, this.customer);
-                console.log('NEXT ACTION: ', this._currentAction);
             }
             catch(error) {
                 //in the case if an AIException there is nothing to do, the last action was reached
                 if(!(error instanceof AiException)) {
                     alert('AI ERROR: '+ error.message);
                 } else {
-                    console.log(error)
+                    //this should never happen
+                    console.log('ai unexpected error', error);
                 }
             }
         }
