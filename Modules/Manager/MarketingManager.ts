@@ -26,6 +26,11 @@ class MarketingManager {
         return ((campaign.type.cost * cinema.roomManager.rooms.size) * campaign.duration);
     }
 
+    calculateFreeTicketsCost(amount: number, cinema: Cinema): number{
+        let costPerTicket = (cinema.ticketPrice / 5);
+        return (amount * costPerTicket);
+    }
+
     calculatePreviewCost(type: string, duration: number, cinema : Cinema, movie: boolean = false): number {
         let campaignGenerator: CampaignGenerator = new CampaignGenerator(this._config);
         let campaign = campaignGenerator.createCampaign(type, duration);

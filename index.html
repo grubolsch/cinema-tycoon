@@ -59,7 +59,9 @@
             </button>
         </td>
         <td>
-            <button rel="facilities" class="btn btn-primary top-menu" data-toggle="modal" data-target="#facilitiesModal">Facilities</button>
+            <button rel="facilities" class="btn btn-primary top-menu" data-toggle="modal"
+                    data-target="#facilitiesModal">Facilities
+            </button>
         </td>
         <td>
             <button rel="tickets" class="btn btn-primary top-menu">Tickets</button>
@@ -95,7 +97,8 @@
                 <!-- Nav tabs -->
                 <div role="tabpanel">
                     <ul class="nav nav-tabs" role="tablist">
-                        <li class="nav-item"><a class="nav-link active" data-toggle="tab" href="#genericTab" role="tab" aria-controls="generic-marketing" aria-selected="true">Generic</a></li>
+                        <li class="nav-item"><a class="nav-link active" data-toggle="tab" href="#genericTab" role="tab"
+                                                aria-controls="generic-marketing" aria-selected="true">Generic</a></li>
                         <li class="nav-item">
                             <a class="nav-link" data-toggle="tab" href="#movieTab"
                                role="tab" aria-controls="movie-marketing" aria-selected="false">Movie</a>
@@ -107,7 +110,7 @@
                     </ul>
                     <div class="tab-content">
                         <div role="tabpanel" class="tab-pane active" id="genericTab">
-                            <div class="form-group">
+                            <div class="form-group mt-4">
                                 <div class="radio">
                                     <label><input type="radio" name="optMarketing" data-cost="50" value="Flyers"
                                                   checked>Flyers</label>
@@ -129,8 +132,12 @@
                                                   value="Internet">Internet</label>
                                 </div>
                                 <hr>
-                                <label for="marketingDurationRange">Choose duration: <span
-                                        id="MarketingDurationPreview"></span></label>
+                                <div class="row">
+                                    <span>Total cost: <span id="costPreviewGeneric"></span></span>
+                                </div>
+                                <div class="row">
+                                    <span>duration: <span id="marketingDurationPreview"></span> week(s)</span>
+                                </div>
                                 <input type="range" class="form-control-range" value="1" min="1" max="12"
                                        id="marketingDurationRange">
                                 <hr>
@@ -140,7 +147,7 @@
                             </div>
                         </div>
                         <div role="tabpanel" class="tab-pane" id="movieTab">
-                            <div class="form-group">
+                            <div class="form-group mt-4">
                                 <label for="movieMarketingSelector">Choose a movie</label>
                                 <select name="movieMarketingSelect" id="movieMarketingSelector">
 
@@ -165,23 +172,32 @@
                                     <label><input type="radio" name="optMovieMarketing" data-cost="1000"
                                                   value="Internet">Internet</label>
                                 </div>
+                                <hr>
                                 <div class="radio">
-                                    <label><input type="radio" name="optMovieMarketing" data-cost="0" value="Tickets">Free
+                                    <label><input type="radio" name="optMovieMarketing" value="Tickets">Free
                                         tickets</label>
                                 </div>
                                 <hr>
-                                <label for="movieMarketingDurationRange">Choose duration: <span
-                                        id="movieMarketingDurationPreview"></span></label>
-                                <input type="range" class="form-control-range" value="1" min="1" max="12"
-                                       id="movieMarketingDurationRange">
+                                <div id="movieRangeBox" class="my-4 w-100">
+                                    <input type="range" id="movieMarketingDurationRange" class="form-control-range"
+                                           value="1" min="1" max="12">
+                                </div>
+
+                                <div class="">
+                                    <span>Total cost: € <strong><span id="costPreviewMovie"></span></strong></span>
+                                </div>
+                                <div class="">
+                                    <span>duration: <strong><span id="movieMarketingDurationPreview"></span></strong> week(s)</span>
+                                </div>
                                 <hr>
                                 <button type="submit" class="btn btn-success" id="movieMarketingSubmit">
                                     Confirm
                                 </button>
                             </div>
                         </div>
+
                         <div role="tabpanel" class="tab-pane" id="activeTab">
-                            <ul id="activeCampaigns">
+                            <ul id="activeCampaigns" class="mt-6">
 
                             </ul>
                         </div>
@@ -297,8 +313,9 @@
 
                 <template id="build-facilities-template">
                     <div class="col-sm">
-<!--                        TODO add more info?-->
-                        <button class="build-facility btn btn-primary">Build <span class="facility-type"></span></button>
+                        <!--                        TODO add more info?-->
+                        <button class="build-facility btn btn-primary">Build <span class="facility-type"></span>
+                        </button>
                     </div>
                 </template>
             </div>
