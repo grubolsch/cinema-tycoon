@@ -1,10 +1,11 @@
 import {Movie} from "../Entity/Movie";
-import {Cinema} from "../Entity/Cinema";
 
 class FreeTicketDistributor {
-    private _cinema: Cinema;
+    private _movie: Movie;
 
-
+    constructor(movie: Movie) {
+        this._movie = movie;
+    }
 }
 
 export {FreeTicketDistributor}

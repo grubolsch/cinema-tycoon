@@ -4,6 +4,7 @@ import {ReleaseDate} from "./ReleaseDate";
 import {MovieManager} from "../Manager/MovieManager";
 import {Cinema} from "./Cinema";
 import {MarketingCampaign} from "./MarketingCampaign";
+import {FreeTicketDistributor} from "../Manager/FreeTicketDistributor";
 
 class Movie {
 
@@ -18,6 +19,7 @@ class Movie {
     private readonly _releaseDate: ReleaseDate;
     private _releaseDatePenalty: number = 0;
     private _freeTicketsRemaining: number = 0;
+    private _freeTicketDistributor: FreeTicketDistributor;
 
     constructor(title: string, rating: number, startPopularity: number, genre: Genre, type: MovieType, duration: number, releaseDate: ReleaseDate, cost: number) {
         this._id = MovieManager.counter++;
@@ -29,6 +31,8 @@ class Movie {
         this._releaseDate = releaseDate;
         this._cost = cost;
         this._startPopularity = startPopularity;
+
+        this._freeTicketDistributor = new FreeTicketDistributor(this);
     }
 
     get title(): string {
