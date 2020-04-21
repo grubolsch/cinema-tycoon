@@ -1,6 +1,7 @@
 import {Cinema} from "../Entity/Cinema";
 import {GameSpeedManager} from "../Manager/GameSpeedManager";
 import {Movie} from "../Entity/Movie";
+import {MarketingCampaign} from "../Entity/MarketingCampaign";
 
 class RenderMarketing implements RenderInterface {
 
@@ -61,7 +62,16 @@ class RenderMarketing implements RenderInterface {
         });
 
         this._submitMovieMarketingButton.addEventListener('click', () => {
-            this.submitMovieMarketingChoice();
+            let selected: HTMLInputElement = <HTMLInputElement>this._movieMarketingTypeOptions.find((option) => {
+                return option.checked;
+            })
+            debugger;
+            if (selected.value !== 'Tickets') {
+                debugger;
+                this.submitMovieMarketingChoice();
+                return;
+            }
+            this.submitMovieMarketingChoice(true, parseInt((<HTMLInputElement>document.getElementById('freeTicketAmountSlider')).value));
         });
 
         this._marketingTypeOptions.forEach(option => {
@@ -110,6 +120,7 @@ class RenderMarketing implements RenderInterface {
     }
 
     updateActiveCampaigns() {
+        this._activeCampaignsList.innerHTML = '';
         if (this._cinema.marketingManager.activeMarketingCampaign) {
             let genericItem = document.createElement('li');
             genericItem.innerText = this._cinema.marketingManager.activeMarketingCampaign.type.name + ' | ' + this._cinema.marketingManager.activeMarketingCampaign.remainingWeeks + ' weeks remaining';
@@ -135,7 +146,7 @@ class RenderMarketing implements RenderInterface {
         }
     }
 
-    private submitMovieMarketingChoice(): void {
+    private submitMovieMarketingChoice(ticketsCampaign: boolean = false, ticketsAmount: number = 0): void {
         let rangeValue: number = parseInt((<HTMLInputElement>this._movieDurationRange).value);
         rangeValue = this._cinema.marketingManager.checkWeekRangeMinMaxValue(rangeValue);
         let selectedOption: HTMLInputElement = <HTMLInputElement>this._movieMarketingTypeOptions.find((element: HTMLInputElement) => {
@@ -143,7 +154,12 @@ class RenderMarketing implements RenderInterface {
         });
         let movieId = this._movieMarketingSelector.options[this._movieMarketingSelector.selectedIndex].value;
         if (selectedOption !== undefined) {
-            let campaign = this._cinema.marketingManager.createCampaign(selectedOption.value, rangeValue, this._cinema.movieManager.findMovie(parseInt(movieId)));
+            let campaign: MarketingCampaign;
+            if (ticketsCampaign) {
+                campaign = this._cinema.marketingManager.createCampaign(selectedOption.value, rangeValue, this._cinema.movieManager.findMovie(parseInt(movieId)), ticketsAmount);
+            } else {
+                campaign = this._cinema.marketingManager.createCampaign(selectedOption.value, rangeValue, this._cinema.movieManager.findMovie(parseInt(movieId)));
+            }
             this._cinema.marketingManager.startMovieCampaign(campaign, this._cinema, movieId);
             this._advertisingModal.modal('hide');
         }

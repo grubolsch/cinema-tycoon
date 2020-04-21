@@ -14,13 +14,16 @@ class MarketingManager {
         this._config = config;
     }
 
-    createCampaign(type: string, duration: number, movie: Movie | null = null): MarketingCampaign {
+    createCampaign(type: string, duration: number, movie: Movie | null = null, freeTicketAmount: number = 0): MarketingCampaign {
         let campaignGenerator: CampaignGenerator = new CampaignGenerator(this._config);
-        return campaignGenerator.createCampaign(type, duration, movie);
+        return campaignGenerator.createCampaign(type, duration, movie, freeTicketAmount);
     }
 
     calculateCost(campaign: MarketingCampaign, cinema: Cinema): number {
         if (campaign.movie !== null) {
+            if (campaign.type.name === 'Tickets'){
+                return (campaign.type.cost * campaign.movie.freeTicketsRemaining);
+            }
             return (campaign.type.cost * campaign.duration);
         }
         return ((campaign.type.cost * cinema.roomManager.rooms.size) * campaign.duration);
