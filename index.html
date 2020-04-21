@@ -216,22 +216,17 @@
 <!-- MoviePicker Modal -->
 <div class="modal fade" id="moviePickerModal" tabindex="-1" role="dialog" aria-labelledby="ModalCenterTitle"
      aria-hidden="true" data-backdrop="static" data-keyboard="false">
-    <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
+    <div class="modal-dialog modal-dialog-centered modal-xl" role="document">
         <div class="modal-content">
             <div class="modal-header">
                 <h2>A new week, a new selections of movies!</h2>
             </div>
-            <div class="modal-body text-center">
+            <div class="modal-body">
                 <div class="container">
-                    <div class="row" id="movies-container">
-
-                    </div>
-                    <div class="row">
-                        <div class="col" id="movies-button-container"></div>
-                        <div class="col" id="movies-error-container"></div>
-                    </div>
+                    <div class="row d-flex justify-content-center" id="movies-error-container"></div>
+                    <div class="row mb-2" id="movies-container"></div>
+                    <div class="row d-flex justify-content-center mb-2" id="movies-button-container"></div>
                 </div>
-
                 <template id="movie-template">
                     <div class="col-sm-4">
                         <div class="movie-block">
