@@ -169,8 +169,6 @@ class RenderScheduler implements RenderInterface, RenderByHourInterface {
                 movieElement.dataset.show = showId.toString();
                 movieElement.dataset.room = room.id.toString();
                 event.target.appendChild(movieElement);
-
-                console.log('shows', self._cinema.scheduler.getShowsByRoom(room));
             });
         });
     }
@@ -229,23 +227,53 @@ class RenderScheduler implements RenderInterface, RenderByHourInterface {
         this._table.appendChild(tbody);
 
         var self = this;
-        this._cinema.roomManager.rooms.forEach(function(room : Room) {
-            let tr = document.createElement('tr');
-            let td = document.createElement('th');
-            td.innerHTML = room.name;
-            tr.appendChild(td);
-
-            self._timePoints.forEach(function(timePoint) {
-                let td = document.createElement('td');
-                td.innerHTML = '';
-                td.className = 'drop-enabled';
-                td.dataset.timeslot = timePoint.timeInMinutes.toString();
-                td.dataset.room = room.id.toString();
-                tr.appendChild(td);
-            });
-
-            tbody.appendChild(tr);
+        this._cinema.roomManager.rooms.forEach((room: Room) => {
+            this.renderRow(room);
         });
+    }
+
+    private renderRow(room : Room) {
+        let tr = document.createElement('tr');
+        let td = document.createElement('th');
+        td.innerHTML = room.name;
+        tr.appendChild(td);
+
+        console.log('render row');
+
+        let showsByTime = new Map<number, Show>();
+        this._cinema.scheduler.getShowsByRoom(room).forEach(function(show) {
+            showsByTime.set(show.start.timeInMinutes, show);
+        });
+
+        let skipsCells = 0;
+        this._timePoints.forEach(function(timePoint) {
+            if(skipsCells > 0) {
+                skipsCells--;
+                return;
+            }
+
+            let td = document.createElement('td');
+            td.innerHTML = '';
+            td.className = 'drop-enabled';
+            td.dataset.timeslot = timePoint.timeInMinutes.toString();
+            td.dataset.room = room.id.toString();
+
+            if(showsByTime.has(timePoint.timeInMinutes)) {
+                let show : Show = showsByTime.get(timePoint.timeInMinutes)!;
+                td.innerHTML = show.movie.title;
+
+                let blockLength = Math.ceil(show.showConfiguration.duration / 30);
+
+                td.colSpan = blockLength;
+                skipsCells = blockLength-1;
+
+                console.log('blocks', show.showConfiguration.duration, blockLength);
+            }
+
+            tr.appendChild(td);
+        });
+
+        this._table.querySelector('tbody')!.appendChild(tr);
     }
 }
 

@@ -218,7 +218,7 @@ class Customer {
         this._plans.set(this.PLAN_WATCH_MOVIE, true);
 
         this.targetShow.movie.bookTicket(cinema.ticketPrice, cinema.timeManager);
-
+        this.targetShow.sellTicket();
         this.pay(cinema.ticketPrice);
         return cinema.ticketPrice;
     }

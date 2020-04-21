@@ -42,7 +42,7 @@ class Scheduler {
 
     getShowsByRoom(room : Room): Array<Show> {
         if(!this._shows.has(room.id)) {
-            console.log('nothign found', this._shows)
+            console.log('no shows found', this._shows);
             return [];
         }
 
