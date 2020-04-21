@@ -4,23 +4,21 @@ import {ConfigManager} from "../Manager/ConfigManager";
 import {MarketingManager} from "../Manager/MarketingManager";
 import {LoanTaken} from "./LoanTaken";
 import {BoothManager} from "../Manager/BoothManager";
-import {Customer} from "./Customer";
 import {RoomManager} from "../Manager/RoomManager";
-import {Movie} from "./Movie";
 import {Scheduler} from "./Scheduler";
 import {ResearchManager} from "../Manager/ResearchManager";
 import {MovieManager} from "../Manager/MovieManager";
 import {GenreManager} from "../Manager/GenreManager";
-import {TimePoint} from "./TimePoint";
 import {CustomerSpawnerManager} from "../Manager/CustomerSpawnerManager";
 import {ReleaseDatePenaltyManager} from "../Manager/ReleaseDatePenaltyManager";
 import {CustomerManager} from "../Manager/CustomerManager";
 import {FacilityManager} from "../Manager/FacilityManager";
+import {StatisticsManager} from "../Manager/StatisticsManager";
 
 
 class Cinema {
-    private _name : string ;
-    private _fans : number;
+    private _name: string;
+    private _fans: number;
     private _ticketPrice: number;
 
     private _loans: Map<number, LoanTaken> = new Map<number, LoanTaken>();
@@ -30,7 +28,7 @@ class Cinema {
     private readonly _boothManager: BoothManager;
     private readonly _researchManager: ResearchManager;
     private readonly _marketingManager: MarketingManager;
-    private readonly _config : ConfigManager;
+    private readonly _config: ConfigManager;
     private readonly _movieManager: MovieManager;
     private readonly _scheduler: Scheduler;
     private readonly _roomManager: RoomManager;
@@ -38,15 +36,15 @@ class Cinema {
     private readonly _releaseDatePenaltyManager: ReleaseDatePenaltyManager;
     private readonly _customerManager: CustomerManager;
     private readonly _facilityManager: FacilityManager;
+    private readonly _statisticsManager: StatisticsManager;
 
-
-    public constructor(name: string, TimeManager : TimeManager, config : ConfigManager, financeManager : FinanceManager, marketingmanager: MarketingManager) {
+    public constructor(name: string, TimeManager: TimeManager, config: ConfigManager, financeManager: FinanceManager) {
         this._name = name;
         this._fans = config.fans;
         this._ticketPrice = config.ticketprice;
         this._timeManager = TimeManager;
         this._financeManager = financeManager;
-        this._marketingManager = marketingmanager;
+        this._marketingManager = new MarketingManager(config);
 
         this._config = config;
         this._roomManager = new RoomManager(this, config);
@@ -58,6 +56,7 @@ class Cinema {
         this._movieManager = new MovieManager(this, config, new GenreManager(config));
         this._customerManager = new CustomerManager();
         this._facilityManager = new FacilityManager(this, config);
+        this._statisticsManager = new StatisticsManager(this);
     }
 
     get name(): string {
@@ -66,6 +65,14 @@ class Cinema {
 
     get fans(): number {
         return this._fans;
+    }
+
+    public addFan(): void {
+        this._fans++;
+    }
+
+    loseFan() {
+        this._fans--;
     }
 
     get ticketPrice(): number {
@@ -135,6 +142,10 @@ class Cinema {
 
     get config(): ConfigManager {
         return this._config;
+    }
+
+    get statisticsManager(): StatisticsManager {
+        return this._statisticsManager;
     }
 }
 

@@ -1,6 +1,6 @@
 class ConfigManager {
 
-    public readonly credit: number = 10000;
+    public readonly credit: number = 50000;
     public readonly ticketprice: number = 10;
     public readonly fans: number = 0;
     public readonly researchDefaultValue: number = 100;
@@ -117,10 +117,30 @@ class ConfigManager {
     public readonly cashierWages: number = 50;
     public readonly boothBuildprice: number = 3000;
 
+    public readonly chanceLosingFan : number = 50;
+    public readonly bonusArthouseFanConversion : number = 20;
+    public readonly penaltyBlockbusterFanConversion : number = 20;
+
     public readonly licenseFeeExtraPerRoom: number = 20;
     public readonly licenseBlockbusterExtraCost: number = 10;
     public readonly licenseFeeMin: number = 800;
     public readonly licenseFeeMax: number = 1000;
+
+    public readonly thoughtPositiveBonus: number = 5;
+    public readonly thoughtNegativeBonus: number = 5;
+
+    public readonly movieToQualityFactor: number = 10 * 0.25;
+    public readonly roomToQualityFactor: number = 0.75;
+
+    public readonly qualityRoomVeryBad: number = 20;
+    public readonly qualityRoomBad: number = 40;
+    public readonly qualityRoomGood: number = 70;
+    public readonly qualityRoomVeryGood: number = 90;
+
+    public readonly qualityMovieVeryBad: number = 2;
+    public readonly qualityMovieBad: number = 4;
+    public readonly qualityMovieGood: number = 7;
+    public readonly qualityMovieVeryGood: number = 9;
 
     //facilities
     //Common

@@ -22,7 +22,10 @@
     <link href="/fa-icons/css/all.css" rel="stylesheet" type="text/css"/>
     <link href="css/layout.scss" rel="stylesheet" type="text/css"/>
 
-    <script>
+    <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+    <script type="text/javascript">
+        google.charts.load('current', {'packages': ['corechart']});
+
         function showDebug() {
             document.getElementById('debugBar').style.display = 'block';
         }
@@ -67,7 +70,8 @@
             <button rel="tickets" class="btn btn-primary top-menu">Tickets</button>
         </td>
         <td>
-            <button rel="statistics" class="btn btn-primary top-menu">Statistics</button>
+            <button rel="statistics" class="btn btn-primary top-menu" id="statisticsModalButton">Statistics
+            </button>
         </td>
         <td>
             <button rel="customers" class="btn btn-primary top-menu">Customers</button>
@@ -215,7 +219,7 @@
     <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
         <div class="modal-content">
             <div class="modal-header">
-                <h2>Buy some movies</h2>
+                <h2>A new week, a new selections of movies!</h2>
             </div>
             <div class="modal-body text-center">
                 <div class="container">
@@ -408,6 +412,127 @@
 </div>
 <!-- /Research Modal -->
 
+<!-- statistics Modal -->
+<div class="modal fade" id="statisticsModal" tabindex="-1" role="dialog" aria-labelledby="ModalCenterTitle"
+     aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered modal-xl" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Statistics</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <ul class="nav nav-tabs" role="tablist">
+                    <li class="nav-item">
+                        <a class="nav-link active" id="financal-report-tab" data-toggle="tab"
+                           href="#financal-report" role="tab" aria-controls="financal-report"
+                           aria-selected="true">General statistics</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" id="general-statistics-tab" data-toggle="tab"
+                           href="#general-statistics" role="tab" aria-controls="general-statistics"
+                           aria-selected="false">General statistics</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" id="statistics-movie-tab" data-toggle="tab" href="#statistics-movie"
+                           role="tab" aria-controls="statistics-movie" aria-selected="false">Statistics per movie</a>
+                    </li>
+                </ul>
+                <div class="tab-content">
+                    <div class="tab-pane fade show active" id="financal-report" role="tabpanel"
+                         aria-labelledby="financal-report-tab">
+                        <table id="incomeReport" class="table table-bordered table-striped">
+                            <tbody></tbody>
+                            <tfoot></tfoot>
+                        </table>
+                    </div>
+                    <div class="tab-pane fade" id="general-statistics" role="tabpanel"
+                         aria-labelledby="general-statistics-tab">
+                        <div class="container hide" id="statistics-available">
+                            <div class="row">
+                                <div class="col-sm">
+                                    <div class="chart" id="chart-credit"></div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-sm">
+                                    <div id="chart-visitors" class="chart"></div>
+                                </div>
+                                <div class="col-sm">
+                                    <div id="chart-fans" class="chart"></div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <p id="statistics-not-available"></p>
+                    </div>
+                    <div class="tab-pane fade" id="statistics-movie" role="tabpanel"
+                         aria-labelledby="statistics-movie-tab">
+
+                        <select id="movie-detail-selector"></select>
+
+                        <p id="movie-detail-panel-no-movie">Please select a movie to see it's details.</p>
+                        <div id="movie-detail-panel" class="hide">
+                            <span class="movie-arthouse movie-stamp">Arthouse movie</span>
+                            <span class="movie-blockbuster movie-stamp">Blockbuster movie</span>
+
+                            <h2 class="title"></h2>
+
+                            <table class="table table-bordered table-striped">
+                                <tbody>
+                                <tr>
+                                    <th>Genre</th>
+                                    <td><span class="genre"></span></td>
+                                    <th>License fee</th>
+                                    <td class="cost"></td>
+                                </tr>
+                                <tr>
+                                    <th>Duration</th>
+                                    <td><span class="duration"></span> minutes</td>
+                                    <th>Total revenue</th>
+                                    <td class="total-profit"></td>
+                                </tr>
+                                <tr>
+                                    <th>Release date</th>
+                                    <td class="release-date"></td>
+                                    <th>Total tickets</th>
+                                    <td class="total-tickets"></td>
+                                </tr>
+                                <tr>
+                                    <th>Reviews</th>
+                                    <td colspan="3">
+                                        <ul class="reviews"></ul>
+                                    </td>
+                                </tr>
+                                </tbody>
+                                <tfoot>
+                                <tr>
+                                    <td></td>
+                                    <td>
+                                        <button class="btn btn-danger" id="retire-movie-action">Retire movie</button>
+                                    </td>
+                                </tr>
+                                </tfoot>
+                            </table>
+
+                            <div id="container-chart-movie-over-time" class="hide">
+                                <h2>Ticket sales over time</h2>
+                                <div class="chart" id="chart-movie-over-time"></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- /statistics Modal -->
+
 <div id="debugBar" style="display: none;">
     <h1>Debug bar</h1>
     <button class="trigger-event btn btn-secondary" rel="hour">Trigger hour change</button>
@@ -513,6 +638,10 @@
 </div>
 
 <div id="customer-detail-panel">
+    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+        <span aria-hidden="true">×</span>
+    </button>
+
     <h3>
         <i class="fa fa-female"></i>
         <i class="fa fa-male"></i>
@@ -532,7 +661,6 @@
 
     <ul class="customer-thoughts"></ul>
 </div>
-
 
 <progress max="100" value="0" id="research-progress-bar"></progress>
 

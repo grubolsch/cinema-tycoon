@@ -11,8 +11,6 @@ class BuyTicketAction implements CustomerAction {
     private foundBooth : boolean = false;
 
     isFinished(cinema: Cinema, customer: Customer): boolean {
-        console.log('plan watch', customer.plans.get(customer.PLAN_WATCH_MOVIE));
-
         //either customer either wants to leave or wants to see the movie
         return customer.plans.get(customer.PLAN_LEAVE) === true || customer.plans.get(customer.PLAN_WATCH_MOVIE) === true;
     }
@@ -34,6 +32,13 @@ class BuyTicketAction implements CustomerAction {
         cinema.boothManager.addCustomer(customer);
     }
 
+    getDescription(cinema: Cinema, customer: Customer): string {
+        if(customer.hasFreeTicket) {
+            return "Using his free ticket for movie " + customer.targetShow.movie.title;
+
+        }
+        return "Buying a ticket for movie " + customer.targetShow.movie.title;
+    }
 }
 
 export {BuyTicketAction}
