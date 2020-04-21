@@ -1,12 +1,10 @@
 import {MovieType} from "../MovieTypes/MovieType";
 import {Genre} from "./Genre";
-import {MonthDayPoint, ReleaseDate} from "./ReleaseDate";
+import {ReleaseDate} from "./ReleaseDate";
 import {MovieManager} from "../Manager/MovieManager";
 import {Cinema} from "./Cinema";
 import {MarketingCampaign} from "./MarketingCampaign";
 import {FreeTicketDistributor} from "../Manager/FreeTicketDistributor";
-import {TimePoint} from "./TimePoint";
-import {StatisticsManagerInternalStorageType} from "../Manager/StatisticsManager";
 import {TimeManager} from "../Manager/TimeManager";
 
 type ReviewsType = Array<string>;
@@ -25,7 +23,6 @@ class Movie {
     private _releaseDatePenalty: number = 0;
     private _reviews: ReviewsType;
     private _freeTicketsRemaining: number = 0;
-    private _freeTicketDistributor: FreeTicketDistributor;
 
     constructor(title: string, rating: number, startPopularity: number, genre: Genre, type: MovieType, duration: number, releaseDate: ReleaseDate, cost: number, reviews: ReviewsType) {
         this._id = MovieManager.counter++;
@@ -38,8 +35,6 @@ class Movie {
         this._cost = cost;
         this._startPopularity = startPopularity;
         this._reviews = reviews;
-
-        this._freeTicketDistributor = new FreeTicketDistributor(this);
     }
 
     get title(): string {

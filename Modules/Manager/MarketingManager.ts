@@ -61,6 +61,7 @@ class MarketingManager {
         let cost = this.calculateCost(campaign, cinema);
         if (cinema.financeManager.canAfford(cost)) {
             cinema.financeManager.pay(cost, 'Marketing Cost');
+            campaign.applyBonus(cinema);
             this._activeMovieCampaigns.set(parseInt(movieId), campaign);
         }
     }
@@ -101,6 +102,16 @@ class MarketingManager {
 
     get activeMarketingCampaign(): MarketingCampaign | null {
         return this._activeMarketingCampaign;
+    }
+
+    dailyUpdate() {
+        if (this._activeMarketingCampaign !== null){
+            this._activeMarketingCampaign.addDayActive();
+        }
+
+        this._activeMovieCampaigns.forEach((campaign) =>  {
+            campaign.addDayActive();
+        })
     }
 }
 

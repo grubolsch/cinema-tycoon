@@ -2,6 +2,7 @@ import {Cinema} from "../Entity/Cinema";
 import {ConfigManager} from "./ConfigManager";
 import {Show} from "../Entity/Show";
 import {CustomerGenerator} from "../Generator/CustomerGenerator";
+import {Customer} from "../Entity/Customer";
 
 class CustomerSpawnerManager {
     private readonly cinema: Cinema;
@@ -21,8 +22,6 @@ class CustomerSpawnerManager {
         if (this.cinema.marketingManager.activeMarketingCampaign !== null) {
             customers += customers * (this.calculateBonus(show) / 100);
         }
-
-        //@todo : implement free ticket
 
         return Math.round(customers);
     }
@@ -51,18 +50,28 @@ class CustomerSpawnerManager {
     updateByDay() {
         let generator = new CustomerGenerator(this.config);
 
-        let self = this;
-        this.cinema.scheduler.allShows.forEach(function (show) {
-            let totalCustomers = self.getCustomersPerShow(show);
+        this.cinema.scheduler.allShows.forEach((show) =>{
+            let totalCustomers = this.getCustomersPerShow(show);
+
+            let freeTicketAmount: number = this.cinema.freeTicketDistributor.calculateFreeTicketPercentage(show, this.cinema);
+            console.log('Free Tickets for this showing of ' + show.movie.title + ': ' + freeTicketAmount);
+            let ticketsGiven: number = 0;
 
             for (let i = 1; i <= totalCustomers; i++) {
-                self.cinema.customerManager.add(generator.createCustomer(show));
+                let customer: Customer = generator.createCustomer(show);
+                if (ticketsGiven < freeTicketAmount){
+                    this.cinema.freeTicketDistributor.giveFreeTicket(customer, show.movie);
+                    ticketsGiven++;
+                }
+                this.cinema.customerManager.add(customer);
             }
 
-            let totalFans = self.getFansPerShow();
+            let totalFans = this.getFansPerShow();
             for (let i = 1; i <= totalFans; i++) {
-                self.cinema.customerManager.add(generator.createCustomer(show, true));
+                this.cinema.customerManager.add(generator.createCustomer(show, true));
             }
+
+            console.log('Free Tickets remaining = ' + show.movie.freeTicketsRemaining);
 
             console.log('Show ' + show.movie.title + ' gets ' + totalCustomers + ' customers, ' + totalFans + ' fans.');
         });

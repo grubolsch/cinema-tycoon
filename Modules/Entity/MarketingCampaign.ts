@@ -7,9 +7,10 @@ class MarketingCampaign {
     private readonly _type: MarketingCampaignType;
     private readonly _duration: number;
     private _remainingWeeks: number;
-    private readonly _movie : Movie | null;
+    private readonly _movie: Movie | null;
+    private _daysActive: number = 0;
 
-    constructor(type: MarketingCampaignType, duration: number, movie : Movie | null = null) {
+    constructor(type: MarketingCampaignType, duration: number, movie: Movie | null = null) {
         this._type = type;
         this._duration = duration;
         this._remainingWeeks = duration;
@@ -32,6 +33,14 @@ class MarketingCampaign {
         return this._movie;
     }
 
+    get daysActive(): number {
+        return this._daysActive;
+    }
+
+    addDayActive(): void {
+        this._daysActive++;
+    }
+
     applyBonus(cinema: Cinema) {
         this.type.applyBonus(cinema);
     }
@@ -40,7 +49,7 @@ class MarketingCampaign {
         this.type.removeBonus(cinema);
     }
 
-    weekUpdate(): void{
+    weekUpdate(): void {
         this._remainingWeeks--;
     }
 }

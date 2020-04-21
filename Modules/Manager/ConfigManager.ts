@@ -30,6 +30,9 @@ class ConfigManager {
     public readonly blockbusterChance: number = 50;
     public readonly arthouseChance: number = 5;
 
+    public readonly maxFreeTicketPercentage: number = 75; // todo balance
+    public readonly freeTicketSlope: number = 3; // 1 = very steep, 2 = less steep, 3 = even less steep
+
     public readonly numberOfReviews: number = 3;
 
     //Marketing
@@ -162,7 +165,6 @@ class ConfigManager {
     public readonly arcadeHappinessBonus = 100;
     public readonly arcadeCostPrice = 0.2;
     public readonly arcadeDefaultSellingPrice = 0.5;
-
 }
 
 export {ConfigManager}

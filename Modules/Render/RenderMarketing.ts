@@ -65,9 +65,7 @@ class RenderMarketing implements RenderInterface {
             let selected: HTMLInputElement = <HTMLInputElement>this._movieMarketingTypeOptions.find((option) => {
                 return option.checked;
             })
-            debugger;
             if (selected.value !== 'Tickets') {
-                debugger;
                 this.submitMovieMarketingChoice();
                 return;
             }
