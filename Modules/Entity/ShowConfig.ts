@@ -1,4 +1,5 @@
 import {Movie} from "./Movie";
+import {TimeManager} from "../Manager/TimeManager";
 
 class ShowConfig {
     private readonly DURATION_BREAK = 15;
@@ -48,6 +49,10 @@ class ShowConfig {
 
     get durationBreakTime(): number {
         return this.DURATION_BREAK;
+    }
+
+    calculateQuantitySchedulerBlocks() : number {
+        return Math.ceil(this.duration / (TimeManager.MINS_IN_HOURS / 2));
     }
 }
 

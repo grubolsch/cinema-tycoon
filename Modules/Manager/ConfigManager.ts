@@ -136,6 +136,8 @@ class ConfigManager {
     public readonly qualityRoomGood: number = 70;
     public readonly qualityRoomVeryGood: number = 90;
 
+
+
     public readonly qualityMovieVeryBad: number = 2;
     public readonly qualityMovieBad: number = 4;
     public readonly qualityMovieGood: number = 7;

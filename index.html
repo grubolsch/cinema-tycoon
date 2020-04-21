@@ -346,6 +346,12 @@
                     </label>
                 </form>
 
+                <div id="scheduler-movie-detail">
+                    <p>Genre: <span id="scheduler-movie-detail-genre"></span></p>
+
+                    <button class="btn btn-primary" id="scheduler-movie-detail-button">Show movie details</button>
+                </div>
+
                 <span id="schedule-movie-dragger" draggable="true" data-toggle="tooltip" data-placement="top"
                       title="Drag the movie in the timeslot and room you wish to plan it in."></span>
 
@@ -465,6 +471,8 @@
                             <span class="movie-blockbuster movie-stamp">Blockbuster movie</span>
 
                             <h2 class="title"></h2>
+
+                            <p id="movie-detail-debug" class="hide"></p>
 
                             <table class="table table-bordered table-striped">
                                 <tbody>

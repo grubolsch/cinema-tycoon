@@ -10,7 +10,7 @@ import {ChartConfigurationHelper} from "./Helper/ChartConfigurationHelper";
 
 class RenderMovieDetailPanel implements RenderInterface {
     // @ts-ignore
-    private readonly modal = $('#statisticsModal');
+    readonly modal = $('#statisticsModal');
 
     private readonly container = (<HTMLElement>document.querySelector('#movie-detail-panel'));
     private readonly noMovieSelectedElement = (<HTMLElement>document.querySelector('#movie-detail-panel-no-movie'));
@@ -32,17 +32,22 @@ class RenderMovieDetailPanel implements RenderInterface {
         this.renderOnce();
     }
 
+    showMovieScreen(movieId : number) {
+        this.movie = this.movieManager.movies.get(movieId);
+
+        if(this.movie === undefined) {
+            this.noMovieSelectedElement.classList.remove('hide');
+            this.container.classList.add('hide');
+            return;
+        }
+
+        this.renderDetailScreen(this.movie);
+        this.renderChart(this.movie);
+    }
+
     renderOnce() {
         this.movieSelector.addEventListener('change', (event) => {
-            this.movie = this.movieManager.movies.get(parseInt(this.movieSelector.value));
-            if(this.movie === undefined) {
-                this.noMovieSelectedElement.classList.remove('hide');
-                this.container.classList.add('hide');
-                return;
-            }
-
-            this.renderDetailScreen(this.movie);
-            this.renderChart(this.movie);
+            this.showMovieScreen(parseInt(this.movieSelector.value));
         });
 
         this.retireMovieButton.addEventListener('click', (event) => {
@@ -105,10 +110,25 @@ class RenderMovieDetailPanel implements RenderInterface {
         (<HTMLElement>this.container.querySelector('.movie-arthouse')).style.display = (movie.type.isArthouse) ? 'block' : 'none';
         (<HTMLElement>this.container.querySelector('.movie-blockbuster')).style.display = (movie.type.isBlockbuster) ? 'block' : 'none';
 
+        this.renderDebugInfo(movie);
+
         this.retireMovieButton.dataset.movie = movie.id.toString();
 
         this.noMovieSelectedElement.classList.add('hide');
         this.container.classList.remove('hide');
+    }
+
+    private renderDebugInfo(movie: Movie) {
+        // @ts-ignore
+        if (process.env.NODE_ENV !== 'development') {
+            return;
+        }
+        
+        let element = <HTMLElement>document.querySelector('#movie-detail-debug')!;
+
+        element.classList.remove('hide');
+        element.style.color = 'red';
+        element.innerHTML = 'DEBUG INFO: Rating: ' + movie.rating + ', Popularity penalty: ' + movie.releaseDatePenalty;
     }
 
     private loadReviews(movie: Movie) {

@@ -5,6 +5,7 @@ import {Movie} from "./Movie";
 import {Cinema} from "./Cinema";
 import {TimeManager} from "../Manager/TimeManager";
 import {TicketSaleException} from "../Exception/TicketSaleException";
+import {Scheduler} from "./Scheduler";
 
 type ShowDuration = {'hour': number, 'minute': number};
 
@@ -17,8 +18,10 @@ class Show {
     private _room : Room;
 
     private ticketsSold : number = 0;
+    private _id: number;
 
     constructor(room: Room, start : TimePoint, showConfiguration : ShowConfig) {
+        this._id = Scheduler.showCounter++;
         this._showConfiguration = showConfiguration;
 
         this._room = room;
@@ -94,6 +97,10 @@ class Show {
 
     public isFull() : boolean {
         return (this.ticketsSold >= this.room.type.capacity)
+    }
+
+    get id(): number {
+        return this._id;
     }
 }
 

@@ -35,10 +35,7 @@ class CustomerAi {
             catch(error) {
                 //in the case if an AIException there is nothing to do, the last action was reached
                 if(!(error instanceof AiException)) {
-                    alert('AI ERROR: '+ error.message);
-                } else {
-                    //this should never happen
-                    console.log('ai unexpected error', error);
+                    console.error('AI unexpected ERROR: '+ error.message);
                 }
             }
         }

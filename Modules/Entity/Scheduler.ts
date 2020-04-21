@@ -2,10 +2,15 @@ import {Cinema} from "./Cinema";
 import {Room} from "./Room";
 import {Show} from "./Show";
 import {TimeManager} from "../Manager/TimeManager";
+import {SchedulerDeleteShowException} from "../Exception/SchedulerExceptionDeleteShow";
+
+class ShowMap extends Map<number, Show> {}
 
 class Scheduler {
     private _cinema : Cinema;
-    private _shows : Map<number, Array<Show>> = new Map<number, []>() ;
+    private _shows: Map<number, ShowMap> = new Map<number, ShowMap>();
+
+    public static showCounter : number = 0;
 
     constructor(cinema: Cinema) {
         this._cinema = cinema;
@@ -18,57 +23,58 @@ class Scheduler {
             return true;  //no rooms yet so we can just book the show
         }
 
-        for(let x in showsInRoom) {
-            //you have a collesion if the start point OR the end point of the movie is between an existing show
-            if((showsInRoom[x].start.getFullNumber() <= showToPlan.start.getFullNumber() && showsInRoom[x].end.getFullNumber() >= showToPlan.start.getFullNumber())
-            || showsInRoom[x].start.getFullNumber() <= showToPlan.end.getFullNumber() && showsInRoom[x].end.getFullNumber() >= showToPlan.end.getFullNumber()) {
-                return false; //collision!
+        let canPlan = true;
+
+        let hit = Array.from(showsInRoom).filter((element) => {
+            let show : Show = element[1];
+
+            if((show.start.getFullNumber() <= showToPlan.start.getFullNumber() && show.end.getFullNumber() > showToPlan.start.getFullNumber())
+                || show.start.getFullNumber() < showToPlan.end.getFullNumber() && show.end.getFullNumber() >= showToPlan.end.getFullNumber()) {
+                return true;//collision
             }
-        }
 
-        return true;
+            return false;
+        });
+
+
+        return hit.length == 0;
     }
 
-    //return the id of the added movie
-    plan(show : Show) : number {
+    plan(show : Show) : void {
         if(!this._shows.has(show.room.id)) {
-            this._shows.set(show.room.id, []);
+            this._shows.set(show.room.id, new ShowMap());
         }
 
-        this._shows.get(show.room.id)!.push(show);
-
-        return this._shows.get(show.room.id)!.length-1;
+        this._shows.get(show.room.id)!.set(show.id, show);
     }
 
-    getShowsByRoom(room : Room): Array<Show> {
+    getShowsByRoom(room : Room): ShowMap {
         if(!this._shows.has(room.id)) {
-            console.log('no shows found', this._shows);
-            return [];
+            return new ShowMap();
         }
 
         return this._shows.get(room.id)!;
     }
 
-    removeShow(room: Room, showId: number) : boolean {
-        let roomsByShow = this._shows.get(room.id);
-        if(roomsByShow === undefined || !roomsByShow[showId]) {
-            console.error('Could not find show to delete', room.id, showId);
-            return false;
+    removeShow(show : Show) : void {
+        let roomsByShow = this._shows.get(show.room.id);
+        if(roomsByShow === undefined) {
+            throw SchedulerDeleteShowException.couldNotFindShow(show.room.id);
         }
 
-        if(roomsByShow[showId].isPlaying(this._cinema)) {
-            alert('You cannot delete a show that is currently playing.');
-            return false;
+        if(show.isPlaying(this._cinema)) {
+            throw SchedulerDeleteShowException.isPlaying();
         }
 
-        delete roomsByShow[showId];
-        return true;
+        roomsByShow.delete(show.id);
     }
 
     get allShows(): Array<Show> {
         let shows : Array<Show> = [];
         this._shows.forEach(function(showsPerRoom ) {
-            shows = shows.concat(showsPerRoom);
+            showsPerRoom.forEach(function(show) {
+                shows.push(show);
+            });
         });
         return shows;
     }
@@ -76,6 +82,13 @@ class Scheduler {
     resetShows() : void {
         this.allShows.forEach(function(show) {
            show.resetTickets();
+        });
+    }
+
+    //you do not need to pass the room, but it will the lookup faster
+    public findShowById(showId : number) : Show|undefined {
+        return this.allShows.find((show) => {
+            return show.id === showId;
         });
     }
 }
