@@ -247,7 +247,7 @@ class Customer {
             }
 
             if (this.targetShow.room != null) {
-                roomQuality = this.targetShow.room.calculateRoomQuality();
+                roomQuality = this.targetShow.room.calculateRoomQuality() * config.roomToQualityFactor;
             }
         }
 

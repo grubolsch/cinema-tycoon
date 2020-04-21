@@ -128,7 +128,8 @@ class ConfigManager {
     public readonly thoughtPositiveBonus: number = 5;
     public readonly thoughtNegativeBonus: number = 5;
 
-    public readonly movieToQualityFactor: number = 10;
+    public readonly movieToQualityFactor: number = 10 * 0.25;
+    public readonly roomToQualityFactor: number = 0.75;
 
     public readonly qualityRoomVeryBad: number = 20;
     public readonly qualityRoomBad: number = 40;
