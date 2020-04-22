@@ -39,11 +39,7 @@ $negative: darkred;
 }
 
 #schedule-table {
-  table-layout: fixed;
-  width: 100%;
-
   td, th {
-    width: 30px;
     border-left: 1px gray dotted;
 
     &.active {
@@ -52,34 +48,43 @@ $negative: darkred;
     }
   }
 
-  div.planned-movie {
+  td.planned-movie {
     position: relative;
-    background-color: lightgreen;
+    background-color: $positive;
     color: black;
-    height: 30px;
     cursor: grabbing;
+    font-weight: bold;
 
     i.delete-show {
       position: absolute;
       right: 4px;
       top: 4px;
+      color: red;
     }
   }
 
-  #draggerShadow {
-    opacity: 50%;
+
+  .drop-allowed {
+    background-color: $positive;
   }
+
 }
 
 #schedule-movie-dragger {
-  background-color: black;
+  background-color: lightgreen;
   color: white;
   height: 30px;
   display: inline-block;
   cursor: grabbing;
   overflow: hidden;
   text-align: center;
-  padding-left: 3px;
+  padding: 6px;
+}
+
+#scheduler-movie-detail-button {
+  position: absolute;
+  top: 10px;
+  right: 10px;
 }
 
 #research-progress-bar {

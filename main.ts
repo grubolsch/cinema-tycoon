@@ -49,7 +49,11 @@ document.addEventListener('DOMContentLoaded', () => {
     render.addRender(new RenderBooths(cinema));
     render.addRender(new RenderRooms(cinema));
     render.addRender(new RenderScheduler(cinema));
-    render.addRender(new RenderSchedulerForm(cinema));
+
+    let renderMovieDetailPanel = new RenderMovieDetailPanel(cinema)
+    render.addRender(renderMovieDetailPanel);
+
+    render.addRender(new RenderSchedulerForm(cinema, renderMovieDetailPanel));
     render.addRender(new RenderResearch(cinema));
     render.addRender(new RenderMarketing(cinema, gameSpeedManager));
     render.addRender(new RenderFacilities(cinema));

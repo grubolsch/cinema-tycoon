@@ -3,6 +3,11 @@ import {TimePoint} from "./TimePoint";
 import {ShowConfig} from "./ShowConfig";
 import {Movie} from "./Movie";
 import {Cinema} from "./Cinema";
+import {TimeManager} from "../Manager/TimeManager";
+import {TicketSaleException} from "../Exception/TicketSaleException";
+import {Scheduler} from "./Scheduler";
+
+type ShowDuration = {'hour': number, 'minute': number};
 
 class Show {
     private _showConfiguration : ShowConfig;
@@ -13,11 +18,10 @@ class Show {
     private _room : Room;
 
     private ticketsSold : number = 0;
-
-    //@todo make sure once we are actually playing movies to flag this boolean on
-    private _isPlaying : boolean = false;
+    private _id: number;
 
     constructor(room: Room, start : TimePoint, showConfiguration : ShowConfig) {
+        this._id = Scheduler.showCounter++;
         this._showConfiguration = showConfiguration;
 
         this._room = room;
@@ -25,17 +29,23 @@ class Show {
         this._end = this.calculateEnd();
     }
 
-    private calculateEnd(): TimePoint {
-        let hoursDuration : number = Math.floor(this._showConfiguration.duration / 60);
-        let minutesDuration : number = this._showConfiguration.duration % 60;
+    private get duration() : ShowDuration {
+        let hoursDuration : number = Math.floor(this._showConfiguration.duration / TimeManager.MINS_IN_HOURS);
+        let minutesDuration : number = this._showConfiguration.duration % TimeManager.MINS_IN_HOURS;
 
         let minutes = this.start.minute + minutesDuration;
-        if(minutes >= 60) {
-            minutes -= 60;
+        if(minutes >= TimeManager.MINS_IN_HOURS) {
+            minutes -= TimeManager.MINS_IN_HOURS;
             hoursDuration++;
         }
 
-        this._end = new TimePoint(this.start.hour + hoursDuration, minutes);
+        return {'hour': hoursDuration, 'minute': minutes};
+    }
+
+    private calculateEnd(): TimePoint {
+        let duration = this.duration;
+
+        this._end = new TimePoint(this.start.hour + duration.hour, duration.minute);
         return this._end;
     }
 
@@ -79,7 +89,7 @@ class Show {
 
     public sellTicket() : void {
         if(this.isFull()) {
-            throw new Error('The show is sold out');
+            throw TicketSaleException.showSoldOut();
         }
 
         this.ticketsSold++;
@@ -87,6 +97,10 @@ class Show {
 
     public isFull() : boolean {
         return (this.ticketsSold >= this.room.type.capacity)
+    }
+
+    get id(): number {
+        return this._id;
     }
 }
 

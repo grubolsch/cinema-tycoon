@@ -10,6 +10,10 @@ class TicketSaleException extends Error {
     static ticketTooExpensive() {
         return new this('Customer decided to go home because his ticket was too expensive');
     }
+
+    static showSoldOut() {
+        return new this('The show is sold out');
+    }
 }
 
 export {TicketSaleException}
