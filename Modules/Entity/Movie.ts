@@ -1,9 +1,10 @@
 import {MovieType} from "../MovieTypes/MovieType";
 import {Genre} from "./Genre";
-import {MonthDayPoint, ReleaseDate} from "./ReleaseDate";
+import {ReleaseDate} from "./ReleaseDate";
 import {MovieManager} from "../Manager/MovieManager";
-import {TimePoint} from "./TimePoint";
-import {StatisticsManagerInternalStorageType} from "../Manager/StatisticsManager";
+import {Cinema} from "./Cinema";
+import {MarketingCampaign} from "./MarketingCampaign";
+import {FreeTicketDistributor} from "../Manager/FreeTicketDistributor";
 import {TimeManager} from "../Manager/TimeManager";
 
 type ReviewsType = Array<string>;
@@ -14,16 +15,16 @@ class Movie {
     private readonly _rating: number;
     private readonly _genre: Genre;
     private readonly _type: MovieType;
-    private readonly _duration : number;
+    private readonly _duration: number;
     private readonly _id: number;
     private readonly _cost: number;
     private readonly _startPopularity: number;
     private readonly _releaseDate: ReleaseDate;
-    private _releaseDatePenalty : number = 0;
+    private _releaseDatePenalty: number = 0;
     private _reviews: ReviewsType;
-    private _freeTicketsRemaining : number = 0;
+    private _freeTicketsRemaining: number = 0;
 
-    constructor(title: string, rating: number, startPopularity : number, genre: Genre, type: MovieType, duration : number, releaseDate : ReleaseDate, cost : number, reviews: ReviewsType) {
+    constructor(title: string, rating: number, startPopularity: number, genre: Genre, type: MovieType, duration: number, releaseDate: ReleaseDate, cost: number, reviews: ReviewsType) {
         this._id = MovieManager.counter++;
         this._title = title;
         this._rating = rating;
@@ -80,7 +81,7 @@ class Movie {
         return this._reviews;
     }
 
-    increaseReleasePenalty(quantity : number = 1) : void {
+    increaseReleasePenalty(quantity: number = 1): void {
         this._releaseDatePenalty += quantity;
     }
 
@@ -129,12 +130,24 @@ class Movie {
         return this._freeTicketsRemaining;
     }
 
-    addFreeTickets(amount: number) : void {
+    addFreeTickets(amount: number): void {
         this._freeTicketsRemaining += amount;
     }
 
-    removeFreeTicket() : void {
+    removeFreeTicket(): void {
         this._freeTicketsRemaining--;
+    }
+
+    removeRemainingTickets(): void {
+        this._freeTicketsRemaining = 0;
+    }
+
+    hasRunningCampaign(cinema: Cinema): boolean {
+        return cinema.marketingManager.activeMovieCampaigns.has(this._id);
+    }
+
+    getRunningCampaign(cinema: Cinema): MarketingCampaign | null {
+        return cinema.marketingManager.activeMovieCampaigns.get(this._id) ?? null;
     }
 }
 export {Movie, ReviewsType};
