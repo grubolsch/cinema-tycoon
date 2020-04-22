@@ -19,7 +19,7 @@ class TicketsCampaignType extends MarketingCampaignType {
     }
 
     removeBonus(cinema: Cinema): void {
-        this._movie.removeRemainingTickets(); // not sure if needed
+        this._movie.removeRemainingTickets();
     }
 
     isTicketCampaign(): boolean{
