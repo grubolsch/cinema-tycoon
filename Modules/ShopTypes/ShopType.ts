@@ -1,18 +1,26 @@
 import {Product} from "../Entity/Product";
 
 class ShopType {
+    private readonly _name: string;
+    private readonly _buildCost: number;
+    private readonly _products: Product[];
 
-    private _name: string;
-    private readonly BUILD_COST: number;
-    private readonly _isUpgradable: boolean;
-    private _products: Product[] | null;
-
-
-    constructor(name: string, BUILD_COST: number, isUpgradable: boolean, products: Product[]) {
+    constructor(name: string, buildCost: number, products: Product[]) {
         this._name = name;
-        this.BUILD_COST = BUILD_COST;
-        this._isUpgradable = isUpgradable;
+        this._buildCost = buildCost;
         this._products = products;
+    }
+
+    get name(): string {
+        return this._name;
+    }
+
+    get buildCost(): number {
+        return this._buildCost;
+    }
+
+    get products(): Product[] {
+        return this._products;
     }
 }
 
