@@ -1,0 +1,29 @@
+{
+  "shops": [
+    {
+      "name": "Drink Stand",
+      "buildCost": 1000,
+      "products": [4, 5, 6, 10]
+    },
+    {
+      "name": "Popcorn Stand",
+      "buildCost": 500,
+      "products": [1, 2, 3]
+    },
+    {
+      "name": "Ice Cream Stand",
+      "buildCost": 500,
+      "products": [7, 8, 9]
+    },
+    {
+      "name": "Snack Shop",
+      "buildCost": 500,
+      "products": [11, 12, 13]
+    },
+    {
+      "name": "General Shop",
+      "buildCost": 2000,
+      "products": ["all"]
+    }
+  ]
+}

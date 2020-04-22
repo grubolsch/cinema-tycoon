@@ -28,6 +28,7 @@ import {RenderFinancialReport} from "./Modules/Render/RenderFinancialReport";
 import {RenderMovieDetailPanel} from "./Modules/Render/RenderMovieDetailPanel";
 import {MovieSaleOverTime} from "./Modules/Manager/Graphs/MovieSaleOverTime";
 import {GameSpeedManager} from "./Modules/Manager/GameSpeedManager";
+import {RenderPriceManager} from "./Modules/Render/RenderPriceManager";
 
 const observer = new Observer;
 const configManager = new ConfigManager;
@@ -58,6 +59,8 @@ document.addEventListener('DOMContentLoaded', () => {
     render.addRender(new RenderFacilities(cinema));
     render.addRender(new RenderCustomerDetailPanel(cinema));
     render.addRender(new RenderFinancialReport(cinema.financeManager));
+    render.addRender(new RenderMovieDetailPanel(cinema));
+    render.addRender(new RenderPriceManager(cinema));
 
     let renderChart = new RenderChart(cinema);
     renderChart.addGraph(new FanChart());

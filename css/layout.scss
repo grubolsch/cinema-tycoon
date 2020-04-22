@@ -19,6 +19,14 @@ $negative: darkred;
   display: none;
 }
 
+.error {
+ color: red;
+}
+
+#price-manager-tbody p.error {
+  margin: 0;
+}
+
 .booth {
   border: 1px black solid;
   width: 10%;

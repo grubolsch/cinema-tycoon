@@ -1,6 +1,6 @@
 import {Genre} from "../Entity/Genre";
 import {randomNumber, shuffle} from "../Utils";
-import genres from "../Assets/Genres.json";
+import genres from "../Assets/genres.json";
 import {ConfigManager} from "./ConfigManager";
 
 class GenreManager {
