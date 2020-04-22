@@ -25,6 +25,10 @@ class MarketingCampaignType{
 
     applyBonus(cinema: Cinema): void {}
     removeBonus(cinema: Cinema): void {}
+
+    isTicketCampaign(): boolean {
+        return false;
+    }
 }
 
 export {MarketingCampaignType}

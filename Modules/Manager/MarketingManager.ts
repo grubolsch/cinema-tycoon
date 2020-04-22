@@ -14,16 +14,24 @@ class MarketingManager {
         this._config = config;
     }
 
-    createCampaign(type: string, duration: number, movie: Movie | null = null): MarketingCampaign {
+    createCampaign(type: string, duration: number, movie: Movie | null = null, freeTicketAmount: number = 0): MarketingCampaign {
         let campaignGenerator: CampaignGenerator = new CampaignGenerator(this._config);
-        return campaignGenerator.createCampaign(type, duration, movie);
+        return campaignGenerator.createCampaign(type, duration, movie, freeTicketAmount);
     }
 
     calculateCost(campaign: MarketingCampaign, cinema: Cinema): number {
         if (campaign.movie !== null) {
+            if (campaign.type.name === 'Tickets'){
+                return (campaign.type.cost * campaign.movie.freeTicketsRemaining);
+            }
             return (campaign.type.cost * campaign.duration);
         }
         return ((campaign.type.cost * cinema.roomManager.rooms.size) * campaign.duration);
+    }
+
+    calculateFreeTicketsCost(amount: number, cinema: Cinema): number{
+        let costPerTicket = Math.round((cinema.ticketPrice * this._config.freeTicketCostPercentage) / 100);
+        return (amount * costPerTicket);
     }
 
     calculatePreviewCost(type: string, duration: number, cinema : Cinema, movie: boolean = false): number {
@@ -53,6 +61,7 @@ class MarketingManager {
         let cost = this.calculateCost(campaign, cinema);
         if (cinema.financeManager.canAfford(cost)) {
             cinema.financeManager.pay(cost, 'Marketing Cost');
+            campaign.applyBonus(cinema);
             this._activeMovieCampaigns.set(parseInt(movieId), campaign);
         }
     }
@@ -93,6 +102,16 @@ class MarketingManager {
 
     get activeMarketingCampaign(): MarketingCampaign | null {
         return this._activeMarketingCampaign;
+    }
+
+    dailyUpdate() {
+        if (this._activeMarketingCampaign !== null){
+            this._activeMarketingCampaign.addDayActive();
+        }
+
+        this._activeMovieCampaigns.forEach((campaign) =>  {
+            campaign.addDayActive();
+        })
     }
 }
 

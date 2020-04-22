@@ -71,7 +71,7 @@ class RenderCustomerDetailPanel implements RenderInterface {
         let self = this;
         this.customer.thoughts.forEach(function(customerThought) {
             let li = document.createElement('li');
-            li.classList.add(customerThought.postive ? 'positive-thought' : 'negative-thought');
+            li.classList.add(customerThought.positive ? 'positive-thought' : 'negative-thought');
             li.innerHTML = '<i class="fa fa-cloud"></i> '+ customerThought.thought;
             (<HTMLElement>self.detailPanel.querySelector('.customer-thoughts')).appendChild(li);
         });

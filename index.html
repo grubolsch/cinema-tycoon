@@ -101,19 +101,20 @@
                 <!-- Nav tabs -->
                 <div role="tabpanel">
                     <ul class="nav nav-tabs" role="tablist">
-                        <li role="presentation" class="active"><a href="#genericTab" aria-controls="genericTab"
-                                                                  role="tab"
-                                                                  data-toggle="tab">Generic</a></li>
-                        <li role="presentation"><a href="#movieTab" aria-controls="movieTab" role="tab"
-                                                   data-toggle="tab">Movie</a>
+                        <li class="nav-item"><a class="nav-link active" data-toggle="tab" href="#genericTab" role="tab"
+                                                aria-controls="generic-marketing" aria-selected="true">Generic</a></li>
+                        <li class="nav-item">
+                            <a class="nav-link" data-toggle="tab" href="#movieTab"
+                               role="tab" aria-controls="movie-marketing" aria-selected="false">Movie</a>
                         </li>
-                        <li role="presentation"><a href="#activeTab" aria-controls="activeTab" role="tab"
-                                                   data-toggle="tab">Active</a>
+                        <li class="nav-item">
+                            <a class="nav-link" data-toggle="tab" href="#activeTab"
+                               role="tab" aria-controls="active-marketing" aria-selected="false">Active</a>
                         </li>
                     </ul>
                     <div class="tab-content">
                         <div role="tabpanel" class="tab-pane active" id="genericTab">
-                            <div class="form-group">
+                            <div class="form-group mt-4">
                                 <div class="radio">
                                     <label><input type="radio" name="optMarketing" data-cost="50" value="Flyers"
                                                   checked>Flyers</label>
@@ -135,8 +136,12 @@
                                                   value="Internet">Internet</label>
                                 </div>
                                 <hr>
-                                <label for="marketingDurationRange">Choose duration: <span
-                                        id="MarketingDurationPreview"></span></label>
+                                <div class="row">
+                                    <span>Total cost: <span id="costPreviewGeneric"></span></span>
+                                </div>
+                                <div class="row">
+                                    <span>duration: <span id="marketingDurationPreview"></span> week(s)</span>
+                                </div>
                                 <input type="range" class="form-control-range" value="1" min="1" max="12"
                                        id="marketingDurationRange">
                                 <hr>
@@ -146,7 +151,7 @@
                             </div>
                         </div>
                         <div role="tabpanel" class="tab-pane" id="movieTab">
-                            <div class="form-group">
+                            <div class="form-group mt-4">
                                 <label for="movieMarketingSelector">Choose a movie</label>
                                 <select name="movieMarketingSelect" id="movieMarketingSelector">
 
@@ -171,23 +176,32 @@
                                     <label><input type="radio" name="optMovieMarketing" data-cost="1000"
                                                   value="Internet">Internet</label>
                                 </div>
+                                <hr>
                                 <div class="radio">
-                                    <label><input type="radio" name="optMovieMarketing" data-cost="0" value="Tickets">Free
+                                    <label><input type="radio" name="optMovieMarketing" value="Tickets">Free
                                         tickets</label>
                                 </div>
                                 <hr>
-                                <label for="movieMarketingDurationRange">Choose duration: <span
-                                        id="movieMarketingDurationPreview"></span></label>
-                                <input type="range" class="form-control-range" value="1" min="1" max="12"
-                                       id="movieMarketingDurationRange">
+                                <div id="movieRangeBox" class="my-4 w-100">
+                                    <input type="range" id="movieMarketingDurationRange" class="form-control-range"
+                                           value="1" min="1" max="12">
+                                </div>
+
+                                <div class="">
+                                    <span>Total cost: € <strong><span id="costPreviewMovie"></span></strong></span>
+                                </div>
+                                <div class="">
+                                    <span>duration: <strong><span id="movieMarketingDurationPreview"></span></strong> week(s)</span>
+                                </div>
                                 <hr>
                                 <button type="submit" class="btn btn-success" id="movieMarketingSubmit">
                                     Confirm
                                 </button>
                             </div>
                         </div>
+
                         <div role="tabpanel" class="tab-pane" id="activeTab">
-                            <ul id="activeCampaigns">
+                            <ul id="activeCampaigns" class="mt-6">
 
                             </ul>
                         </div>
@@ -202,22 +216,17 @@
 <!-- MoviePicker Modal -->
 <div class="modal fade" id="moviePickerModal" tabindex="-1" role="dialog" aria-labelledby="ModalCenterTitle"
      aria-hidden="true" data-backdrop="static" data-keyboard="false">
-    <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
+    <div class="modal-dialog modal-dialog-centered modal-xl" role="document">
         <div class="modal-content">
             <div class="modal-header">
                 <h2>A new week, a new selections of movies!</h2>
             </div>
-            <div class="modal-body text-center">
+            <div class="modal-body">
                 <div class="container">
-                    <div class="row" id="movies-container">
-
-                    </div>
-                    <div class="row">
-                        <div class="col" id="movies-button-container"></div>
-                        <div class="col" id="movies-error-container"></div>
-                    </div>
+                    <div class="row d-flex justify-content-center" id="movies-error-container"></div>
+                    <div class="row mb-2" id="movies-container"></div>
+                    <div class="row d-flex justify-content-center mb-2" id="movies-button-container"></div>
                 </div>
-
                 <template id="movie-template">
                     <div class="col-sm-4">
                         <div class="movie-block">
@@ -414,7 +423,7 @@
                     <li class="nav-item">
                         <a class="nav-link active" id="financal-report-tab" data-toggle="tab"
                            href="#financal-report" role="tab" aria-controls="financal-report"
-                           aria-selected="true">General statistics</a>
+                           aria-selected="true">Accounting</a>
                     </li>
                     <li class="nav-item">
                         <a class="nav-link" id="general-statistics-tab" data-toggle="tab"
