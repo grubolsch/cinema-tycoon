@@ -30,8 +30,10 @@ class ConfigManager {
     public readonly blockbusterChance: number = 50;
     public readonly arthouseChance: number = 5;
 
-    public readonly maxFreeTicketPercentage: number = 75; // todo balance
+    public readonly maxFreeTicketPercentage: number = 75;
     public readonly freeTicketSlope: number = 3; // 1 = very steep, 2 = less steep, 3 = even less steep
+    public readonly freeTicketCostPercentage: number = 20; // you pay 1/5 for every free ticket
+
 
     public readonly numberOfReviews: number = 3;
 

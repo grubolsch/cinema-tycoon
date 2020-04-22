@@ -5,6 +5,7 @@ import {ConfigManager} from "./ConfigManager";
 import {Show} from "../Entity/Show";
 import {Cinema} from "../Entity/Cinema";
 import {MarketingCampaign} from "../Entity/MarketingCampaign";
+import {InventoryItem} from "../Entity/InventoryItem";
 
 class FreeTicketDistributor {
 
@@ -15,15 +16,15 @@ class FreeTicketDistributor {
     }
 
     public giveFreeTicket(customer: Customer, movie: Movie) {
-        customer.addInventoryItem('Free ticket', new FreeTicket(movie));
+        customer.addInventoryItem(InventoryItem.INV_FREE_TICKET, new FreeTicket(movie));
         movie.removeFreeTicket();
     }
 
     calculateFreeTicketPercentage(show: Show, cinema: Cinema): number {
         if (show.movie.hasRunningCampaign(cinema)) {
-            let runningCampaign: MarketingCampaign = show.movie.getRunningCampaign(cinema);
-            if (runningCampaign.type.name === 'Tickets') {
-                return Math.floor(show.room.type.capacity / Math.exp(runningCampaign.daysActive / this._config.freeTicketSlope));
+            let runningCampaign: MarketingCampaign = <MarketingCampaign>show.movie.getRunningCampaign(cinema);
+            if (runningCampaign.type.isTicketCampaign()) {
+                return Math.floor((show.room.type.capacity * (this._config.maxFreeTicketPercentage / 100)) / Math.exp(runningCampaign.daysActive / this._config.freeTicketSlope));
             }
         }
         return 0;

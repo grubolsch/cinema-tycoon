@@ -146,8 +146,8 @@ class Movie {
         return cinema.marketingManager.activeMovieCampaigns.has(this._id);
     }
 
-    getRunningCampaign(cinema: Cinema): MarketingCampaign {
-        return <MarketingCampaign>cinema.marketingManager.activeMovieCampaigns.get(this._id);
+    getRunningCampaign(cinema: Cinema): MarketingCampaign | null {
+        return cinema.marketingManager.activeMovieCampaigns.get(this._id) ?? null;
     }
 }
 export {Movie, ReviewsType};

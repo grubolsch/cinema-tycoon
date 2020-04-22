@@ -30,7 +30,7 @@ class MarketingManager {
     }
 
     calculateFreeTicketsCost(amount: number, cinema: Cinema): number{
-        let costPerTicket = (cinema.ticketPrice / 5);
+        let costPerTicket = Math.round((cinema.ticketPrice * this._config.freeTicketCostPercentage) / 100);
         return (amount * costPerTicket);
     }
 

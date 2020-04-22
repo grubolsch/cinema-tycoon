@@ -9,6 +9,7 @@ import {InternetCampaignType} from "../MarketingCampaignTypes/InternetCampaignTy
 import {TicketsCampaignType} from "../MarketingCampaignTypes/TicketsCampaignType";
 import {CampaignTypeException} from "../Exception/CampaignTypeException";
 import {Movie} from "../Entity/Movie";
+import {TimeManager} from "../Manager/TimeManager";
 
 class CampaignGenerator {
 
@@ -18,7 +19,7 @@ class CampaignGenerator {
         this._config = config;
     }
 
-    createCampaign(type: string, duration: number, movie: Movie | null = null, freeTicketAmount: number = 0) : MarketingCampaign{
+    createCampaign(type: string, durationWeeks: number, movie: Movie | null = null, freeTicketAmount: number = 0) : MarketingCampaign{
         let campaignType: MarketingCampaignType;
         switch (type) {
             case 'Flyers':
@@ -39,7 +40,7 @@ class CampaignGenerator {
             case 'Tickets':
                 if (movie !== null){
                     campaignType = new TicketsCampaignType(this._config, movie, freeTicketAmount);
-                    duration = 4; // 4 weeks = 1 month
+                    durationWeeks = TimeManager.WEEKS_IN_MONTH; // ticket campaigns always run for 1 month / 4 weeks
                     break;
                 }
                 throw CampaignTypeException.noMovieSelected();
@@ -47,7 +48,7 @@ class CampaignGenerator {
                 throw CampaignTypeException.noSuchType();
         }
 
-        return new MarketingCampaign(campaignType, duration, movie)
+        return new MarketingCampaign(campaignType, durationWeeks, movie)
     }
 }
 

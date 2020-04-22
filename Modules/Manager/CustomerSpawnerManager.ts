@@ -3,6 +3,7 @@ import {ConfigManager} from "./ConfigManager";
 import {Show} from "../Entity/Show";
 import {CustomerGenerator} from "../Generator/CustomerGenerator";
 import {Customer} from "../Entity/Customer";
+import {MarketingCampaign} from "../Entity/MarketingCampaign";
 
 class CustomerSpawnerManager {
     private readonly cinema: Cinema;
@@ -50,7 +51,7 @@ class CustomerSpawnerManager {
     updateByDay() {
         let generator = new CustomerGenerator(this.config);
 
-        this.cinema.scheduler.allShows.forEach((show) =>{
+        this.cinema.scheduler.allShows.forEach((show) => {
             let totalCustomers = this.getCustomersPerShow(show);
 
             let freeTicketAmount: number = this.cinema.freeTicketDistributor.calculateFreeTicketPercentage(show, this.cinema);
@@ -59,7 +60,7 @@ class CustomerSpawnerManager {
 
             for (let i = 1; i <= totalCustomers; i++) {
                 let customer: Customer = generator.createCustomer(show);
-                if (ticketsGiven < freeTicketAmount){
+                if (ticketsGiven < freeTicketAmount) {
                     this.cinema.freeTicketDistributor.giveFreeTicket(customer, show.movie);
                     ticketsGiven++;
                 }
@@ -78,13 +79,20 @@ class CustomerSpawnerManager {
     }
 
     private calculateBonus(show: Show): number {
-        if (show.movie.hasRunningCampaign(this.cinema)){
-            let campaign = show.movie.getRunningCampaign(this.cinema);
-            return (campaign.type.bonus * 2);
+        let genericCampaign: MarketingCampaign | null = this.cinema.marketingManager.activeMarketingCampaign;
+        let specificCampaign: MarketingCampaign | null = show.movie.getRunningCampaign(this.cinema);
+
+        if (genericCampaign !== null){
+            if (specificCampaign !== null){
+                return Math.max(genericCampaign.type.bonus, (specificCampaign.type.bonus * 2));
+            }
+            return genericCampaign.type.bonus;
         }
-        if (this.cinema.marketingManager.activeMarketingCampaign !== null){
-            return this.cinema.marketingManager.activeMarketingCampaign.type.bonus;
+
+        if (specificCampaign !== null){
+            return (specificCampaign.type.bonus * 2);
         }
+
         return 0;
     }
 }

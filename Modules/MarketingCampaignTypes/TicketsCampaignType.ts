@@ -9,7 +9,7 @@ class TicketsCampaignType extends MarketingCampaignType {
     private readonly _amount: number;
 
     constructor(config: ConfigManager, movie: Movie, amount: number) {
-        super('Tickets', ((config.ticketprice * 20) * 100), 0);
+        super('Tickets', 0, 0);
         this._movie = movie;
         this._amount = amount;
     }
@@ -20,6 +20,10 @@ class TicketsCampaignType extends MarketingCampaignType {
 
     removeBonus(cinema: Cinema): void {
         this._movie.removeRemainingTickets(); // not sure if needed
+    }
+
+    isTicketCampaign(): boolean{
+        return true;
     }
 }
 
