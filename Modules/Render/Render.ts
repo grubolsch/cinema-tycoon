@@ -3,7 +3,6 @@ import {Cinema} from "../Entity/Cinema";
 
 class Render implements RenderInterface {
     private _speed: number = 1;
-    private _resumeSpeed : number = 1;
     private _cinema: Cinema;
 
     private _renders: Array<RenderInterface> = [];
@@ -78,15 +77,6 @@ class Render implements RenderInterface {
                 return (<RenderByMonthInterface>render).renderByMonth();
             }
         })
-    }
-
-    pause(){
-        this._resumeSpeed = this.speed;
-        this._speed = 0;
-    }
-
-    resume(){
-        this._speed = this._resumeSpeed;
     }
 }
 

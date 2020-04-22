@@ -10,7 +10,7 @@ class MovieManager {
     private _movies : Map<number, Movie> = new Map<number, Movie>();
     private readonly _cinema : Cinema;
     private readonly _config : ConfigManager;
-    public static counter: number = 0;
+    public static counter: number = 1;
 
     constructor(cinema : Cinema, config : ConfigManager, genreManager: GenreManager) {
         this._genreManager = genreManager;
@@ -23,7 +23,7 @@ class MovieManager {
     }
 
     private generateMovies(amount: number): Movie[] {
-        let movieGenerator = new MovieGenerator(this._config, this._cinema.timeManager, this.genreManager);
+        let movieGenerator = new MovieGenerator(this._cinema, this._cinema.timeManager, this.genreManager);
 
         let movies: Movie[] = [];
         for (let i = 0; i < amount; i++) {
@@ -42,7 +42,7 @@ class MovieManager {
             selectedMovies.push(<Movie>movies.find((movie) => { return movie.id === parseInt(id)}));
         });
         let cost = this.calculateCost(selectedMovies);
-        if (cinema.financeManager.canAfford(cost)) {
+        if (cinema.financeManager.canAfford(cost, true)) {
             cinema.financeManager.pay(cost, 'movie licensing costs');
             selectedMovies.forEach(movie => {
                 this.addMovie(movie);
@@ -68,9 +68,17 @@ class MovieManager {
         return this._movies;
     }
 
+    findMovie(id : number): Movie{
+        return <Movie>this.movies.get(id);
+    }
+
     calculatePopularity(movie : Movie) : number {
         let base = movie.startPopularity * this._config.popularityToCustomerFactor;
-        return Math.max(0, base - (base * movie.releaseDatePenalty / 100));
+        return Math.max(0, base - movie.releaseDatePenalty);
+    }
+
+    retireMovie(movie: Movie) : void {
+        this._movies.delete(movie.id);
     }
 }
 

@@ -1,5 +1,5 @@
 class ConfigManager {
-    private readonly _credit : number = 10000;
+    private readonly _credit : number = 50000;
     private readonly _ticketprice : number  = 10;
     private readonly _fans : number  = 0;
     private readonly _researchDefaultValue : number = 100;
@@ -29,14 +29,32 @@ class ConfigManager {
     private readonly _blockbusterChance: number = 50;
     private readonly _arthouseChance: number = 5;
 
+    public readonly numberOfReviews: number = 3;
+
+    //Marketing
+    private readonly _marketing_max_weeks = 12;
+    private readonly _marketing_min_weeks = 1;
+
+    private readonly _flyers_base_cost = 50;
+    private readonly _newspapers_base_cost = 250;
+    private readonly _radio_base_cost = 500;
+    private readonly _tv_base_cost = 750;
+    private readonly _internet_base_cost = 1000;
+
+    private readonly _flyers_base_bonus = 5;
+    private readonly _newspapers_base_bonus = 10;
+    private readonly _radio_base_bonus = 15;
+    private readonly _tv_base_bonus = 20;
+    private readonly _internet_base_bonus = 25;
+
     //Room
     private readonly _small = 'small';
-    private readonly _meidium = 'medium';
+    private readonly _medium = 'medium';
     private readonly _large = 'large';
 
-    private readonly _smallRoomMaintanaceCost = 100;
-    private readonly _mediumRoomMaintanaceCost = 150;
-    private readonly _largeRoomMaintanaceCost = 200;
+    private readonly _smallRoomMaintenanceCost = 100;
+    private readonly _mediumRoomMaintenanceCost = 150;
+    private readonly _largeRoomMaintenanceCost = 200;
 
     private readonly _smallRoomRows = 5;
     private readonly _mediumRoomRows = 7;
@@ -79,10 +97,70 @@ class ConfigManager {
 
     private readonly _maxPopularityPenalty: number = 100;
 
-    private readonly _popularityDeviation: number = 10;
+    private readonly _popularityDeviation: number = 2;
     private readonly _popularityToCustomerFactor: number = 10;
     private readonly _releaseDatePenalty: number = 5;
     private readonly _movieDurations: Array<number> = [90, 120, 150, 180];
+
+    public readonly customerWaitingHour: number = 2;
+    public readonly chanceWatchingAnotherMovie: number = 50;
+
+    public readonly ticketBreakpointCustomer: number = 2;
+    public readonly ticketBreakpointFan: number = 3;
+    public readonly ticketCheapBonusThreshold: number = 0.5;
+
+    public readonly boothBaseSpeed : number = 5;
+    public readonly pcSpeedBonus: number = .8;
+    public readonly queueSecondBreakpoint: number = 1.5;
+    public readonly queueFinalBreakpoint: number = 2;
+    public readonly cashierWages: number = 50;
+    public readonly boothBuildprice : number = 3000;
+
+    public readonly chanceLosingFan : number = 50;
+    public readonly bonusArthouseFanConversion : number = 20;
+    public readonly penaltyBlockbusterFanConversion : number = 20;
+
+    public readonly licenseFeeExtraPerRoom: number = 20;
+    public readonly licenseBlockbusterExtraCost: number = 10;
+    public readonly licenseFeeMin: number = 800;
+    public readonly licenseFeeMax: number = 1000;
+
+    public readonly thoughtPositiveBonus: number = 5;
+    public readonly thoughtNegativeBonus: number = 5;
+
+    public readonly movieToQualityFactor: number = 10 * 0.25;
+    public readonly roomToQualityFactor: number = 0.75;
+
+    public readonly qualityRoomVeryBad: number = 20;
+    public readonly qualityRoomBad: number = 40;
+    public readonly qualityRoomGood: number = 70;
+    public readonly qualityRoomVeryGood: number = 90;
+
+    public readonly qualityMovieVeryBad: number = 2;
+    public readonly qualityMovieBad: number = 4;
+    public readonly qualityMovieGood: number = 7;
+    public readonly qualityMovieVeryGood: number = 9;
+
+    //facilities
+    //Common
+    private readonly _maximumCashiers = 4;
+    private readonly _defaultCashiers = 1;
+
+    //Toilet
+    private readonly _toiletCapacityPerCashier = 10;
+    private readonly _toiletHourlyWageCashier = 5;
+    private readonly _toiletMonthlyRent = 25;
+    private readonly _toiletHappinessBonus = 100;
+    private readonly _toiletCostPrice = 0;
+    private readonly _toiletDefaultSellingPrice = 0.2;
+
+    //Arcade
+    private readonly _arcadeCapacityPerCashier = 8;
+    private readonly _arcadeHourlyWageCashier = 10;
+    private readonly _arcadeMonthlyRent = 25;
+    private readonly _arcadeHappinessBonus = 100;
+    private readonly _arcadeCostPrice = 0.2;
+    private readonly _arcadeDefaultSellingPrice = 0.5;
 
     get credit(): number {
         return this._credit;
@@ -126,6 +204,54 @@ class ConfigManager {
 
     get hypeMinimumDuration(): number {
         return this._hypeMinimumDuration;
+    }
+
+    get marketing_max_weeks(): number {
+        return this._marketing_max_weeks;
+    }
+
+    get marketing_min_weeks(): number {
+        return this._marketing_min_weeks;
+    }
+
+    get flyers_base_cost(): number {
+        return this._flyers_base_cost;
+    }
+
+    get newspapers_base_cost(): number {
+        return this._newspapers_base_cost;
+    }
+
+    get radio_base_cost(): number {
+        return this._radio_base_cost;
+    }
+
+    get tv_base_cost(): number {
+        return this._tv_base_cost;
+    }
+
+    get internet_base_cost(): number {
+        return this._internet_base_cost;
+    }
+
+    get flyers_base_bonus(): number {
+        return this._flyers_base_bonus;
+    }
+
+    get newspapers_base_bonus(): number {
+        return this._newspapers_base_bonus;
+    }
+
+    get radio_base_bonus(): number {
+        return this._radio_base_bonus;
+    }
+
+    get tv_base_bonus(): number {
+        return this._tv_base_bonus;
+    }
+
+    get internet_base_bonus(): number {
+        return this._internet_base_bonus;
     }
 
     get hypeMaximumDuration(): number {
@@ -188,24 +314,24 @@ class ConfigManager {
         return this._small;
     }
 
-    get meidium(): string {
-        return this._meidium;
+    get medium(): string {
+        return this._medium;
     }
 
     get large(): string {
         return this._large;
     }
 
-    get smallRoomMaintanaceCost(): number {
-        return this._smallRoomMaintanaceCost;
+    get smallRoomMaintenanceCost(): number {
+        return this._smallRoomMaintenanceCost;
     }
 
-    get mediumRoomMaintanaceCost(): number {
-        return this._mediumRoomMaintanaceCost;
+    get mediumRoomMaintenanceCost(): number {
+        return this._mediumRoomMaintenanceCost;
     }
 
-    get largeRoomMaintanaceCost(): number {
-        return this._largeRoomMaintanaceCost;
+    get largeRoomMaintenanceCost(): number {
+        return this._largeRoomMaintenanceCost;
     }
 
     get smallRoomRows(): number {
@@ -330,6 +456,62 @@ class ConfigManager {
 
     get movieDurations(): Array<number> {
         return this._movieDurations;
+    }
+
+    get maximumCashiers(): number {
+        return this._maximumCashiers;
+    }
+
+    get toiletCapacityPerCashier(): number {
+        return this._toiletCapacityPerCashier;
+    }
+
+    get arcadeCapacityPerCashier(): number {
+        return this._arcadeCapacityPerCashier;
+    }
+
+    get toiletMonthlyRent(): number {
+        return this._toiletMonthlyRent;
+    }
+
+    get toiletHappinessBonus(): number {
+        return this._toiletHappinessBonus;
+    }
+
+    get toiletCostPrice(): number {
+        return this._toiletCostPrice;
+    }
+
+    get toiletDefaultSellingPrice(): number {
+        return this._toiletDefaultSellingPrice;
+    }
+
+    get arcadeMonthlyRent(): number {
+        return this._arcadeMonthlyRent;
+    }
+
+    get arcadeHappinessBonus(): number {
+        return this._arcadeHappinessBonus;
+    }
+
+    get arcadeCostPrice(): number {
+        return this._arcadeCostPrice;
+    }
+
+    get arcadeDefaultSellingPrice(): number {
+        return this._arcadeDefaultSellingPrice;
+    }
+
+    get defaultCashiers(): number {
+        return this._defaultCashiers;
+    }
+
+    get toiletHourlyWageCashier(): number {
+        return this._toiletHourlyWageCashier;
+    }
+
+    get arcadeHourlyWageCashier(): number {
+        return this._arcadeHourlyWageCashier;
     }
 }
 

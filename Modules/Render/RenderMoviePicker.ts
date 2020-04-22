@@ -1,31 +1,32 @@
 import {Cinema} from "../Entity/Cinema";
 import {Movie} from "../Entity/Movie";
 import {Render} from "./Render";
-import {currency} from "../Utils";
+import {GameSpeedManager} from "../Manager/GameSpeedManager";
+import {currency, randomNumber} from "../Utils";
+import reviews from "../Assets/reviews.json";
 
 class RenderMoviePicker implements RenderInterface, RenderByWeekInterface {
 
-    readonly _cinema: Cinema;
-    readonly _render: Render;
+    private readonly _cinema: Cinema;
+    private readonly _gsm: GameSpeedManager;
 
-    // @ts-ignore
     private readonly moviePickerModal = $('#moviePickerModal');
     private readonly container = (<HTMLElement>document.querySelector('#movies-container'));
     private readonly buttonContainer = (<HTMLElement>document.querySelector('#movies-button-container'));
     private readonly errorContainer = (<HTMLElement>document.querySelector('#movies-error-container'));
     private readonly template = (<HTMLTemplateElement>document.querySelector('#movie-template'));
 
-    constructor(cinema: Cinema, render : Render) {
+    constructor(cinema: Cinema, gsm : GameSpeedManager) {
         this._cinema = cinema;
-        this._render = render;
+        this._gsm = gsm;
     }
 
     renderByWeek(): void {
-        this.weeklyMoviePicker(this._render);
+        this.weeklyMoviePicker();
     }
 
-    private weeklyMoviePicker(render: Render): void {
-        render.pause();
+    private weeklyMoviePicker(): void {
+        this._gsm.pause();
         this.container.innerHTML = '';
         this.buttonContainer.innerHTML = '';
         let movies = this._cinema.movieManager.generateThreeMovies();
@@ -53,6 +54,7 @@ class RenderMoviePicker implements RenderInterface, RenderByWeekInterface {
             let selectedMovieIds = this.getSelectedMovieIds();
             if (this._cinema.movieManager.handleMoviePicker(this._cinema, selectedMovieIds, movies)) {
                 this.moviePickerModal.modal('hide');
+                this._gsm.resume();
             } else {
                 this.errorContainer.innerHTML = '';
                 let error = document.createElement('div');
@@ -63,7 +65,6 @@ class RenderMoviePicker implements RenderInterface, RenderByWeekInterface {
         });
 
         this.buttonContainer.appendChild(btn);
-
         this.moviePickerModal.modal('show');
     }
 
@@ -83,10 +84,23 @@ class RenderMoviePicker implements RenderInterface, RenderByWeekInterface {
     // good
     private renderMovieBox(movie: Movie): void {
         let clone = <HTMLElement>this.template.content.cloneNode(true);
-        (<HTMLElement>clone.querySelector('.movie-title')).innerHTML = movie.title;
-        (<HTMLElement>clone.querySelector('.movie-genre')).innerHTML = movie.genre.name;
-        (<HTMLElement>clone.querySelector('.movie-cost')).innerHTML = currency(movie.cost);
+        (<HTMLElement>clone.querySelector('.movie-title')).innerText = movie.title;
+        (<HTMLElement>clone.querySelector('.movie-genre')).innerText = movie.genre.name;
+        (<HTMLElement>clone.querySelector('.movie-cost span')).innerHTML = currency(movie.cost);
         (<HTMLElement>clone.querySelector('.movie-block')).dataset.movie = `${movie.id}`;
+
+        movie.reviews.forEach((review) => {
+            let li = document.createElement('li');
+            li.innerText = review;
+            (<HTMLElement>clone.querySelector('.movie-reviews')).appendChild(li);
+        });
+
+        if (movie.type.isArthouse) {
+            (<HTMLElement>clone.querySelector('.movie-arthouse')).style.display = 'block';
+        } else if (movie.type.isBlockbuster) {
+            (<HTMLElement>clone.querySelector('.movie-blockbuster')).style.display = 'block';
+        }
+
         this.container.appendChild(clone);
     }
 }

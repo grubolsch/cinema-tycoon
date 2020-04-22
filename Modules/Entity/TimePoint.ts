@@ -48,6 +48,11 @@ class TimePoint {
         let timePoint = new TimePoint(0, 0);
         return timePoint.addMinutes(minutes);
     }
+
+    hasTimePassed(hour : number, minute: number) : boolean {
+        return ((this.hour === hour && this.minute >= minute)
+            || (this.hour > hour));
+    }
 }
 
 export {TimePoint}

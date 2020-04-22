@@ -2,18 +2,12 @@ import {Cinema} from "./Cinema";
 import {Customer} from "./Customer";
 import {CustomerThought} from "./CustomerThought";
 import {CustomerInQueue} from "./CustomerInQueue";
+import {MoviePickerCustomer} from "../Manager/MoviePickerCustomer";
+import {Movie} from "./Movie";
+import {LoanException} from "../Exception/LoanException";
+import {TicketSaleException} from "../Exception/TicketSaleException";
 
 class Booth {
-    private readonly THOUGHT_WAITING_TOO_LONG = "I am waiting too long in this queue";
-    private readonly THOUGHT_WAITING_TOO_LONG_GOING_HOME = "I have waited far too long in this queue! I am going home!";
-
-    private readonly BASE_SPEED : number = 10;
-    private readonly PC_SPEED_BONUS: number = .8;
-    private readonly SECOND_BREAKPOINT: number = 1.5;
-    private readonly FINAL_BREAKPOINT: number = 2;
-    private readonly CASHIER_WAGES: number = 50;
-    private readonly BUILDPRICE_BOOTH: number = 3000;
-
     private _hasPc: boolean = false;
 
     private _customers: Array<CustomerInQueue> = [];
@@ -27,25 +21,25 @@ class Booth {
 
     constructor(cinema: Cinema) {
         this._cinema = cinema;
-        this._speed = this.BASE_SPEED;
+        this._speed = this._cinema.config.boothBaseSpeed;
     }
 
     set hasPc(value: boolean) {
         this._hasPc = value;
 
         if(this._hasPc) {
-            this._speed = Math.round(this.BASE_SPEED * this.PC_SPEED_BONUS);
+            this._speed = Math.round(this._cinema.config.boothBaseSpeed * this._cinema.config.pcSpeedBonus);
         } else {
-            this._speed = this.BASE_SPEED;
+            this._speed = this._cinema.config.boothBaseSpeed;
         }
     }
 
     getHourCost(): number {
-        return this.CASHIER_WAGES;
+        return this._cinema.config.cashierWages;
     }
 
     getBuildCost(): number {
-        return this.BUILDPRICE_BOOTH;
+        return this._cinema.config.boothBuildprice;
     }
 
     get customers(): Array<CustomerInQueue> {
@@ -79,11 +73,13 @@ class Booth {
             let customer = customerInQueue.customer;
             let timeInQueue = customerInQueue.timeInQueueTracker.time;
 
-            if(timeInQueue === customer.queueingTolerance || timeInQueue === customer.queueingTolerance * self.SECOND_BREAKPOINT) {
-                customer.addThought(new CustomerThought(self.THOUGHT_WAITING_TOO_LONG, false))
+            if(timeInQueue === customer.queueingTolerance || timeInQueue === customer.queueingTolerance * self._cinema.config.queueSecondBreakpoint) {
+                customer.addThought(new CustomerThought(CustomerThought.THOUGHT_WAITING_TOO_LONG, false))
             }
-            else if(timeInQueue === customer.queueingTolerance * self.FINAL_BREAKPOINT) {
-                customer.addThought(new CustomerThought(self.THOUGHT_WAITING_TOO_LONG_GOING_HOME, false));
+            else if(timeInQueue === customer.queueingTolerance * self._cinema.config.queueFinalBreakpoint) {
+                customer.addThought(new CustomerThought(CustomerThought.THOUGHT_WAITING_TOO_LONG_GOING_HOME, false));
+
+                customer.plans.set(customer.PLAN_LEAVE, true);
 
                 self._customersAway++;
                 delete self._customers[key];
@@ -92,16 +88,27 @@ class Booth {
     }
 
     private buyTicket(customer : Customer) {
-        // This function is going to become a lot more complex later on
-        // - Does the user have a free ticket?
-        // - Is the movie he wants to see still available?
-        // Is he oke with the price?
+        let originalTargetMovie : Movie = customer.targetShow.movie;
 
-        customer.pay(this._cinema.ticketPrice);
-        this._cinema.financeManager.earn(this._cinema.ticketPrice, 'Ticketsale');
-        this._ticketsSold++;
+        try {
+            if (customer.targetShow.isFull()) {
+                //his initial movie is sold out, pick an alternative
+                customer.targetShow = (new MoviePickerCustomer(this._cinema, customer)).pickShow();
+            }
+
+            let price = customer.purchaseTicket(originalTargetMovie, this._cinema);//could be 0 because of free ticket
+            this._cinema.financeManager.earn(price, 'Ticketsale');
+            this._ticketsSold++;
+        }
+        catch(error) {
+            if(error instanceof TicketSaleException) {
+                customer.plans.set(customer.PLAN_LEAVE, true);
+            } else {
+                //this should never happen
+                alert('Unknown error BoothManager: '+ error.message);
+            }
+        }
     }
-
 
     get ticketsSold(): number {
         return this._ticketsSold;

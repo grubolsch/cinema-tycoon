@@ -16,6 +16,18 @@ import {RenderMoviePicker} from "./Modules/Render/RenderMoviePicker";
 import {DebugBar} from "./Modules/DebugBar";
 import {RenderScheduler} from "./Modules/Render/RenderScheduler";
 import {RenderSchedulerForm} from "./Modules/Render/RenderSchedulerForm";
+import {RenderFacilities} from "./Modules/Render/RenderFacilities";
+import {RenderCustomerDetailPanel} from "./Modules/Render/RenderCustomerDetailPanel";
+import {StatisticsManager} from "./Modules/Manager/StatisticsManager";
+import {randomNumber} from "./Modules/Utils";
+import {CreditChart} from "./Modules/Manager/Graphs/CreditChart";
+import {FanChart} from "./Modules/Manager/Graphs/FanChart";
+import {RenderChart} from "./Modules/Render/RenderChart";
+import {VisitorChart} from "./Modules/Manager/Graphs/VisitorsChart";
+import {RenderFinancialReport} from "./Modules/Render/RenderFinancialReport";
+import {RenderMovieDetailPanel} from "./Modules/Render/RenderMovieDetailPanel";
+import {MovieSaleOverTime} from "./Modules/Manager/Graphs/MovieSaleOverTime";
+import {GameSpeedManager} from "./Modules/Manager/GameSpeedManager";
 
 const observer = new Observer;
 const configManager = new ConfigManager;
@@ -24,19 +36,33 @@ const timeManager = new TimeManager(observer);
 
 document.addEventListener('DOMContentLoaded', () => {
     // temporary code, this should come from a save or a "create new game" menu
-    let cinema = new Cinema("Our own Cinema", timeManager, configManager, new FinanceManager(configManager), new MarketingManager());
+    let cinema = new Cinema("Our own Cinema", timeManager, configManager, new FinanceManager(configManager));
     //done tmp code
 
+
     //Object responsible for rendering changes in state
-    let render = new Render(cinema);
+    let render : Render = new Render(cinema);
+    //Object responsible for controlling game speed
+    let gameSpeedManager : GameSpeedManager = new GameSpeedManager(render);
     render.addRender(new RenderLoans(cinema, loanManager));
     render.addRender(new RenderBooths(cinema));
     render.addRender(new RenderRooms(cinema));
     render.addRender(new RenderScheduler(cinema));
     render.addRender(new RenderSchedulerForm(cinema));
     render.addRender(new RenderResearch(cinema));
-    render.addRender(new RenderMarketing(cinema));
-    let renderMoviePicker = new RenderMoviePicker(cinema, render);
+    render.addRender(new RenderMarketing(cinema, gameSpeedManager));
+    render.addRender(new RenderFacilities(cinema));
+    render.addRender(new RenderCustomerDetailPanel(cinema));
+    render.addRender(new RenderFinancialReport(cinema.financeManager));
+    render.addRender(new RenderMovieDetailPanel(cinema));
+
+    let renderChart = new RenderChart(cinema);
+    renderChart.addGraph(new FanChart());
+    renderChart.addGraph(new CreditChart());
+    renderChart.addGraph(new VisitorChart());
+    render.addRender(renderChart);
+
+    let renderMoviePicker = new RenderMoviePicker(cinema, gameSpeedManager);
     render.addRender(renderMoviePicker);
     render.render();
 
@@ -59,10 +85,7 @@ document.addEventListener('DOMContentLoaded', () => {
     });
 
     observer.subscribe(observer.HOUR, () => {
-        console.info('An hour has passed');
-
         cinema.boothManager.payHourCost();
-
         render.renderByHour();
     });
 
@@ -71,12 +94,13 @@ document.addEventListener('DOMContentLoaded', () => {
 
         render.renderByDay();
 
+        cinema.scheduler.resetShows();
         cinema.customerSpawnerManager.updateByDay();
     });
 
     observer.subscribe(observer.WEEK, () => {
-        console.info('A week has passed');
-
+        cinema.marketingManager.weeklyCampaignUpdate(cinema);
+        cinema.statisticsManager.updateWeekly();
         cinema.marketingManager.weeklyCampaignUpdate();
         render.renderByWeek();
     });
@@ -87,6 +111,7 @@ document.addEventListener('DOMContentLoaded', () => {
         loanManager.update(cinema);
         cinema.genreManager.update();
         cinema.researchManager.update(observer);
+        cinema.financeManager.resetReports();
         render.renderByMonth();
     });
 

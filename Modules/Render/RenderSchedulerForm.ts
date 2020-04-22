@@ -33,6 +33,8 @@ class RenderSchedulerForm implements RenderInterface {
 
         var self = this;
 
+        //@todo: use the new MovieDropdown class
+        self.movieElement.innerHTML = '';
         this._cinema.movieManager.movies.forEach(function(movie: Movie) {
             self.movieElement.appendChild(new Option(movie.title, movie.id.toString()));
         });

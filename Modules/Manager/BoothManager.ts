@@ -7,6 +7,7 @@ class BoothManager {
 
     private _booths: Array<Booth> = [];
     private _cinema : Cinema;
+    private _visitors : number = 0;
 
     constructor(cinema : Cinema) {
         this._cinema = cinema;
@@ -14,11 +15,12 @@ class BoothManager {
     }
 
     addCustomer(customer: Customer) {
-        //sort until I have the shortest queue
+        this._visitors++;
 
         let boots : Array<Booth> = [];
         boots = Object.assign(boots, this._booths);
 
+        //sort until I have the shortest queue
         boots.sort(function (a, b): number {
             return a.customers.length >= b.customers.length ? 1 : -1;
         });
@@ -53,10 +55,19 @@ class BoothManager {
         return this._booths;
     }
 
+    get visitors(): number {
+        return this._visitors;
+    }
+
     payHourCost() : void {
         let costBoots : number = this._booths.length * this._booths[0].getHourCost();
 
         this._cinema.financeManager.pay(costBoots, 'Wages cashiers');
+    }
+
+    //is called by the statistics manager to reset the visitors each week
+    public resetVisitors() : void {
+        this._visitors = 0;
     }
 }
 
