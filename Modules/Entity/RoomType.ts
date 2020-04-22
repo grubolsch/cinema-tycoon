@@ -20,7 +20,7 @@ class RoomType {
     }
 
     static mediumRoom(cm: ConfigManager) {
-        return new RoomType(cm, cm.meidium, cm.mediumRoomMaintenanceCost, cm.mediumRoomRows)
+        return new RoomType(cm, cm.medium, cm.mediumRoomMaintenanceCost, cm.mediumRoomRows)
     }
 
     static largeRoom(cm: ConfigManager) {

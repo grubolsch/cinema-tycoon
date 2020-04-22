@@ -263,13 +263,13 @@ class Customer {
 
     public getPositiveThoughts(): Array<CustomerThought> {
         return this.thoughts.filter(function (thought) {
-            return thought.postive;
+            return thought.positive;
         });
     }
 
     public getNegativeThoughts(): Array<CustomerThought> {
         return this.thoughts.filter(function (thought) {
-            return !thought.postive;
+            return !thought.positive;
         });
     }
 

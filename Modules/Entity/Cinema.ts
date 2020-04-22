@@ -16,6 +16,7 @@ import {FacilityManager} from "../Manager/FacilityManager";
 import {StatisticsManager} from "../Manager/StatisticsManager";
 import {ProductManager} from "../Manager/ProductManager";
 import {ShopTypeManager} from "../Manager/ShopTypeManager";
+import {FreeTicketDistributor} from "../Manager/FreeTicketDistributor";
 
 
 class Cinema {
@@ -41,6 +42,8 @@ class Cinema {
     private readonly _statisticsManager: StatisticsManager;
     private readonly _productManager: ProductManager;
     private readonly _shopTypeManager: ShopTypeManager;
+    private readonly _freeTicketDistributor: FreeTicketDistributor;
+
 
     public constructor(name: string, TimeManager: TimeManager, config: ConfigManager, financeManager: FinanceManager) {
         this._name = name;
@@ -63,6 +66,7 @@ class Cinema {
         this._statisticsManager = new StatisticsManager(this);
         this._productManager = new ProductManager();
         this._shopTypeManager = new ShopTypeManager(this._productManager);
+        this._freeTicketDistributor = new FreeTicketDistributor(config);
     }
 
     get name(): string {
@@ -107,6 +111,10 @@ class Cinema {
 
     get customerSpawnerManager(): CustomerSpawnerManager {
         return this._customerSpawnerManager;
+    }
+
+    get freeTicketDistributor(): FreeTicketDistributor {
+        return this._freeTicketDistributor;
     }
 
     public update() {

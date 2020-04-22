@@ -58,7 +58,7 @@ class RenderMoviePicker implements RenderInterface, RenderByWeekInterface {
             } else {
                 this.errorContainer.innerHTML = '';
                 let error = document.createElement('div');
-                error.classList.add('alert', 'alert-warning');
+                error.classList.add('alert', 'alert-warning', 'text-center');
                 error.innerText = "You don't have enough money for this purchase";
                 this.errorContainer.appendChild(error);
             }

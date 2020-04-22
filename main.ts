@@ -95,15 +95,14 @@ document.addEventListener('DOMContentLoaded', () => {
         console.info('A day has passed');
 
         render.renderByDay();
-
         cinema.scheduler.resetShows();
         cinema.customerSpawnerManager.updateByDay();
+        cinema.marketingManager.dailyUpdate();
     });
 
     observer.subscribe(observer.WEEK, () => {
         cinema.marketingManager.weeklyCampaignUpdate(cinema);
         cinema.statisticsManager.updateWeekly();
-        cinema.marketingManager.weeklyCampaignUpdate(cinema);
         render.renderByWeek();
     });
 
