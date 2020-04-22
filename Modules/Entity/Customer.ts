@@ -24,10 +24,7 @@ class Customer {
     private _name: string;
     private _age: number;
     private _gender: string;
-    private _likeCommercial: boolean;
     private _commercialTolerance: number;
-    private _likeBreak: boolean;
-    private _breakTolerance: number;
     private _queueingTolerance: number;
     private _pricingToleranceShop: number;
     private _pricingToleranceTicket: number;
@@ -42,15 +39,12 @@ class Customer {
     private _plans: Map<string, boolean> = new Map<string, boolean>();
     private _ai: CustomerAi | null = null;
 
-    constructor(name: string, age: number, gender: string, likeCommercial: boolean, commercialTolerance: number, likeBreak: boolean, breakTolerance: number, queueingTolerance: number, pricingToleranceShop: number, pricingToleranceTicket: number, isFan: boolean, targetShow: Show) {
+    constructor(name: string, age: number, gender: string, commercialTolerance: number,  queueingTolerance: number, pricingToleranceShop: number, pricingToleranceTicket: number, isFan: boolean, targetShow: Show) {
         this._id = CustomerManager.customerCounter++;
         this._name = name;
         this._age = age;
         this._gender = gender;
-        this._likeCommercial = likeCommercial;
         this._commercialTolerance = commercialTolerance;
-        this._likeBreak = likeBreak;
-        this._breakTolerance = breakTolerance;
         this._queueingTolerance = queueingTolerance;
         this._pricingToleranceShop = pricingToleranceShop;
         this._pricingToleranceTicket = pricingToleranceTicket;
@@ -75,20 +69,8 @@ class Customer {
         return this._gender;
     }
 
-    get likeCommercial(): boolean {
-        return this._likeCommercial;
-    }
-
     get commercialTolerance(): number {
         return this._commercialTolerance;
-    }
-
-    get likeBreak(): boolean {
-        return this._likeBreak;
-    }
-
-    get breakTolerance(): number {
-        return this._breakTolerance;
     }
 
     get queueingTolerance(): number {
@@ -153,9 +135,6 @@ class Customer {
         console.info(this._name + ", " +
             this._gender + ", " +
             this._age + " / " +
-            this._likeBreak + ", " +
-            this._breakTolerance + ", " +
-            this._likeCommercial + ", " +
             this._commercialTolerance + ", " +
             this._queueingTolerance + ", " +
             this._pricingToleranceShop + ", " +

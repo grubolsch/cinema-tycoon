@@ -8,8 +8,8 @@ class ConfigManager {
     public readonly researchIncreasePercentageCostPerRoom: number = 20;
 
     //Config customer
-    public readonly breakTolerance = 0.2;
-    public readonly commercialTolerance = 0.2;
+    public readonly commercialTolerance = 20;
+    public readonly commercialFeePerCustomer = 0.10;
 
     public readonly hypeChance: number = 50;
     public readonly hypeChanceDropRate: number = 10;
@@ -141,8 +141,6 @@ class ConfigManager {
     public readonly qualityRoomBad: number = 40;
     public readonly qualityRoomGood: number = 70;
     public readonly qualityRoomVeryGood: number = 90;
-
-
 
     public readonly qualityMovieVeryBad: number = 2;
     public readonly qualityMovieBad: number = 4;

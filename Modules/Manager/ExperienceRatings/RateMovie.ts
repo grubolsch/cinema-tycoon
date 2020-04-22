@@ -2,6 +2,7 @@ import {Movie} from "../../Entity/Movie";
 import {Customer} from "../../Entity/Customer";
 import {CustomerThought} from "../../Entity/CustomerThought";
 import {ConfigManager} from "../ConfigManager";
+import {randomNumber} from "../../Utils";
 
 class RateMovie {
     private config : ConfigManager;
