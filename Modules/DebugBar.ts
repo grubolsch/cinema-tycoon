@@ -6,9 +6,10 @@ import {Show} from "./Entity/Show";
 import {randomNumber} from "./Utils";
 
 class DebugBar {
-    readonly moneyForm = <HTMLElement>document.querySelector("#debugBar-add-money");
-    readonly moneyElement = <HTMLInputElement>document.querySelector("#debugBar-add-money input");
-    readonly createCustomerButton = <HTMLElement>document.querySelector("#createCustomerDebug");
+    private readonly moneyForm = <HTMLElement>document.querySelector("#debugBar-add-money");
+    private readonly moneyElement = <HTMLInputElement>document.querySelector("#debugBar-add-money input");
+    private readonly createCustomerButton = <HTMLElement>document.querySelector("#createCustomerDebug");
+    private readonly cinemaButton = <HTMLElement>document.querySelector("#cinemaLogButton");
 
     private readonly _cinema : Cinema;
     private readonly _observer : Observer;
@@ -40,19 +41,24 @@ class DebugBar {
 
     init() {
         let self = this;
-        this.moneyForm.addEventListener('submit', function(event) {
+
+        this.cinemaButton.addEventListener('click', () => {
+            console.log(this._cinema);
+        });
+
+        this.moneyForm.addEventListener('submit', event => {
             event.preventDefault();
             self.giveMoney();
         });
 
-        this.createCustomerButton.addEventListener('click', function() {
+        this.createCustomerButton.addEventListener('click', () => {
             self.createCustomer();
         });
 
         document.querySelectorAll('div#debugBar button.trigger-event').forEach((element) => {
             element.addEventListener('click', (e) => {
                 // @ts-ignore
-                self._observer.trigger(e.target.getAttribute('rel'), [self._cinema.timeManager]);
+                this._observer.trigger(e.target.getAttribute('rel'), [self._cinema.timeManager]);
             });
         });
     }

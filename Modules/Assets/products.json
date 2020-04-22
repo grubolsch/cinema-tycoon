@@ -1,0 +1,108 @@
+{
+  "products": [
+    {
+      "id": 1,
+      "name": "Small Popcorn",
+      "costPrice": 2.50,
+      "defaultPrice": 5.00,
+      "category": "popcorn",
+      "bonus": 10
+    },
+    {
+      "id": 2,
+      "name": "Medium Popcorn",
+      "costPrice": 3.50,
+      "defaultPrice": 7.00,
+      "category": "popcorn",
+      "bonus": 20
+    },
+    {
+      "id": 3,
+      "name": "Large Popcorn",
+      "costPrice": 3.75,
+      "defaultPrice": 9.50,
+      "category": "popcorn",
+      "bonus": 30
+    },
+    {
+      "id": 4,
+      "name": "Small soft drink",
+      "costPrice": 2.50,
+      "defaultPrice": 5.00,
+      "category": "drink",
+      "bonus": 10
+    },
+    {
+      "id": 5,
+      "name": "Medium soft drink",
+      "costPrice": 2.25,
+      "defaultPrice": 4.50,
+      "category": "drink",
+      "bonus": 20
+    },
+    {
+      "id": 6,
+      "name": "Large soft drink",
+      "costPrice": 3.25,
+      "defaultPrice": 6.50,
+      "category": "drink",
+      "bonus": 30
+    },
+    {
+      "id": 10,
+      "name": "Milkshake",
+      "costPrice": 2.50,
+      "defaultPrice": 5.00,
+      "category": "drinks",
+      "bonus": 20
+    },
+    {
+      "id": 7,
+      "name": "Small Ice Cream",
+      "costPrice": 1.00,
+      "defaultPrice": 2.00,
+      "category": "ice cream",
+      "bonus": 5
+    },
+    {
+      "id": 8,
+      "name": "Medium Ice Cream",
+      "costPrice": 2.00,
+      "defaultPrice": 4.00,
+      "category": "ice cream",
+      "bonus": 10
+    },
+    {
+      "id": 9,
+      "name": "Large Ice Cream",
+      "costPrice": 2.50,
+      "defaultPrice": 5.00,
+      "category": "ice cream",
+      "bonus": 20
+    },
+    {
+      "id": 11,
+      "name": "Chips",
+      "costPrice": 1,
+      "defaultPrice": 2,
+      "category": "snacks",
+      "bonus": 5
+    },
+    {
+      "id": 12,
+      "name": "Magic chocolate bar",
+      "costPrice": 1.5,
+      "defaultPrice": 2.5,
+      "category": "snacks",
+      "bonus": 10
+    },
+    {
+      "id": 13,
+      "name": "Loose Candy (200g)",
+      "costPrice": 2,
+      "defaultPrice": 5,
+      "category": "snacks",
+      "bonus": 20
+    }
+  ]
+}
