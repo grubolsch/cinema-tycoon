@@ -10,6 +10,7 @@ import {CustomerAi} from "../Manager/CustomerAi";
 import {Genre} from "./Genre";
 import {CustomerAction} from "../CustomerActions/CustomerAction";
 import {InventoryItem} from "./InventoryItem";
+import {randomNumber} from "../Utils";
 
 type CustomerLocation = { x: number, y: number };
 
@@ -206,7 +207,6 @@ class Customer {
         return this._plans;
     }
 
-    //runs every tick
     update(cinema: Cinema) {
         if (this._ai === null) {
             this._ai = new CustomerAi(cinema, this);
@@ -238,6 +238,18 @@ class Customer {
         //@todo: happiness bonus Arcade
 
         return movieQuality + roomQuality + thoughtBonus - thoughtPenalty;
+    }
+
+    public wantToShop(config : ConfigManager) : boolean {
+        let chance = randomNumber(0, 50);
+        if(this.isFan) {
+            chance += config.fanShoppingBonus;
+        }
+
+        chance += this.getPositiveThoughts().length * config.thoughtPositiveBonus;
+        chance -= this.getNegativeThoughts().length * config.thoughtNegativeBonus;
+
+        return chance >= randomNumber(0, 100);
     }
 
     public getPositiveThoughts(): Array<CustomerThought> {

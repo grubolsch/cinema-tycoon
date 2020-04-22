@@ -15,7 +15,7 @@ class RateShow {
 
     rate(show : Show, customer : Customer) {
         if(show.showConfiguration.hasCommercial && randomNumber(0, 100) <= this.config.commercialTolerance) {
-            customer.addThought(new CustomerThought(('I hate those commercials before a movie.'), true));
+            customer.addThought(new CustomerThought(('I hate those commercials before a movie.'), false));
         }
     }
 

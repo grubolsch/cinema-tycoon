@@ -11,6 +11,8 @@ class ConfigManager {
     public readonly commercialTolerance = 20;
     public readonly commercialFeePerCustomer = 0.10;
 
+    public readonly fanShoppingBonus: number = 20;
+
     public readonly hypeChance: number = 50;
     public readonly hypeChanceDropRate: number = 10;
     public readonly hypeMinimumDuration: number = 2;
@@ -33,7 +35,6 @@ class ConfigManager {
     public readonly maxFreeTicketPercentage: number = 75;
     public readonly freeTicketSlope: number = 3; // 1 = very steep, 2 = less steep, 3 = even less steep
     public readonly freeTicketCostPercentage: number = 20; // you pay 1/5 for every free ticket
-
 
     public readonly numberOfReviews: number = 3;
 
@@ -151,6 +152,7 @@ class ConfigManager {
     //Common
     public readonly maximumCashiers = 4;
     public readonly defaultCashiers = 1;
+    public readonly defaultCapacityPerCashier = 10;
 
     //Toilet
     public readonly toiletCapacityPerCashier = 10;
@@ -167,6 +169,7 @@ class ConfigManager {
     public readonly arcadeHappinessBonus = 100;
     public readonly arcadeCostPrice = 0.2;
     public readonly arcadeDefaultSellingPrice = 0.5;
+    public readonly ticksNeedToShop: number = 1;
 }
 
 export {ConfigManager}
