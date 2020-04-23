@@ -9,8 +9,11 @@ import {TicketSaleException} from "../Exception/TicketSaleException";
 import {CustomerAi} from "../Manager/CustomerAi";
 import {Genre} from "./Genre";
 import {CustomerAction} from "../CustomerActions/CustomerAction";
-import {InventoryItem} from "./InventoryItem";
 import {randomNumber} from "../Utils";
+import {Product} from "./Product";
+import {FreeTicket} from "./Items/FreeTicket";
+import {InventoryItem} from "./Items/InventoryItem";
+import {Ticket} from "./Items/Ticket";
 
 type CustomerLocation = { x: number, y: number };
 
@@ -159,7 +162,7 @@ class Customer {
     }
 
     get hasFreeTicket(): boolean {
-        return this._inventory.has(InventoryItem.INV_FREE_TICKET)
+        return this._inventory.has(FreeTicket.INV_FREE_TICKET)
     }
 
     /**
@@ -171,6 +174,8 @@ class Customer {
             if (originalTargetMovie.id === this.targetShow.movie.id) {
                 this._plans.set(this.PLAN_WATCH_MOVIE, true);
                 this.addThought(new CustomerThought(CustomerThought.THOUGHT_USED_FREE_TICKET, true));
+                this.targetShow.sellTicket(cinema);
+
                 return 0;
             }
 
@@ -197,9 +202,12 @@ class Customer {
 
         this._plans.set(this.PLAN_WATCH_MOVIE, true);
 
-        this.targetShow.movie.bookTicket(cinema.ticketPrice, cinema.timeManager);
-        this.targetShow.sellTicket();
+        this.addInventoryItem(Ticket.INV_TICKET, new Ticket(this.targetShow.movie));
+
+        this.targetShow.sellTicket(cinema);
         this.pay(cinema.ticketPrice);
+        this.targetShow.movie.bookTicket(cinema.ticketPrice, cinema.timeManager);
+
         return cinema.ticketPrice;
     }
 
@@ -240,8 +248,9 @@ class Customer {
         return movieQuality + roomQuality + thoughtBonus - thoughtPenalty;
     }
 
+    //refactor to NEED class
     public wantToShop(config : ConfigManager) : boolean {
-        let chance = randomNumber(0, 50);
+        let chance : number = config.baseShoppingChance;
         if(this.isFan) {
             chance += config.fanShoppingBonus;
         }
@@ -251,6 +260,23 @@ class Customer {
 
         return chance >= randomNumber(0, 100);
     }
+
+    public needsToUseToilet(config : ConfigManager) : boolean {
+        let chance : number = config.toiletBasicChance;
+
+        let result = Array.from(this.inventory).find(function(product) {
+            return product[1].isDrink();
+        });
+
+
+        if(result !== undefined) {
+            chance += config.toiletDrinkChance;
+        }
+
+        return chance >= randomNumber(0, 100);
+
+    }
+    //end refactor
 
     public getPositiveThoughts(): Array<CustomerThought> {
         return this.thoughts.filter(function (thought) {
@@ -270,6 +296,10 @@ class Customer {
         }
 
         return this._ai.currentAction;
+    }
+
+    wantsToPlayInArcade(config: ConfigManager) {
+        return false;
     }
 }
 

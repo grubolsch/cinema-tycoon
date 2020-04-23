@@ -6,32 +6,35 @@ import {MoviePickerCustomer} from "../Manager/MoviePickerCustomer";
 import {Movie} from "./Movie";
 import {LoanException} from "../Exception/LoanException";
 import {TicketSaleException} from "../Exception/TicketSaleException";
+import {BoothException} from "../Exception/BoothException";
 
 class Booth {
-    private _hasPc: boolean = false;
-
     private _customers: Array<CustomerInQueue> = [];
-
-    private _cinema : Cinema;
-    private _speed : number;
-
-    private _ticketSaleProgress : number = 0;
+    private _cinema: Cinema;
     private _ticketsSold: number = 0;
     private _customersAway: number = 0;
+
+    private _speed: number;
+    private _level: number = 0;
 
     constructor(cinema: Cinema) {
         this._cinema = cinema;
         this._speed = this._cinema.config.boothBaseSpeed;
     }
 
-    set hasPc(value: boolean) {
-        this._hasPc = value;
+    upgrade(level: number): void {
+        let differentSpeeds = [
+            this._cinema.config.boothBaseSpeed,
+            this._cinema.config.boothTrainedSpeed,
+            this._cinema.config.boothPcSpeed,
+            this._cinema.config.boothSelfService,
+        ];
 
-        if(this._hasPc) {
-            this._speed = Math.round(this._cinema.config.boothBaseSpeed * this._cinema.config.pcSpeedBonus);
-        } else {
-            this._speed = this._cinema.config.boothBaseSpeed;
+        if (differentSpeeds[level] === undefined) {
+            throw BoothException.invalidUpgrade(level);
         }
+
+        this._speed = differentSpeeds[level];
     }
 
     getHourCost(): number {
@@ -51,44 +54,40 @@ class Booth {
     }
 
     update() {
-        if(this.customers.length === 0) {
-            //this means the queue is completely empty, we can go home
-            return;
-        }
-
-        if(++this._ticketSaleProgress === this._speed) {
-            let customerInQueue = this.customers.shift();
-
-            if(customerInQueue !== undefined) {
-                this.buyTicket(customerInQueue.customer);
+        for (let i = 0; i < this._speed; i++) {
+            if (this.customers.length === 0) {
+                //this means the queue is completely empty, we can go home
+                return;
             }
 
-            this._ticketSaleProgress = 0;
+            let customerInQueue = this.customers.shift();
+
+            if (customerInQueue !== undefined) {
+                this.buyTicket(customerInQueue.customer);
+            }
         }
 
-        var self = this;
-        this._customers.forEach(function (customerInQueue, key) {
+        this._customers.forEach((customerInQueue, key) => {
             customerInQueue.timeInQueueTracker.addTick();
 
             let customer = customerInQueue.customer;
             let timeInQueue = customerInQueue.timeInQueueTracker.time;
 
-            if(timeInQueue === customer.queueingTolerance || timeInQueue === customer.queueingTolerance * self._cinema.config.queueSecondBreakpoint) {
+            if (timeInQueue === customer.queueingTolerance || timeInQueue === customer.queueingTolerance * this._cinema.config.queueSecondBreakpoint) {
                 customer.addThought(new CustomerThought(CustomerThought.THOUGHT_WAITING_TOO_LONG, false))
-            }
-            else if(timeInQueue === customer.queueingTolerance * self._cinema.config.queueFinalBreakpoint) {
+            } else if (timeInQueue === customer.queueingTolerance * this._cinema.config.queueFinalBreakpoint) {
                 customer.addThought(new CustomerThought(CustomerThought.THOUGHT_WAITING_TOO_LONG_GOING_HOME, false));
 
                 customer.plans.set(customer.PLAN_LEAVE, true);
 
-                self._customersAway++;
-                delete self._customers[key];
+                this._customersAway++;
+                delete this._customers[key];
             }
         });
     }
 
-    private buyTicket(customer : Customer) {
-        let originalTargetMovie : Movie = customer.targetShow.movie;
+    private buyTicket(customer: Customer) {
+        let originalTargetMovie: Movie = customer.targetShow.movie;
 
         try {
             if (customer.targetShow.isFull()) {
@@ -99,13 +98,12 @@ class Booth {
             let price = customer.purchaseTicket(originalTargetMovie, this._cinema);//could be 0 because of free ticket
             this._cinema.financeManager.earn(price, 'Ticketsale');
             this._ticketsSold++;
-        }
-        catch(error) {
-            if(error instanceof TicketSaleException) {
+        } catch (error) {
+            if (error instanceof TicketSaleException) {
                 customer.plans.set(customer.PLAN_LEAVE, true);
             } else {
                 //this should never happen
-                alert('Unknown error BoothManager: '+ error.message);
+                alert('Unknown error BoothManager: ' + error.message);
             }
         }
     }

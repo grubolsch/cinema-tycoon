@@ -1,20 +1,17 @@
-import {InventoryItem} from "./InventoryItem";
+import {InventoryItem} from "./Items/InventoryItem";
 
-class Product extends InventoryItem {
+class Product implements InventoryItem {
     private readonly DRINK: string = 'drinks';
 
     private readonly _id: number;
     private readonly _name: string;
     private readonly _happinessBonus: number;
     private readonly _costPrice: number;
+    private readonly _defaultPrice: number;
+    private readonly _category: string;
     private _sellingPrice: number;
-    private _defaultPrice: number;
-    private _category: string;
-    private _isService: boolean;
 
-    constructor(id: number, name: string, happinessBonus: number, costPrice: number, sellingPrice: number, category: string, service : boolean) {
-        super();
-
+    constructor(id: number, name: string, happinessBonus: number, costPrice: number, sellingPrice: number, category: string) {
         this._id = id;
         this._name = name;
         this._happinessBonus = happinessBonus;
@@ -22,7 +19,6 @@ class Product extends InventoryItem {
         this._sellingPrice = sellingPrice;
         this._defaultPrice = sellingPrice;
         this._category = category;
-        this._isService = service;
     }
 
     get id(): number {
@@ -31,6 +27,10 @@ class Product extends InventoryItem {
 
     get name(): string {
         return this._name;
+    }
+
+    description(): string {
+        return this.name;
     }
 
     get happinessBonus(): number {
@@ -61,16 +61,12 @@ class Product extends InventoryItem {
         this._sellingPrice = value;
     }
 
-    isDrink() {
+    isDrink() : boolean {
         return this._category === this.DRINK;
     }
 
     get category(): string {
         return this._category;
-    }
-
-    get isService(): boolean {
-        return this._isService;
     }
 }
 

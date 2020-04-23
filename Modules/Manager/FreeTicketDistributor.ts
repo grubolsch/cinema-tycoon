@@ -1,11 +1,11 @@
 import {Movie} from "../Entity/Movie";
 import {Customer} from "../Entity/Customer";
-import {FreeTicket} from "../Entity/FreeTicket";
+import {FreeTicket} from "../Entity/Items/FreeTicket";
 import {ConfigManager} from "./ConfigManager";
 import {Show} from "../Entity/Show";
 import {Cinema} from "../Entity/Cinema";
 import {MarketingCampaign} from "../Entity/MarketingCampaign";
-import {InventoryItem} from "../Entity/InventoryItem";
+import {InventoryItem} from "../Entity/Items/InventoryItem";
 
 class FreeTicketDistributor {
 
@@ -16,7 +16,7 @@ class FreeTicketDistributor {
     }
 
     public giveFreeTicket(customer: Customer, movie: Movie) {
-        customer.addInventoryItem(InventoryItem.INV_FREE_TICKET, new FreeTicket(movie));
+        customer.addInventoryItem(FreeTicket.INV_FREE_TICKET, new FreeTicket(movie));
         movie.removeFreeTicket();
     }
 

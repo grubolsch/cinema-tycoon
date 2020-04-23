@@ -87,7 +87,7 @@ class Show {
         this.ticketsSold = 0;
     }
 
-    public sellTicket() : void {
+    public sellTicket(cinema : Cinema) : void {
         if(this.isFull()) {
             throw TicketSaleException.showSoldOut();
         }

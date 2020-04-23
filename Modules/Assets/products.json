@@ -110,7 +110,6 @@
       "costPrice": 0,
       "defaultPrice": 0,
       "category": "toilet",
-      "service": true,
       "bonus": 20
     },
     {
@@ -119,7 +118,6 @@
       "costPrice": 0,
       "defaultPrice": 0,
       "category": "arcade",
-      "service": true,
       "bonus": 20
     }
   ]

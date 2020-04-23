@@ -22,6 +22,10 @@ class FacilityException extends Error {
     static couldNotFindElement(id : any) : FacilityException {
         return new this('Could not find rendered facility '+ id);
     }
+
+    static missingCoreFacility(type: string) : FacilityException{
+        return new this('Missing core facility '+ type);
+    }
 }
 
 export {FacilityException}

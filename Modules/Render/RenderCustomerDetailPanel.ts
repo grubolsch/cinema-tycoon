@@ -24,7 +24,6 @@ class RenderCustomerDetailPanel implements RenderInterface {
                     let customerId = (<HTMLElement>target).dataset.customer!;
 
                     let customer = self.cinema.customerManager.customers.get(parseInt(customerId));
-                    console.log(customerId, customer)
 
                     if(customer != undefined) {
                         self.show(customer, e.clientX, e.clientY);
@@ -61,19 +60,21 @@ class RenderCustomerDetailPanel implements RenderInterface {
         (<HTMLElement>this.detailPanel.querySelector('.customer-money-spent')).innerHTML = currency(this.customer.moneySpent);
         (<HTMLElement>this.detailPanel.querySelector('.customer-genre-comment')).innerText = this.customer.genreComment(this.cinema.genreManager.getRandomGenre());
 
-        //@todo Need another PR for this
         (<HTMLElement>this.detailPanel.querySelector('.customer-current-action')).innerText = this.customer.getCurrentAction().getDescription(this.cinema, this.customer);
-        //@todo Need another PR for this
-        (<HTMLElement>this.detailPanel.querySelector('.customer-ticket')).innerText = 'Todo';
-
         (<HTMLElement>this.detailPanel.querySelector('.customer-thoughts')).innerHTML = '';
+        (<HTMLElement>this.detailPanel.querySelector('.customer-inventory')).innerHTML = '';
 
-        let self = this;
-        this.customer.thoughts.forEach(function(customerThought) {
+        this.customer.thoughts.forEach(customerThought => {
             let li = document.createElement('li');
             li.classList.add(customerThought.positive ? 'positive-thought' : 'negative-thought');
             li.innerHTML = '<i class="fa fa-cloud"></i> '+ customerThought.thought;
-            (<HTMLElement>self.detailPanel.querySelector('.customer-thoughts')).appendChild(li);
+            (<HTMLElement>this.detailPanel.querySelector('.customer-thoughts')).appendChild(li);
+        });
+
+        this.customer.inventory.forEach(inventoryItem => {
+            let li = document.createElement('li');
+            li.innerHTML = inventoryItem.description();
+            (<HTMLElement>this.detailPanel.querySelector('.customer-inventory')).appendChild(li);
         });
     }
 

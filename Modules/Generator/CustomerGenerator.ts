@@ -17,9 +17,9 @@ class CustomerGenerator {
         let age = faker.random.number({min: this.MIN_AGE, max: this.MAX_AGE});
         let commercialTolerance = this.configManager.commercialTolerance;
         let likeBreak = faker.random.boolean();
-        let queueingTolerance = faker.random.number({min: 100, max: 1000});
-        let pricingToleranceShop = faker.random.number({min: 12, max: 25}) / 10;
-        let pricingToleranceTicket = faker.random.number({min: 12, max: 25}) / 10;
+        let queueingTolerance = faker.random.number({min: this.configManager.minQueueingTolerance, max: this.configManager.maxQueueingTolerance});
+        let pricingToleranceShop = faker.random.number({min: this.configManager.minPriceToleranceShop, max: this.configManager.maxPriceToleranceShop}) / 10;
+        let pricingToleranceTicket = faker.random.number({min: this.configManager.minPriceToleranceTicket, max: this.configManager.maxPriceToleranceTicket}) / 10;
 
         return new Customer(name, age, gender, commercialTolerance, queueingTolerance, pricingToleranceShop, pricingToleranceTicket, isFan, show);
     }
