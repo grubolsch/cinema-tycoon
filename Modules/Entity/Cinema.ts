@@ -65,10 +65,9 @@ class Cinema {
         this._facilityManager = new FacilityManager(this, config);
         this._statisticsManager = new StatisticsManager(this);
         this._productManager = new ProductManager();
-        this._shopTypeManager = new ShopTypeManager(this._productManager);
+        this._shopTypeManager = new ShopTypeManager(config, this._productManager);
         this._freeTicketDistributor = new FreeTicketDistributor(config);
     }
-
     get name(): string {
         return this._name;
     }
@@ -121,9 +120,12 @@ class Cinema {
         this.boothManager.update();
 
         this.timeManager.updateTime();
-        this._releaseDatePenaltyManager.update();
 
         this.customerManager.update(this);
+    }
+
+    get releaseDatePenaltyManager(): ReleaseDatePenaltyManager {
+        return this._releaseDatePenaltyManager;
     }
 
     get loans(): Map<number, LoanTaken> {
@@ -164,6 +166,10 @@ class Cinema {
 
     get productManager(): ProductManager {
         return this._productManager;
+    }
+
+    get shopTypeManager(): ShopTypeManager {
+        return this._shopTypeManager;
     }
 
     set ticketPrice(value: number) {

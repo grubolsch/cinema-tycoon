@@ -1,29 +1,32 @@
 import shopsJson from "../Assets/shopTypes.json";
-import {ShopType} from "../ShopTypes/ShopType";
+import {FacilityType} from "../ShopTypes/FacilityType";
 import {Product} from "../Entity/Product";
 import {ProductManager} from "./ProductManager";
+import {ConfigManager} from "./ConfigManager";
 
-class ShopMap extends Map<string, ShopType> {}
-type shopLine = { id: string; products: number[]; name: string; buildCost: number };
+class ShopMap extends Map<string, FacilityType> {}
 
+/*
+* ShopTypeManager manages all potential types of shops & services
+* */
 class ShopTypeManager {
     private _shops: ShopMap = new ShopMap();
 
-    constructor(productManager : ProductManager) {
-        // @ts-ignore
-        shopsJson.shops.forEach((shop: shopLine) => {
+    constructor(config : ConfigManager, productManager : ProductManager) {
+        shopsJson.shops.forEach((shop) => {
 
-            if(this._shops.has(shop.id)) {
-                console.error('Shop found with double id: '+ shop.id);
+            if(this._shops.has(shop.name)) {
+                console.error('Shop found with double name: '+ shop.name);
                 return;
             }
-            this._shops.set(shop.name, new ShopType(shop.name, shop.buildCost, this.getProducts(shop, productManager)));
+
+            this._shops.set(shop.name, new FacilityType(config, shop.name, shop.buildCost, shop.capacityPerCashier, shop.monthlyRent, shop.hourlyWagePerCashier, this.getProducts(shop, productManager)));
         });
     }
 
-    private getProducts(shop: shopLine, productManager: ProductManager) : Array<Product> {
+    private getProducts(jsonShop: { products: any[]; }, productManager: ProductManager) : Array<Product> {
         let products: Array<Product> = [];
-        shop.products.forEach((productId: number) => {
+        jsonShop.products.forEach((productId) => {
             if (productManager.products.has(productId)) {
                 products.push(productManager.products.get(productId)!);
             }

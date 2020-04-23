@@ -120,7 +120,7 @@ class ConfigManager {
     public readonly pcSpeedBonus: number = .8;
     public readonly queueSecondBreakpoint: number = 1.5;
     public readonly queueFinalBreakpoint: number = 2;
-    public readonly cashierWages: number = 50;
+    public readonly cashierWages: number = 15;
     public readonly boothBuildprice: number = 3000;
 
     public readonly chanceLosingFan : number = 50;
@@ -152,24 +152,6 @@ class ConfigManager {
     //Common
     public readonly maximumCashiers = 4;
     public readonly defaultCashiers = 1;
-    public readonly defaultCapacityPerCashier = 10;
-
-    //Toilet
-    public readonly toiletCapacityPerCashier = 10;
-    public readonly toiletHourlyWageCashier = 5;
-    public readonly toiletMonthlyRent = 25;
-    public readonly toiletHappinessBonus = 100;
-    public readonly toiletCostPrice = 0;
-    public readonly toiletDefaultSellingPrice = 0.2;
-
-    //Arcade
-    public readonly arcadeCapacityPerCashier = 8;
-    public readonly arcadeHourlyWageCashier = 10;
-    public readonly arcadeMonthlyRent = 25;
-    public readonly arcadeHappinessBonus = 100;
-    public readonly arcadeCostPrice = 0.2;
-    public readonly arcadeDefaultSellingPrice = 0.5;
-    public readonly ticksNeedToShop: number = 1;
 }
 
 export {ConfigManager}

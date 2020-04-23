@@ -16,7 +16,7 @@ class FreeTicketDistributor {
     }
 
     public giveFreeTicket(customer: Customer, movie: Movie) {
-        customer.addInventoryItem(InventoryItem.INV_FREE_TICKET, new &(movie));
+        customer.addInventoryItem(InventoryItem.INV_FREE_TICKET, new FreeTicket(movie));
         movie.removeFreeTicket();
     }
 

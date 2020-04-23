@@ -271,7 +271,13 @@ class RenderScheduler implements RenderInterface, RenderByHalfHourInterface {
 
                 let showStart = show.start;
                 do {
-                    document.querySelector('[data-timeslot="'+ showStart.timeInMinutes +'"][data-room="'+ show.room.id +'"]')!.classList.add('drop-allowed');
+                    let element = document.querySelector('[data-timeslot="'+ showStart.timeInMinutes +'"][data-room="'+ show.room.id +'"]');
+
+                    if(element === null) {
+                        return;
+                    }
+
+                    element.classList.add('drop-allowed');
 
                     showStart = showStart.addMinutes(30);
                     blockLength--;

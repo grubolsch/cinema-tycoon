@@ -17,6 +17,10 @@ class Scheduler {
     }
 
     canPlan(showToPlan : Show) : boolean {
+        if(showToPlan.end.hour >= TimeManager.HOURS_IN_DAYS && showToPlan.end.minute > 0) {
+            return false;
+        }
+
         let showsInRoom = this._shows.get(showToPlan.room.id);
 
         if(showsInRoom === undefined) {

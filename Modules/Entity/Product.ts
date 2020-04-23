@@ -10,8 +10,9 @@ class Product extends InventoryItem {
     private _sellingPrice: number;
     private _defaultPrice: number;
     private _category: string;
+    private _isService: boolean;
 
-    constructor(id: number, name: string, happinessBonus: number, costPrice: number, sellingPrice: number, category: string) {
+    constructor(id: number, name: string, happinessBonus: number, costPrice: number, sellingPrice: number, category: string, service : boolean) {
         super();
 
         this._id = id;
@@ -21,6 +22,7 @@ class Product extends InventoryItem {
         this._sellingPrice = sellingPrice;
         this._defaultPrice = sellingPrice;
         this._category = category;
+        this._isService = service;
     }
 
     get id(): number {
@@ -65,6 +67,10 @@ class Product extends InventoryItem {
 
     get category(): string {
         return this._category;
+    }
+
+    get isService(): boolean {
+        return this._isService;
     }
 }
 

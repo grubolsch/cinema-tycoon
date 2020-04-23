@@ -24,6 +24,8 @@ class CustomerSpawnerManager {
             customers += customers * (this.calculateBonus(show) / 100);
         }
 
+        console.log('getCustomersPerShow', base, percentage, customers)
+
         return Math.round(customers);
     }
 
