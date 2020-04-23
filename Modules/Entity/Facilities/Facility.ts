@@ -1,45 +1,22 @@
 import {ConfigManager} from "../../Manager/ConfigManager";
+import {Customer} from "../Customer";
+import {FacilityType} from "../../ShopTypes/FacilityType";
+import {Product} from "../Product";
 import {FacilityException} from "../../Exception/FacilityException";
-import {FacilityType} from "./FacilityType";
 
+class CustomerMap extends Map<number, Customer> {}
 
-abstract class Facility {
-
-    private _config: ConfigManager;
+class Facility {
     private _id: number;
     private _type: FacilityType;
-    private _capacityPerCashier: number;
     private _numberOfCashier: number;
-    private _numberOfCustomer: number;
-    private _sellingPrice: number;
-    private _costPrice: number;
-    private _monthlyRent: number;
-    private _hourlyWagePerCashier: number;
-    private _happinessBonus: number;
+    private _customers : CustomerMap = new CustomerMap;
+    private _profit : number = 0;
 
-    constructor(config: ConfigManager, id: number, type: FacilityType, capacityPerCashier: number,
-                sellingPrice: number, costPrice: number, monthlyRent: number, hourlyWagePerCashier: number, happinessBonus: number) {
-        this._config = config;
+    constructor(id: number, type: FacilityType) {
         this._id = id;
         this._type = type;
-        this._capacityPerCashier = capacityPerCashier;
-        this._numberOfCashier = config.defaultCashiers; // 1
-        this._numberOfCustomer = 0; // 1
-        this._sellingPrice = sellingPrice;
-        this._costPrice = costPrice;
-        this._monthlyRent = monthlyRent;
-        this._hourlyWagePerCashier = hourlyWagePerCashier;
-        this._happinessBonus = happinessBonus;
-    }
-
-    // Common : shared for all facilities
-    public changeNumberOfCashier(): void {
-        //Todo on Manage facility Modal
-    };
-
-
-    get config(): ConfigManager {
-        return this._config;
+        this._numberOfCashier = type.config.defaultCashiers;
     }
 
     get id(): number {
@@ -55,46 +32,57 @@ abstract class Facility {
     }
 
     set numberOfCashier(value: number) {
+        if(value < 0 || value > this.type.config.maximumCashiers) {
+            throw FacilityException.invalidNumberOfCashiers();
+        }
+
         this._numberOfCashier = value;
     }
 
     get numberOfCustomer(): number {
-        return this._numberOfCustomer;
-    }
-
-    get sellingPrice(): number {
-        return this._sellingPrice;
-    }
-
-    set sellingPrice(value: number) {
-        this._sellingPrice = value;
-    }
-
-    get costPrice(): number {
-        return this._costPrice;
-    }
-
-    set costPrice(value: number) {
-        this._costPrice = value;
-    }
-
-    get happinessBonus(): number {
-        return this._happinessBonus;
+        return this._customers.size;
     }
 
     get capacity(): number {
-        return this._numberOfCashier * this._capacityPerCashier;
-    }
-
-    get monthlyRent(): number {
-        return this._monthlyRent;
+        return this._numberOfCashier * this._type.capacityPerCashier;
     }
 
     get totalHourlyWages(): number {
-        return this._numberOfCashier * this._hourlyWagePerCashier
+        return this._numberOfCashier * this._type.hourlyWagePerCashier
+    }
+
+    isFull() : boolean {
+        return this.numberOfCustomer >= this.capacity;
+    }
+
+    get customers(): CustomerMap {
+        return this._customers;
+    }
+
+    addCustomer(customer: Customer) {
+        this._customers.set(customer.id, customer);
+    }
+
+    removeCustomer(customer: Customer) {
+        this._customers.delete(customer.id);
+    }
+
+    bookSale(product : Product) {
+        this._profit += product.profit;
+    }
+
+    bookWages() : void {
+        this._profit -= this.totalHourlyWages;
+    }
+
+    get profit(): number {
+        return this._profit;
+    }
+
+    resetProfit() : void {
+        this._profit = 0;
     }
 }
-
 
 export {Facility};
 

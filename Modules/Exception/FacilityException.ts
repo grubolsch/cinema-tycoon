@@ -1,8 +1,4 @@
 class FacilityException extends Error {
-    private constructor(msg : string) {
-        super(msg);
-    }
-
     static notEnoughMoney() : FacilityException {
         return new this('You don\'t have enough money.');
     }
@@ -12,11 +8,19 @@ class FacilityException extends Error {
     }
 
     static alreadyMaxCashier() : FacilityException {
-        return new this('This facility has already max number of cashier .')
+        return new this('This facility has already max number of cashiers.')
     }
 
-    static undefinedFacilityTypeError() {
-        return new this('Undefined Facility type.');
+    static undefinedFacilityTypeError(type : any = undefined) : FacilityException {
+        return new this('Undefined Facility type: '+ type);
+    }
+
+    static invalidNumberOfCashiers() : FacilityException {
+        return new this('Invalid number of cashiers');
+    }
+
+    static couldNotFindElement(id : any) : FacilityException {
+        return new this('Could not find rendered facility '+ id);
     }
 }
 

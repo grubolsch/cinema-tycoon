@@ -92,21 +92,25 @@ document.addEventListener('DOMContentLoaded', () => {
 
     observer.subscribe(observer.HOUR, () => {
         cinema.boothManager.payHourCost();
+        cinema.facilityManager.updateByHour();
         render.renderByHour();
     });
 
     observer.subscribe(observer.DAY, () => {
         console.info('A day has passed');
 
-        render.renderByDay();
         cinema.scheduler.resetShows();
         cinema.customerSpawnerManager.updateByDay();
         cinema.marketingManager.dailyUpdate();
+        cinema.facilityManager.updateByDay();
+        render.renderByDay();
+
     });
 
     observer.subscribe(observer.WEEK, () => {
         cinema.marketingManager.weeklyCampaignUpdate(cinema);
         cinema.statisticsManager.updateWeekly();
+        cinema.releaseDatePenaltyManager.update();
         render.renderByWeek();
     });
 
@@ -115,6 +119,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
         loanManager.update(cinema);
         cinema.genreManager.update();
+        cinema.facilityManager.updateByMonth();
         cinema.researchManager.update(observer);
         cinema.financeManager.resetReports();
         render.renderByMonth();

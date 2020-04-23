@@ -63,11 +63,9 @@ $negative: darkred;
     }
   }
 
-
   .drop-allowed {
     background-color: $positive;
   }
-
 }
 
 #schedule-movie-dragger {
@@ -273,4 +271,14 @@ div.movie-block {
 
 .negative {
   color: $negative !important;
+}
+
+.facility-box {
+  border: 1px black solid;
+  padding: 12px;
+}
+
+body {
+  /* to offset the progress bar at the bottom of the page */
+  margin-bottom: 20px;
 }

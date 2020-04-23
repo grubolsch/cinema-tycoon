@@ -82,6 +82,7 @@ class Movie {
     }
 
     increaseReleasePenalty(quantity: number = 1): void {
+        console.log('increase')
         this._releaseDatePenalty += quantity;
     }
 

@@ -1,7 +1,7 @@
 import {InventoryItem} from "./InventoryItem";
 import {Movie} from "./Movie";
 
-class FreeTicket extends InventoryItem{
+class FreeTicket extends InventoryItem {
 
     private readonly _movie: Movie;
 

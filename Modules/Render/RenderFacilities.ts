@@ -1,90 +1,128 @@
 import {Cinema} from "../Entity/Cinema";
-import {FacilityType} from "../Entity/Facilities/FacilityType";
 import {RoomException} from "../Exception/RoomException";
 import {$enum} from "ts-enum-util";
 import {FacilityException} from "../Exception/FacilityException";
+import {currency} from "../Utils";
+import {SchedulerDeleteShowException} from "../Exception/SchedulerExceptionDeleteShow";
+import {Product} from "../Entity/Product";
+import {Facility} from "../Entity/Facilities/Facility";
 
 class RenderFacilities implements RenderInterface {
     private readonly _cinema : Cinema;
 
+    private readonly container = <HTMLElement>(document.querySelector('#facilities-menu'));
+    private readonly template = <HTMLTemplateElement>document.querySelector('#build-facilities-template');
+
+    private readonly containerBuildFacility = <HTMLElement>(document.querySelector('#facility-container'));
+    private readonly templateBuildFacility = <HTMLTemplateElement>(document.querySelector('#facility-template'));
+
     constructor(cinema : Cinema) {
         this._cinema = cinema;
 
-        let self=this;
-
-        this.renderOnMenuModal();
-
-        document.querySelectorAll('.build-facility').forEach(function(element){
-            element.addEventListener('click', function(){
-                // @ts-ignore
-                let facilityType = Number((<HTMLElement>element).dataset.facilityonmodal);
-                if(facilityType == undefined){
-                    throw FacilityException.undefinedFacilityTypeError()
-                }
-                self._cinema.facilityManager.addFacility(facilityType);
-                self.renderOnChange()
-            })
-        });
-
+        this.renderOnce();
         this.renderOnChange();
     }
 
-    render(): void {
+    renderOnce(): void{
+        this._cinema.shopTypeManager.shops.forEach(facilityType => {
+            var clone = <HTMLElement>(this.template.content.cloneNode(true));
+            (<HTMLElement>clone.querySelector('.build-facilities-type')).innerHTML = facilityType.name;
+            (<HTMLElement>clone.querySelector('.build-facilities-name')).innerHTML = facilityType.name;
+            (<HTMLElement>clone.querySelector('.build-facilities-build-cost')).innerHTML = currency(facilityType.buildCost);
+            (<HTMLElement>clone.querySelector('.build-facilities-capacity')).innerHTML = facilityType.capacityPerCashier.toString();
+            (<HTMLElement>clone.querySelector('.build-facilities-maintenance')).innerHTML = currency(facilityType.monthlyCost);
+            (<HTMLElement>clone.querySelector('.build-facilities-wages')).innerHTML = currency(facilityType.hourlyWagePerCashier);
+            (<HTMLElement>clone.querySelector('button.build-facility')).dataset.facility = facilityType.name;
 
-    }
-
-    renderOnMenuModal(): void{
-        let self=this;
-
-        const types = $enum(FacilityType).getKeys(); // ['TOILET','ARCADE'...]
-        for(let type in types) { // 0,1
-            // @ts-ignore
-            var clone = document.querySelector('#build-facilities-template').content.cloneNode(true);
-            clone.querySelector('.facility-type').innerHTML = FacilityType[type];
-            clone.querySelector('button.build-facility').dataset.facilityonmodal = type;
-            document.querySelector('#facilities-menu')!.appendChild(clone);
-        }
-        console.log(document.querySelectorAll('.build-facility'));
-    }
-
-    renderOnChange(): void {
-        let self=this;
-        let allFacilities = this._cinema.facilityManager.facilities;
-        console.log(allFacilities); //temp. debugging purpose, Map of all facilities
-
-        let toilets = allFacilities.get(FacilityType.TOILET);
-        let arcades = allFacilities.get(FacilityType.ARCADE);
-
-        //game area
-        document.querySelector('#toilet-container')!.innerHTML = '';
-        document.querySelector('#arcade-container')!.innerHTML = '';
-
-        // @ts-ignore
-        toilets.forEach((toilet, key) => {
-            // @ts-ignore
-            var clone = document.querySelector('#toilet-template').content.cloneNode(true);
-            clone.querySelector('.toilet-id').innerHTML = toilet.id + 1;
-            clone.querySelector('.toilet-cashiers').innerHTML = toilet.numberOfCashier;
-            clone.querySelector('.toilet-capacity').innerHTML = toilet.capacity;
-            clone.querySelector('.toilet-customers').innerHTML = toilet.numberOfCustomer;
-            clone.querySelector('.toilet-selling-price').innerHTML = toilet.sellingPrice;
-            clone.querySelector('button.manage-toilet').dataset.toilet = key;
-            document.querySelector('#toilet-container')!.appendChild(clone);
+            this.container.appendChild(clone);
         });
 
-        // @ts-ignore
-        arcades.forEach((arcade, key)=>{
-            // @ts-ignore
-            var clone = document.querySelector('#arcade-template').content.cloneNode(true);
-            clone.querySelector('.arcade-id').innerHTML = arcade.id + 1;
-            clone.querySelector('.arcade-cashiers').innerHTML = arcade.numberOfCashier;
-            clone.querySelector('.arcade-capacity').innerHTML = arcade.capacity;
-            clone.querySelector('.arcade-customers').innerHTML = arcade.numberOfCustomer;
-            clone.querySelector('.arcade-selling-price').innerHTML = arcade.sellingPrice;
-            clone.querySelector('button.manage-arcade').dataset.arcade = key;
-            document.querySelector('#arcade-container')!.appendChild(clone);
-        })
+        document.querySelectorAll('.build-facility').forEach(element => {
+            element.addEventListener('click', event => {
+                try {
+                    let element = <HTMLElement>event.currentTarget;
 
+                    if(element.dataset.facility == undefined) {
+                        throw FacilityException.undefinedFacilityTypeError();
+                    }
+
+                    let facilityType = this._cinema.shopTypeManager.shops.get(element.dataset.facility);
+                    if(facilityType == undefined){
+                        throw FacilityException.undefinedFacilityTypeError(element.dataset.facility);
+                    }
+                    this._cinema.facilityManager.addFacility(facilityType);
+
+                    this.renderOnChange();
+                }
+                catch(error) {
+                    if(error instanceof FacilityException) {
+                        alert(error.message);
+                    } else {
+                        console.error(error);//should never happen
+                    }
+                }
+            })
+        });
+    }
+
+
+    renderOnChange(): void {
+        this.containerBuildFacility.innerHTML = '';
+
+        this._cinema.facilityManager.getAllFacilities().forEach((facility) => {
+            var clone = <HTMLElement>(this.templateBuildFacility.content.cloneNode(true));
+
+            clone.querySelector('.facility-box')!.id = "facility-" + facility.id;
+            clone.querySelector('.facility-name')!.innerHTML = facility.type.name;
+            clone.querySelector('.facility-customers')!.innerHTML = facility.numberOfCustomer.toString();
+            clone.querySelector('.facility-capacity')!.innerHTML = facility.capacity.toString();
+            clone.querySelector('.facility-daily-profit')!.innerHTML = facility.profit.toString();
+
+            let slider = <HTMLInputElement>clone.querySelector('.facility-slider');
+            slider.min = '0';
+            slider.value = facility.numberOfCashier.toString();
+            slider.max = this._cinema.config.maximumCashiers.toString();
+
+            slider.addEventListener('change', (event) => {
+                let target = <HTMLInputElement>event.currentTarget;
+                this.changeNumberOfCashiers(facility, parseInt(target.value));
+            });
+
+            this.containerBuildFacility.appendChild(clone);
+        });
+
+        return;
+    }
+
+    render(): void {
+        this._cinema.facilityManager.getAllFacilities().forEach((facility) => {
+            let element : HTMLElement | null = document.querySelector('#facility-' + facility.id);
+
+            if(element === null) {
+                throw FacilityException.couldNotFindElement(facility.id);
+            }
+
+            // @ts-ignore
+            facility.bookSale( this._cinema.productManager.products.get(1));
+
+            element.querySelector('.facility-customers')!.innerHTML = facility.numberOfCustomer.toString();
+            element.querySelector('.facility-capacity')!.innerHTML = facility.capacity.toString();
+            element.querySelector('.facility-daily-profit')!.innerHTML = currency(facility.profit);
+        });
+    }
+
+    private changeNumberOfCashiers(facility : Facility, newNumberOfCashier: number) {
+        try {
+            facility.numberOfCashier = newNumberOfCashier;
+            this.render();
+        }
+        catch(error) {
+            if(error instanceof FacilityException) {
+                alert(error.message);
+            } else {
+                console.error(error);//should never happen
+            }
+        }
     }
 }
 

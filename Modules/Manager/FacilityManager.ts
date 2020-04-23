@@ -1,57 +1,27 @@
 import {Facility} from "../Entity/Facilities/Facility";
-import {FacilityType} from "../Entity/Facilities/FacilityType";
-import {Toilet} from "../Entity/Facilities/Toilet";
-import {Arcade} from "../Entity/Facilities/Arcade";
 import {Cinema} from "../Entity/Cinema";
 import {ConfigManager} from "./ConfigManager";
 import {FacilityException} from "../Exception/FacilityException";
+import {FacilityType} from "../ShopTypes/FacilityType";
 
+class FacilityMap extends Map<FacilityType, Map<number, Facility>> {
+};
+
+/*
+* FacilityManager manages actual build shops and services in your Cinema
+* */
 class FacilityManager {
     private _cinema: Cinema;
     private _config: ConfigManager;
-    private _facilities: Map<FacilityType, Map<number, Facility>>;
 
-    static _toiletIdCounter = 0;
-    static _arcadeIdCounter = 0;
+    private _facilities: FacilityMap = new FacilityMap();
+
+    private counter: number = 0;
+    private allFacilities: null | Array<Facility> = null;
 
     constructor(cinema: Cinema, config: ConfigManager) {
         this._cinema = cinema;
         this._config = config;
-        this._facilities = new Map<FacilityType, Map<number, Facility>>();
-        this._facilities.set(FacilityType.TOILET, new Map<number, Toilet>());
-        this._facilities.set(FacilityType.ARCADE, new Map<number, Arcade>());
-
-    }
-
-    addFacility(type: FacilityType): void{
-
-        let newFacility : undefined|Toilet|Arcade|Facility;
-        switch (type) {
-            case FacilityType.TOILET: {
-                console.log("toilet block");
-                newFacility = new Toilet(this.config, FacilityManager._toiletIdCounter);
-                FacilityManager._toiletIdCounter++;
-                break;
-            }
-            case FacilityType.ARCADE: {
-                console.log("Arcade block");
-                newFacility = new Arcade(this.config, FacilityManager._arcadeIdCounter);
-                FacilityManager._arcadeIdCounter++;
-                break;
-            }
-            default: {
-                throw FacilityException.undefinedFacilityTypeError();
-                break;
-            }
-
-        }
-
-        if(!this.facilities.has(type)){
-            this.facilities.set(type, new Map<number, Facility>())
-        }
-
-        // @ts-ignore // already checked and created if there is no object, just right before this
-        this.facilities.get(type).set(newFacility.id, newFacility);
     }
 
     get cinema(): Cinema {
@@ -66,12 +36,75 @@ class FacilityManager {
         return this._facilities;
     }
 
-    getFacilitiesByType(type: FacilityType): Map<number, Facility> | undefined{
-        if(this._facilities.get(type) == undefined){
+    addFacility(type: FacilityType): void {
+        if (!this.cinema.financeManager.canAfford(type.buildCost)) {
+            throw FacilityException.notEnoughMoney();
+        }
+
+        let newFacility = new Facility(++this.counter, type);
+        this.cinema.financeManager.pay(type.buildCost, 'Construction');
+
+        if (!this.facilities.has(type)) {
+            this.facilities.set(type, new Map<number, Facility>())
+        }
+
+        this.facilities.get(type)!.set(newFacility.id, newFacility);
+        this.allFacilities = null;//destroy cached array
+    }
+
+    getFacilitiesByType(type: FacilityType): Map<number, Facility> | undefined {
+        if (this._facilities.get(type) == undefined) {
             //this should defined with empty map, so if it is undefined,
             throw FacilityException.undefinedFacilityTypeError();
         }
         return this._facilities.get(type);
+    }
+
+    getAllFacilities(): Array<Facility> {
+        if (this.allFacilities === null) {
+            this.allFacilities = [];
+            this._facilities.forEach(facilityMap => {
+                facilityMap.forEach(facility => {
+                    this.allFacilities!.push(facility);
+                });
+            });
+        }
+
+        return this.allFacilities;
+    }
+
+    private calculateMonthlyCost(): number {
+        let total: number = 0;
+        this.getAllFacilities().forEach(function (facility) {
+            total += facility.type.monthlyCost;
+        });
+        return total;
+    }
+
+    private calculateHourCost(bookWages : boolean = false): number {
+        let total: number = 0;
+        this.getAllFacilities().forEach(function (facility) {
+            if(bookWages) {
+                facility.bookWages();
+            }
+
+            total += facility.totalHourlyWages;
+        });
+        return total;
+    }
+
+    updateByMonth() {
+        this.cinema.financeManager.pay(this.calculateMonthlyCost(), 'Shop maintenance costs');
+    }
+
+    updateByHour() {
+        this.cinema.financeManager.pay(this.calculateHourCost(true), 'Wages cashiers');
+    }
+
+    updateByDay() {
+        this.getAllFacilities().forEach((facility) => {
+            facility.resetProfit();
+        });
     }
 }
 

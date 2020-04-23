@@ -3,27 +3,58 @@
     {
       "name": "Drink Stand",
       "buildCost": 1000,
+      "capacityPerCashier": 20,
+      "monthlyRent": 200,
+      "hourlyWagePerCashier": 10,
       "products": [4, 5, 6, 10]
     },
     {
       "name": "Popcorn Stand",
       "buildCost": 500,
+      "capacityPerCashier": 10,
+      "monthlyRent": 100,
+      "hourlyWagePerCashier": 10,
       "products": [1, 2, 3]
     },
     {
       "name": "Ice Cream Stand",
       "buildCost": 500,
+      "capacityPerCashier": 10,
+      "monthlyRent": 100,
+      "hourlyWagePerCashier": 10,
       "products": [7, 8, 9]
     },
     {
       "name": "Snack Shop",
       "buildCost": 500,
+      "capacityPerCashier": 10,
+      "monthlyRent": 100,
+      "hourlyWagePerCashier": 10,
       "products": [11, 12, 13]
     },
     {
       "name": "General Shop",
       "buildCost": 2000,
-      "products": ["all"]
+      "capacityPerCashier": 25,
+      "monthlyRent": 400,
+      "hourlyWagePerCashier": 15,
+      "products": [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13]
+    },
+    {
+      "name": "Toilet",
+      "buildCost": 500,
+      "capacityPerCashier": 40,
+      "monthlyRent": 100,
+      "hourlyWagePerCashier": 10,
+      "products": [14]
+    },
+    {
+      "name": "Arcade",
+      "buildCost": 2000,
+      "capacityPerCashier": 50,
+      "monthlyRent": 400,
+      "hourlyWagePerCashier": 10,
+      "products": [15]
     }
   ]
 }

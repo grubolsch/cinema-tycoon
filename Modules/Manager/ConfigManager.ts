@@ -11,6 +11,8 @@ class ConfigManager {
     public readonly commercialTolerance = 20;
     public readonly commercialFeePerCustomer = 0.10;
 
+    public readonly fanShoppingBonus: number = 20;
+
     public readonly hypeChance: number = 50;
     public readonly hypeChanceDropRate: number = 10;
     public readonly hypeMinimumDuration: number = 2;
@@ -33,7 +35,6 @@ class ConfigManager {
     public readonly maxFreeTicketPercentage: number = 75;
     public readonly freeTicketSlope: number = 3; // 1 = very steep, 2 = less steep, 3 = even less steep
     public readonly freeTicketCostPercentage: number = 20; // you pay 1/5 for every free ticket
-
 
     public readonly numberOfReviews: number = 3;
 
@@ -119,7 +120,7 @@ class ConfigManager {
     public readonly pcSpeedBonus: number = .8;
     public readonly queueSecondBreakpoint: number = 1.5;
     public readonly queueFinalBreakpoint: number = 2;
-    public readonly cashierWages: number = 50;
+    public readonly cashierWages: number = 15;
     public readonly boothBuildprice: number = 3000;
 
     public readonly chanceLosingFan : number = 50;
@@ -151,22 +152,6 @@ class ConfigManager {
     //Common
     public readonly maximumCashiers = 4;
     public readonly defaultCashiers = 1;
-
-    //Toilet
-    public readonly toiletCapacityPerCashier = 10;
-    public readonly toiletHourlyWageCashier = 5;
-    public readonly toiletMonthlyRent = 25;
-    public readonly toiletHappinessBonus = 100;
-    public readonly toiletCostPrice = 0;
-    public readonly toiletDefaultSellingPrice = 0.2;
-
-    //Arcade
-    public readonly arcadeCapacityPerCashier = 8;
-    public readonly arcadeHourlyWageCashier = 10;
-    public readonly arcadeMonthlyRent = 25;
-    public readonly arcadeHappinessBonus = 100;
-    public readonly arcadeCostPrice = 0.2;
-    public readonly arcadeDefaultSellingPrice = 0.5;
 }
 
 export {ConfigManager}
