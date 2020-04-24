@@ -19,8 +19,6 @@ class CustomerThought {
     constructor(thought: string, positive: boolean) {
         this._thought = thought;
         this._positive = positive;
-
-        console.error('Thought: ' + thought)
     }
 
     get thought(): string {
