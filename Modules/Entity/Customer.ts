@@ -14,6 +14,8 @@ import {Product} from "./Product";
 import {FreeTicket} from "./Items/FreeTicket";
 import {InventoryItem} from "./Items/InventoryItem";
 import {Ticket} from "./Items/Ticket";
+import {EmptyLogger} from "../Logger/EmptyLogger";
+import {ConsoleLogger} from "../Logger/ConsoleLogger";
 
 type CustomerLocation = { x: number, y: number };
 
@@ -39,9 +41,9 @@ class Customer {
     private genreThought: Genre | null = null;
     private _targetShow: Show;
     private _inventory: Map<string, InventoryItem> = new Map<string, InventoryItem>();
-
     private _plans: Map<string, boolean> = new Map<string, boolean>();
     private _ai: CustomerAi | null = null;
+    private _logger: LoggerInterface;
 
     constructor(name: string, age: number, gender: string, commercialTolerance: number,  queueingTolerance: number, pricingToleranceShop: number, pricingToleranceTicket: number, isFan: boolean, targetShow: Show) {
         this._id = CustomerManager.customerCounter++;
@@ -55,6 +57,7 @@ class Customer {
         this._isFan = isFan;
         this._appearance = new CustomerAppearance(this);
         this._targetShow = targetShow;
+        this._logger= new EmptyLogger();
     }
 
     get id(): number {
@@ -299,6 +302,19 @@ class Customer {
     }
 
     wantsToPlayInArcade(config: ConfigManager) {
+        return false;
+    }
+
+    get logger(): LoggerInterface {
+        return this._logger;
+    }
+
+    toggleLogger() : boolean {
+        if(this._logger instanceof EmptyLogger) {
+            this._logger = new ConsoleLogger();
+            return true;
+        }
+        this._logger = new EmptyLogger();
         return false;
     }
 }

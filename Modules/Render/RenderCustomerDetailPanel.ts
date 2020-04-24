@@ -7,6 +7,7 @@ class RenderCustomerDetailPanel implements RenderInterface {
     private readonly gameArea = <HTMLElement>(document.querySelector('#game-area'));
     private readonly detailPanel = <HTMLElement>(document.querySelector('#customer-detail-panel'));
     private readonly detailPanelCloseButton = <HTMLElement>(document.querySelector('#customer-detail-panel .close'));
+    private readonly toggleLoggingButton = <HTMLElement>(document.querySelector('#customer-detail-panel #toggle-logging'));
     private cinema: Cinema;
     private customer : Customer|null = null;
 
@@ -38,11 +39,32 @@ class RenderCustomerDetailPanel implements RenderInterface {
             self.detailPanel.style.display = 'none';
             self.customer = null;
         });
+
+        if(this.toggleLoggingButton) {
+            this.toggleLoggingButton.addEventListener('click', (event) => {
+                let customerId = (<HTMLElement>event.currentTarget).dataset.customer!;
+                let customer = self.cinema.customerManager.customers.get(parseInt(customerId));
+
+                if(customer === undefined) return;
+
+                console.log(customer);
+
+                if(customer.toggleLogger()) {
+                    this.toggleLoggingButton.innerHTML = 'Toggle logging <em>on</em>';
+                } else {
+                    this.toggleLoggingButton.innerHTML = 'Toggle logging <em>off</em>';
+                }
+            });
+        }
     }
 
     render(): void {
         if(this.customer === null) {
             return;
+        }
+
+        if(this.toggleLoggingButton) {
+            this.toggleLoggingButton.dataset.customer = this.customer.id.toString();
         }
 
         if(this.customer.gender === Customer.GENDER_MALE) {

@@ -83,7 +83,7 @@ class RenderFacilities implements RenderInterface {
             slider.value = facility.numberOfCashier.toString();
             slider.max = this._cinema.config.maximumCashiers.toString();
 
-            slider.addEventListener('change', (event) => {
+            slider.addEventListener('input', (event) => {
                 let target = <HTMLInputElement>event.currentTarget;
                 this.changeNumberOfCashiers(facility, parseInt(target.value));
             });

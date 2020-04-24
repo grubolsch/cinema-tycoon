@@ -85,8 +85,6 @@ document.addEventListener('DOMContentLoaded', () => {
 
     //observers
     observer.subscribe(observer.HALFHOUR, () => {
-        console.info('Half an hour has passed');
-
         render.renderByHalfHour();
     });
 
@@ -97,8 +95,6 @@ document.addEventListener('DOMContentLoaded', () => {
     });
 
     observer.subscribe(observer.DAY, () => {
-        console.info('A day has passed');
-
         cinema.scheduler.resetShows();
         cinema.customerSpawnerManager.updateByDay();
         cinema.marketingManager.dailyUpdate();
@@ -115,8 +111,6 @@ document.addEventListener('DOMContentLoaded', () => {
     });
 
     observer.subscribe(observer.MONTH, () => {
-        console.info('A month has passed');
-
         loanManager.update(cinema);
         cinema.genreManager.update();
         cinema.facilityManager.updateByMonth();
