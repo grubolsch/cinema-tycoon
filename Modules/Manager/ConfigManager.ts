@@ -7,10 +7,19 @@ class ConfigManager {
     public readonly researchDefaultCostPerPoint: number = 12;
     public readonly researchIncreasePercentageCostPerRoom: number = 20;
 
-    //Config customer
-    public readonly commercialTolerance = 20;
     public readonly commercialFeePerCustomer = 0.10;
 
+    //Config customer
+    public readonly commercialTolerance = 20;
+
+    public readonly minQueueingTolerance = 2;
+    public readonly maxQueueingTolerance = 5;
+    public readonly minPriceToleranceShop = 12;
+    public readonly maxPriceToleranceShop = 25;
+    public readonly minPriceToleranceTicket = 12;
+    public readonly maxPriceToleranceTicket = 25;
+
+    public readonly baseShoppingChance: number = 40;
     public readonly fanShoppingBonus: number = 20;
 
     public readonly hypeChance: number = 50;
@@ -116,8 +125,12 @@ class ConfigManager {
     public readonly ticketBreakpointFan: number = 3;
     public readonly ticketCheapBonusThreshold: number = 0.5;
 
-    public readonly boothBaseSpeed: number = 5;
-    public readonly pcSpeedBonus: number = .8;
+    //the amount of customers per tick
+    public readonly boothBaseSpeed: number = Math.round(this.smallRoomRows * this.seatsPerRow * 1.5);
+    public readonly boothTrainedSpeed: number = Math.round(this.smallRoomRows * this.seatsPerRow * 1.8);
+    public readonly boothPcSpeed: number = Math.round(this.mediumRoomRows * this.seatsPerRow * 1.5);
+    public readonly boothSelfService: number = Math.round(this.largeRoomRoomRows * this.seatsPerRow * 1.5);
+
     public readonly queueSecondBreakpoint: number = 1.5;
     public readonly queueFinalBreakpoint: number = 2;
     public readonly cashierWages: number = 15;
@@ -152,6 +165,15 @@ class ConfigManager {
     //Common
     public readonly maximumCashiers = 4;
     public readonly defaultCashiers = 1;
+
+    public readonly toiletBasicChance: number = 20;
+    public readonly toiletDrinkChance: number = 20;
+    public readonly ticksNeedToShop: number = 1;
+
+    public readonly maxProductsInOneShopVisit: number = 4;
+
+    public readonly serviceMaxPrice: number = 2;
+    public readonly itemCheapBonusThreshold: number = 0.5;
 }
 
 export {ConfigManager}

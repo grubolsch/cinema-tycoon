@@ -34,9 +34,6 @@ class DebugBar {
 
         let customer = generator.createCustomer(allShows[randomNumber(0, allShows.length-1)]);
         this._cinema.customerManager.add(customer);
-
-        //customer.appearance.render();
-        console.log('generated customer', customer);
     }
 
     init() {

@@ -6,6 +6,9 @@ import {WatchMovieAction} from "./WatchMovieAction";
 import {MoveAction} from "./MoveAction";
 import {randomNumber} from "../Utils";
 import {GameAreaCoordinates} from "../Assets/GameAreaCoordinates";
+import {ShopAction} from "./ShopAction";
+import {ShopNeed} from "./Helper/ShopNeed";
+import {CustomerThought} from "../Entity/CustomerThought";
 
 class BuyTicketAction implements CustomerAction {
     private foundBooth : boolean = false;
@@ -17,7 +20,22 @@ class BuyTicketAction implements CustomerAction {
 
     nextAction(cinema: Cinema, customer: Customer): CustomerAction {
         if(customer.plans.get(customer.PLAN_WATCH_MOVIE) === true) {
-            return new MoveAction({'x': customer.appearance.location!.x, 'y': randomNumber(GameAreaCoordinates.watchingMovieStart, GameAreaCoordinates.watchingMovieEnd)}, new WatchMovieAction());
+            let seeMovieAction = new MoveAction({'x': customer.appearance.location!.x, 'y': randomNumber(GameAreaCoordinates.watchingMovieStart, GameAreaCoordinates.watchingMovieEnd)}, new WatchMovieAction());
+
+            let shopNeed = new ShopNeed(cinema, customer);
+
+            if(shopNeed.wantsToShop) {
+                if(shopNeed.facility === undefined) {
+                    customer.addThought(new CustomerThought(shopNeed.badThought, false));
+                    return seeMovieAction;
+                }
+
+                console.error('CUSTOMER GOES TO SHOP', customer);
+
+                return new MoveAction({'x': customer.appearance.location!.x, 'y': randomNumber(GameAreaCoordinates.shoppingStart, GameAreaCoordinates.shoppingEnd)}, new ShopAction(shopNeed.facility, seeMovieAction));
+            }
+
+            return seeMovieAction;
         }
 
         return new MoveAction({'x': customer.appearance.location!.x, 'y': randomNumber(GameAreaCoordinates.leavingCinemaStart, GameAreaCoordinates.leavingCinemaEnd)}, new LeaveCinemaAction());

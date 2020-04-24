@@ -3,6 +3,11 @@ import {Customer} from "../Customer";
 import {FacilityType} from "../../ShopTypes/FacilityType";
 import {Product} from "../Product";
 import {FacilityException} from "../../Exception/FacilityException";
+import {Cinema} from "../Cinema";
+import {ServiceFacilityStrategy} from "./ServiceFacilityStrategy";
+import {ToiletStrategy} from "./ToiletStrategy";
+import {ArcadeStrategy} from "./ArcadeStrategy";
+import {BasicShopStrategy} from "./BasicShopStrategy";
 
 class CustomerMap extends Map<number, Customer> {}
 
@@ -81,6 +86,22 @@ class Facility {
 
     resetProfit() : void {
         this._profit = 0;
+    }
+
+    shop(cinema: Cinema, customer: Customer): void {
+        let strategy : ServiceFacilityStrategy;
+        switch(this.type.name) {
+            case this.type.TOILET:
+                strategy = new ToiletStrategy();
+                break;
+            case this.type.ARCADE:
+                strategy = new ArcadeStrategy();
+                break;
+            default:
+                strategy = new BasicShopStrategy();
+        }
+
+        strategy.shop(this, cinema, customer);
     }
 }
 

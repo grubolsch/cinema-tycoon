@@ -15,7 +15,7 @@ class ProductManager {
             }
 
             this._products.set(product.id,
-                new Product(product.id, product.name, product.bonus, product.costPrice, product.defaultPrice, product.category, product.service === true
+                new Product(product.id, product.name, product.bonus, product.costPrice, product.defaultPrice, product.category
             ));
         });
     }

@@ -46,7 +46,8 @@
       "capacityPerCashier": 40,
       "monthlyRent": 100,
       "hourlyWagePerCashier": 10,
-      "products": [14]
+      "products": [14],
+      "service": true
     },
     {
       "name": "Arcade",
@@ -54,7 +55,8 @@
       "capacityPerCashier": 50,
       "monthlyRent": 400,
       "hourlyWagePerCashier": 10,
-      "products": [15]
+      "products": [15],
+      "service": true
     }
   ]
 }

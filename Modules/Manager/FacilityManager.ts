@@ -3,6 +3,7 @@ import {Cinema} from "../Entity/Cinema";
 import {ConfigManager} from "./ConfigManager";
 import {FacilityException} from "../Exception/FacilityException";
 import {FacilityType} from "../ShopTypes/FacilityType";
+import {randomNumber} from "../Utils";
 
 class FacilityMap extends Map<FacilityType, Map<number, Facility>> {
 };
@@ -105,6 +106,20 @@ class FacilityManager {
         this.getAllFacilities().forEach((facility) => {
             facility.resetProfit();
         });
+    }
+
+    getRandomFacility(includeServiceFacilities: boolean = true, includeFullShops : boolean = true, type : FacilityType|null = null) : Facility|undefined {
+        let shops = this.getAllFacilities().filter((facility) => {
+            return (
+                (includeServiceFacilities || !facility.type.isService)
+                && (includeFullShops || !facility.isFull())
+                && (type === null || type.name === facility.type.name)
+            );
+        });
+
+        let chosenShop = shops[randomNumber(0, shops.length-1)];
+
+        return shops[randomNumber(0, shops.length-1)];
     }
 }
 

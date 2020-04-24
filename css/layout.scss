@@ -221,12 +221,16 @@ div.movie-block {
     left: 0px;
   }
 
+  #shopping-area {
+    left: $widthArea * 1  + 0px;
+  }
+
   #watching-movie-area {
-    left: $widthArea   + 0px;;
+    left: $widthArea * 2  + 0px;
   }
 
   #leaving-cinema-area {
-    left: $widthArea * 2  + 0px;;
+    left: $widthArea * 3  + 0px;
   }
 }
 

@@ -5,9 +5,10 @@ import {Cinema} from "../Entity/Cinema";
 import {BuyTicketAction} from "./BuyTicketAction";
 import {LeaveCinemaAction} from "./LeaveCinemaAction";
 import {WatchMovieAction} from "./WatchMovieAction";
+import {ShopAction} from "./ShopAction";
 
 class MoveAction implements CustomerAction {
-    private readonly WALKINGSPEED = 20;
+    private readonly WALKINGSPEED = 50;
 
     private goal : CustomerLocation;
     private _nextAction : CustomerAction;
@@ -55,6 +56,9 @@ class MoveAction implements CustomerAction {
         }
         if(this._nextAction instanceof LeaveCinemaAction) {
             return "Walking towards the exit";
+        }
+        if(this._nextAction instanceof ShopAction) {
+            return "Walking towards a " + this._nextAction.facility.type.name;
         }
 
         return "Walking around the cinema";
