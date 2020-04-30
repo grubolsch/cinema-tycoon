@@ -30,7 +30,7 @@
     "@types/faker": "^4.1.11",
     "@types/jquery": "^3.3.34",
     "css": "^2.2.4",
-    "jquery": "^3.4.1",
+    "jquery": "^3.5.0",
     "ts-enum-util": "^4.0.1"
   }
 }
